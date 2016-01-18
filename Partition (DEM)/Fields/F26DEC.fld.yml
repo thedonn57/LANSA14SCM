@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F26DEC
+  Type:               Packed
+  Length:             1
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "no. of decimals"
+      Label:              "F26DEC"
+      Heading1:           "no."
+      Heading2:           "dec."
+      Heading3:           " "
+
+  - FRA:
+      Description:        "no. of decimals"
+      Label:              "F26DEC"
+      Heading1:           "no."
+      Heading2:           "dec."
+      Heading3:           " "

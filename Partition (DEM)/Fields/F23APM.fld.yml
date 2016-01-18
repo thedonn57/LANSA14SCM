@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23APM
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DISPLAY MAIN MENU"
+      Label:              "F23APM"
+      Heading1:           "DISPLAY"
+      Heading2:           "MAIN"
+      Heading3:           "MENU"
+
+  - FRA:
+      Description:        "DISPLAY MAIN MENU"
+      Label:              "F23APM"
+      Heading1:           "DISPLAY"
+      Heading2:           "MAIN"
+      Heading3:           "MENU"

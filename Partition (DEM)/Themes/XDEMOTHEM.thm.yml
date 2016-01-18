@@ -1,0 +1,98 @@
+﻿Theme:
+  Name:               xDemoThemeTheme1
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Theme 1"
+
+  - FRA:
+      Description:        "Theme 1"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_THM) Style(#ControlStyle)
+    
+    * B R U S H   C O L O R S
+    * Colors are independent and can be used on many styles as required
+    Define_Com Class(#prim_vs.SolidBrush) Name(#LightBrush) Color(255:204:0)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#MediumBrush) Color(121:131:140)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#DarkBrush) Color(32:32:32)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#DarkTextBrush) Color(White)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#SelectedBrush) Color(255:246:204)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#MouseOverBrush) Color(255:230:111)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#MouseOverButtonBrush) Color(255:204:0)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#PressedBrush) Color(255:230:111)
+    
+    Define_Com Class(#prim_vs.ImageBrush) Name(#WaterMarkBrush) Image(#xImageTheme1Logo) Sizing(BestFit)
+    
+    
+    * S T Y L E S
+    Define_Com Class(#Prim_vs.Style) Name(#LightStyle) Backgroundbrush(#LightBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#MediumStyle) Backgroundbrush(#MediumBrush) Foregroundbrush(#DarkBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#DarkStyle) Backgroundbrush(#DarkBrush) Foregroundbrush(#DarkTextBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#SelectedStyle) Backgroundbrush(#SelectedBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#MouseOverStyle) Backgroundbrush(#MouseOverBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#MouseOverButtonStyle) Backgroundbrush(#MouseOverButtonBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#PressedStyle) Backgroundbrush(#PressedBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#ControlStyle) Fontunits(Pixel) Fontsize(11) Foregroundbrush(#DarkBrush) Facename('Arial')
+    
+    Define_Com Class(#Prim_vs.Style) Name(#TitleStyle) Fontunits(Pixel) Fontsize(36) Foregroundbrush(#Brush1) Backgroundbrush(#DarkBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:255:255)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#SubtitleStyle) Fontunits(Pixel) Fontsize(20)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading1Style) Fontunits(Pixel) Fontsize(26)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading2Style) Fontunits(Pixel) Fontsize(14)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading3Style) Fontunits(Pixel) Fontsize(12) Italic(True)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#WaterMarkStyle) Backgroundbrush(#WaterMarkBrush)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#FoundStyle) Backgroundbrush(#LightBrush)
+    
+    
+    * B A S E   S T Y L E S
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#PushButton) Mouseoverstyle(#MouseOverButtonStyle) Focusedstyle(#DarkStyle) Pressedstyle(#PressedStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#ListItem) Mouseoverstyle(#MouseOverStyle) Focusedstyle(#LightStyle) Selectedstyle(#SelectedStyle) Pressedstyle(#PressedStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#ListColumn) Mouseoverstyle(#MouseOverStyle) Style(#MediumStyle) Pressedstyle(#PressedStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Light) Style(#LightStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Medium) Style(#MediumStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Dark) Style(#DarkStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Title) Style(#TitleStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Subtitle) Style(#SubtitleStyle)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Heading1) Style(#Heading1Style)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Heading2) Style(#Heading2Style)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Heading3) Style(#Heading3Style)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#WaterMark) Style(#WaterMarkStyle)
+    
+    End_Com

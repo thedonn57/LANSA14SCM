@@ -1,0 +1,50 @@
+﻿Field:
+  Name:               ADDRESS2
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Suburb or Town"
+      Label:              "Address 2......"
+      Heading1:           "Address line 2"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Adresse ligne 2"
+      Label:              "Adresse 2 . . ."
+      Heading1:           "Adresse ligne 2"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This is the second line of an employee's full address. Usually it
+          contains the suburb and optionally the city in which the employee
+          resides.
+      
+          For instance ..... NEWTOWN, SYDNEY
+                             HILLINGDON, WEST LONDON
+                             WESTMONT, CHICAGO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+          C'est la deuxième ligne de l'adresse complète d'un employé. Elle
+          contient le nom du lieu-dit, et éventuellement la localité où
+          réside l'employé.
+      
+          Par exemple ...    NEWTOWN, SYDNEY
+                             HILLINGDON, WEST LONDON
+                             WESTMONT, CHICAGO

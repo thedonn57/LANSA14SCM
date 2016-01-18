@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DBMS_RECORD_LOCKED"
+  Description:        "I/O error status RECORD LOCKED - Y/N"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             1
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

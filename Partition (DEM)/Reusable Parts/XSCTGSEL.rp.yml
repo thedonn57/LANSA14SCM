@@ -1,0 +1,110 @@
+﻿Reusable Part:
+  Name:               XSCategorySelection
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Category Selection"
+
+  - FRA:
+      Description:        "Category Selection"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(1170) Left(0) Tabposition(1) Top(0) Width(220) Layoutmanager(#TableLayout1)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * LAYOUT: 1 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LReturnItem1) Alignment(TopLeft) Column(#Column1) Manage(#LCategories) Parent(#TableLayout1) Row(#Row1) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Categories) Parent(#TableLayout1) Row(#Row2) Alignment(TopCenter) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LCategories) Caption('Categories') Displayposition(1) Ellipses(Word) Height(35) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(220) Marginleft(5) Themedrawstyle('PanelHeader1')
+    
+    Define_Com Class(#PRIM_LIST) Name(#Categories) Displayposition(2) Height(1125) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(45) Width(220) Columnlines(False) Rowlines(False) Columnheaderheight(0) Style(#XSTheme01<PanelBorders1>) Mouseoverstyle(#XSTheme01<PanelBorders2>) Rowheight(22)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXSPRDCTDS1) Displayposition(1) Parent(#Categories) Source(#XSProductCategoryDescription) Columnunits(Proportion) Columnwidth(1) Cellmarginleft(5) Style(#XSTheme01<Text10AlmostBlack>) Mouseoverstyle(#XSTheme01<BackgroundGreen2>) Columnresize(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXSPRDLNID) Displayposition(2) Parent(#Categories) Source(#XSProductLineID) Columnwidth(1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXSPRDCTID) Displayposition(3) Parent(#Categories) Source(#XSProductCategoryID) Columnwidth(1)
+    
+    Define_Pty Name(LineId) Get(*auto #XSProductLineID) Set(*auto #XSProductLineID)
+    
+    Def_List Name(#ProductCategoryList) Fields(#XSProductCategoryID #XSProductCategoryDescription #XSProductLineID) Counter(#listcount) Type(*Working) Entrys(*max)
+    
+    Define_Evt Name(CategoryChanged)
+    Define_Map For(*Input) Class(#XSProductLineID) Name(#LineID)
+    Define_Map For(*Input) Class(#XSProductCategoryID) Name(#CategoryID)
+    Define_Map For(*Input) Class(#XSProductCategoryDescription) Name(#CategoryDesc)
+    
+    Evtroutine Handling(#Categories.Initialize)
+    
+    #com_owner.LoadCategories( #MySession.pProductLine ' ' )
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.ReloadProducts)
+    
+    #com_owner.LoadCategories( #MySession.pProductLine #MySession.pProductCategory )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Categories.ItemClick)
+    
+    Define_Com Class(#XSServer.GotoProducts) Name(#GotoProducts)
+    
+    * First clear any search value
+    #MySession.pProductSearch := ''
+    
+    #MySession.pProductCategory := #XSProductCategoryID
+    #MySession.pProductCategoryDescription := #XSProductCategoryDescription
+    
+    If (#MySession.pProductLine <> #XSProductLineID)
+    
+    #MySession.pProductLine := #XSProductLineID
+    
+    Endif
+    
+    If (#MySession.pCurrentPage = PRODUCT)
+    
+    #MySession.ReloadProductPage( #MySession.pProductLine #MySession.pProductCategory )
+    
+    Return
+    
+    Endif
+    
+    #GotoProducts.execute( #MySession.pProductLine #MySession.pProductCategory )
+    
+    Endroutine
+    
+    Mthroutine Name(LoadCategories)
+    Define_Map For(*input) Class(#XSProductLineID) Name(#LineID)
+    Define_Map For(*input) Class(#XSProductCategoryID) Name(#CategoryID)
+    
+    Define_Com Class(#XSServer.LoadProductCategorys) Name(#LoadCategories)
+    
+    Clr_List Named(#Categories)
+    
+    #LoadCategories.ExecuteAsync( #LineID #CategoryID #ProductCategoryList )
+    
+    Evtroutine Handling(#LoadCategories.completed)
+    
+    Selectlist Named(#ProductCategoryList)
+    
+    Add_Entry To_List(#Categories)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

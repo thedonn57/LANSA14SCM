@@ -1,0 +1,86 @@
+﻿Web Page:
+  Name:               xDemoWebLayout3Column
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Simple 3 Column Layout"
+
+  - FRA:
+      Description:        "Simple 3 Column Layout"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Blue>)
+    
+    * Using Layouts to control size and position of controls
+    * This example shows 3 columns of controls
+    * The middle column has a fixed 800 pixel width.
+    * The 2 outer columns occupy the remaining space
+    * Control within each column flow down the page
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(800) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(1) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(2) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(52) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_2) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_3) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(3) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(104) Verticalalignment(Center) Width(800) Alignment(Center) Height(89) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_3) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_4) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(4) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(195) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_4) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_5) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(5) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(247) Verticalalignment(Center) Width(800) Alignment(Center) Height(82) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_5) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_6) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(6) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(331) Verticalalignment(Center) Width(800) Alignment(Center) Height(166) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_6) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_7) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(7) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(499) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_7) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_8) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(8) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(551) Verticalalignment(Center) Width(800) Alignment(Center) Height(74) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_8) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_9) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(9) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(627) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_9) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_10) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(10) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(679) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_10) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_11) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(11) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(731) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_11) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_11) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_12) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(12) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(783) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_12) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_12) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_13) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(13) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(835) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_13) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_13) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_14) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(14) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(887) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_14) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_14) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_15) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(15) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(939) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_15) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_15) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_16) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(16) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(991) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_16) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_16) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_17) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(17) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(1043) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_17) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_17) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_18) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(18) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(18) Tabstop(False) Top(1095) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_18) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_18) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_19) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(19) Ellipses(Word) Left(191) Parent(#COM_OWNER) Tabposition(19) Tabstop(False) Top(1147) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_19) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label_19) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#Label_20) Displayposition(20) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(20) Tabstop(False) Top(0) Verticalalignment(Center) Width(187) Height(233) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_20) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_20) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_21) Displayposition(21) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(21) Tabstop(False) Top(237) Verticalalignment(Center) Width(187) Height(154) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_21) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_21) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_22) Displayposition(22) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(22) Tabstop(False) Top(395) Verticalalignment(Center) Width(187) Height(164) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_22) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_22) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_23) Displayposition(23) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(23) Tabstop(False) Top(563) Verticalalignment(Center) Width(187) Height(204) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_23) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_23) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_24) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(24) Ellipses(Word) Left(995) Parent(#COM_OWNER) Tabposition(24) Tabstop(False) Top(0) Verticalalignment(Center) Width(187) Height(89) Alignment(Center) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_24) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_24) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_25) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(25) Ellipses(Word) Left(995) Parent(#COM_OWNER) Tabposition(25) Tabstop(False) Top(93) Verticalalignment(Center) Width(187) Height(132) Alignment(Center) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_25) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_25) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_26) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(26) Ellipses(Word) Left(995) Parent(#COM_OWNER) Tabposition(26) Tabstop(False) Top(229) Verticalalignment(Center) Width(187) Height(68) Alignment(Center) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_26) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_26) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_27) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(27) Ellipses(Word) Left(995) Parent(#COM_OWNER) Tabposition(27) Tabstop(False) Top(301) Verticalalignment(Center) Width(187) Height(380) Alignment(Center) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_27) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_27) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    
+    End_Com

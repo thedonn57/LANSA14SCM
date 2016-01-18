@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F15AP1
+  Type:               Alphanumeric
+  Length:             200
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "ADD PARMS 1"
+      Label:              "F15AP1"
+      Heading1:           "ADD"
+      Heading2:           "PARMS 1"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

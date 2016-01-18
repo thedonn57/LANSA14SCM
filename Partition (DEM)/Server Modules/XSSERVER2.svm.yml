@@ -1,0 +1,34 @@
+﻿ServerModule:
+  Name:               XSServer2
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Server SIde Processing 2"
+
+  - FRA:
+      Description:        "Server SIde Processing 2"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    * **** Get objects referenced
+    Srvroutine Name(LoadDeveloperHelp)
+    Field_Map For(*input) Field(#std_text)
+    Field_Map For(*output) Field(#std_cmpar)
+    List_Map For(*output) List(#HelpText)
+    
+    Def_List Name(#HelpText) Fields(#std_textl) Type(*Working)
+    
+    Clr_List Named(#HelpText)
+    
+    Use Builtin(transform_file) With_Args(#HelpText (*part_dir + 'web' + *pathdelim + 'vl' + *pathdelim + #std_text + '.txt')) To_Get(#std_cmpar)
+    Endroutine
+    
+    End_Com
+    
+    

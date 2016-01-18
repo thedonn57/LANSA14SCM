@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               STD_DTIMX
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+  - SUTC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard RDMLX Datetime"
+      Label:              "Std RDMLX Datim"
+      Heading1:           "Standard"
+      Heading2:           "RDMLX"
+      Heading3:           "Datetime"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"

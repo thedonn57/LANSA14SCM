@@ -1,0 +1,17 @@
+﻿Function:
+  Enabled For RDMLX:  Yes
+
+  Source: |
+    Function Options(*DIRECT *HEAVYUSAGE *ALP_FIELD_VALIDATE)
+    
+    *  assume a good return.
+    #VALFLD$RT := '1'
+    
+    *  event type is not valid.
+    If ((#VALFLD$AV *NE BIR) *And (#VALFLD$AV *NE CMS) *And (#VALFLD$AV *NE CMT) *And (#VALFLD$AV *NE AWD) *And (#VALFLD$AV *NE WRN) *And (#VALFLD$AV *NE PRO) *And (#VALFLD$AV *NE NOT) *And (#VALFLD$AV *NE OTH))
+    
+    #VALFLD$RT := '0'
+    
+    Endif
+    
+    Return

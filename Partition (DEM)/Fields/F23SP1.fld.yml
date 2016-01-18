@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23SP1
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Compiled display file name"
+      Label:              "F23SP1"
+      Heading1:           "Compiled"
+      Heading2:           "Display"
+      Heading3:           "File Name"
+
+  - FRA:
+      Description:        "Compiled display file name"
+      Label:              "F23SP1"
+      Heading1:           "Compiled"
+      Heading2:           "Display"
+      Heading3:           "File Name"

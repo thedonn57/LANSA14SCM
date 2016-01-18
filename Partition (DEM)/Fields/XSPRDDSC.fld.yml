@@ -1,0 +1,41 @@
+﻿Field:
+  Name:               XSProductDescription
+  Type:               Char
+  Length:             100
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Description"
+      Label:              "Product Desc"
+      Heading1:           "Product"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Description"
+      Label:              "Last Name"
+      Heading1:           "Last"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(782)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_char.std_char') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               LISTENTRY
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List entry control field"
+      Label:              "List Entry....."
+      Heading1:           "List"
+      Heading2:           "Entry"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, champ sélection d´1 entrée liste"
+      Label:              "Entrée liste  ."
+      Heading1:           "Entrée"
+      Heading2:           "Liste"
+      Heading3:           " "

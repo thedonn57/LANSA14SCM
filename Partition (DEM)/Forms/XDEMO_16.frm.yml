@@ -1,0 +1,55 @@
+﻿Form:
+  Name:               xDemoTreeViewCheckBoxesSimple
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Simple Treeview with CheckBoxes"
+
+  - FRA:
+      Description:        "Simple Treeview with CheckBoxes"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Simple Tree with check boxes') Clientheight(397) Clientwidth(1034) Height(436) Layoutmanager(#TableLayout_1) Left(140) Top(203) Width(1050) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(20) Componentversion(2) Displayposition(1) Fullrowselect(True) Haslines(False) Height(397) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Viewstyle(UnLevelled) Width(1034)
+    
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Displayposition(1) Level(1) Parent(#Tree) Sortonclick(True) Source(#EMPNO) Width(17) Widthtype(Fixed) Captiontype(Label)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Displayposition(3) Level(1) Parent(#Tree) Sortonclick(True) Source(#SURNAME) Width(22) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Displayposition(2) Level(1) Parent(#Tree) Sortonclick(True) Source(#GIVENAME) Width(19) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_4) Displayposition(5) Level(1) Parent(#Tree) Sortonclick(True) Source(#TERMDATE) Width(16) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_5) Displayposition(4) Level(1) Parent(#Tree) Sortonclick(True) Source(#SALARY) Width(14) Widthtype(Fixed)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.AddEmployees
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees)
+    
+    Select Fields(#Tree) From_File(pslmst)
+    
+    Add_Entry To_List(#Tree)
+    
+    Continue If(#Termdate <> 0)
+    
+    #Tree.CurrentItem.CheckBoxes := True
+    
+    Endselect
+    
+    Endroutine
+    
+    
+    End_Com
+    

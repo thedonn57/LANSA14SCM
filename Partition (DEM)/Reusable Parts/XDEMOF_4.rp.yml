@@ -1,0 +1,40 @@
+﻿Reusable Part:
+  Name:               xDemoFieldVisDepartmentPickList
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual - Department PickList"
+
+  - FRA:
+      Description:        "Visual - Department PickList"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * Uses the iDynamicPicklist interface to support use as a field visualization
+    Begin_Com Role(*EXTENDS #PRIM_objt *implements #Prim_dc.IDynamicPicklist)
+    
+    * Field Visualization - Departments dynamic picklist
+    
+    Mthroutine Name(Load) Options(*Redefine)
+    
+    * Always clear the list when Loading
+    #Picklist.RemoveAll
+    
+    * Read the departments table and add a picklist for each record
+    Select Fields(#Deptment #deptdesc) From_File(deptab)
+    
+    * Add the item using the department code and description.  First item will become the default item
+    #Picklist.Add( #Deptment ("&1 (&2)").substitute( #deptdesc #deptment ) #Picklist.Items.IsEmpty )
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

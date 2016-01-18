@@ -1,0 +1,165 @@
+﻿File:
+  Name:                           PSLSKL
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             PSLSKL
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                Yes
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)  SHARE(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel skills"
+
+  - FRA:
+      Description:        "Fichier des formations suivies"
+
+  Real Fields:
+  - EMPNO:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - SKILCODE:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - DATEACQR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+
+  - GRADE:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - COMMENT:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  Primary Keys:
+  - EMPNO
+  - SKILCODE
+
+  Virtual Fields:
+  - DATEACQ:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   Yes
+      Source Field:       DATEACQR
+      Source Date Format: YYMMDD
+      Target Date Format: SYSFMT
+
+  - GRADEDES:
+      Type:               Alphanumeric
+      Length:             11
+      Decimals:           0
+      Virtual Field Type: Undefined
+
+  File Level Validation Rules:
+  - EMPNO:
+    - Lookup Check:
+        Description:        "Employee on PSLMST file"
+        File:               PSLMST
+        Keys:
+        - EMPNO
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     DEM0024
+
+  - SKILCODE:
+    - Lookup Check:
+        Description:        "Skill code in SKLTAB table"
+        File:               SKLTAB
+        Keys:
+        - SKILCODE
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     DEM0025
+
+  Access Routes:
+  - PSLSKL01:
+      Description:        Skill codes from Skills table
+      File:               SKLTAB
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - SKILCODE
+
+  - PSLSKL02:
+      Description:        Personnel details for this skill
+      File:               PSLMST
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Abort
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - EMPNO
+
+  Virtual Derivation:
+  - Calculations After Input: |
+      <-
+           C*
+           C* SET UP FIELD GRADEDES
+           C*
+           C* VC_USING ((GRADEDES GDESC) GRADE)
+           C*
+           C                     MOVE *BLANKS   GDESC
+           C           GRADE     IFEQ 'P'
+           C                     MOVEL'PASS'    GDESC
+           C                     ELSE
+           C           GRADE     IFEQ 'F'
+           C                     MOVEL'FAIL'    GDESC
+           C                     ELSE
+           C           GRADE     IFEQ 'M'
+           C                     MOVEL'MERIT'   GDESC
+           C                     ELSE
+           C                     MOVEL'DISTINCT'GDESC
+           C                     MOVE 'ION'     GDESC
+           C                     END
+           C                     END
+           C                     END

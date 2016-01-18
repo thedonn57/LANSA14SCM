@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               IO$MDE
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current mode"
+      Label:              "Current mode"
+      Heading1:           "Current"
+      Heading2:           "Mode"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mode d´affichage en cours"
+      Label:              "Mode en cours ."
+      Heading1:           "Mode"
+      Heading2:           "en cours"
+      Heading3:           " "

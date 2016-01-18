@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*FIELD_PREFIX"
+  Description:        "Field Prefix"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             1
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

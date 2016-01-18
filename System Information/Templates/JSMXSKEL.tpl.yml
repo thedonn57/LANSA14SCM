@@ -1,0 +1,69 @@
+﻿Template:
+  Name:                    JSMXSKEL
+  Description:             JSMXSKEL - Creates a basic JSMX Skeleton
+  Extended Description 1:  JSMXSKEL - Creates a basic JSMX Skeleton
+  Extended Description 2:  JSMXSKEL - Creates a basic JSMX Skeleton
+
+  Source: |
+    @@COMMENT  '===================================================='
+    @@COMMENT  ' Process ........:  @@PROCESS  '
+    @@COMMENT  ' Function .......:  @@FUNCTION '
+    @@COMMENT  ' Created on .....:  @@DATE  at  @@TIME  '
+    @@COMMENT  ' Description ....:  @@FUNCDES  '
+    @@COMMENT  ' Template........:  JSMXSKEL    '
+    @@COMMENT  '===================================================='
+    FUNCTION   OPTIONS(*DIRECT)
+    @@COMMENT  '                               '
+    @@COMMENT  ' OPEN JSM AND VERIFY STATUS '
+    USE        BUILTIN(JSMX_OPEN) TO_GET(#JSMSTS #JSMMSG #jsmxhdle1)
+    EXECUTE    SUBROUTINE(CHECK_STS) WITH_PARMS(#jsmxhdle1)
+    @@COMMENT  '                               '
+    @@QUESTION PROMPT('Do you wish to load a JSM Service?') ANSWER(@@CANS001) EXTEND('If yes, type in the name of the Service to load, for example HTTPCLIENT.') LOWER(*NO)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(L01)
+    @@COMMENT  'BUILD THE SERVICE LOAD COMMAND  '
+    #JSMXCMD   := 'SERVICE_LOAD'
+    EXECUTE    SUBROUTINE(KEYWRD) WITH_PARMS(#JSMXCMD 'SERVICE' '@@CANS001')
+    USE        BUILTIN(JSMX_COMMAND) WITH_ARGS(#JSMXHDLE1 #JSMXCMD) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS) WITH_PARMS(#JSMXHDLE1)
+    L01: @@LABEL
+    @@COMMENT  '                                 '
+    @@COMMENT  '    YOUR OWN LOGIC HERE          '
+    @@COMMENT  '                                 '
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(L02)
+    @@COMMENT  'UNLOAD SERVICE                   '
+    #JSMXCMD   := 'SERVICE_UNLOAD'
+    USE        BUILTIN(JSMX_COMMAND) WITH_ARGS(#JSMXHDLE1 #JSMXCMD) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS) WITH_PARMS(#JSMXHDLE1)
+    L02: @@LABEL
+    @@COMMENT  'CLOSE JSM AND VERIFY STATUS '
+    USE        BUILTIN(JSMX_CLOSE) WITH_ARGS(#JSMXHDLE1) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS) WITH_PARMS(#JSMXHDLE1)
+    @@COMMENT  '                                 '
+    RETURN
+    @@COMMENT  '                                 '
+    @@COMMENT  'Subroutine to build JSM commands. existing JSM command'
+    @@COMMENT  '                                 '
+    SUBROUTINE NAME(KEYWRD) PARMS((#W_CMDX *BOTH) (#W_KEYWRD *RECEIVED) (#W_KEYVAL *RECEIVED))
+    DEFINE     FIELD(#W_CMDX) REFFLD(#JSMXCMD)
+    DEFINE     FIELD(#W_KEYWRD) REFFLD(#STD_TEXT)
+    DEFINE     FIELD(#W_KEYVAL) REFFLD(#STD_TEXTL)
+    #W_CMDX    += ' ' + #W_KEYWRD + '(' + #W_KEYVAL + ')'
+    ENDROUTINE
+    @@COMMENT  '                                  '
+    @@COMMENT  ' Check the status of the JSM command issued'
+    @@COMMENT  '                                  '
+    SUBROUTINE NAME(CHECK_STS) PARMS(#W_HDLE)
+    @@COMMENT  '                                  '
+    DEFINE     FIELD(#MSGDTA) TYPE(*CHAR) LENGTH(132)
+    DEFINE     FIELD(#W_HDLE) TYPE(*CHAR) LENGTH(4)
+    @@COMMENT  '                                  '
+    IF         COND('#JSMSTS *NE OK')
+    @@COMMENT  '                                  '
+    #MSGDTA    := 'Error Status Code: ' + #JSMSTS
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#MSGDTA)
+    #MSGDTA    := 'Error Message: ' + #JSMMSG
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#MSGDTA)
+    ENDIF
+    @@COMMENT  '                                   '
+    ENDROUTINE
+    

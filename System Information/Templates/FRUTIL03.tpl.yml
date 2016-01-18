@@ -1,0 +1,305 @@
+﻿Template:
+  Name:                    FRUTIL03
+  Description:             Super Server Generic Connect/Disconnect
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1997 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ------------------------------------------------        */
+    /* ********** BEGINNING OF TEMPLATE STATEMENTS                        */
+    /* ********** ------------------------------------------------        */
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK IF USER SHOULD CHOOSE SERVER FOR CONNECTION         */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Specify the server type(s) to be used for the connection. (A, O, or B)') ANSWER(@@CANS003) EXTEND('"A" An AS/400 Server will be used for the connection' '"O"  An Other Server will be used for the connection' '"B" the user will be able to choose the type of Server to use') LOWER(*NO) VALUES(A O B) HELPIDS(HELP010)
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK IF USER IS TO SPECIFY FILES FOR CONNECTION          */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Allow user to specify the files on the Server to connect to? (Y/N)') ANSWER(@@CANS001) EXTEND('"Y" will add a display in which the user will be able to specify the list' 'of files to be connected to on the Server' '"N" will automatically connect to all files on the Server') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010)
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK IF USER IS TO CHOOSE PROCESS TO EXECUTE             */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Allow user to specify the PROCESS to execute? (Y/N)') ANSWER(@@CANS002) EXTEND('"Y" will add a display in which the user will be able to select the ' 'PROCESS to execute.' '"N" a specific PROCESS to execute will be requested by this template') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010)
+    /* ********** ------------------------------------------------        */
+    /* ********** GET NAME OF PROCESS TO EXECUTE                          */
+    /* ********** ------------------------------------------------        */
+    @@IF       COND((*IF @@CANS002 *EQ Y)) GOTO(QUA)
+    @@QUESTION PROMPT('Enter the name of the PROCESS to execute after connecting to the Server.') ANSWER(@@CANS004) LOWER(*NO) HELPIDS(HELP010)
+    QUA: @@LABEL
+    FUNCTION   OPTIONS(*DIRECT *LIGHTUSAGE)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Local Variables')
+    @@COMMENT  COMMENT('=======================================================')
+    DEFINE     FIELD(#SC_TEXT01) TYPE(*CHAR) LENGTH(50) DESC('Text String')
+    DEFINE     FIELD(#SC_TEXT02) TYPE(*CHAR) LENGTH(50) DESC('Text String') OUTPUT_ATR(RED)
+    DEFINE     FIELD(#SC_TEXT03) TYPE(*CHAR) LENGTH(50) DESC('Text String')
+    CHANGE     FIELD(#SC_TEXT01) TO('''Enter the list of files to connect to:''')
+    CHANGE     FIELD(#SC_TEXT02) TO('''"*" connects to all files''')
+    CHANGE     FIELD(#SC_TEXT03) TO('''"FF*" connects to all files starting with "FF"''')
+    DEFINE     FIELD(#SC_DEFSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_CONSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_DISCON) TYPE(*CHAR) LENGTH(1) LABEL('Disconnect ?') DEFAULT(N)
+    DEFINE     FIELD(#SC_AS4FIL) TYPE(*CHAR) LENGTH(10) DESC('Connect File') COLHDG('Connect' 'to' 'File')
+    DEFINE     FIELD(#SC_AS4NAM) TYPE(*CHAR) LENGTH(20) DESC('AS/400 Network Name') DEFAULT('APPN.XXXXXXXXXX')
+    DEFINE     FIELD(#SC_AS4USR) TYPE(*CHAR) LENGTH(10) DESC('AS400 User') DEFAULT(*USER)
+    DEFINE     FIELD(#SC_AS4PWD) TYPE(*CHAR) LENGTH(10) DESC('AS400 Password') INPUT_ATR(ND)
+    DEFINE     FIELD(#SC_DFOSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_CNOSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_OTHFIL) TYPE(*CHAR) LENGTH(10) DESC('Connect File') COLHDG('Connect' 'to' 'File')
+    DEFINE     FIELD(#SC_OTHNAM) TYPE(*CHAR) LENGTH(20) DESC('Server Name') DEFAULT(' ')
+    DEFINE     FIELD(#SC_OTHUSR) TYPE(*CHAR) LENGTH(10) DESC('Server User') DEFAULT(*USER)
+    DEFINE     FIELD(#SC_OTHPWD) TYPE(*CHAR) LENGTH(10) DESC('Server Password') INPUT_ATR(ND)
+    DEFINE     FIELD(#SC_OXEXCP) TYPE(*CHAR) LENGTH(256) DESC('X_RUN Overrides')
+    DEFINE     FIELD(#SC_OXEXC1) TYPE(*CHAR) LENGTH(60) DESC('X_RUN Overrides') COLHDG('X_RUN Overrides') INPUT_ATR(LC) TO_OVERLAY(#SC_OXEXCP)
+    DEFINE     FIELD(#SC_OXEXC2) TYPE(*CHAR) LENGTH(60) DESC('X_RUN Overrides') INPUT_ATR(LC) TO_OVERLAY(#SC_OXEXCP 61)
+    DEFINE     FIELD(#SC_OXEXC3) TYPE(*CHAR) LENGTH(60) DESC('X_RUN Overrides') INPUT_ATR(LC) TO_OVERLAY(#SC_OXEXCP 121)
+    DEFINE     FIELD(#SC_OXEXC4) TYPE(*CHAR) LENGTH(60) DESC('X_RUN Overrides') INPUT_ATR(LC) TO_OVERLAY(#SC_OXEXCP 181)
+    DEFINE     FIELD(#SC_RETCDE) TYPE(*CHAR) LENGTH(2) DESC('Return Code')
+    DEFINE     FIELD(#SC_FILCNT) REFFLD(#LISTCOUNT) DESC('File Count')
+    DEFINE     FIELD(#SC_CNAS) TYPE(*CHAR) LENGTH(1) LABEL('AS/400 Server') INPUT_ATR(RB01)
+    DEFINE     FIELD(#SC_CNOTH) TYPE(*CHAR) LENGTH(1) LABEL('Other Server') INPUT_ATR(RB01)
+    /* ********** ------------------------------------------------        */
+    /* ********** DEFINE LIST ONLY IF NEEDED                              */
+    /* ********** ------------------------------------------------        */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Lists')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ------------------------------------------------        */
+    /* ********** FILES ON AS/400                                         */
+    /* ********** ------------------------------------------------        */
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(DFA)
+    @@IF       COND((*IF @@CANS003 *NE A) (*AND @@CANS003 *NE B)) GOTO(DFB)
+    DEF_LIST   NAME(#SC_CNFILA) FIELDS((#SC_AS4FIL *P4))
+    /* ********** ------------------------------------------------        */
+    /* ********** FILES ON OTHER                                          */
+    /* ********** ------------------------------------------------        */
+    DFB: @@IF       COND((*IF @@CANS003 *NE O) (*AND @@CANS003 *NE B)) GOTO(DFA)
+    DEF_LIST   NAME(#SC_CNFILO) FIELDS((#SC_OTHFIL *P4))
+    /* ********** ------------------------------------------------        */
+    /* ********** WORKING LIST FOR OTHER                                  */
+    /* ********** ------------------------------------------------        */
+    DFA: @@IF       COND((*IF @@CANS003 *NE O) (*AND @@CANS003 *NE B)) GOTO(DFC)
+    DEF_LIST   NAME(#SC_DFTOVR) FIELDS(#SC_OXEXCP) TYPE(*WORKING)
+    DFC: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    @@IF       COND((*IF @@CANS003 *NE O)) GOTO(STA)
+    CHANGE     FIELD(#SC_CNOTH) TO(*RADBUTTONSELECTED)
+    @@GOTO     LABEL(STB)
+    STA: @@LABEL
+    CHANGE     FIELD(#SC_CNAS) TO(*RADBUTTONSELECTED)
+    STB: @@LABEL
+    @@IF       COND((*IF @@CANS003 *NE B)) GOTO(CTA)
+    POP_UP     FIELDS((#SC_CNAS *INP) (#SC_CNOTH *INP)) DESIGN(*DOWN) EXIT_KEY(*NO) PROMPT_KEY(*NO)
+    /* ********** ------------------------------------------------        */
+    /* ********** CONNECT TO AS400                                        */
+    /* ********** ------------------------------------------------        */
+    CTA: @@IF       COND((*IF @@CANS003 *NE A) (*AND @@CANS003 *NE B)) GOTO(ESA)
+    IF         COND('#SC_CNAS *EQ *RADBUTTONSELECTED')
+    EXECUTE    SUBROUTINE(CONNECTA)
+    ENDIF
+    /* ********** ------------------------------------------------        */
+    /* ********** CONNECT TO OTHER                                        */
+    /* ********** ------------------------------------------------        */
+    ESA: @@IF       COND((*IF @@CANS003 *NE O) (*AND @@CANS003 *NE B)) GOTO(ESB)
+    IF         COND('#SC_CNOTH *EQ *RADBUTTONSELECTED')
+    EXECUTE    SUBROUTINE(CONNECTO)
+    ENDIF
+    ESB: @@LABEL
+    @@COMMENT  COMMENT(' ')
+    DOWHILE    COND('#SC_DISCON *EQ N')
+    EXECUTE    CALL_PROC
+    POP_UP     FIELDS((#SC_DISCON *L3 *P2 *INPUT)) AT_LOC(8 22) WITH_SIZE(29 08) PANEL_TITL('Disconnect from Server?') EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    BEGINCHECK
+    VALUECHECK FIELD(#SC_DISCON) WITH_LIST(Y N) MSGTXT('Must be Y or N')
+    ENDCHECK
+    ENDWHILE
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT(' ')
+    @@IF       COND((*IF @@CANS003 *NE A) (*AND @@CANS003 *NE B)) GOTO(PSA)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Connect to AS/400 server')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(CONNECTA)
+    @@COMMENT  COMMENT(' ')
+    CHANGE     FIELD(#SC_AS4PWD) TO(*NULL)
+    DOWHILE    COND('(#SC_DEFSRV *NE OK) *OR (#SC_CONSRV *NE OK)')
+    POP_UP     FIELDS((#SC_AS4NAM *L3 *P2 *IN) (#SC_AS4PWD *L7 *P2 *IN) (#SC_AS4USR *L5 *P2 *OUT)) DESIGN(*DOWN) IDENTIFY(*LABEL) AT_LOC(2 3) WITH_SIZE(40 11) PANEL_TITL('Connect to AS/400 Server') EXIT_KEY(*NO) PROMPT_KEY(*NO)
+    USE        BUILTIN(DEFINE_OS_400_SERVER) WITH_ARGS(AS400 #SC_AS4NAM N) TO_GET(#SC_DEFSRV)
+    IF         COND('(#SC_DEFSRV = OK) *AND (#SC_CONSRV *NE OK)')
+    USE        BUILTIN(CONNECT_SERVER) WITH_ARGS(AS400 #SC_AS4PWD) TO_GET(#SC_CONSRV)
+    IF         COND('#SC_CONSRV = OK')
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(CNA)
+    /* ********** ------------------------------------------------        */
+    /* ********** USER WILL SPECIFY FILES FOR CONNECTION                  */
+    /* ********** ------------------------------------------------        */
+    CHANGE     FIELD(#SC_AS4FIL) TO(*BLANKS)
+    CHANGE     FIELD(#SC_FILCNT) TO(*ZERO)
+    INZ_LIST   NAMED(#SC_CNFILA) NUM_ENTRYS(500) WITH_MODE(*ADD)
+    DOWHILE    COND('#SC_FILCNT *LE 0')
+    POP_UP     FIELDS((#SC_TEXT01 *L2 *P2 *NOID) (#SC_TEXT02 *L3 *P5 *NOID) (#SC_TEXT03 *L4 *P5 *NOID)) AT_LOC(2 3) WITH_SIZE(57 22) PANEL_TITL('Select Files for AS/400 Server') BROWSELIST(#SC_CNFILA) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    SELECTLIST NAMED(#SC_CNFILA) GET_ENTRYS(*NOTNULL)
+    CHANGE     FIELD(#SC_FILCNT) TO('#SC_FILCNT + 1')
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS(#SC_AS4FIL AS400)
+    ENDSELECT
+    ENDWHILE
+    @@GOTO     CNZ
+    CNA: @@LABEL
+    /* ********** ------------------------------------------------        */
+    /* ********** ALL FILES WILL BE USED FOR CONNECTION                   */
+    /* ********** ------------------------------------------------        */
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS('*' AS400)
+    CNZ: @@LABEL
+    ENDIF
+    ENDIF
+    ENDWHILE
+    ENDROUTINE
+    @@COMMENT  COMMENT(' ')
+    PSA: @@IF       COND((*IF @@CANS003 *NE O) (*AND @@CANS003 *NE B)) GOTO(PSB)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Connect to OTHER server')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(CONNECTO)
+    @@COMMENT  COMMENT(' ')
+    CHANGE     FIELD(#SC_OTHPWD) TO(*NULL)
+    DOWHILE    COND('(#SC_DFOSRV *NE OK) *OR (#SC_CNOSRV *NE OK)')
+    EXECUTE    SUBROUTINE(GET_DFTOVR)
+    POP_UP     FIELDS((#SC_OTHNAM *L3 *P2 *IN) (#SC_OTHPWD *L7 *P2 *IN) (#SC_OTHUSR *L5 *P2 *OUT) (#SC_OXEXC1 *L9 *P2 *COL *IN) (#SC_OXEXC2 *L11 *P2 *NOID *IN) (#SC_OXEXC3 *L12 *P2 *NOID *IN) (#SC_OXEXC4 *L13 *P2 *NOID *IN)) DESIGN(*DOWN) IDENTIFY(*LABEL) AT_LOC(2 3) WITH_SIZE(64 17) PANEL_TITL('Connect to Other Server') EXIT_KEY(*NO) PROMPT_KEY(*NO)
+    EXECUTE    SUBROUTINE(PUT_DFTOVR)
+    USE        BUILTIN(DEFINE_OTHER_SERVER) WITH_ARGS(OTHER #SC_OTHNAM N Y #SC_OXEXCP) TO_GET(#SC_DFOSRV)
+    IF         COND('(#SC_DFOSRV = OK) *AND (#SC_CNOSRV *NE OK)')
+    USE        BUILTIN(CONNECT_SERVER) WITH_ARGS(OTHER #SC_OTHPWD) TO_GET(#SC_CNOSRV)
+    IF         COND('#SC_CNOSRV = OK')
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(COA)
+    /* ********** ------------------------------------------------        */
+    /* ********** USER WILL SPECIFY FILES FOR CONNECTION                  */
+    /* ********** ------------------------------------------------        */
+    CHANGE     FIELD(#SC_OTHFIL) TO(*BLANKS)
+    CHANGE     FIELD(#SC_FILCNT) TO(*ZERO)
+    INZ_LIST   NAMED(#SC_CNFILO) NUM_ENTRYS(500) WITH_MODE(*ADD)
+    DOWHILE    COND('#SC_FILCNT *LE 0')
+    POP_UP     FIELDS((#SC_TEXT01 *L2 *P2 *NOID) (#SC_TEXT02 *L3 *P5 *NOID) (#SC_TEXT03 *L4 *P5 *NOID)) AT_LOC(2 3) WITH_SIZE(57 22) PANEL_TITL('Select Files for Other Server') BROWSELIST(#SC_CNFILO) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    SELECTLIST NAMED(#SC_CNFILO) GET_ENTRYS(*NOTNULL)
+    CHANGE     FIELD(#SC_FILCNT) TO('#SC_FILCNT + 1')
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS(#SC_OTHFIL OTHER)
+    ENDSELECT
+    ENDWHILE
+    @@GOTO     COZ
+    COA: @@LABEL
+    /* ********** ------------------------------------------------        */
+    /* ********** ALL FILES WILL BE USED FOR CONNECTION                   */
+    /* ********** ------------------------------------------------        */
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS('*' OTHER)
+    COZ: @@LABEL
+    ENDIF
+    ENDIF
+    ENDWHILE
+    ENDROUTINE
+    PSB: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Disconnect from Servers')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(DISCONNECT)
+    @@COMMENT  COMMENT(' ')
+    IF         COND('#SC_CONSRV = OK')
+    USE        BUILTIN(DISCONNECT_FILE) WITH_ARGS('*' AS400)
+    USE        BUILTIN(DISCONNECT_SERVER) WITH_ARGS(AS400) TO_GET(#SC_CONSRV)
+    CHANGE     FIELD(#SC_CONSRV) TO(NO)
+    ENDIF
+    IF         COND('#SC_CNOSRV = OK')
+    USE        BUILTIN(DISCONNECT_FILE) WITH_ARGS('*' OTHER)
+    USE        BUILTIN(DISCONNECT_SERVER) WITH_ARGS(OTHER) TO_GET(#SC_CNOSRV)
+    CHANGE     FIELD(#SC_CNOSRV) TO(NO)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Call a Process to Run')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(CALL_PROC)
+    @@COMMENT  COMMENT(' ')
+    @@IF       COND((*IF @@CANS002 *EQ N)) GOTO(CPA)
+    /* ********** ------------------------------------------------        */
+    /* ********** USER TO SELECT THE PROCESS TO EXECUTE                   */
+    /* ********** ------------------------------------------------        */
+    DEFINE     FIELD(#SC_DD1ST) TYPE(*CHAR) LENGTH(1) DESC('First entry?') DEFAULT(N)
+    DEFINE     FIELD(#SC_PRC) REFFLD(#PROCESS) LABEL('Next Process') DESC('Next Process') INPUT_ATR(DDFL)
+    DEFINE     FIELD(#SC_PRC$) REFFLD(#PROCESS) LABEL('Next Process') DESC('Next Process')
+    DEFINE     FIELD(#SC_PRCD) TYPE(*CHAR) LENGTH(40) LABEL('Process Desc') DESC('Process Description')
+    DEFINE     FIELD(#SC_PRCF) TYPE(*CHAR) LENGTH(10) LABEL('Filler')
+    DEF_LIST   NAME(#SC_PRCLST) FIELDS((#SC_PRC) (#SC_PRCD) (#SC_PRCF)) TYPE(*WORKING) ENTRYS(2500)
+    USE        BUILTIN(DROP_DD_VALUES) WITH_ARGS(DDFL) TO_GET(#SC_RETCDE)
+    CHANGE     FIELD(#SC_DD1ST) TO(N)
+    USE        BUILTIN(GET_PROCESS_LIST) WITH_ARGS(' ') TO_GET(#SC_PRCLST)
+    SELECTLIST NAMED(#SC_PRCLST)
+    IF         COND('#SC_DD1ST *EQ N')
+    CHANGE     FIELD(#SC_PRC$) TO(#SC_PRC)
+    CHANGE     FIELD(#SC_DD1ST) TO(Y)
+    ENDIF
+    USE        BUILTIN(ADD_DD_VALUES) WITH_ARGS(DDFL *DFT #SC_PRC) TO_GET(#SC_RETCDE)
+    ENDSELECT
+    CHANGE     FIELD(#SC_PRC) TO(#SC_PRC$)
+    POP_UP     FIELDS((#SC_PRC *L3 *P2 *IN)) AT_LOC(6 22) WITH_SIZE(33 18) PANEL_TITL('Select Process to Execute') EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    CALL       PROCESS(#SC_PRC) EXIT_USED(*NEXT) MENU_USED(*NEXT)
+    @@GOTO     CPZ
+    CPA: @@LABEL
+    /* ********** ------------------------------------------------        */
+    /* ********** SPECIFIC PROCESS DEFINED FOR EXECUTION                  */
+    /* ********** ------------------------------------------------        */
+    CALL       PROCESS(@@CANS004) EXIT_USED(*NEXT) MENU_USED(*NEXT)
+    CPZ: @@LABEL
+    ENDROUTINE
+    /* ********** ------------------------------------------------        */
+    /* ********** PUT / GET X_RUN OVERRIDES FOR OTHER                     */
+    /* ********** ------------------------------------------------        */
+    @@IF       COND((*IF @@CANS003 *NE O) (*AND @@CANS003 *NE B)) GOTO(PSC)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Get X_RUN Defaulted Overrides')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(GET_DFTOVR)
+    CLR_LIST   NAMED(#SC_DFTOVR)
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DFTOVR *FUNCTION T I Y *BLANK Y) TO_GET(#SC_RETCDE)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#SC_DFTOVR)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Put X_RUN Defaulted Overrides')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(PUT_DFTOVR)
+    CLR_LIST   NAMED(#SC_DFTOVR)
+    ADD_ENTRY  TO_LIST(#SC_DFTOVR)
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DFTOVR *FUNCTION T I Y *BLANK) TO_GET(#SC_RETCDE)
+    ENDROUTINE
+    PSC: @@LABEL
+
+  Help Panels:
+  - HELP010:
+      Description:        Super Server Generic Connect
+
+      Text: |
+        <-
+         This application template generates code to start a Super Server connection    
+         execute a process or set of processes and then end the Super Server connection.
+         You will be asked to input 4 pieces of information .....                       
+                                                                                        
+           1. The type of Server to be used for the connection. This can be set to a    
+              specific type of Server(AS/400 or Other), or the generated function can   
+              display a window requesting the user to select the Server type.           
+           2. If the function should allow the user executing the application specify   
+              the files to be connected to or to automatically connect to all files on  
+              the server.                                                               
+           3. If the function should allow the user to select the process to execute    
+              from a list of all processes in the partition or to force a specific      
+              process to be executed after connecting to the server.                    
+           4. The name of the process to execute if the user is not to be shown a list  
+              of processes from which to select one for execution.                      
+                                                                                        
+         This template makes it possible to write a function that can be started in     
+         DEBUG mode on the LANSA/PCX platform and access data from the Server. This is  
+         achieved by starting debug before the connection to the Server is established.

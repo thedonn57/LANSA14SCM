@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23DNF
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Default Next Function"
+      Label:              "F23DNF"
+      Heading1:           "Default Next"
+      Heading2:           "Function"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Default Next Function"
+      Label:              "F23DNF"
+      Heading1:           "Default Next"
+      Heading2:           "Function"
+      Heading3:           " "

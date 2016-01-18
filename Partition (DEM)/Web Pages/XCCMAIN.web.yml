@@ -1,0 +1,79 @@
+﻿Web Page:
+  Name:               XCCMain
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Main Page - Clara's Cupcakes"
+
+  - FRA:
+      Description:        "Main Page - Clara's Cupcakes"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayoutMain) Caption('Clara''s Cupcakes') Icon(#XCCIMG04) Theme(#XCCTheme)
+    
+    * Table Layout with 3 Rows and 3 Columns
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayoutMain) Width(7)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayoutMain) Height(8)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayoutMain)
+    
+    * Layout Items
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopRight) Column(#Column3) Flow(Left) Manage(#Label_ContactUs) Parent(#TableLayoutMain) Row(#Row1) Sizing(None) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopRight) Column(#Column3) Flow(Left) Manage(#Label_OurWork) Parent(#TableLayoutMain) Row(#Row1) Sizing(None) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopRight) Column(#Column3) Flow(Left) Manage(#Label_OurClients) Parent(#TableLayoutMain) Row(#Row1) Sizing(None) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column2) Manage(#ContentArea) Parent(#TableLayoutMain) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#Label_Company) Parent(#TableLayoutMain) Row(#Row1) Alignment(TopLeft) Sizing(None) Flow(Right) Margintop(35) Marginleft(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column1) Manage(#Image_Logo) Parent(#TableLayoutMain) Row(#Row1) Sizing(None) Alignment(TopLeft) Marginright(10) Flow(Right) Marginleft(5) Margintop(10)
+    
+    * The LOGO image stays in the Top Left corner
+    Define_Com Class(#PRIM_IMAG) Name(#Image_Logo) Displayposition(1) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Image(#XCCIMG04) Height(96) Width(91) Imagesizing(BestFit) Opacity(60) Left(5)
+    
+    * The company name next to the logo
+    Define_Com Class(#PRIM_LABL) Name(#Label_Company) Caption('Clara''s Cupcakes') Displayposition(6) Ellipses(Word) Height(289) Left(111) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(597) Top(35) Themedrawstyle('LogoLabel')
+    
+    * The 'menu' is nothing but three labels, all styled to have a 1 pixel border on the left, they flow in from the Top Right corner
+    Define_Com Class(#PRIM_LABL) Name(#Label_ContactUs) Caption('Contact Us') Displayposition(2) Ellipses(Word) Height(44) Left(1022) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(5) Verticalalignment(Center) Width(178) Alignment(Center) Themedrawstyle('MenuLabel')
+    Define_Com Class(#PRIM_LABL) Name(#Label_OurWork) Caption('Our Work') Displayposition(3) Ellipses(Word) Height(44) Left(862) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(5) Verticalalignment(Center) Width(160) Alignment(Center) Themedrawstyle('MenuLabel')
+    Define_Com Class(#PRIM_LABL) Name(#Label_OurClients) Caption('Our Clients') Displayposition(4) Ellipses(Word) Height(44) Left(668) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(5) Verticalalignment(Center) Width(194) Alignment(Center) Themedrawstyle('MenuLabel')
+    
+    * The dynamic content area in front of the Label, it has a semi-opaque background, so the label will shine through
+    Define_Com Class(#XCCContentArea) Name(#ContentArea) Displayposition(5) Height(640) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Width(933) Left(134) Top(80)
+    
+    * The three different content panels are created as *DEFERRED, so they won't actually get created until required
+    Define_Com Class(#XCCClientPanel) Name(#OurClients) Reference(*DEFERRED)
+    Define_Com Class(#XCCWorkPanel) Name(#OurWork) Reference(*DEFERRED)
+    Define_Com Class(#XCCContactPanel) Name(#ContactUs) Reference(*DEFERRED)
+    
+    Evtroutine Handling(#Label_OurClients.Click)
+    
+    #ContentArea.ShowPanel( #OurClients )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label_OurWork.Click)
+    
+    #ContentArea.ShowPanel( #OurWork )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label_ContactUs.Click)
+    
+    #ContentArea.ShowPanel( #ContactUs )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ContactUs.Close #OurWork.Close #OurClients.Close)
+    
+    #ContentArea.ClosePanel
+    
+    Endroutine
+    
+    End_Com

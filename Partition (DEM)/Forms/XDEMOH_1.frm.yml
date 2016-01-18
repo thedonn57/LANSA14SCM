@@ -1,0 +1,87 @@
+﻿Form:
+  Name:               xDemoHighlightData
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Highlight data in a list"
+
+  - FRA:
+      Description:        "Highlight data in a list"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Highlight data in a list') Clientwidth(1015) Clientheight(476) Left(59) Top(197) Layoutmanager(#Layout) Height(515) Width(1031) Theme(#SYS_THEME<2015Indigo>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout) Height(26) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#Layout) Height(1.79)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#SURNAME.Visual) Name(#Filter) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Width(1013) Labeltype(Caption) Top(2) Left(2) Height(22) Caption('Find ') Marginleft(80)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Filter) Parent(#Layout) Row(#Row_1) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TRVW) Name(#List) Columnbuttonheight(19) Componentversion(2) Displayposition(2) Height(448) Keyboardpositioning(SortColumn) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(28) Width(1015) Viewstyle(UnLevelled) Linesatroot(False) Fullrowselect(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Column(#Column_1) Manage(#List) Parent(#Layout) Row(#Row_2) Margintop(2)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Displayposition(1) Level(1) Parent(#List) Source(#EMPNO) Width(11) Sortonclick(True)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Displayposition(3) Level(2) Parent(#List) Source(#SURNAME) Width(13) Sortonclick(True)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Displayposition(2) Level(3) Parent(#List) Source(#GIVENAME) Width(14) Sortonclick(True)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Highlight) Normbackcolor(Theme400) Textcolor(White)
+    
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn) Displayposition(4) Level(2) Parent(#List) Source(#ADDRESS1) Width(16)
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn_2) Displayposition(5) Level(2) Parent(#List) Source(#ADDRESS2) Width(15)
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn_3) Displayposition(6) Level(2) Parent(#List) Source(#ADDRESS3) Width(15)
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn_4) Displayposition(7) Level(2) Parent(#List) Source(#POSTCODE)
+    
+    * Edit timer used to delay a changed event for a field so that we don't update every keypress
+    Define_Com Class(#xDemoEditTimer) Name(#Timer)
+    
+    Evtroutine Handling(#com_owner.Createinstance)
+    
+    * Data loaded in Surname sequence
+    Select Fields(#List) From_File(pslmst2)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Filter.Changed)
+    
+    * Restart every keystroke
+    #Timer.Restart
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Ticked)
+    
+    Define_Com Class(#prim_alph) Name(#Cell)
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#List)
+    
+    * Remove any styles already added
+    #List.currentItem.Styles.remove( #Highlight )
+    
+    * Loop through the colmns instpecting each cell
+    For Each(#Column) In(#List.Columns)
+    
+    * Grab the cell value
+    #Cell := #Column.ValueAt<#List.CurrentItem.entry>
+    
+    * If the cell contains the value required, apply the highlight style
+    Continue If(*Not #Cell.lowercase.contains( #Filter.lowercase ))
+    
+    #List.currentItem.Styles.Add( #Highlight )
+    
+    Endfor
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

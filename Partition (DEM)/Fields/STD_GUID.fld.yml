@@ -1,0 +1,77 @@
+﻿Field:
+  Name:               STD_GUID
+  Type:               Alphanumeric
+  Length:             32
+  Decimals:           0
+  Default Value:      "*GUID"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "GUID"
+      Label:              "GUID"
+      Heading1:           "GUID"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "GUID"
+      Label:              "GUID"
+      Heading1:           "GUID"
+      Heading2:           " "
+      Heading3:           " "
+
+  Triggers:
+  - HandleGuid:
+      Function:           STDGUD
+      Trigger Points:
+      - Before Insert
+      - Before Update
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(27) Marginleft(187) Usepicklist(False) Width(611)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+        This field is intended for a GUID. A 32 byte globally unique identifier.
+        It is a hexadecimal represnetation of a 16 byte binary field.
+        In an RDMLX partition the GUID can be converted to/from a binary field
+        using the BIFs HEXTOBIN and BINTOHEX.
+      
+        Validation Rules :  Only automatically generated using the *GUID system
+                            variable. Must not be updated.
+      
+        Minimum Length   :  32 alpha
+      
+      $$NOAUTO
+      
+
+  - FRA: |
+      $$USER
+      
+        This field is intended for a GUID. A 32 byte globally unique identifier.
+        It is a hexadecimal represnetation of a 16 byte binary field.
+        In an RDMLX partition the GUID can be converted to/from a binary field
+        using the BIFs HEXTOBIN and BINTOHEX.
+      
+        Validation Rules :  Only automatically generated using the *GUID system
+                            variable. Must not be updated.
+      
+        Minimum Length   :  32 alpha
+      
+      $$NOAUTO
+      
+      

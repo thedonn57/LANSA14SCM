@@ -1,0 +1,81 @@
+﻿Reusable Part:
+  Name:               xDemoBookDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Sample Book Design"
+
+  - FRA:
+      Description:        "Sample Book Design"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Book.iBookDesign *ListFields #ListFields) Displayposition(1) Height(345) Layoutmanager(#Layout) Left(0) Privatestyle(#xDemoStyles<HiddenBorders>) Tabposition(1) Top(0) Width(356)
+    
+    * Simple design for an item in a Prim_book
+    * An instance will be created for each item added to the book
+    * Implements the iBookDesign interface allowing the Book to communicate with the design instance
+    
+    * Fields mapped in when the entry is added to the Book
+    Group_By Name(#ListFields) Fields(#std_text)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(4) Height(283) Image(#xImageImage256) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(20) Width(354)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#Image) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#Title) Alignment(Center) Caption('Title') Displayposition(1) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Style(#xDemoStyles<Heading3>) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(354)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#Title) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#Caption1) Alignment(Center) Caption('Caption') Displayposition(3) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(323) Width(354)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Bottom) Manage(#Caption1) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#Caption2) Alignment(Center) Caption('Caption') Displayposition(2) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(303) Width(354)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Bottom) Manage(#Caption2) Parent(#Layout)
+    
+    Mthroutine Name(OnAdd) Help('Executed when the item is added using ADD_ENTRY') Options(*Redefine)
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Help('Executed when the item is deleted') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnFind) Help('Executed when the "Find" method is used in the book') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotFocus) Help('Executed when the item becomes the focus item') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotReference) Help('Executed when the item "RelatedReference" property is set') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemImageChanged) Help('Executed when the item "Image" propoerty is set') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemLostFocus) Help('Executed when the item loses focus') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemRealizing) Help('Executed when the item is realized') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnSort) Help('Executed when the "Sort" method is used in the Book') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnUpdate) Help('Executed when the item is updated using UPD_ENTRY') Options(*redefine)
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,43 @@
+﻿Reusable Part:
+  Name:               XDXTileDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "TileDesign"
+
+  - FRA:
+      Description:        "TileDesign"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #Prim_Tile.iTiledesign *ListFields #ListFields) Height(60) Layoutmanager(#Layout) Mouseoverstyle(#XDXStyles<MouseOver>) Style(#XDXStyles<Item>) Width(248)
+     
+    * Fields received as on Add_entry
+    Group_By Name(#ListFields) Fields(#Empno #Surname #Givename #Deptment #Section #Deptdesc #Secdesc)
+    
+    Define_Com Class(#Prim_atlm) Name(#Layout) Processingorder(DisplayPosition)
+    Define_Com Class(#PRIM_PANL) Name(#PANL_1) Displayposition(1) Height(60) Image(#XDXImageEmployee32) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(60)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Left) Manage(#PANL_1) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lEmployee) Caption('Employee') Displayposition(2) Ellipses(Word) Height(20) Left(60) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Style(#XDXStyles<ItemHeading>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(188)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#lEmployee) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lDepartment) Caption('Department') Displayposition(3) Ellipses(Word) Height(20) Left(60) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(20) Verticalalignment(Center) Width(188)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#lDepartment) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lSection) Caption('Section') Displayposition(4) Ellipses(Word) Height(20) Left(60) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(40) Verticalalignment(Center) Width(188)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Top) Manage(#lSection) Parent(#Layout)
+    
+    Mthroutine Name(OnAdd) Options(*redefine)
+    
+    #lEmployee := ("&1 &2 (&3)").Substitute( #GiveName #Surname #Empno )
+    #lDepartment := ("&1 (&2)").Substitute( #Deptdesc #Deptment )
+    #lSection := ("&1 (&2)").Substitute( #Secdesc #Section )
+    
+    Endroutine
+    
+    End_Com
+    

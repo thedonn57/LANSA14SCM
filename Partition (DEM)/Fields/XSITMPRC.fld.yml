@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               XSItemTotalPrice
+  Type:               Signed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Cart Item Total Price"
+      Label:              "Cart Item Total"
+      Heading1:           "Cart Item"
+      Heading2:           "Price"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Price"
+      Label:              "Product Price"
+      Heading1:           "Product"
+      Heading2:           "Price"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(298)
+    
+    End_Com
+    
+    End_Com

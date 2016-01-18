@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               STD_LEVEL
+  Type:               Signed
+  Length:             1
+  Decimals:           0
+  Default Value:      +1
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard tree level"
+      Label:              "Standard tree l"
+      Heading1:           "Standard"
+      Heading2:           "tree"
+      Heading3:           "level"
+
+  - FRA:
+      Description:        "Niveau d´arborescence std"
+      Label:              "Niv arbor. std"
+      Heading1:           "Niveau"
+      Heading2:           "Arbor."
+      Heading3:           "std"

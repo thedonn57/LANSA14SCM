@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PROCESS
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*PROCESS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current process name"
+      Label:              "Process ......."
+      Heading1:           "Process"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom du process en cours"
+      Label:              "Process . . . ."
+      Heading1:           "Process"
+      Heading2:           " "
+      Heading3:           " "

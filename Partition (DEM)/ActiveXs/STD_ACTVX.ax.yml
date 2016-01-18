@@ -1,0 +1,24 @@
+﻿ActiveX:
+  Name:               STD_ACTVX
+
+  Framework:
+    Id1:                10240
+    Id2:                10
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard activeX"
+
+  - FRA:
+      Description:        "Standard activeX"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT . :  STD_ACTVX                        *
+    *  DATE  . . . :  DEC'99                           *
+    *  DESCRIPTION :                                   *
+    *                                                  *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_MCCO)
+    End_Com

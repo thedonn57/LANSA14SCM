@@ -1,0 +1,73 @@
+﻿Field:
+  Name:               LZPRCD
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_CODEX
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    LZ2PPMT
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Code"
+      Label:              "Product Code..."
+      Heading1:           "Product"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code Produit"
+      Label:              "Code Produit"
+      Heading1:           "Code"
+      Heading2:           "Produit"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "must not be blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+        %A Product Code uniquely identifies a Product.}
+      
+        A Product has to be entered in the Product file, before it
+        can be referred to in the Warehouse system.
+      
+        %Standard LANSA repository functions will safeguard that:}
+        -  Stock can only exist for Products defined in the Product file.
+      
+        -  A Product can not be deleted if there is Stock for it.
+      
+        -  Other Referential Integrity rules are adhered to.
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le Code Produit est l'identifiant d'un Produit}
+      
+        Un Produit doit etre entre dans le fichier des Produits avant qu'il
+        ne puisse etre utilise dans le systeme Entrepot.
+      
+        Des fonctions standard du dictionaire de LANSA vont assurer que :
+        -  Un Stock ne peut exister que pour un Produit existant dans le
+           fichier des Produits.
+        -  Un Produit ne peut pas etre supprime si il est en stock.
+      $$NOAUTO

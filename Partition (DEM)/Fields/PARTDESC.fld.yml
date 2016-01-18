@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PARTDESC
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*PARTITION_DESC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition Description"
+      Label:              "Partition......"
+      Heading1:           "Partition"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description de la partition"
+      Label:              "Partition......"
+      Heading1:           "Description"
+      Heading2:           "Partition"
+      Heading3:           " "

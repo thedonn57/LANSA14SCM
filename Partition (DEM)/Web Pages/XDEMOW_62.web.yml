@@ -1,0 +1,34 @@
+﻿Web Page:
+  Name:               xDemoWebEncryption
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Encrypting Values"
+
+  - FRA:
+      Description:        "Encrypting Values"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Theme(#xDemoTheme)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#Value) Displayposition(5) Left(16) Parent(#COM_OWNER) Tabposition(1) Top(88) Height(25) Width(769) Caption('Text to Encrypt') Labeltype(Caption) Labelselectable(False)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#Key) Displayposition(1) Left(16) Parent(#COM_OWNER) Tabposition(2) Top(120) Height(25) Width(769) Caption('Encryption Key') Labeltype(Caption) Labelselectable(False)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#EncryptedValue) Displayposition(4) Left(16) Parent(#COM_OWNER) Tabposition(5) Top(168) Height(25) Width(769) Caption('Encrypted Value') Labeltype(Caption) Readonly(True) Labelselectable(False)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Enter a value and key to see the encrypted value') Displayposition(6) Ellipses(Word) Height(66) Left(8) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(7) Verticalalignment(Center) Width(793) Themedrawstyle('Heading1+DarkTitle') Alignment(Center)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#DecryptedValue) Displayposition(3) Left(16) Parent(#COM_OWNER) Tabposition(4) Top(200) Height(25) Width(769) Caption('Decrypted Value') Labeltype(Caption) Readonly(True) Labelselectable(False)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#FailedDecryption) Displayposition(2) Left(16) Parent(#COM_OWNER) Tabposition(3) Top(232) Height(25) Width(769) Caption('Failed Decryption') Labeltype(Caption) Readonly(True) Labelselectable(False)
+    
+    Evtroutine Handling(#Value.Changed #Key.Changed)
+    
+    #EncryptedValue := #Value.Encrypt( #Key )
+    
+    #DecryptedValue := #EncryptedValue.Decrypt( #Key )
+    #FailedDecryption := #EncryptedValue.Decrypt( "XXX" )
+    
+    Endroutine
+    
+    End_Com

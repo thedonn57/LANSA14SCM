@@ -1,0 +1,67 @@
+﻿Web Page:
+  Name:               xDemoWebDesignBasics
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Design Basics"
+
+  - FRA:
+      Description:        "Design Basics"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(360) Width(737) Layoutmanager(#LayoutMobile) Designmanager(#Designs) Theme(#SYS_THEME<2015Brown>) Style(#ApplicationStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ApplicationStyle) Fontsize(36)
+    
+    Define_Com Class(#PRIM_DESN) Name(#Designs)
+    Define_Com Class(#PRIM_DESN.Design) Name(#Mobile) Designmanager(#Designs) Width(480)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutWide)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#LayoutWide)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#LayoutWide)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#LayoutWide)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Height) Parent(#LayoutWide) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Width) Parent(#LayoutWide) Row(#Row1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(2) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#HeightItem1) Column(#Column3) Manage(#Height) Parent(#LayoutMobile) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#WidthItem1) Column(#Column3) Manage(#Width) Parent(#LayoutMobile) Row(#Row3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Height) Caption('Height') Displayposition(1) Ellipses(Word) Height(180) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(737) Alignment(Center) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Width) Caption('Width') Displayposition(2) Ellipses(Word) Height(180) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(180) Verticalalignment(Center) Width(737) Alignment(Center) Themedrawstyle('DarkTitle')
+    
+    Evtroutine Handling(#Com_owner.DesignChanged) Design(#Design)
+    
+    If (#Design *IsEqualTo #Mobile)
+    
+    #Com_owner.LayoutManager <= #LayoutMobile
+    #ApplicationStyle.FontSize := 22
+    
+    Endif
+    
+    If (#Design *Is *null)
+    
+    #Com_owner.LayoutManager <= #LayoutWide
+    #ApplicationStyle.FontSize := 36
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.SizeChanged)
+    
+    #Height := "Height " + #Com_owner.Height.asstring
+    #Width := "Width " + #Com_owner.Width.asstring
+    
+    Endroutine
+    
+    End_Com
+    

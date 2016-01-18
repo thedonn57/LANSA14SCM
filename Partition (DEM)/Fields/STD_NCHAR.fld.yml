@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_NCHAR
+  Type:               NChar
+  Length:             10
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard unicode character field"
+      Label:              "Standard NChar"
+      Heading1:           "Standard"
+      Heading2:           "unicode"
+      Heading3:           "character"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(19) Marginleft(179) Width(329)
+    
+    End_Com
+    
+    End_Com

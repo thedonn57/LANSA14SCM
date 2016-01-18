@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XAADES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Application Description"
+      Label:              "XAADES"
+      Heading1:           "XML"
+      Heading2:           "Application"
+      Heading3:           "Description"
+
+  - FRA:
+      Description:        "XML Application Description"
+      Label:              "XAADES"
+      Heading1:           "XML"
+      Heading2:           "Application"
+      Heading3:           "Description"

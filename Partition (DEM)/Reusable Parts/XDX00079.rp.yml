@@ -1,0 +1,58 @@
+﻿Reusable Part:
+  Name:               XDXRoutedEventEventDetailsDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Design"
+
+  - FRA:
+      Description:        "Arborescence"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #Prim_tree.iTreeDesign *ListFields #Fields) Height(44) Layoutmanager(#Layout) Style(#XDXStyles<Item>) Width(477)
+    
+    * Fields received as on Add_Entry in the tree
+    Group_By Name(#Fields) Fields(#XDXSender #XDXOrigin)
+    
+    Define_Com Class(#Prim_Tree.TreeItem) Name(#gTreeItem) Reference(*Dynamic)
+    
+    Define_Com Class(#Prim_atlm) Name(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItem) Attachment(Top) Manage(#Sender) Marginbottom(4) Parent(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItem2) Attachment(Top) Manage(#Origin) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Sender) Displayposition(1) Ellipses(Word) Height(20) Left(0) Marginleft(5) Parent(#COM_OWNER) Style(#XDXStyles<ItemHeading>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(477)
+    Define_Com Class(#PRIM_LABL) Name(#Origin) Displayposition(2) Ellipses(Word) Height(20) Left(0) Marginleft(5) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(24) Width(477) Wrapstyle(Continuous)
+    
+    Mthroutine Name(OnAdd) Options(*redefine)
+    
+    #gTreeItem <= #TreeItem
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    #TreeItem.MarginBottom := 6
+    
+    #Sender := *MTXTXDX079.Substitute( #XDXSender )
+    #Origin := *MTXTXDX080.Substitute( #XDXOrigin )
+    
+    * Fadeout based on position in the list
+    #com_owner.FadeOut( 1000 (#gTreeItem.Entry * 1000) )
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Options(*Redefine)
+    
+    #gTreeItem <= *Null
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    

@@ -1,0 +1,106 @@
+﻿Web Page:
+  Name:               xDemoWebWeather
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Weather"
+
+  - FRA:
+      Description:        "Weather"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand) Underline(False)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(White) Opacity(30)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style4) Backgroundbrush(#Brush2) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(White) Opacity(30)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#List) Parent(#TableLayout) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#BackgroundItem1) Column(#Column_1) Manage(#Background) Parent(#TableLayout) Row(#Row_1) Alignment(TopLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column_1) Manage(#Label1) Parent(#TableLayout) Row(#Row_1) Sizing(None) Alignment(TopRight) Flow(Down) Margintop(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column_1) Manage(#OpenWeatherID) Parent(#TableLayout) Row(#Row_1) Sizing(None) Flow(Down) Alignment(TopRight) Margintop(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column_1) Manage(#Label2) Parent(#TableLayout) Row(#Row_1) Sizing(None) Alignment(TopRight) Flow(Down) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column_1) Manage(#Label3) Parent(#TableLayout) Row(#Row_1) Sizing(None) Alignment(TopRight) Flow(Down) Marginright(4)
+    
+    Define_Com Class(#PRIM_TREE<#xDemoWebWeatherItem>) Name(#List) Displayposition(5) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200)
+    
+    Define_Com Class(#prim_imag) Name(#Background) Parent(#COM_OWNER) Displayposition(6) Tabposition(2) Image(#xImageWeatherBackground) Height(800) Left(0) Top(0) Width(1200) Imagesizing(Cropped)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('To use the OpenWeatherMap.Org API, you must register with the service.') Displayposition(1) Ellipses(Word) Left(896) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(4) Width(300) Alignment(Center) Verticalalignment(Center) Height(80) Themedrawstyle('Heading2') Style(#Style2)
+    Define_Com Class(#PRIM_EDIT) Name(#OpenWeatherID) Displayposition(4) Left(896) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(6) Top(189) Width(300) Style(#Style3)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Displayposition(2) Ellipses(Word) Left(896) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(84) Width(300) Height(33) Themedrawstyle('Heading2') Caption('Register Here') Alignment(Center) Verticalalignment(Center) Style(#Style4)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Displayposition(3) Ellipses(Word) Left(896) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(117) Width(300) Height(68) Themedrawstyle('Heading2') Style(#Style2) Caption('Once you have registered, paste your AppID below') Alignment(Center) Verticalalignment(Center)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    * Restore the OpenWeather.org Api key ID
+    If (#sys_web.LocalStorage<OpenWeatherID> *IsNot *null)
+    
+    #OpenWeatherID #xDemoAlpha256 := #sys_web.LocalStorage<OpenWeatherID>
+    
+    Endif
+    
+    #Com_owner.AddCity( CurrentLocation )
+    #Com_owner.AddCity( "Sydney, AU" )
+    #Com_owner.AddCity( "London,UK" )
+    #Com_owner.AddCity( Chicago )
+    #Com_owner.AddCity( Tokyo )
+    
+    Endroutine
+    
+    Mthroutine Name(AddCity)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#City)
+    
+    #xDemoAlpha128 := #City
+    Add_Entry To_List(#List)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.DestroyInstance)
+    
+    * Save the OpenWeather.org Api key ID
+    If (#sys_web.LocalStorage<OpenWeatherID> *Is *null)
+    
+    #sys_web.LocalStorage.Add( OpenWeatherID #OpenWeatherID )
+    
+    Else
+    
+    #sys_web.LocalStorage<OpenWeatherID> := #OpenWeatherID
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#OpenWeatherID.Changed)
+    
+    Selectlist Named(#List)
+    
+    #xDemoAlpha256 := #OpenWeatherID
+    Upd_Entry In_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label2.Click)
+    
+    #sys_web.Navigate( "http://home.openweathermap.org/" New )
+    
+    Endroutine
+    
+    End_Com
+    
+    

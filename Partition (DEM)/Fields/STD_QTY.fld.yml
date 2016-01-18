@@ -1,0 +1,46 @@
+﻿Field:
+  Name:               STD_QTY
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard QUANTITY"
+      Label:              "Quantity"
+      Heading1:           "Quantity"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Quantité Standard"
+      Label:              "Quantité"
+      Heading1:           "Quantité"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field may contain a quantity. A quantity can have any numeric   .
+        value: positive, negative or zero.
+      
+      
+        Validation Rules : None
+      
+        Maximum Length   : 7 numerics.
+      
+      
+      
+      $$NOAUTO

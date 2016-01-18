@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               SECPHBUS
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Business Phone Number of Section"
+      Label:              "Business ph...."
+      Heading1:           "Business Phone"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro téléphone section"
+      Label:              "Tél section . ."
+      Heading1:           "Numéro tél."
+      Heading2:           "section"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+          This is the recognised phone number of the departmental section.
+          Usually it is the number of the switchboard that controls phone
+          communications within the section.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          C'est le numéro de téléphone de la section. Normalement il s'agit
+          du numéro du standard qui gère les communications vers la section

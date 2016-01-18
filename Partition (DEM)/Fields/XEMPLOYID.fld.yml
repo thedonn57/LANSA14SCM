@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               xEmployeeIdentification
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Identification"
+      Label:              "Employee Id"
+      Heading1:           "Employee"
+      Heading2:           "Identification"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Identification"
+      Label:              "Employee Id"
+      Heading1:           "Employee"
+      Heading2:           "Identification"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(209) Componentversion(1)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+            This field represents the unique identification number assigned
+            to the employee by the company.
+      
+            Every employee must have an employee identification.
+      
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+            Cette zone contient le numéro assigné à un employé par
+            l'entreprise. Tout employé DOIT avoir un numéro d'employé.
+            Sur chaque écran où un numéro d'employé est demandé, vous
+            pouvez utiliser la touche d'invite de saisie sur le numéro
+            d'employé pour afficher une fenêtre. Vous pourrez alors
+            effectuer une recherche à partir du nom de l'employé et
+            choisir l'employé dans la liste pré-sélectionnée.
+      

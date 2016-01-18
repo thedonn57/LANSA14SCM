@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F03IAT
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Input attributes list"
+      Label:              "F03IAT"
+      Heading1:           "Input attr list"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

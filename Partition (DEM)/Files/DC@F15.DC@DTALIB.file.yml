@@ -1,0 +1,139 @@
+﻿File:
+  Name:                           DC@F15
+  File Type:                      IBM i Other File
+  Library:                        DC@DTALIB
+  Record Format Name:             DC@R15
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Table Views"
+
+  - FRA:
+      Description:        "Table Views"
+
+  Real Fields:
+  - F15PFL:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15PLB:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15VER:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - F15VTP:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F15LGL:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15DES:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - F15APM:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F15PTR:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15AP1:
+      Type:               Alphanumeric
+      Length:             200
+      Decimals:           0
+
+  - F15AP2:
+      Type:               Alphanumeric
+      Length:             200
+      Decimals:           0
+
+  - F15SP1:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F15SP2:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - F15SP3:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15SP4:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F15SP5:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - F15SP6:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - F15SP7:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - F15P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  Logical Views:
+  - DC@F15V1:
+      Identifier:         DC@F15V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R15V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@F15 /EDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@F15 /EDLO"

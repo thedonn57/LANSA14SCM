@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               OUTQLIB
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*OUTQLIB"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current output queue library name"
+      Label:              "Outq lib ......"
+      Heading1:           "Output queue"
+      Heading2:           "  Library"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Bibliothèque unité imprimante en cours"
+      Label:              "Bib unité impr."
+      Heading1:           "Bibliothèque"
+      Heading2:           "unité impr."
+      Heading3:           " "

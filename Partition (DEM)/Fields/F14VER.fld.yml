@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F14VER
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "version number"
+      Label:              "F14VER"
+      Heading1:           "version number"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

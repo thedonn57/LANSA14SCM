@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XPRLBL
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Label"
+      Label:              "XPRLBL"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Label"
+
+  - FRA:
+      Description:        "XML Property Label"
+      Label:              "XPRLBL"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Label"

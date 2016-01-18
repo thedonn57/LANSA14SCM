@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W08SNM
+  Type:               Alphanumeric
+  Length:             50
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Name"
+      Label:              "W08SNM"
+      Heading1:           "System"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "System Name"
+      Label:              "W08SNM"
+      Heading1:           "System"
+      Heading2:           "Name"
+      Heading3:           " "

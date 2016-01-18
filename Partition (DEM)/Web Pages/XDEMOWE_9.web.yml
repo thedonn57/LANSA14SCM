@@ -1,0 +1,94 @@
+﻿Web Page:
+  Name:               xDemoWebListStyles
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Styles to highligh data"
+
+  - FRA:
+      Description:        "Using Styles to highligh data"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columnwidth(117) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME) Columnwidth(206) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Columnwidth(275) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmarginbottom(2) Cellmargintop(2) Source(#EMPTHM)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSalary) Displayposition(5) Parent(#List) Source(#SALARY) Columnwidth(221) Sortonclick(True) Columnreadonly(False)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row)
+    
+    * List of employees so store data returned from the server
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working)
+    
+    Evtroutine Handling(#com_owner.Createinstance)
+    
+    #Com_owner.Load
+    
+    #com_owner.caption := 'List Styles'
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    * Define the service instance and execute asynchornously
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #Employees )
+    
+    * When the server returns
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    * Load the list data
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List)
+    
+    #Com_owner.ApplyStyle( #Salary )
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(ApplyStyle) Help('Apply an appropriate style based on the value of the salary') Access(*Private)
+    Define_Map For(*Input) Class(#Salary) Name(#EmployeeSalary)
+    
+    Case (#EmployeeSalary)
+    
+    When (>= 60000)
+    
+    #List.CurrentItem.ThemeDrawStyle := Good
+    
+    When (>= 30000)
+    
+    #List.CurrentItem.ThemeDrawStyle := Average
+    
+    When (>= 0)
+    
+    #List.CurrentItem.ThemeDrawStyle := Poor
+    
+    Endcase
+    
+    Endroutine
+    
+    * Salary is editable. Update after the change
+    Evtroutine Handling(#List.ItemChanged)
+    
+    #Com_owner.ApplyStyle( #Salary )
+    
+    Endroutine
+    
+    End_Com

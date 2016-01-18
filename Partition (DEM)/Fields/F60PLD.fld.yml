@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60PLD
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition language desc"
+      Label:              "F60PLD"
+      Heading1:           "F60PLD"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Partition language desc"
+      Label:              "F60PLD"
+      Heading1:           "F60PLD"
+      Heading2:           " "
+      Heading3:           " "

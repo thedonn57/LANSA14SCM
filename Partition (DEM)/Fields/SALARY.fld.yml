@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               SALARY
+  Type:               Packed
+  Length:             11
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Edit Mask:          1
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    CALC
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Salary"
+      Label:              "Salary........."
+      Heading1:           "Salary"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Salaire de l´employé"
+      Label:              "Salaire . . . ."
+      Heading1:           "Salaire"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Salary must be greater than 0"
+      Condition:          "#salary *gt 0"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0011
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      
+        This figure represents the annual salary paid to an employee by the
+        company. It{excludes} all commissions, bonuses, allowances, etc.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      
+        Ce montant correspond au salaire annuel payé par l'entreprise à
+        un employé. Il{exclut} tous les bonus, commissions, prêts, etc.

@@ -1,0 +1,81 @@
+﻿Reusable Part:
+  Name:               XDXPopupPanelContextMenu
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "PopupPanel Context Menu"
+
+  - FRA:
+      Description:        "Panneau menu contextuel"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(148) Layoutmanager(#Attachment) Left(0) Tabposition(1) Top(0) Width(320)
+    
+    * Panel used as a Context PopupPanel (#prim_ppnl) content
+    * Demonstrates how complex context "menus" can be constructed
+    
+    Define_Com Class(#prim_atlm) Name(#Attachment)
+    
+    Define_Com Class(#prim_panl) Name(#Toolbar) Displayposition(1) Height(32) Layoutmanager(#Layout) Left(0) Parent(#COM_OWNER) Style(#XDXStyles<Hint>) Tabposition(1) Top(0) Width(320)
+    
+    Define_Com Class(#PRIM_FWLM) Name(#Layout) Flowoperation(Center) Marginleft(2)
+    Define_Com Class(#PRIM_CMBX) Name(#Combo) Comboboxstyle(DropDownList) Componentversion(1) Displayposition(1) Fixedheight(False) Height(22) Left(2) Parent(#Toolbar) Showselection(False) Showselectionhilight(False) Tabposition(6) Top(5) Width(144)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_1) Manage(#Combo) Parent(#Layout)
+    Define_Com Class(#PRIM_SPBN) Name(#Button1) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(6) Height(22) Image(#XDXImageSampleToolbarImage16) Left(284) Parent(#Toolbar) Tabposition(5) Top(5) Width(22)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_2) Manage(#Button1) Parent(#Layout)
+    Define_Com Class(#PRIM_SPBN) Name(#Button2) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(5) Height(22) Image(#XDXImageSampleToolbarImage16_2) Left(252) Parent(#Toolbar) Tabposition(4) Top(5) Width(22)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_3) Manage(#Button2) Parent(#Layout)
+    Define_Com Class(#PRIM_SPBN) Name(#Button3) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(4) Height(22) Image(#XDXImageSampleToolbarImage16) Left(220) Parent(#Toolbar) Tabposition(3) Top(5) Width(22)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_4) Manage(#Button3) Parent(#Layout)
+    Define_Com Class(#PRIM_SPBN) Name(#Button4) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(3) Height(22) Image(#XDXImageSampleToolbarImage16_2) Left(188) Parent(#Toolbar) Tabposition(2) Top(5) Width(22)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_5) Manage(#Button4) Parent(#Layout)
+    Define_Com Class(#PRIM_SPBN) Name(#Button5) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(2) Height(22) Image(#XDXImageSampleToolbarImage16) Left(156) Parent(#Toolbar) Tabposition(1) Top(5) Width(22)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_6) Manage(#Button5) Parent(#Layout)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_1) Displayposition(1) Parent(#Combo) Source(#XDXCaption) Usepicklist(False)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Top) Manage(#Toolbar) Parent(#Attachment)
+    Define_Com Class(#PRIM_PANL) Name(#Menu) Displayposition(2) Height(101) Layoutmanager(#Attachment) Left(0) Parent(#COM_OWNER) Style(#XDXStyles<Hint>) Tabposition(2) Tabstop(False) Top(44) Width(270)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Center) Manage(#Menu) Marginbottom(3) Marginright(50) Margintop(12) Parent(#Attachment)
+    
+    Define_Com Class(#PRIM_SPBN) Name(#MenuButton1) Alignment(Left) Autosize(False) Buttonstyle(FlatButton) Caption(*MTXTXDX042) Displayposition(1) Height(20) Image(#XDXImageSampleToolbarImage16) Left(4) Parent(#Menu) Tabposition(1) Top(0) Width(266)
+    Define_Com Class(#PRIM_SPBN) Name(#MenuButton2) Alignment(Left) Buttonstyle(FlatButton) Caption('MenuItem2') Displayposition(2) Height(20) Left(20) Menuposition(Right) Parent(#Menu) Style(#XDXStyles<Hint>) Tabposition(2) Top(20) Width(250)
+    Define_Com Class(#PRIM_SPBN) Name(#MenuButton3) Alignment(Left) Autosize(False) Buttonstyle(FlatButton) Caption(*MTXTXDX042) Displayposition(3) Height(20) Image(#XDXImageSampleToolbarImage16_2) Left(4) Menuposition(Right) Parent(#Menu) Tabposition(3) Top(40) Width(266)
+    Define_Com Class(#PRIM_SPBN) Name(#MenuButton4) Alignment(Left) Autosize(False) Buttonstyle(FlatButton) Caption(*MTXTXDX042) Displayposition(4) Height(20) Image(#XDXImageSampleToolbarImage16) Left(4) Parent(#Menu) Tabposition(4) Top(60) Width(266)
+    Define_Com Class(#PRIM_SPBN) Name(#MenuButton5) Alignment(Left) Buttonstyle(FlatButton) Caption(*MTXTXDX042) Displayposition(5) Height(20) Left(20) Parent(#Menu) Style(#XDXStyles<Hint>) Tabposition(5) Top(80) Width(250)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#MenuButton1) Marginleft(4) Parent(#Attachment)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Top) Manage(#MenuButton2) Marginleft(20) Parent(#Attachment)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Top) Manage(#MenuButton3) Marginleft(4) Parent(#Attachment)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_6) Attachment(Top) Manage(#MenuButton4) Marginleft(4) Parent(#Attachment)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_7) Attachment(Top) Manage(#MenuButton5) Marginleft(20) Parent(#Attachment)
+    
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    * Button Captions
+    #MenuButton1.Caption := *MTXTXDX042.Substitute( #EmployeeNumber "1" )
+    #MenuButton2.Caption := *MTXTXDX042.Substitute( #EmployeeNumber "2" )
+    #MenuButton3.Caption := *MTXTXDX042.Substitute( #EmployeeNumber "3" )
+    #MenuButton4.Caption := *MTXTXDX042.Substitute( #EmployeeNumber "4" )
+    #MenuButton5.Caption := *MTXTXDX042.Substitute( #EmployeeNumber "5" )
+    
+    * Combo Entries
+    Clr_List Named(#Combo)
+    
+    Begin_Loop To(8)
+    
+    #XDXCaption := *MTXTXDX041.Substitute( #EmployeeNumber (#Combo.Items.Itemcount + 1).asString )
+    
+    Add_Entry To_List(#Combo)
+    
+    End_Loop
+    
+    Endroutine
+    
+    End_Com

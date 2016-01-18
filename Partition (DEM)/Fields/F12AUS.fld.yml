@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F12AUS
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "USER WHO MADE ACTIVE"
+      Label:              "F12AUS"
+      Heading1:           "USER"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

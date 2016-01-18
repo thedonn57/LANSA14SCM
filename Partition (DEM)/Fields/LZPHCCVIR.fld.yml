@@ -1,0 +1,42 @@
+﻿Field:
+  Name:               LZPHCCVIR
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Fax/Phone Country Code"
+      Label:              "Country Code"
+      Heading1:           "Country Code"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code Telephonique Du Pays"
+      Label:              "Code Tel. Pays"
+      Heading1:           "Code"
+      Heading2:           "Telephonique du Pays"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the telephone access number of a country.}
+      
+         This is a virtual field containing part of the Warehouse fax number.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient le code telephonique d'un pays.}
+      
+         C'est un champ virtuel contenant une partie du numero de fax de
+         l'Entrepot.
+      $$NOAUTO

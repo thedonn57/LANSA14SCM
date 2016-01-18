@@ -1,0 +1,61 @@
+﻿Field:
+  Name:               LZWHMG
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_NAME
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Whs Manager"
+      Label:              "Whs Manager"
+      Heading1:           "Whs Manager"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Responsable De L\"entrepot"
+      Label:              "De L\"entrepot"
+      Heading1:           "Reponsable"
+      Heading2:           "De L\"entrepot"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the name of the Warehouse Manager.}
+      
+        %The name in this field is used as the default "Attention to" name}
+        %in the fax application.}
+      
+        Maximum Length   : 25 characters
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient le nom du Directeur de l'Entrepot}
+      
+        %La valeur de cette variable est utilise par default dans}
+        %l'application fax.}
+      
+        Longueur maximum : 25 characteres
+      $$NOAUTO

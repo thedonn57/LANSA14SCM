@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*CENTURY_LESSEQUAL"
+  Description:        "Century when date less / equal to switch"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             2
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

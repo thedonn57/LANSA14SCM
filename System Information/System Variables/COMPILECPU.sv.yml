@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*COMPILECPU"
+  Description:        "The CPU that the runtime is compiled for"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             6
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVA2

@@ -1,0 +1,62 @@
+﻿Reusable Part:
+  Name:               XSShoppingCartView3
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart Contents"
+
+  - FRA:
+      Description:        "Shopping Cart Contents"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Tabposition(1) Left(0) Top(0) Width(528) Layoutmanager(#TableLayout1) Height(795) Style(#XSTheme01<PanelBorders1>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(25) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LShoppingCartItem1) Alignment(TopLeft) Column(#Column1) Manage(#LShoppingCart) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ShoppingCartTreeItem2) Alignment(TopLeft) Column(#Column1) Manage(#ShoppingCartTree) Parent(#TableLayout1) Row(#Row2) Flow(Down)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ShoppingCartTreeItem1) Alignment(TopCenter) Column(#Column2) Manage(#ShoppingCartTree) Parent(#TableLayout2) Row(#Row3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LShoppingCart) Caption('Items') Displayposition(1) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Marginleft(20) Width(526) Themedrawstyle('PanelHeader1')
+    
+    Define_Com Class(#PRIM_TREE<#XSShoppingCartTreeItem>) Name(#ShoppingCartTree) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(25) Width(526) Height(768)
+    
+    Define_Com Class(#XSServer.LoadShoppingCart) Name(#LoadShoppingCart)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #XSCartID := #MySession.RestoreLocalValue( CartID )
+    
+    * Load shopping cart details from the database
+    #LoadShoppingCart.ExecuteAsync( #XSCartID #ShoppingCartTree )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadShoppingCart.completed)
+    
+    If (#ShoppingCartTree.Items.ItemCount = 0)
+    
+    #MySession.AddMessage( 'Your shopping cart is empty' )
+    #MySession.ShowMessageBox
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

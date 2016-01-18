@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*PARTITION_DESC"
+  Description:        "Current partition description"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             40
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

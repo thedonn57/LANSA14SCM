@@ -1,0 +1,126 @@
+﻿ServerModule:
+  Name:               xEmployeeData
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                110
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Server Module for xEmployee"
+
+  - FRA:
+      Description:        "Server Module for xEmployee"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Def_List Name(#xEmployeeList) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xEmployeeDepartment #xEmployeeImageThumbnail) Counter(#ListCount) Type(*Working) Entrys(*Max)
+    
+    Group_By Name(#xEmployee) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    Srvroutine Name(Find)
+    Field_Map For(*Input) Field(#xEmployeeIdentification)
+    Group_Map For(*Output) Group(#xEmployee)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Return all data for the keys provided
+    Fetch Fields(#xEmployee) From_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    If_Status Is(*okay)
+    Fetch Fields(#xEmployee) From_File(xEmployeeImages) With_Key(#xEmployeeIdentification)
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(FindPage)
+    Field_Map For(*Input) Field(#StartKey1)
+    Field_Map For(*Input) Field(#ListPage)
+    List_Map For(*Output) List(#xEmployeeList)
+    
+    Define Field(#StartKey1) Reffld(#xEmployeeIdentification)
+    
+    * Get all records from the file starting from the specified key values
+    Select Fields(#xEmployeeList) From_File(xEmployee) With_Key(#StartKey1) Options(*Startkey)
+    
+    * Ignore the first record if it matches the startkey(s)
+    Continue If(((#StartKey1 = #xEmployeeIdentification)))
+    
+    Add_Entry To_List(#xEmployeeList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(FindAll)
+    List_Map For(*Output) List(#xEmployeeList)
+    
+    Select Fields(#xEmployeeList) From_File(xEmployee)
+    
+    Fetch Fields(#xEmployeeList) From_File(xEmployeeImages) With_Key(#xEmployeeIdentification)
+    Add_Entry To_List(#xEmployeeList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(FindxEmpByDepartment)
+    Field_Map For(*Input) Field(#xDepartmentCode)
+    Field_Map For(*Input) Field(#xEmployeeIdentification)
+    List_Map For(*Output) List(#xEmployeeList)
+    
+    * Get all records from the file using some or all of the key
+    Select Fields(#xEmployeeList) From_File(xEmployeeByDepartment) With_Key(#xDepartmentCode #xEmployeeIdentification) Nbr_Keys(*Compute) Generic(*Yes)
+    
+    Add_Entry To_List(#xEmployeeList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(FindxEmpBySurname)
+    Field_Map For(*Input) Field(#xEmployeeSurname)
+    Field_Map For(*Input) Field(#xEmployeeGivenNames)
+    List_Map For(*Output) List(#xEmployeeList)
+    
+    * Get all records from the file using some or all of the key
+    Select Fields(#xEmployeeList) From_File(xEmployeeBySurname) With_Key(#xEmployeeSurname #xEmployeeGivenNames) Nbr_Keys(*Compute) Generic(*Yes)
+    
+    Add_Entry To_List(#xEmployeeList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(Save)
+    Group_Map For(*Input) Group(#xEmployee)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Look for an existing record
+    Check_For In_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    * Update the record if found, otherwise create a new one
+    If_Status Is(*Equalkey)
+    
+    Update Fields(#xEmployee) In_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    Else
+    
+    Insert Fields(#xEmployee) To_File(xEmployee)
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(Delete)
+    Field_Map For(*Input) Field(#xEmployeeIdentification)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Delete a record using the key value
+    Delete From_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    Endroutine
+    
+    End_Com

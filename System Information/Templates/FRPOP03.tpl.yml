@@ -1,0 +1,444 @@
+﻿Template:
+  Name:                    FRPOP03
+  Description:             Pop Up Prompter (with Full Maintenance)
+  Extended Description 1:  Pop up prompt with add, change and
+  Extended Description 2:  delete capabilities, page at a time
+  Extended Description 3:  display and CHECK_AUTHORITY
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** START OF TEMPLATE CODE                                  */
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE "OBJECT"                                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes what "object" this program will work with') ANSWER(@@CANS001) EXTEND('123456789012345' 'The word you specify here is used to build messages that appear on the' 'screen panels. You should use ONE word only, use upper and lower case' 'characters, and only use singular form (eg: "Customer", "Employee",' '"Order"). Do NOT use more than 15 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** GET FILES TO WORK WITH                                  */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the file to be used by this application.') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' 'Use the HELP key for more details of this template and the type' 'of applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** PUT ALL FIELDS FOR BROWSE INTO LIST 52                  */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(01)
+    @@RTV_FLDS FROM_FILE(01) INTO_LST(01)
+    @@CLR_LST  NUMBER(02)
+    @@CLR_LST  NUMBER(03)
+    @@MAK_LSTS FROM_LSTS(01) INTO_LSTS((02 'Fields for' 'Browse' 'Panel') (03 'Fields To' ' Return')) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(04)
+    @@CLR_LST  NUMBER(05)
+    @@MAK_LSTS FROM_LSTS(01) INTO_LSTS((04 'Fields' 'To Be' 'Added') (05 'Fields' ' To Be' 'Updated')) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(06)
+    @@CLR_LST  NUMBER(07)
+    @@RTV_KEYS OF_FILE(01) INTO_LST(06)
+    @@MRG_LSTS FROM_LSTS((06 *IN)) INTO_LST(07)
+    @@CLR_LST  NUMBER(08)
+    @@MRG_LSTS FROM_LSTS((05) (06 *OUT)) INTO_LST(08)
+    /* ********** ======================================================= */
+    /* ********** START OF TEMPLATE CODE                                  */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Options, work variables, conditions and working lists')
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT *CLOSE_DISPLAY)
+    DEFINE     FIELD(#REQUEST) TYPE(*CHAR) LENGTH(1)
+    DEFINE     FIELD(#ALLOWADD) TYPE(*CHAR) LENGTH(1)
+    DEFINE     FIELD(#ALLOWCHG) REFFLD(#ALLOWADD)
+    DEFINE     FIELD(#ALLOWDLT) REFFLD(#ALLOWADD)
+    GROUP_BY   NAME(#KEYGRPA) FIELDS(@@LST07)
+    GROUP_BY   NAME(#KEYGRPB) FIELDS(@@LST07)
+    DEF_COND   NAME(*ALLOWADD) COND('#ALLOWADD *EQ Y')
+    DEF_COND   NAME(*ALLOWCHG) COND('#ALLOWCHG *EQ Y')
+    DEF_COND   NAME(*ALLOWDLT) COND('#ALLOWDLT *EQ Y')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('PROGRAM MAINLINE')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Determine if the user can maintain the file')
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD AD) TO_GET(#ALLOWADD)
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD CH) TO_GET(#ALLOWCHG)
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD DL) TO_GET(#ALLOWDLT)
+    EXECUTE    SUBROUTINE(OBJ_BROWSE) WITH_PARMS('Y')
+    CHANGE     FIELD(#REQUEST) TO(N)
+    @@COMMENT  COMMENT('Perform the loop that handles the command keys used')
+    DOWHILE    COND('(#IO$KEY *NE RA) *AND (#IO$KEY *NE ''12'')')
+    CASE       OF_FIELD(#IO$KEY)
+    @@COMMENT  COMMENT('When the ADD key is used')
+    WHEN       VALUE_IS('= ''06''')
+    IF         COND('#LISTCOUNT *GT 0')
+    EXECUTE    SUBROUTINE(SAVETOP)
+    ELSE
+    CHANGE     FIELD(#REQUEST) TO(Y)
+    ENDIF
+    EXECUTE    SUBROUTINE(ADD$DATA)
+    @@COMMENT  COMMENT('When the CHANGE key is used')
+    WHEN       VALUE_IS('= ''21''')
+    EXECUTE    SUBROUTINE(SAVETOP)
+    EXECUTE    SUBROUTINE(WORK$DATA) WITH_PARMS('CHG')
+    @@COMMENT  COMMENT('When the DELETE key is used')
+    WHEN       VALUE_IS('= ''22''')
+    EXECUTE    SUBROUTINE(SAVETOP)
+    EXECUTE    SUBROUTINE(WORK$DATA) WITH_PARMS('DLT')
+    ENDCASE
+    @@COMMENT  COMMENT('Select and display a list of records')
+    EXECUTE    SUBROUTINE(OBJ_BROWSE) WITH_PARMS(#REQUEST)
+    ENDWHILE
+    @@COMMENT  COMMENT('Pass the selected value and return')
+    IF         COND('#IO$KEY *EQ RA')
+    GET_ENTRY  NUMBER(#LISTENTRY) FROM_LIST(#OBJLIST)
+    EXCHANGE   FIELDS(@@LST03 )
+    ENDIF
+    MENU
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_BROWSE')
+    @@COMMENT  COMMENT('Description ...: Select records from file & add to list')
+    @@COMMENT  COMMENT('Parameters ....: Name      Typ Len  Description')
+    @@COMMENT  COMMENT('                 ----      --- ---  -----------')
+    @@COMMENT  COMMENT('                 #OBJREQ  CHAR   1  Request keys')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_BROWSE) PARMS((#OBJREQ *RECEIVED))
+    @@COMMENT  COMMENT('Work fields and lists used in this subroutine')
+    DEFINE     FIELD(#OBJREQ) TYPE(*CHAR) LENGTH(1)
+    DEF_LIST   NAME(#LASTREQ) FIELDS(@@LST06) TYPE(*WORKING) ENTRYS(1)
+    DEF_LIST   NAME(#SAVEREQ) FIELDS(@@LST06) TYPE(*WORKING) ENTRYS(1)
+    DEF_LIST   NAME(#OBJLIST) FIELDS(@@LST02) COUNTER(#LISTCOUNT) PAGE_SIZE(#LISTPAGE) TOP_ENTRY(#LISTTOP) SEL_ENTRY(#LISTENTRY) SCROLL_TXT(#LISTPOS)
+    @@COMMENT  COMMENT('Repeat until records found and selection made')
+    DOUNTIL    COND('((#LISTENTRY *GT 0) *AND (#IO$KEY *EQ RA)) *OR ((#IO$KEY *EQ ''06'') *OR (#IO$KEY *EQ ''21'') *OR (#IO$KEY *EQ ''22''))')
+    CLR_LIST   NAMED(#OBJLIST)
+    @@COMMENT  COMMENT('Request details if required')
+    IF         COND('#OBJREQ = Y')
+    POP_UP     FIELDS((#KEYGRPA)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(5 14) PANEL_TITL('Choose @@CANS001') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) USER_KEYS((06 'Add' *NEXT *ALLOWADD)) CURSOR_LOC(*ATFIELD #@@LEL0701)
+    CLR_LIST   NAMED(#LASTREQ)
+    ADD_ENTRY  TO_LIST(#LASTREQ)
+    CHANGE     FIELD(#OBJREQ) TO(N)
+    @@COMMENT  COMMENT('Return to mainline if add is required')
+    IF         COND('#IO$KEY *EQ ''06''')
+    RETURN
+    ENDIF
+    ELSE
+    GET_ENTRY  NUMBER(1) FROM_LIST(#LASTREQ)
+    ENDIF
+    @@COMMENT  COMMENT('Retrieve records from @@FNAME01 and add to list')
+    CHANGE     FIELD(#IO$KEY) TO(UP)
+    SELECT     FIELDS((#OBJLIST)) FROM_FILE(@@FNAME01) WHERE('#IO$KEY *EQ UP') WITH_KEY(@@LST06) NBR_KEYS(*COMPUTE) OPTIONS(*STARTKEY *ENDWHERE)
+    EXECUTE    SUBROUTINE(OBJDISP) WITH_PARMS('''More...''')
+    IF         COND('#IO$KEY *EQ ''12''')
+    RETURN
+    ENDIF
+    ADD_ENTRY  TO_LIST(#OBJLIST) WITH_MODE(*DISPLAY)
+    ENDSELECT
+    @@COMMENT  COMMENT('When there is no more records to be read')
+    IF         COND('(#IO$KEY = UP)')
+    IF         COND('(#LISTCOUNT = 0)')
+    MESSAGE    MSGTXT('No details found matching search request')
+    CHANGE     FIELD(#OBJREQ) TO(Y)
+    ELSE
+    EXECUTE    SUBROUTINE(OBJDISP) WITH_PARMS('''Bottom''')
+    ENDIF
+    ENDIF
+    @@COMMENT  COMMENT('Return to the mainline when the CANCEL key is used')
+    IF         COND('#IO$KEY *EQ ''12''')
+    RETURN
+    ENDIF
+    ENDUNTIL
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJDISP')
+    @@COMMENT  COMMENT('Description ...: Display the browselist page at a time')
+    @@COMMENT  COMMENT('Parameters ....: Name      Typ Len  Descripti n')
+    @@COMMENT  COMMENT('                 ----      --- ---  --------- -')
+    @@COMMENT  COMMENT('                 #LISTPOS CHAR   7  Browse position')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJDISP) PARMS((#LISTPOS))
+    DEFINE     FIELD(#SAVKEY) REFFLD(#@@LEL0601)
+    @@COMMENT  COMMENT('Display the list when page is full or no more records')
+    CHANGE     FIELD(#LISTREMN) TO('#LISTCOUNT / #LISTPAGE')
+    IF         COND('(#IO$KEY *EQ UP) *AND ((#LISTPOS *EQ ''Bottom'') *OR ((#LISTREMN *EQ 0) *AND (#LISTCOUNT *NE 0)))')
+    CLR_LIST   NAMED(#SAVEREQ)
+    ADD_ENTRY  TO_LIST(#SAVEREQ)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#LASTREQ)
+    CHANGE     FIELD(#SAVKEY) TO(#@@LEL0601)
+    EXECUTE    SUBROUTINE(POPLIST)
+    @@COMMENT  COMMENT('Continue to display the list if the user is trying to' 'roll up past the last entry OR the cursor is not' 'positioned on an entry AND the search key has not been' 'changed')
+    DOWHILE    COND('((#IO$KEY *EQ RA) *AND (#SAVKEY *EQ #@@LEL0601) *AND (#LISTENTRY *EQ 0)) *OR ((#LISTENTRY *EQ 0) *AND ((#IO$KEY *EQ ''21'') *OR (#IO$KEY *EQ ''22''))) *OR ((#LISTPOS *EQ ''Bottom'') *AND (#IO$KEY *EQ UP))')
+    IF         COND('#LISTENTRY *EQ *ZERO')
+    MESSAGE    MSGTXT('Place the cursor on a list entry')
+    ENDIF
+    EXECUTE    SUBROUTINE(POPLIST)
+    USE        BUILTIN(CLR_MESSAGES)
+    ENDWHILE
+    CLR_LIST   NAMED(#LASTREQ)
+    ADD_ENTRY  TO_LIST(#LASTREQ)
+    IF         COND('#IO$KEY *EQ UP')
+    GET_ENTRY  NUMBER(1) FROM_LIST(#SAVEREQ)
+    ENDIF
+    @@COMMENT  COMMENT('Set up the top of the next page')
+    CHANGE     FIELD(#LISTTOP) TO('#LISTTOP + #LISTPAGE')
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: ADD$DATA')
+    @@COMMENT  COMMENT('Description ...: Add a new  record to @@FNAME01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(ADD$DATA)
+    @@COMMENT  COMMENT('Groups used in this subroutine')
+    GROUP_BY   NAME(#ADD$DATA) FIELDS(@@LST04)
+    @@COMMENT  COMMENT('Set up and display the ADD screen')
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    CHANGE     FIELD(#ADD$DATA) TO(*DEFAULT)
+    SET_MODE   TO(*ADD)
+    @@COMMENT  COMMENT('Do data entry until user exits with CANCEL key')
+    BEGIN_LOOP
+    POP_UP     FIELDS((#ADD$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(9 6) PANEL_TITL('Create New @@CANS001') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) CURSOR_LOC(*ATFIELD #@@LEL0401)
+    INSERT     FIELDS((#ADD$DATA)) TO_FILE(@@FNAME01)
+    CHANGE     FIELD(#ADD$DATA) TO(*DEFAULT)
+    MESSAGE    MSGID(DCU0011) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    END_LOOP
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: WORK$DATA')
+    @@COMMENT  COMMENT('Description ...: Work with detailed data from @@FNAME01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(WORK$DATA) PARMS(#WORK$OPT)
+    @@COMMENT  COMMENT('Groups and work fields used in this subroutine')
+    DEFINE     FIELD(#WORK$OPT) TYPE(*CHAR) LENGTH(3)
+    GROUP_BY   NAME(#WORK$DATA) FIELDS(@@LST08)
+    @@COMMENT  COMMENT('Fetch full record details from file @@FNAME01')
+    CHANGE     FIELD(#WORK$DATA) TO(*NAVAIL)
+    GET_ENTRY  NUMBER(#LISTENTRY) FROM_LIST(#OBJLIST)
+    FETCH      FIELDS((#WORK$DATA)) FROM_FILE(@@FNAME01) WITH_KEY(@@LST06)
+    IF_STATUS  IS_NOT(*OKAY)
+    MESSAGE    MSGID(DCU0016) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    RETURN
+    ENDIF
+    @@COMMENT  COMMENT('Set screen to the correct mode')
+    CASE       OF_FIELD(#WORK$OPT)
+    WHEN       VALUE_IS('= CHG')
+    SET_MODE   TO(*CHANGE)
+    WHEN       VALUE_IS('= DLT')
+    SET_MODE   TO(*DELETE)
+    MESSAGE    MSGID(DCU0015) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    OTHERWISE
+    RETURN
+    ENDCASE
+    @@COMMENT  COMMENT('Display full record details')
+    POP_UP     FIELDS((#WORK$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(9 6)   PANEL_TITL('Maintain @@CANS001s') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) CURSOR_LOC(*ATFIELD #@@LEL0801)
+    IF_MODE    IS(*CHANGE)
+    UPDATE     FIELDS((#WORK$DATA)) IN_FILE(@@FNAME01)
+    ENDIF
+    IF_MODE    IS(*DELETE)
+    DELETE     FROM_FILE(@@FNAME01)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: POPLIST')
+    @@COMMENT  COMMENT('Description ...: Display the browselist in a window')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(POPLIST)
+    POP_UP     FIELDS((#KEYGRPB)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(5 14) PANEL_TITL('Choose @@CANS001s') BROWSELIST(#OBJLIST) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) USER_KEYS((*ROLLUP) (06 'Add' *NEXT *ALLOWADD) (21 'Change' *NEXT *ALLOWCHG) (22 'Delete' *NEXT *ALLOWDLT)) CURSOR_LOC(*ATFIELD #@@LEL0701)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: SAVETOP')
+    @@COMMENT  COMMENT('Description ...: Save top of current browselist page')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(SAVETOP)
+    @@COMMENT  COMMENT('Set up the top of the page to be displayed after an')
+    @@COMMENT  COMMENT('ADD, CHANGE or DELETE operation')
+    CHANGE     FIELD(#LISTTOP) TO('#LISTTOP - #LISTPAGE')
+    GET_ENTRY  NUMBER(#LISTTOP) FROM_LIST(#OBJLIST)
+    CLR_LIST   NAMED(#LASTREQ)
+    ADD_ENTRY  TO_LIST(#LASTREQ)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** END OF RDML COMMANDS                                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(01)
+    @@CLR_LST  NUMBER(02)
+    @@CLR_LST  NUMBER(03)
+    @@CLR_LST  NUMBER(04)
+    @@CLR_LST  NUMBER(05)
+    @@CLR_LST  NUMBER(06)
+    @@CLR_LST  NUMBER(07)
+
+  Help Panels:
+  - HELP010:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a more complex pop up prompter. Use this   
+         template when the file from which the information is being extracted contains  
+         a large number of records. The user will specify what key value(s) should be   
+         used to search the file. The list of records that are selected are displayed   
+         a page at a time. Records can then be selected for display or maintenance or   
+         records can be added. The maintenance facilities are conditioned by            
+         CHECK_AUTHORITY. This template will ask the following questions ....           
+                                                                                        
+         1. To specify a word that describes the type of information that will be       
+            displayed in the pop up window. Use both upper and lower case characters,   
+            restrict the title to no more than 20 characters and do not use ' (quotes). 
+            The word that is specified will be used in comments, messages and panel     
+            titles.                                                                     
+                                                                                        
+         2. To nominate the file that contains the data you wish to display in the      
+            pop up window. You can enter the full file name, a partial file name        
+            (to get a partial list of available files), or leave the name blank (to     
+            get a full list of available files). When a list of files is displayed      
+            the one required may be chosen from the list.
+
+  - HELP020:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+        3. Next, you must choose the fields that are to display in the browselist.      
+           Remember that a good looking window (ie: one without line wrap around) has   
+           a finite width. So only select fields that the user really needs to see in   
+           the window. Do not fill the window up with extraneous information.           
+                                                                                        
+           On the same screen you will be asked to choose the field(s) that should be   
+           passed back to the routine that invoked the pop up window (ie: via the       
+           exchange list facility). The function that is generated from this template   
+           is designed to be called as a prompt from another function so that the value 
+           the user requires is passed back to the calling program.                     
+                                                                                        
+           Normally you would only choose the primary key(s) of the file being used.    
+                                                                                        
+           For instance, in a window showing customer details you would normally        
+           exchange back the customer number (ie: the unique identifier of the customer 
+           selected from the window). Similarly, in a window showing company details    
+           you would exchange back the company number (ie: the unique identifier of the 
+           company selected from the window).
+
+  - HELP030:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+        4. Next, you must choose the fields that are to display in the add window, ie.  
+           only the fields you want the user to be able to enter should be selected.    
+           All fields will be displayed input capable.                                  
+                                                                                        
+           On the same screen you will be asked to choose the fields that are to        
+           display in the change window. All the fields you select will be displayed    
+           input capable. If the key to the file is not selected it will be added to    
+           the list of fields and displayed protected on the same screen.               
+                                                                                        
+         When command 6 is used and a record is added the add screen will be            
+         redisplayed, allowing the user to add more records, until they use command 12  
+         to return to the mainline. The browselist will then be redisplayed with the    
+         new entry included.                                                            
+                                                                                        
+         When command keys 21 or 22 are used the details of the record they had placed  
+         the cursor on will be displayed. After the record has been changed or deleted  
+         the browselist will be redisplayed with the changes reflected in it.
+
+  - HELP040:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01             Choose Customer                    :  
+                            :                                                        :  
+                            : Customer state  . . . VIC                              :  
+                            : Customer name . . . . SM                               :  
+                            :                                                        :  
+                            :                                                        :  
+                            :                                                        :  
+                            :                                                        :  
+                                                                                     :  
+          This is an example of what a pop up window                                 :  
+          using this template over a logical file of                                 :  
+          CUSTOMERS by STATE and NAME would look like                                :  
+          when initially displayed. Note the title                                   :  
+          and the request for the search key(s).                                     :  
+                                                       =Cancel  F14=Msgs             :  
+          This user wants to display all customers     ..............................:  
+          in state VIC whose names start with SM.
+
+  - HELP050:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01             Choose Customer                    :  
+                            :                                                        :  
+                            : Customer state  . . . VIC                              :  
+                            : Customer name . . . . SM                               :  
+                            :                                                        :  
+                            : Customer                                      Zip      :  
+                            :  Number   Customer name                      Code      :  
+                            :  017274   SMITH ENGINEERING PTY LIMITED      3674      :  
+                                                       SALES INCORORATED   3647      :  
+          This is an example of what the window would  TY LIMITED          3756      :  
+          look like after a search has been made.      AND SONS            3009      :  
+          The user can select the required customer,   BRICATIONS LIMITED  3067    + :  
+          scroll to subsequent pages resulting from                                  :  
+          the search, request another search be made   =Msgs  F21=Change F22=Delete  :  
+          using different search key(s) or select an                                 :  
+          entry by use of command keys to maintain.    ..............................:
+
+  - HELP060:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01             Choose Customer                    :  
+                            :                                                        :  
+                            : Customer state . . . VIC                               :  
+          ............................................................................  
+          : POPUP02                  Create New Customer                             :  
+          :                                                                          :  
+          :  Customer no . . . . .                                                   :  
+          :  Customer name . . . .                                                   :  
+          :  Address . . . . . . .                              This is an example   :  
+          :  Town/city . . . . . .                              of a pop up window   :  
+          :  Customer state  . . .                              to add records to    :  
+          :                                                     a Customer file.     :  
+          :                                                                          :  
+          :                                                                          :  
+          :  F1=Help  F3=Exit  F12=Cancel  F14=Msgs                                  :  
+          :                                                                          :  
+          :..........................................................................:
+
+  - HELP070:
+      Description:        Pop Up Prompt (with maint.)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01             Choose Customer                    :  
+                            :                                                        :  
+                            : Customer state  . . . VIC                              :  
+                            : Customer name . . . . SM                               :  
+                            :       ..................................................  
+                            : Custom: POPUP03        Maintain Customers              :  
+                            : Number:                                                :  
+                                    : Customer no.  . . . : 017274                   :  
+          This is an example of a   : Customer name . . . . Smith Engineers PTY LTD  :  
+          maintenance screen that   : Address . . . . . . . 17 Industrial Road       :  
+          would be displayed        : Town/city . . . . . . Geelong                  :  
+          after a record was        : Customer state  . . . VIC                      :  
+          selected for CHANGE.      : Zip code  . . . . . . 3674                     :  
+                                    :                                                :  
+                            :       :                                                :  
+                            : F1=Hel: F1=Help  F12=Cancel  F14=Msgs                  :  
+                            :.......:................................................:

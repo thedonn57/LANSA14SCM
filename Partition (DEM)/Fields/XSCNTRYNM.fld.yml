@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XSCountryName
+  Type:               Char
+  Length:             100
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country"
+      Label:              "Country"
+      Heading1:           "Country"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Country"
+      Label:              "Country"
+      Heading1:           "Country"
+      Heading2:           " "
+      Heading3:           " "

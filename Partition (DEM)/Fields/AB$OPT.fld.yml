@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               AB$OPT
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Action Bar Option"
+      Label:              "Action Bar Opt"
+      Heading1:           "Action"
+      Heading2:           "Bar Opt"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Option Barre d´action"
+      Label:              "Action"
+      Heading1:           "Action"
+      Heading2:           " "
+      Heading3:           " "

@@ -1,0 +1,56 @@
+﻿Field:
+  Name:               STD_CODES
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard CODE SHORT"
+      Label:              "Code"
+      Heading1:           "Code"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code court Standard"
+      Label:              "Code"
+      Heading1:           "Code"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "must not be blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field contains a Code. Enter the code as required.
+      
+      
+        Validation Rules :  Must be specified.
+      
+        Maximum Length   :  1 character
+      
+      
+      
+      $$NOAUTO

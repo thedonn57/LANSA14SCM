@@ -1,0 +1,999 @@
+﻿Template:
+  Name:                    FRPRT04
+  Description:             List Style Report with Sort/Select/Total
+  Extended Description 1:  Allows a more complex list style report
+  Extended Description 2:  with ordering and subtotals to be
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ANSWER AND LIST VARIABLE USAGE                          */
+    /* ********** ======================================================= */
+    /* ********** Name      Description of Usage                          */
+    /* ********** ----      --------------------                          */
+    /* ********** @@CANS001 Report Title                                  */
+    /* ********** @@CANS002 Selection method required                     */
+    /* ********** @@CANS003 Used for FIXED expression evaluation          */
+    /* ********** @@CANS004 Used for FIXED expression evaluation          */
+    /* ********** @@CANS005 Used for RUNTIME expression evaluation        */
+    /* ********** @@CANS007 Used for RUNTIME expression evaluation        */
+    /* ********** @@CANS008 Used for SORTING ORDER input                  */
+    /* ********** @@CANS009 Used for SORTING ORDER input                  */
+    /* ********** @@NANS001 Number of expressions / ranges / allowed      */
+    /* ********** @@NANS002 Number of saved expressions used              */
+    /* ********** @@LST01   List of all fields from all files             */
+    /* ********** @@LST02   List of fields from base file only            */
+    /* ********** @@LST03   List of keys of base file                     */
+    /* ********** @@LST04   List of fields for header of report           */
+    /* ********** @@LST05   List of field for detail area of report       */
+    /* ********** @@LST07   List of fields to trigger a new page          */
+    /* ********** @@LST08   List of fields to select on                   */
+    /* ********** @@LST12   List of rela fields from base file only       */
+    /* ********** @@LST14   List of sort order of file                    */
+    /* ********** @@LST15   List of subtotal levels                       */
+    /* ********** @@LST16   List of subtotal fields                       */
+    /* ********** @@LST22   List of all fields to be extracted            */
+    /* ********** @@LST23   All numeric fields in all files               */
+    /* ********** @@LST99   Work list only (short scoped)                 */
+    /* ********** CF        Current File Loop Index (short scoped)        */
+    /* ********** OQ        Value greater than zero indicates OPNQRYF     */
+    /* ********** RT        Count of run time expressions used            */
+    /* ********** LV        Low value of range variable                   */
+    /* ********** HV        High value of range variable                  */
+    /* ********** EN        Expressions in numeric used                   */
+    /* ********** EA        Expressions in alphanumeric used              */
+    /* ********** EI        Free form expression input required           */
+    /* ********** NK        Number of sort leys                           */
+    /* ********** SU        Number of subtotal levels                     */
+    /* ********** WA        Loop work variable 1                          */
+    /* ********** WB        Loop work variable 2                          */
+    /* ********** XE - XD   Loop work variables                           */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* ********** INITIALSE SOME INDEXES                                  */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(LV) TO(1)
+    @@SET_IDX  IDX_NAME(HV) TO(2)
+    @@SET_IDX  IDX_NAME(RT) TO(0)
+    @@SET_IDX  IDX_NAME(OQ) TO(0)
+    @@SET_IDX  IDX_NAME(EN) TO(0)
+    @@SET_IDX  IDX_NAME(EA) TO(0)
+    @@SET_IDX  IDX_NAME(EI) TO(0)
+    @@SET_IDX  IDX_NAME(NK) TO(0)
+    @@SET_IDX  IDX_NAME(SU) TO(0)
+    @@SET_IDX  IDX_NAME(SS) TO(0)
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 50 RELATED FILES                     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the primary file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 1   */
+    /* ********** LOAD DETAILS OF FIELDS FROM THE BASE FILE INTO LIST 2   */
+    /* ********** LOAD DETAILS OF KEYS OF BASE FILE INTO LIST 3           */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(12)
+    @@CLR_LST  NUMBER(23)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(2)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(12) REAL_ONLY(*YES)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(1)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(23) NUM_ONLY(*YES)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO MAKE A LIST OF HEADER FIELDS IN LIST 4  */
+    /* ********** AND DETAIL FIELDS IN LIST 5                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((5 'Fields to' 'Appear in' 'Detail Lines' *SEQUENCE) (4 'Fields to' 'Appear in' 'Headings' *SEQUENCE *NO)) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    /* ********** ======================================================= */
+    /* ********** START TO BUILD UP MAXIMUM LIST 22 OF ALL FIELDS         */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(22)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(4) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(5) INTO_LST(22)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 22 AS WELL       */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(99)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(99)
+    @@MRG_LSTS FROM_LSTS(99) INTO_LST(22)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE REPORT TITLE                                */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Please specify a title for this report.') ANSWER(@@CANS001) EXTEND('1234567890123456789012345678901234567890' 'Use from 1 to 40 characters for your title. Use upper and lowercase' 'characters. Do NOT use quote symbols in your title. For more information ' 'about this question, or about this template, use the HELP key or F1.') HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    /* ********** ======================================================= */
+    /* ********** ASK WHAT SORT OF SORT ORDERING IS REQUIRED              */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('How do you want to sort / order information printed on this report ?') ANSWER(@@CANS008) EXTEND('Answer KEYS or SORT where these things mean ....' 'KEYS    : the natural order implied by the keys of this file are to be' '          used to print and total information.' 'SORT    : information in the file needs to be reordered (sorted) into' '          a different order before details are printed or totalled.') LOWER(*NO) VALUES(KEYS SORT) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@CLR_LST  NUMBER(14)
+    /* ********** SORT                                                    */
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(O10)
+    @@MAK_LSTS FROM_LSTS(12) INTO_LSTS((14 'Sort Order' '1=Highest' '99=Lowest' *SEQUENCE)) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@INC_IDX  IDX_NAME(OQ)
+    @@GOTO     LABEL(O30)
+    /* ********** KEYS                                                    */
+    O10: @@LABEL
+    @@RTV_KEYS OF_FILE(1) INTO_LST(14)
+    @@GOTO     LABEL(O30)
+    O30: @@LABEL
+    @@SET_IDX  IDX_NAME(NK) TO(@@LNE14)
+    @@MRG_LSTS FROM_LSTS(14) INTO_LST(22)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT SUBTOTALLING                                  */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(15)
+    @@CLR_LST  NUMBER(16)
+    @@CLR_LST  NUMBER(17)
+    @@CLR_LST  NUMBER(18)
+    @@CLR_LST  NUMBER(19)
+    @@CLR_LST  NUMBER(20)
+    @@CMP_IDX  IDX_NAME(NK) IDX_VALUE(1) IF_LT(STE)
+    @@QUESTION PROMPT('Do you want to produce subtotals, counts, maximums, etc on this report ?') ANSWER(@@CANS009) EXTEND('Reply Y if you want to produce subtotals, averages, maximums, etc.' 'Reply N is no subtotals are required.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@IF       COND((*IF @@CANS009 *EQ N)) GOTO(STE)
+    @@MRG_LSTS FROM_LSTS((14)) INTO_LST(15)
+    /* ********** @@MAK_LSTS FROM_LSTS(14) INTO_LSTS((15 'Levels' 'To Pri                                                                                                                                                                                           nt' 'Totals                                 +                                            */
+    /* ********** ' *YESNO *ALL))                                         */
+    @@SET_IDX  IDX_NAME(SU) TO(@@LNE15)
+    @@MRG_LSTS FROM_LSTS(15) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(23) INTO_LSTS((16 'Select' 'To' KEEP_TOTAL *YESNO) (17 'Select' 'To' 'KEEP_AVG')) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@MRG_LSTS FROM_LSTS(16) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(17) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(23) INTO_LSTS((18 'Select' 'To' KEEP_MIN *YESNO) (19 'Select' 'To' 'KEEP_MAX')) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@MRG_LSTS FROM_LSTS(18) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(19) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((20 'Select' 'To' KEEP_COUNT *YESNO))   HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@MRG_LSTS FROM_LSTS(20) INTO_LST(22)
+    STE: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT PAGE SKIPPING                                 */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(7)
+    @@CMP_IDX  IDX_NAME(NK) IDX_VALUE(1) IF_LT(PSE)
+    @@MAK_LSTS FROM_LSTS(14) INTO_LSTS((7 'New Page' 'Triggers' *N *YESNO *NO)) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@MRG_LSTS FROM_LSTS(7) INTO_LST(22)
+    PSE: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK WHAT METHOD OF SELECTION IS REQUIRED                */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('What method of SELECTION do you want to use ?') ANSWER(@@CANS002) EXTEND('Answer NONE, KEYS, FIXED or RUNTIME, where these things mean ....' 'NONE    : no record selection is required. All details will be selected.' 'KEYS    : that full, partial or generic selection by the keys of file' '          @@FNAME01 should be used.' 'FIXED   : means that a fixed selection (defined now) should be used.' 'RUNTIME : means that a variable selection can be specified at run time.') LOWER(*NO) VALUES(NONE KEYS FIXED RUNTIME) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  '========================='
+    @@COMMENT  'Function Declaration Area'
+    @@COMMENT  '========================='
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    OPEN       FILE(*ALL) USE_OPTION(*ONDEMAND)
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL SUBTOTAL, ETC WORK FIELDS                  */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(UA9)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    UA1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE15) IF_GT(UA9)
+    @@COMMENT  'Level @@LEL15WA/@@INDEXWA work fields'
+    DEFINE     FIELD(#LEVEL@@INDEXWA) TYPE(*CHAR) LENGTH(@@INDEXWA)
+    USE        BUILTIN(FILLSTRING) WITH_ARGS('''*''') TO_GET(#LEVEL@@INDEXWA)
+    /* ********** KEEP_TOTAL VALUES                                       */
+    @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA2: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE16) IF_GT(UA3)
+    DEFINE     FIELD(#TOT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL16WB)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA2)
+    /* ********** KEEP_MAX VALUES                                         */
+    UA3: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA4: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE17) IF_GT(UA5)
+    DEFINE     FIELD(#AVG_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL17WB)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA4)
+    /* ********** KEEP_MIN VALUES                                         */
+    UA5: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA6: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE18) IF_GT(UA7)
+    DEFINE     FIELD(#MIN_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL18WB)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA6)
+    /* ********** KEEP_MAX VALUES                                         */
+    UA7: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UB1: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE19) IF_GT(UB4)
+    DEFINE     FIELD(#MAX_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL19WB)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UB1)
+    /* ********** KEEP_MAX COUNT                                          */
+    UB4: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UB5: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE20) IF_GT(UA8)
+    DEFINE     FIELD(#CNT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL20WB) TYPE(*DEC) LENGTH(7) DECIMALS(0) EDIT_CODE(3) DEFAULT(0)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UB5)
+    /* ********** NEXT SUBTOTAL LEVEL                                     */
+    UA8: @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(UA1)
+    UA9: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL PRINT LINES                                */
+    /* ********** ======================================================= */
+    @@COMMENT  'Print Lines'
+    DEF_HEAD   NAME(#HEAD01) FIELDS(#STD_TITLE #DATE #TIME #REP1PAGE #JOBNAME #USER #JOBNBR @@LST04) TRIGGER_BY(*OVERFLOW @@LST07) DESIGN(*DOWN)
+    DEF_LINE   NAME(#DETAIL01) FIELDS(@@LST05)
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL BREAK LINES                                */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(UD9)
+    @@SET_IDX  IDX_NAME(WA) TO(@@LNE15)
+    UC1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(0) IF_EQ(UD9) IF_LT(UD9)
+    @@COMMENT  'Level @@INDEXWA/@@LEL15WA break line'
+    @@SET_IDX  IDX_NAME(XA) TO(@@LNE16)
+    @@SET_IDX  IDX_NAME(XB) TO(@@LNE17)
+    @@SET_IDX  IDX_NAME(XC) TO(@@LNE18)
+    @@SET_IDX  IDX_NAME(XD) TO(@@LNE19)
+    @@SET_IDX  IDX_NAME(XE) TO(@@LNE20)
+    DEF_BREAK  NAME(#BREAK@@INDEXWA) FIELDS((#LEVEL@@INDEXWA *NOID) @@GENNAME/WA/XA/#TOT_ @@GENNAME/WA/XB/#AVG_ @@GENNAME/WA/XC/#MIN_ @@GENNAME/WA/XD/#MAX_ @@GENNAME/WA/XE/#CNT_ ) TRIGGER_BY(@@LSX15/WA)
+    @@DEC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(UC1)
+    UD9: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** INITIALISE PROGRAM VARIABLES                            */
+    /* ********** ======================================================= */
+    /* ********** ======================================================= */
+    /* ********** START GENERATING THE PROGRAM MAINLINE                   */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('==================================')
+    @@COMMENT  COMMENT('If this function is running online')
+    @@COMMENT  COMMENT('==================================')
+    IF         COND('*JOBMODE = I')
+    /* ********** ======================================================= */
+    /* ********** HANDLE REORDERING OF FILE BY OPNQRYF SORT               */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(SOA)
+    CHANGE     FIELD(#STD_QORD) TO('@@LSU14')
+    SOA: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** HANDLE SELECTION TYPE "KEYS"                            */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS002 *NE KEYS)) GOTO(S10)
+    @@COMMENT  COMMENT('Request full/partial/generic selection keys')
+    CHANGE     FIELD(#STD_INSTR) TO('''Input full, partial or generic key selection criteria. Press Enter.''')
+    CHANGE     FIELD(#STD_INST2) TO(*NULL)
+    REQUEST    FIELDS((#STD_INSTR *NOID *OUT) (#STD_INST2 *NOID *OUT) @@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    EXCHANGE   FIELDS(@@LST03)
+    @@GOTO     LABEL(SEN)
+    /* ********** ======================================================= */
+    /* ********** HANDLE SELECTION TYPE "FIXED"                           */
+    /* ********** ======================================================= */
+    S10: @@LABEL
+    @@IF       COND((*IF @@CANS002 *NE FIXED)) GOTO(S50)
+    @@INC_IDX  IDX_NAME(OQ)
+    @@COMMENT  COMMENT('Build up fixed selection expression')
+    CHANGE     FIELD(#STD_QSEL) TO(*NULL)
+    S15: @@LABEL
+    @@QUESTION PROMPT('Specify up to 40 characters of the FIXED selection expression.') ANSWER(@@CANS003) EXTEND('01234567890123456789012345678901234567890' 'The expression that you specify will be passed directly to the IBM' 'supplied facility called OPNQRYF (Open Query File) so it must be input' 'in a format that is acceptable to OPNQRYF. Do not use '', use " instead.' 'Enter up to 40 characters of the expression. You will be given an option' 'to input more of your expression once you press enter. If you are already' 'continuing an expression, then the previous component will be visible' 'for your reference. It should be overtyped with the continuation details.') HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#STD_QSEL '''@@CANS003''') TO_GET(#STD_QSEL)
+    @@QUESTION PROMPT('Do you want to continue the FIXED expression that you just entered') ANSWER(@@CANS004) EXTEND('Reply Y (yes) to continue to enter more details of your fixed expression.' 'Reply N (no) to stop. This indicates that your complete fixed expression' 'has now been specified.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@IF       COND((*IF @@CANS004 *EQ Y)) GOTO(S15)
+    @@GOTO     LABEL(SEN)
+    /* ********** ======================================================= */
+    /* ********** HANDLE SELECTION TYPE "RUN TIME"                        */
+    /* ********** ======================================================= */
+    S50: @@LABEL
+    @@IF       COND((*IF @@CANS002 *NE RUNTIME)) GOTO(SEN)
+    @@QUESTION PROMPT('For the selection of information at RUNTIME what option is to be used ?') ANSWER(@@CANS007) EXTEND('BEGINNER : Means that the user can select details by inputting FORMATTED' '           and VALIDATED list(s) or range(s) of value(s). This is the' '           best option for most beginners.' 'ADVANCED : Means that the user can input a full selection expression that' '         will be passed to the IBM supplied OPNQRYF (Open Query File)' '           facility. This is a more flexible selection option but it does' '           require the user to have some experience with this facility.') LOWER(*NO) VALUES(BEGINNER ADVANCED) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@INC_IDX  IDX_NAME(OQ)
+    CHANGE     FIELD(#STD_QSEL) TO(*NULL)
+    /* ********** ======================================================= */
+    /* ********** HANDLE "ADVANCED" SELECTIONS                            */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS007 *NE ADVANCED)) GOTO(S55)
+    @@INC_IDX  IDX_NAME(EI)
+    @@QUESTION PROMPT('Do you wish to provide the ADVANCED report save/restore facility ?') ANSWER(@@CANS011) EXTEND('ADVANCED reports allow the user to input free format expressions for' 'use with the OPNQRYF command. Additionally, logic MAY also be generated to' 'allow the user to save the OPNQRYF expression (via the ADD function key)' 'and to later (re)select a previously used expression (via the PROMPT' 'function key). Reply Y if you have READ THE PROVISIONS IN THE HELP TEXT' 'and wish to provide this extra facility. Reply N if you do not wish to' 'provide this additional facility.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@COMMENT  'Get free format expression'
+    CHANGE     FIELD(#EXP_LISTN) TO('@@FUNCTION ')
+    CHANGE     FIELD(#EXP_LISTZ) TO(200)
+    CHANGE     FIELD(#EXP_OPTN) TO('@@CANS011')
+    EXCHANGE   FIELDS(#STD_QSEL #STD_QNAM #EXP_OPTN #EXP_LISTN #EXP_LISTZ)
+    CALL       PROCESS(*DIRECT) FUNCTION(EXP$LST)
+    @@GOTO     SEN
+    /* ********** ======================================================= */
+    /* ********** HANDLE "BEGINNER" SELECTIONS                            */
+    /* ********** ======================================================= */
+    S55: @@LABEL
+    @@CLR_LST  NUMBER(8)
+    @@MAK_LSTS FROM_LSTS(12) INTO_LSTS((8 '1 Beginner' 'Selection' 'Field Only' *YESNO))   HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@MRG_LSTS FROM_LSTS(8) INTO_LST(22)
+    S60: @@LABEL
+    @@QUESTION PROMPT('For field @@LEL0801 specify the selection method that the user may use ?') ANSWER(@@CANS006) EXTEND('LIST  : Indicates that the user may specify a list of values for field' '        @@LEL0801 to select information.' 'RANGE : Indicates that the user may specify range(s) of value(s) of' '        @@LEL0801 to select information.' '       they wish to select.') LOWER(*NO) VALUES(LIST RANGE) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@INC_IDX  IDX_NAME(RT)
+    /* ********** ======================================================= */
+    /* ********** HANDLE "LIST OF VALUES" FOR "BEGINNER"                  */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS006 *NE LIST)) GOTO(S65)
+    @@COMMENT  ' '
+    @@COMMENT  'Get a list of values for field @@LEL0801'
+    @@COMMENT  ' '
+    DEF_LIST   NAME(#LIST@@INDEXRT) FIELDS(#@@LEL0801)
+    CHANGE     FIELD(#LIST@@INDEXRT) TO(*NULL)
+    @@QUESTION PROMPT('For field @@LEL0801 how many values are allowed in the selection LIST ?') ANSWER(@@NANS001) EXTEND('You have indicated that the user will be allowed to select on @@LEL0801' 'by using a selection LIST. How many values should the user be allowed' 'to input into the selection list. Specify a value in the range 1 to 20 and' 'then press enter to proceed.') RANGE((1 20)) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    INZ_LIST   NAMED(#LIST@@INDEXRT) NUM_ENTRYS(@@NANS001) WITH_MODE(*ADD)
+    @@COMMENT  'Input and validate the list of values'
+    CHANGE     FIELD(#STD_INSTR) TO('''Specify all values that should be used to select on this field. Press Enter.''')
+    DISPLAY    FIELDS((#STD_INSTR *NOID *OUT)) BROWSELIST(#LIST@@INDEXRT) CURSOR_LOC(*ATFIELD #@@LEL0801)
+    CHANGE     FIELD(#LISTCOUNT) TO(*NULL)
+    SELECTLIST NAMED(#LIST@@INDEXRT) GET_ENTRYS(*NOTNULL)
+    CHANGE     FIELD(#LISTCOUNT) TO('#LISTCOUNT + 1')
+    ENDSELECT
+    @@COMMENT  'Build up the open query file expression'
+    IF         COND('#LISTCOUNT *GT 0')
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(1 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_CLEAR) WITH_PARMS(2)
+    SELECTLIST NAMED(#LIST@@INDEXRT) GET_ENTRYS(*NOTNULL)
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(2 '''*OR''')
+    @@IF       COND((*IF @@LTP0801 *NE A)) GOTO(S62)
+    EXECUTE    EXP_ALPHA ('''@@LEL0801''' '''=''' #@@LEL0801)
+    @@INC_IDX  IDX_NAME(EA)
+    @@GOTO     LABEL(S63)
+    S62: @@LABEL
+    EXECUTE    EXP_NUMBR ('''@@LEL0801''' '''=''' #@@LEL0801)
+    @@INC_IDX  IDX_NAME(EN)
+    S63: @@LABEL
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    ENDSELECT
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    ENDIF
+    @@GOTO     S80
+    /* ********** ======================================================= */
+    /* ********** HANDLE "RANGE OF VALUES" FOR "BEGINNER"                 */
+    /* ********** ======================================================= */
+    S65: @@LABEL
+    @@IF       COND((*IF @@CANS006 *NE RANGE)) GOTO(S80)
+    @@COMMENT  ' '
+    @@COMMENT  'Get range(s) of value(s) for field @@LEL0801'
+    @@COMMENT  ' '
+    DEFINE     FIELD(#LOW@@INDEXLV)  REFFLD(#@@LEL0801)
+    DEFINE     FIELD(#HIGH@@INDEXHV) REFFLD(#@@LEL0801)
+    DEF_LIST   NAME(#RANGE@@INDEXRT) FIELDS(#LOW@@INDEXLV #HIGH@@INDEXHV)
+    CHANGE     FIELD(#RANGE@@INDEXRT) TO(*NULL)
+    @@QUESTION PROMPT('For field @@LEL0801 how many ranges are allowed in the range selection ?') ANSWER(@@NANS001) EXTEND('You have indicated that the user will be allowed to select on @@LEL0801' 'by specifying range(s) of value(s). How many ranges should the user' 'be allowed to input. Specify a value in the range 1 to 20 and then press' 'enter to proceed.') RANGE((1 20)) HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    INZ_LIST   NAMED(#RANGE@@INDEXRT) NUM_ENTRYS(@@NANS001) WITH_MODE(*ADD)
+    @@COMMENT  'Input and validate the range(s) of value(s)'
+    CHANGE     FIELD(#STD_INSTR) TO('''Specify all range(s) that should be used to select on this field. Press Enter.''')
+    CHANGE     FIELD(#STD_INST2) TO('''Specify low values in the left column and high values in the right column.''')
+    DISPLAY    BROWSELIST(#RANGE@@INDEXRT) CURSOR_LOC(*ATFIELD #LOW@@INDEXLV) FIELDS((#STD_INSTR *NOID *OUT)(#STD_INST2 *NOID *OUT))
+    CHANGE     FIELD(#LISTCOUNT) TO(*NULL)
+    BEGINCHECK
+    SELECTLIST NAMED(#RANGE@@INDEXRT) GET_ENTRYS(*NOTNULL)
+    CHANGE     FIELD(#LISTCOUNT) TO('#LISTCOUNT + 1')
+    BEGINCHECK
+    CONDCHECK  FIELD(#LOW@@INDEXLV)             COND('#LOW@@INDEXLV *LE #HIGH@@INDEXHV') MSGTXT('Low value is greater than high value ... selection will not work')
+    ENDCHECK   IF_ERROR(*NEXT)
+    UPD_ENTRY  IN_LIST(#RANGE@@INDEXRT) WITH_MODE(*ADD)
+    ENDSELECT
+    ENDCHECK
+    @@COMMENT  'Build up the open query file expression'
+    IF         COND('#LISTCOUNT *GT 0')
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(1 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_CLEAR) WITH_PARMS(2)
+    SELECTLIST NAMED(#RANGE@@INDEXRT) GET_ENTRYS(*NOTNULL)
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(2 '''*OR''')
+    EXECUTE    SUBROUTINE(EXP_CLEAR) WITH_PARMS(3)
+    @@IF       COND((*IF @@LTP0801 *NE A)) GOTO(S66)
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(3 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_ALPHA) WITH_PARMS('''@@LEL0801''' '''>=''' #LOW@@INDEXLV)
+    @@INC_IDX  IDX_NAME(EA)
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(3 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_ALPHA) WITH_PARMS('''@@LEL0801''' '''<=''' #HIGH@@INDEXHV)
+    @@INC_IDX  IDX_NAME(EA)
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    @@GOTO     LABEL(S67)
+    S66: @@LABEL
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(3 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_NUMBR) WITH_PARMS('''@@LEL0801''' '''>=''' #LOW@@INDEXLV)
+    @@INC_IDX  IDX_NAME(EN)
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    EXECUTE    SUBROUTINE(EXP_OPEN) WITH_PARMS(3 '''*AND''')
+    EXECUTE    SUBROUTINE(EXP_NUMBR) WITH_PARMS('''@@LEL0801''' '''<=''' #HIGH@@INDEXHV)
+    @@INC_IDX  IDX_NAME(EN)
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    S67: @@LABEL
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    ENDSELECT
+    EXECUTE    SUBROUTINE(EXP_CLOSE)
+    ENDIF
+    @@INC_IDX  IDX_NAME(LV)
+    @@INC_IDX  IDX_NAME(LV)
+    @@INC_IDX  IDX_NAME(HV)
+    @@INC_IDX  IDX_NAME(HV)
+    @@GOTO     LABEL(S80)
+    /* ********** ======================================================= */
+    /* ********** SEE IF ANOTHER "BEGINNER" FIELD IS REQUIRED             */
+    /* ********** ======================================================= */
+    S80: @@LABEL
+    @@QUESTION PROMPT('Do you want to choose another field that the user can select data with ?') ANSWER(@@CANS005) EXTEND('Reply Y (yes) if you want to choose another field that the user can use' 'to select data with.' 'Reply N (no) if you have finished specifying all fields that the user' 'can use to select data with.') LOWER(*NO) VALUES(Y N)   HELPIDS(HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110)
+    @@IF       COND((*IF @@CANS005 *EQ Y)) GOTO(S55)
+    @@GOTO     LABEL(SEN)
+    /* ********** ======================================================= */
+    /* ********** END OF SELECTION LIST GENERATION                        */
+    /* ********** ======================================================= */
+    SEN: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** CONTINUE PROGRAM MAINLINE GENERATION                    */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Submit batch run of this function')
+    @@CMP_IDX  IDX_NAME(OQ) IDX_VALUE(1) IF_LT(X10)
+    EXCHANGE   FIELDS(#STD_QSEL)
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(X10)
+    EXCHANGE   FIELDS(#STD_QORD)
+    X10: @@LABEL
+    SUBMIT     PROCESS(#PROCESS) FUNCTION(#FUNCTION) JOB(#FUNCTION)
+    @@COMMENT  COMMENT('==========================================')
+    @@COMMENT  COMMENT('Else, if this function is running in batch')
+    @@COMMENT  COMMENT('==========================================')
+    ELSE
+    @@COMMENT  COMMENT('Main Fetch Group Declared Now')
+    GROUP_BY   NAME(#FETCHDATA) FIELDS(@@LST22)
+    @@COMMENT  COMMENT('Setup details for batch report run')
+    CHANGE     FIELD(#STD_TITLE) TO('''@@CANS001''')
+    @@CMP_IDX  IDX_NAME(OQ) IDX_VALUE(1) IF_LT(X15)
+    IF_NULL    FIELD(#STD_QSEL)
+    CHANGE     FIELD(#STD_QSEL) TO('''*ALL''')
+    ENDIF
+    IF_NULL    FIELD(#STD_QORD)
+    CHANGE     FIELD(#STD_QORD) TO('''*NONE''')
+    ENDIF
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(X12)
+    @@COMMENT  COMMENT('Use OPNQRYF to select and order details')
+    OPEN       FILE(@@FNAME01) USE_OPTION(*OPNQRYF) IO_ERROR(L10) QRYSLT(#STD_QSEL) KEYFLD(#STD_QORD)
+    @@GOTO     LABEL(X14)
+    X12: @@LABEL
+    @@COMMENT  COMMENT('Use OPNQRYF to select the details')
+    OPEN       FILE(@@FNAME01) USE_OPTION(*OPNQRYF) QRYSLT(#STD_QSEL) IO_ERROR(L10)
+    X14: @@LABEL
+    EXECUTE    SUBROUTINE(EXP_STATUS) WITH_PARMS('N')
+    L10: EXECUTE    SUBROUTINE(EXP_STATUS) WITH_PARMS('Y')
+    @@COMMENT  COMMENT('Select required @@FNAME01 details')
+    SELECT     FIELDS(#FETCHDATA) FROM_FILE(@@FNAME01)
+    @@GOTO     LABEL(X20)
+    X15: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** SELECT ALL MATCHING DETAILS FROM THE BASE FILE          */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Select required @@FNAME01 details')
+    SELECT     FIELDS(#FETCHDATA) FROM_FILE(@@FNAME01) WITH_KEY(@@LST03) NBR_KEYS(*COMPUTE) GENERIC(*YES)
+    /* ********** ======================================================= */
+    /* ********** FETCH DETAILS FROM ALL SECONDARY FILES                  */
+    /* ********** ======================================================= */
+    X20: @@LABEL
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(99)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(99)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#FETCHDATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST99) KEEP_LAST(5)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL KEEP_TOTAL, ETC LINES                      */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(XA9)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    XA1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE15) IF_GT(XA9)
+    @@COMMENT  'Level @@INDEXWA/@@LEL15WA calculations'
+    /* ********** KEEP_TOTAL VALUES                                       */
+    @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA2: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE16) IF_GT(XA3)
+    KEEP_TOTAL OF_FIELD(#@@LEL16WB) IN_FIELD(#TOT_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX15/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA2)
+    /* ********** KEEP_AVERAGE VALUES                                     */
+    XA3: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA4: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE17) IF_GT(XA5)
+    KEEP_AVG   OF_FIELD(#@@LEL17WB) IN_FIELD(#AVG_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX15/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA4)
+    /* ********** KEEP_MIN VALUES                                         */
+    XA5: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA6: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE18) IF_GT(XA7)
+    KEEP_MIN   OF_FIELD(#@@LEL18WB) IN_FIELD(#MIN_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX15/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA6)
+    /* ********** KEEP_MAX VALUES                                         */
+    XA7: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XB1: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE19) IF_GT(XB4)
+    KEEP_MAX   OF_FIELD(#@@LEL19WB) IN_FIELD(#MAX_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX15/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XB1)
+    /* ********** KEEP_MAX COUNT                                          */
+    XB4: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XB5: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE20) IF_GT(XA8)
+    KEEP_COUNT OF_FIELD(#@@LEL20WB) IN_FIELD(#CNT_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX15/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XB5)
+    /* ********** NEXT SUBTOTAL LEVEL                                     */
+    XA8: @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(XA1)
+    XA9: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** PRINT THE DETAILS                                       */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Print the detail line ')
+    PRINT      LINE(#DETAIL01)
+    ENDSELECT
+    @@COMMENT  COMMENT('Finish all printing and end program')
+    ENDPRINT
+    ENDIF
+    @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE EXPRESSION BUILDER SUBROUTINES             */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(RT) IDX_VALUE(1) IF_LT(R10)
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_OPEN : Open a new expression level'
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_OPEN) PARMS((#EXP_LEVEL *RECEIVED) (#EXP_OPER *RECEIVED))
+    DEF_LIST   NAME(#EXP_LIST) FIELDS((#EXP_TOTAL)) COUNTER(#EXP_LISTC) TYPE(*WORKING) ENTRYS(10)
+    IF_NULL    FIELD(#EXP_LISTC)
+    CHANGE     FIELD(#EXP_TOTAL) TO(*NULL)
+    INZ_LIST   NAMED(#EXP_LIST) NUM_ENTRYS(5)
+    ENDIF
+    GET_ENTRY  NUMBER(#EXP_LEVEL) FROM_LIST(#EXP_LIST)
+    IF         COND('#EXP_TOTAL *GT 0')
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#STD_QSEL #EXP_OPER) TO_GET(#STD_QSEL)
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#STD_QSEL '''(''') TO_GET(#STD_QSEL)
+    ELSE
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL '''(''') TO_GET(#STD_QSEL)
+    ENDIF
+    CHANGE     FIELD(#EXP_TOTAL) TO('#EXP_TOTAL + 1')
+    UPD_ENTRY  IN_LIST(#EXP_LIST)
+    ENDROUTINE
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_CLOSE : Close an expression level '
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_CLOSE)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL ''')''') TO_GET(#STD_QSEL)
+    ENDROUTINE
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_CLEAR : Clear an expression level '
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_CLEAR) PARMS((#EXP_LEVEL *RECEIVED))
+    GET_ENTRY  NUMBER(#EXP_LEVEL) FROM_LIST(#EXP_LIST)
+    CHANGE     FIELD(#EXP_TOTAL) TO(*NULL)
+    UPD_ENTRY  IN_LIST(#EXP_LIST)
+    ENDROUTINE
+    @@CMP_IDX  IDX_NAME(EA) IDX_VALUE(1) IF_LT(ENR)
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_ALPHA : Build an expression for an alpha field'
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_ALPHA) PARMS((#EXP_FLD *RECEIVED) (#EXP_OPER *RECEIVED) (#EXP_AVAL *RECEIVED))
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_FLD) TO_GET(#STD_QSEL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_OPER) TO_GET(#STD_QSEL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL '''"''') TO_GET(#STD_QSEL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_AVAL) TO_GET(#STD_QSEL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL '''"''') TO_GET(#STD_QSEL)
+    ENDROUTINE
+    ENR: @@LABEL
+    @@CMP_IDX  IDX_NAME(EN) IDX_VALUE(1) IF_LT(R10)
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_NUMBR : Build an expression for a numeric field'
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_NUMBR) PARMS((#EXP_FLD *RECEIVED) (#EXP_OPER *RECEIVED) (#EXP_NVAL *RECEIVED))
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_FLD) TO_GET(#STD_QSEL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_OPER) TO_GET(#STD_QSEL)
+    USE        BUILTIN(NUMERIC_STRING) WITH_ARGS(#EXP_NVAL) TO_GET(#EXP_NSTR)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#STD_QSEL #EXP_NSTR) TO_GET(#STD_QSEL)
+    ENDROUTINE
+    R10: @@LABEL
+    R20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE EXPRESSION STATUS PRINT SUBROUTINE         */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(OQ) IDX_VALUE(1) IF_LT(R30)
+    @@COMMENT  '================================================='
+    @@COMMENT  'EXP_STATUS : Print OPNQRYF Status Report'
+    @@COMMENT  '================================================='
+    SUBROUTINE NAME(EXP_STATUS) PARMS((#EXP_ERROR *RECEIVED))
+    DEFINE     FIELD(#OVL_QPRT1) TYPE(*CHAR) LENGTH(128) REFFLD(#STD_QSEL) TO_OVERLAY(#STD_QSEL 1)
+    DEFINE     FIELD(#OVL_QPRT2) TYPE(*CHAR) LENGTH(128) REFFLD(#STD_QSEL) TO_OVERLAY(#STD_QSEL 129)
+    DEFINE     FIELD(#OVL_QORD1) TYPE(*CHAR) LENGTH(128) REFFLD(#STD_QORD) TO_OVERLAY(#STD_QORD 1)
+    DEFINE     FIELD(#OVL_QORD2) TYPE(*CHAR) LENGTH(128) REFFLD(#STD_QORD) TO_OVERLAY(#STD_QORD 129)
+    DEF_HEAD   NAME(#EXP_HEAD) FIELDS((#STD_TITLE) (#DATE) (#TIME) (#REP2PAGE) (#JOBNAME) (#USER) (#JOBNBR) (#OVL_QPRT1 *COLHDG) (#OVL_QPRT2 *NOID) (#OVL_QORD1 *COLHDG) (#OVL_QORD2 *NOID)) FOR_REPORT(2) DESIGN(*DOWN) IDENTIFY(*LABEL)
+    DEF_LINE   NAME(#EXP_TEXT) FIELDS((#EXP_EMSG *COLHDG)) FOR_REPORT(2)
+    @@COMMENT  'Ignore if report already printed'
+    IF         COND('#REP2PAGE = 0')
+    @@COMMENT  'Issue generic message'
+    IF         COND('#EXP_ERROR = Y')
+    MESSAGE    MSGTXT('Fatal error when attempting open of file @@FNAME01 via OPNQRYF')
+    ELSE
+    MESSAGE    MSGTXT('No errors detected when opening file @@FNAME01 via OPNQRYF')
+    ENDIF
+    @@COMMENT  'Produce Status Report'
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#EXP_ERET #EXP_EMSG)
+    DOWHILE    COND('#EXP_ERET = OK')
+    PRINT      LINE(#EXP_TEXT) ON_REPORT(2)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#EXP_ERET #EXP_EMSG)
+    ENDWHILE
+    ENDPRINT   REPORT_NUM(2)
+    IF         COND('#EXP_ERROR = Y')
+    ABORT      MSGTXT('Fatal error when attempting open of file @@FNAME01 ... see report for details')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    R30: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@CLR_LST  NUMBER(7)
+    @@CLR_LST  NUMBER(8)
+    @@CLR_LST  NUMBER(14)
+    @@CLR_LST  NUMBER(15)
+    @@CLR_LST  NUMBER(16)
+    @@CLR_LST  NUMBER(17)
+    @@CLR_LST  NUMBER(18)
+    @@CLR_LST  NUMBER(19)
+    @@CLR_LST  NUMBER(20)
+    @@CLR_LST  NUMBER(22)
+    @@CLR_LST  NUMBER(23)
+    @@CLR_LST  NUMBER(99)
+    /* ********** ======================================================= */
+    /* ********** END OF TEMPLATE                                         */
+    /* ********** ======================================================= */
+
+  Help Panels:
+  - HELP010:
+      Description:        "         Overview"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a list style report that can be extended to
+         include SORTING and SELECTION options.                                         
+                                                                                        
+         Additionally TOTALLING, AVERAGING, MAXIMA, MINIMA and COUNTING values can be   
+         produced at the break levels implied by the chosen SORTING order.              
+                                                                                        
+         The SELECTION options allow you to use FIXED or RUNTIME specification of what  
+         information is to be selected for inclusion on the report.                     
+                                                                                        
+         When RUNTIME selection is chosen either BEGINNER or ADVANCED facilities are    
+         available.                                                                     
+                                                                                        
+         BEGINNER options allow selection by RANGE(S) OF VALUES(S) or by LIST(S) OF     
+         VALUE(S) . All selection values collected this way are input by formatted      
+         input screens and they can be subjected to extensive validation checks.        
+                                                                                        
+         ADVANCED options allow the user to input a FREE FORMAT SQL/OPNQRYF type        
+         expression at execution time. Additionally the selection expression used can   
+         be NAMED and SAVED for later reuse when the report is executed again.
+
+  - HELP020:
+      Description:        "      Files and Fields"
+
+      Text: |
+        <-
+                                                                                        
+         When this template is used, you will be asked questions about :                
+                                                                                        
+         1. FILES TO BE USED                                                            
+            Initially you will be asked to nominated a "base" file. The name can be     
+            nominated directly or selected by normal generic searching. This file       
+            is the one used to "drive" the report and each record selected from this    
+            file will result in a detail line being printed. Next you can choose from   
+            related files. Only choose a related file if you wish to print information  
+            from the file on your report.                                               
+                                                                                        
+         2. FIELDS TO SHOW ON DETAIL LINES OR IN HEADER AREA                            
+            Next you will be asked to choose and order all the fields (from all the     
+            previously chosen files) into 2 different categories .....                  
+            The first is fields that are to appear in the detail area (or body) of the  
+            report. Most fields normally fall into this category.                       
+            The second is fields that are to appear in the heading area of the report.  
+            Usually such fields are also used as "triggers" for the start of a new page.
+            Fields chosen for inclusion in the heading area are almost always closely   
+            related to the order that you are going to print information on the report.
+
+  - HELP030:
+      Description:        "     Ordering / Sorting"
+
+      Text: |
+        <-
+                                                                                        
+         3. REPORT TITLE                                                                
+            After choosing the files and fields you will be asked to specify a title    
+            for the report. The normal titling rules apply. From 1 to 40 characters     
+            using upper and lowercase characters. No quote (') symbols allowed.         
+                                                                                        
+         4. SORTING / ORDERING                                                          
+            Next you will be asked about the order that information is to appear on     
+            the report. You have 2 choices :                                            
+                                                                                        
+            KEYS : means that the natural keys of the logical or physical file chosen   
+                   as the base file should be used to order data (if any exist).        
+                                                                                        
+            SORT : means that you wish to choose an alternate sorting sequence.         
+                   If this option is selected then a list of all real fields from the   
+                   base file is presented. You can then choose and order your desired   
+                   sort sequence by using increasing numbers. Number the sort fields    
+                   from 1 (highest/major/most significant) sort field to 99 (lowest/    
+                   minor/least significant) sort field. The numbers you specify do not  
+                   have to be adjacent. It is the relative order that is important.
+
+  - HELP040:
+      Description:        "      Subtotalling, etc"
+
+      Text: |
+        <-
+                                                                                        
+         5. SUBTOTALLING, ETC                                                           
+            If you have used the SORT option, or the KEYS options (and the base file    
+            does have keys) then you will be asked whether subtotalling, etc is to be   
+            used. If you reply Y (yes) to this question you will then be taken through  
+            a series of three prompts to allow you to specify .....                     
+                                                                                        
+            (a). Fields to be (sub)totalled (called KEEP_TOTAL in RDML terms).          
+            (b). Fields to be averaged (called KEEP_AVG).                               
+            (c). Fields that are to have their minimum values tracked (called KEEP_MIN).
+            (d). Fields that are to have their maximum values tracked (called KEEP_MAX).
+            (e). Fields that are to have their different occurrences, within the order  
+                 that they are processed, counted (called KEEP_COUNT).                  
+                                                                                        
+            Options (a) and (b) are presented on the first prompt, (c) and (d) on the   
+            second and (e) on the third.                                                
+                                                                                        
+            When selecting fields use numbers. The numbers used are only significant in 
+            that they order the field on the report within the totalling type selected.
+
+  - HELP050:
+      Description:        "  Page Control and Selection"
+
+      Text: |
+        <-
+                                                                                        
+         6. PAGE TRIGGERS                                                               
+            If your base file has keys or you have selected an alternate sort order then
+            you will next be presented with an option to choose and order the required  
+            page "triggers". The selection numbers you use are not significant other    
+            than to indicate that the field is a trigger. The relationship between the  
+            fields selected is "OR". So if you choose Customer Number and Part Number   
+            from the list, then a new page will be started on the report whenever the   
+            Customer Number OR the Part Number is different from the last one(s).       
+                                                                                        
+         7. SELECTION OF INFORMATION                                                    
+            After page trigger details have been specified an option to choose how      
+            information should be selected will appear. The options you have here are : 
+                                                                                        
+            NONE : No selection of information is required. All details from the base   
+                   file will be read and printed. The is very often a valid choice,     
+                   especially if the base file is a logical file/view that has its own  
+                   inbuilt select/omit criteria.
+
+  - HELP060:
+      Description:        "         Selection"
+
+      Text: |
+        <-
+                                                                                        
+         7. SELECTION OF INFORMATION (continued)                                        
+                                                                                        
+            KEYS    : Specifies that the keys of the base file should be used to allow  
+                      the user to perform full, partial or generic searching using the  
+                      standard *GENERIC and *COMPUTE options provided by the RDML       
+                      SELECT command. This is an easy to use and efficient method of    
+                      selection where the base file has appropriate keys. For example,  
+                      a base file keyed by Company Number and Division Number used      
+                      with this option would allow selection for all records, for a     
+                      specific company or for a division within a company.              
+                                                                                        
+            FIXED   : Means that a fixed SQL/OPNQRYF formatted expression is to be      
+                      input next. The expression can be input, in parts if it is very   
+                      long, on the next few screen panels presented. The expression     
+                      is then generated into the RDML function and passed to the IBM    
+                      supplied OPNQRYF command at execution time to select the required 
+                      records. Note that the expression is FIXED at generation/compile  
+                      time and cannot be changed.
+
+  - HELP070:
+      Description:        "         Selection"
+
+      Text: |
+        <-
+                                                                                        
+         7. SELECTION OF INFORMATION (continued)                                        
+                                                                                        
+            RUNTIME : If the runtime option is chosen another question will appear      
+                      immediately asking what type of run time selection is to be       
+                      provided by the report.                                           
+                                                                                        
+                      There are two options, called BEGINNER and ADVANCED.              
+                                                                                        
+                      Both options use expressions that are in OPNQRYF/SQL format.      
+                                                                                        
+                      However, when the BEGINNER option is chosen the report user will  
+                      be allowed to "create" the expression by a series of formatted    
+                      and validated "range of values" or "list of values" input screens.
+                                                                                        
+                      When the ADVANCED option is chosen the report user will be asked  
+                      to key in the OPNQRYF/SQL expression directly. However, there is  
+                      an extended option that allows the user to "name and save" their  
+                      expressions. When the report is used at some later time the saved 
+                      expression can be instantly retrieved by its name and reused.
+
+  - HELP080:
+      Description:        "      Beginner Options"
+
+      Text: |
+        <-
+                                                                                        
+         8. BEGINNER SELECTIONS                                                         
+                                                                                        
+            When RUNTIME selection of type BEGINNER is used an iterative loop is used   
+            to generate the required RDML logic. It works like this :                   
+                                                                                        
+                                                                                        
+                --> *  Choose just one field that the user can select against           
+               ¦                                                                        
+               ¦    *  Choose selection method RANGE (of values) or LIST (of values)    
+               ¦                                                                        
+               ¦    *  Indicate the maximum number of range(s) or value(s) that the     
+               ¦       user can specify for the selected field                          
+               ¦                                                                        
+               ¦    *  Do you want to allow selection on another field ?                
+               ¦                                                                        
+                -----  Yes                                                              
+                                                                                        
+                       No ----> Proceed to next step in the template.
+
+  - HELP090:
+      Description:        "      Beginner Options"
+
+      Text: |
+        <-
+                                                                                        
+         8. BEGINNER SELECTIONS (continued)                                             
+                                                                                        
+            The following important points should be noted about using RANGE and LIST   
+            as BEGINNER selections ....                                                 
+                                                                                        
+            -> Each range or list causes a formatted data entry screen to be generated. 
+               This allows F4=Prompt to be used and allows simple validation (automatic)
+               and more complex validation (input via the RDML editor) to be used.      
+                                                                                        
+            -> Each range or list is converted into an OPNQRYF/SQL formatted expression.
+               The maximum length for this expression is 256 characters at the current  
+               time. Thus allowing range / list selection on many fields, or allowing   
+               large numbers of ranges or values to be specified will cause this area   
+               to overflow. Be conservative in the number of fields that user will be   
+               allowed to select on, and for each field in the number of ranges or      
+               values that can be specified. If more options are required you may have  
+               to take the base RDML function generated and extend / enhance it to      
+               use more extensive selection facilities. This should not be a complex    
+               task.
+
+  - HELP100:
+      Description:        "    Advanced Selections"
+
+      Text: |
+        <-
+                                                                                        
+         9. ADVANCED SELECTIONS                                                         
+                                                                                        
+            When the ADVANCED selection is chosen as a way of doing RUNTIME selection   
+            the report user will be presented with a 256 byte field into which they can 
+            key required OPNQRYF/SQL formatted expression.                              
+                                                                                        
+            This is why it is called an ADVANCED option, because it requires the user   
+            to understand Boolean logic expressions and the concept of data variables.  
+                                                                                        
+            However, many computer end users now use tools (especially on PCs) that use 
+            this approach. It provides the ultimate flexibility to the end user because 
+            it allows tailored and complex selection criteria to be used with no real   
+            intervention from the Data Processing Department.                           
+                                                                                        
+            An additional facility is provided to allow the report end user to "name    
+            and save" any OPNQRYF/SQL expressions that they have created. To provide    
+            this additional facility you musy reply Y (yes) to a question asked in the  
+            template and also agree to the following provisions.
+
+  - HELP110:
+      Description:        "    Advanced Selections"
+
+      Text: |
+        <-
+                                                                                        
+         9. ADVANCED SELECTIONS (continued)                                             
+                                                                                        
+            The "name and save" facility is useful because it allows what is really just
+            one reporting function to appear to the end user like it is many reports.   
+            When the end user keys in an QPNQRYF/SQL formatted selection expression they
+            may use the Add or Create function key to save it (with a 20 character name)
+            Later, when the report is to be run again the user can retrieve any saved   
+            expression (related to the current report) by using the Prompt function key.
+                                                                                        
+            This means that once a user figures out how to express the problem "Find all
+            employees who work in marketing and have zip codes in the range 1000 to 3000
+            and have a surnames that contain an S" they can permanently save it then    
+            use it again later.                                                         
+                                                                                        
+            Expressions are saved, restored and manipulated via the RDML builtin        
+            functions SAVE_LIST, DELETE_SAVED_LIST and RESTORE_SAVED list. All the      
+            backup, recovery and integrity provisions in the RDML Technical Guide       
+            apply to any expressions saved by the extended facility. No warranty is     
+            expressed or implied in the provision of this extended capability.
+
+  - HELP120:
+      Description:        "      Advanced Selections"
+
+      Text: |
+        <-
+                                                                                        
+        10. GENERAL POINTS TO CONSIDER                                                  
+                                                                                        
+            * If you choose the appropriate options (SORT or SELECTION) then this       
+              template may generate logic that uses the IBM supplied OPNQRYF (Open      
+              Query File) command. This is a very powerful and flexible data base       
+              selection routine. Like all powerful and flexible tools it can use        
+              be abused. It is up to the system designer to strike the required         
+              balance between function and speed when using the OPNQRYF facility.       
+              Remember that the designer is in control of how an application design     
+              is implemented, not the application tools that are being used.            
+                                                                                        
+            * When a report is generated that uses OPNQRYF it will contain an extra     
+              routine called EXP_STATUS that is executed after the OPNQRYF command is   
+              executed. This routine is provided on "as is" basis and it can tailored   
+              to exactly suit individual site requirements. This routine prints a second
+              report that details the OPNQRYF selection and sort options used as well   
+              as any error messages that result. It is designed to be used as an aid to 
+              end users who are using the ADVANCED facilities, because it will describe 
+              any errors that occur in their OPNQRYF/SQL formatted expression.
+
+  - HELP130:
+      Description:        "       General Points"
+
+      Text: |
+        <-
+                                                                                        
+        10. GENERAL POINTS TO CONSIDER                                                  
+                                                                                        
+            * If ADVANCED selection options are used then an external call to an        
+              RDML function called EXP$LST will be generated. To generate this          
+              function called EXP$LST refer to the template FRPRT04EX1. Also note       
+              the name EXP$LST can be easily changed in this template to any name.      
+                                                                                        
+            * This template and its related templates FRPRT04EX1 and FRPRT05 are        
+              provided as foundations upon which expanded "tailor made" reporting       
+              templates can be based.                                                   
+                                                                                        
+            * This template and its related templates FRPRT04EX1 and FRPRT05 make       
+              use of some Data Dictionary defined fields that have prefixes STD_        
+              and EXP_. If the required fields are not present in your Data Dictionary  
+              contact your product vendor who may provide them on magnetic media.       
+                                                                                        
+            * This template and its related templates FRPRT04EX1 and FRPRT05 make use   
+              of literals and messages in the English language. If required, these      
+              templates should be copied and translated before use.

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               EMPTSMAXD
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Day on which maximum hours worked"
+      Label:              "Day on which ma"
+      Heading1:           "Day"
+      Heading2:           "on"
+      Heading3:           "which"
+
+  - FRA:
+      Description:        "Jour maximum heures travaillées"
+      Label:              "Jour max heures"
+      Heading1:           "Jour"
+      Heading2:           "max."
+      Heading3:           "heures"

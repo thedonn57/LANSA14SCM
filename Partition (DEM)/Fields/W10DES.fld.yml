@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W10DES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Component Description"
+      Label:              "W10DES"
+      Heading1:           "Component"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Component Description"
+      Label:              "W10DES"
+      Heading1:           "Component"
+      Heading2:           "Description"
+      Heading3:           " "

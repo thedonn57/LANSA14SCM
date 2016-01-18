@@ -1,0 +1,43 @@
+﻿Form:
+  Name:               xDemoFileOpen
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the File Open dialog"
+
+  - FRA:
+      Description:        "Using the File Open dialog"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Theme(#xDemoTheme) Clientwidth(551) Clientheight(301) Left(165) Top(204) Width(567)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Pick) Caption('Pick a File') Displayposition(1) Left(16) Parent(#COM_OWNER) Tabposition(1) Top(16) Width(129)
+    
+    Evtroutine Handling(#Pick.Click)
+    
+    #Com_owner.PickaFile
+    
+    Endroutine
+    
+    Mthroutine Name(PickaFile)
+    
+    Define_Com Class(#Prim_appl.ICommonDialogFileOpen) Name(#FileOpen) Reference(*Dynamic)
+    
+    #FileOpen <= #sys_appln.CreateFileOpenDialog
+    
+    If (#FileOpen.Show)
+    
+    #Com_owner.Caption := #FileOpen.FileTitle
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

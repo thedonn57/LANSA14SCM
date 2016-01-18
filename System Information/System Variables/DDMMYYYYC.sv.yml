@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DDMMYYYYC"
+  Description:        "Character date in format DDMMYYYY"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             8
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

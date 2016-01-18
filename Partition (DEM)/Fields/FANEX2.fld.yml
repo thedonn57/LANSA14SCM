@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               FANEX2
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "FANEX2"
+      Label:              "FANEX2"
+      Heading1:           "FANEX2"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

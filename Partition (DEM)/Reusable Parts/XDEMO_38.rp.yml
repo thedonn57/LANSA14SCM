@@ -1,0 +1,61 @@
+﻿Reusable Part:
+  Name:               xDemoWebDataEntryGrade
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grade"
+
+  - FRA:
+      Description:        "Grade"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_list.IListCellDesign *Listfields #ListFields) Displayposition(1) Height(41) Left(0) Tabposition(1) Top(0) Width(249) Layoutmanager(#TableLayout1)
+    
+    Group_By Name(#ListFields) Fields(#Grade)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#DropDown) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#xDemoWebDropDown) Name(#DropDown) Height(41) Parent(#COM_OWNER) Width(249)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #DropDown.Add( D "Distinction" )
+    #DropDown.Add( F "Fail" )
+    #DropDown.Add( M "Merit" )
+    #DropDown.Add( P "Pass" )
+    
+    *
+    #DropDown.EmbeddedinList := True
+    
+    Endroutine
+    
+    Mthroutine Name(OnAdd) Options(*Redefine) /* List item has just been added */
+    
+    #DropDown.Find( #Grade )
+    
+    Endroutine
+    
+    Mthroutine Name(OnUpdate) Options(*Redefine) /* List item has just been updated */
+    
+    #DropDown.Find( #Grade )
+    
+    Endroutine
+    
+    Evtroutine Handling(#DropDown.ItemGotFocus) Value(#Value)
+    
+    #Grade := #Value.AsNativeString
+    
+    Endroutine
+    
+    End_Com

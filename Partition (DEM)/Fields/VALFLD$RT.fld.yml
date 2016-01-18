@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$RT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Return code for validated field"
+      Label:              "Return code"
+      Heading1:           "Return code"
+      Heading2:           "of validated"
+      Heading3:           "Field"
+
+  - FRA:
+      Description:        "Code retour de la zone validée"
+      Label:              "Code retour"
+      Heading1:           "Code retour"
+      Heading2:           "De la zone"
+      Heading3:           "Validée"

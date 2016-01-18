@@ -1,0 +1,51 @@
+﻿Web Page:
+  Name:               XSHome
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Home"
+
+  - FRA:
+      Description:        "Home"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * The BEGIN_COM nominates a Visual Style to be used when for all BaseStyle references and an Icon to be used as a favicon in the browser.
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Icon(#XSLansaTools2) Theme(#XSTheme01)
+    
+    * The layout is defined as a simple 3 column x 1 row table.
+    * The central column contains the "application" and has a maximum and minimum width to accommodate the design.
+    * The height of the page is determined by the respective heights of the reusable parts which flow down  in the central column.
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Maxwidth(1170) Minwidth(800) Width(4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSHeaderItem1) Manage(#XSHeader) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#XSMenu) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#XSBanner) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column2) Manage(#XSServices) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Manage(#XSFooter) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Alignment(TopCenter) Flow(Down) Margintop(10)
+    
+    * The reusable parts used ion this page.
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSFeaturedProductsItem1) Alignment(TopCenter) Column(#Column2) Manage(#XSFeaturedProducts) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#XSHeader) Name(#XSHeader) Parent(#COM_OWNER) Tabstop(False) Left(191) Width(800) Top(10)
+    Define_Com Class(#XSMenu) Name(#XSMenu) Parent(#COM_OWNER) Tabstop(False) Left(191) Displayposition(2) Tabposition(2) Top(120) Width(800)
+    Define_Com Class(#XSBanner) Name(#XSBanner) Parent(#COM_OWNER) Tabstop(False) Top(170) Left(191) Displayposition(3) Tabposition(3) Width(800)
+    Define_Com Class(#XSFeaturedProducts) Name(#XSFeaturedProducts) Displayposition(4) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Left(191) Top(496)
+    Define_Com Class(#XSServices) Name(#XSServices) Displayposition(5) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(929) Left(191)
+    Define_Com Class(#XSFooter) Name(#XSFooter) Tabstop(False) Parent(#COM_OWNER) Displayposition(6) Tabposition(6) Width(800) Left(191) Top(1189)
+    
+    * There is no RDMLX code required as it is all encapsulated in the reusable parts.
+    
+    End_Com

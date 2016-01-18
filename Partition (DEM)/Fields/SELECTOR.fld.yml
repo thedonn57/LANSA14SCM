@@ -1,0 +1,68 @@
+﻿Field:
+  Name:               SELECTOR
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - HI
+
+  Output Attributes:
+  - HI
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Browse default selector field"
+      Label:              "Select ........"
+      Heading1:           "Sel"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Zone de sélection pour liste BROWSE"
+      Label:              "Selection . . ."
+      Heading1:           "Sel"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+            This is used on many different screens to enable you to select
+            {one}or{more}pieces of information from a list on display.
+             For instance, a screen presented might look like this .....
+      
+                  %{Sel      Name            Department\
+                  %  _    Smith, Jane         ACCOUNTS \
+                  %  _    Smith, Jack         EDP      \
+                  %  _    Smith, John         ADMIN    \
+      
+            To choose Smith, Jack ... enter an "X" in the second field in
+            the column labelled "Sel". In some cases the value that is
+            entered in the column is significant. For instance "D" might
+            mean display, "C" might mean change. Usually the significance
+            of a value entered in the "Sel" column is indicated. $$NOAUTO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+           Cette zone est utilisée sur différents écrans pour permettre
+           la sélection d'{une}ou{plusieurs}information(s) à partir d'une
+           liste affichée. Par exemple, sur cette liste .....
+      
+                  %{Sél      Nom             Départment\
+                  %  _    Smith, Jane         ACCOUNTS \
+                  %  _    Smith, Jack         EDP      \
+                  %  _    Smith, John         ADMIN    \
+      
+            Pour choisir Smith, Jack ... entrer un "X" sur la deuxième zone
+            de la colone "Sél". Dans certains cas, la valeur entrée aura
+            une signification particulière. Par exemple un "A" signifiera
+            affichage, "M" modification. Dans ce cas, les valeurs qu'il sera
+            possible d'entrer seront indiquées.

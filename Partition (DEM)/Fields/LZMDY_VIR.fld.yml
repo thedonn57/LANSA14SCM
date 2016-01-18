@@ -1,0 +1,59 @@
+﻿Field:
+  Name:               LZMDY_VIR
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*MMDDYY"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    CALENDR
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Date (M/D/Y)"
+      Label:              "Date (M/D/Y)"
+      Heading1:           "Date (M/D/Y)"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date (J/M/A)"
+      Label:              "Date (J/M/A)"
+      Heading1:           "Date (J/M/A)"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+         %This field is intended to contain a date in Month/Day/Year format.}
+      
+         Dates are entered or generated in normal system format, but can be  .
+         displayed in many other formats.
+         To display dates in several formats, a standard LANSA facility
+         called %Virtual fields} is used.
+      
+                                                                         $$PAGE
+      %{Description}:
+            DATA TYPE DATE DESCRIPTION
+      
+      %{Comments}:
+            DATA TYPE DATE COMMENTS
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+         %Cette variable doit contenir une date au format mois/jour/annee.}
+      
+         Les dates sont normalement saisies au format systeme mais peuvent   .
+         etre egalement affichees selon plusieurs autres formats.
+         Pour afficher une date selon un different format, une facilite de
+         LANSA (champs virtuels) est utilise}
+                                                                             .
+      $$NOAUTO

@@ -1,0 +1,67 @@
+﻿Field:
+  Name:               EMPNO
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    SPSLMST
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Number"
+      Label:              "Employee no...."
+      Heading1:           "  Employ"
+      Heading2:           "  Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro d´employé"
+      Label:              "No employé  . ."
+      Heading1:           "Salarié"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Employee no. A0000 - A9999"
+      Ranges:
+      - From:               "'A0000'"
+        To:                 "'A9999'"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0005
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the{employee number}assigned to the
+            employee by this company. Each and every employee must have
+            an employee number. On any screen where you are asked to
+            specify an employee number you can press the prompt key on
+            employee number to cause a pop-up window to be displayed.
+            You can then search by employee name and select the required
+            employee number.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+            Cette zone contient le numéro assigné à un employé par
+            l'entreprise. Tout employé DOIT avoir un numéro d'employé.
+            Sur chaque écran où un numéro d'employé est demandé, vous
+            pouvez utiliser la touche d'invite de saisie sur le numéro
+            d'employé pour afficher une fenêtre. Vous pourrez alors
+            effectuer une recherche à partir du nom de l'employé et
+            choisir l'employé dans la liste pré-sélectionnée.
+      

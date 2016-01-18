@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PROMPT$RN
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Prompt Reference Field Name"
+      Label:              "Prompt Ref Fld"
+      Heading1:           "Prompt"
+      Heading2:           "Ref Field"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom de la zone de référence pour Invite"
+      Label:              "Zone Ref Invite"
+      Heading1:           "Zone Ref"
+      Heading2:           " Invite"
+      Heading3:           " "

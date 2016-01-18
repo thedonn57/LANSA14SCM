@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W14LFN
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Link to Function"
+      Label:              "W14LFN"
+      Heading1:           "Link to"
+      Heading2:           "Function"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Link to Function"
+      Label:              "W14LFN"
+      Heading1:           "Link to"
+      Heading2:           "Function"
+      Heading3:           " "

@@ -1,0 +1,52 @@
+﻿Field:
+  Name:               LZDMY_VIR
+  Type:               Packed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*DDMMYY"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    CALENDR
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Date (D/M/Y)"
+      Label:              "Date (D/M/Y)"
+      Heading1:           "Date (D/M/Y)"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date (J/M/A)"
+      Label:              "Date (J/M/A)"
+      Heading1:           "Date (J/M/A)"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+         %This field is intended to contain a date in Day/Month/Year format.}
+      
+         Dates are entered or generated in normal system format, but can be  .
+         displayed in many other formats.
+         To display dates in several formats, a standard LANSA facility
+         called %Virtual fields} is used.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+         %This field is intended to contain a date in Day/Month/Year format.}
+      
+         Dates are entered or generated in normal system format, but can be  .
+         displayed in many other formats.
+         To display dates in several formats, a standard LANSA facility
+         called %Virtual fields} is used.
+                                                                             .
+      $$NOAUTO

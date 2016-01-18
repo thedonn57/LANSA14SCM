@@ -1,0 +1,37 @@
+﻿Web Page:
+  Name:               xDemoWebDataEntryGrid
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Data Entry Grid"
+
+  - FRA:
+      Description:        "Data Entry Grid"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Height(704) Width(1088)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout1) Height(2.21)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#List1Item2) Column(#Column1) Manage(#EntryList) Parent(#TableLayout1) Row(#Row3)
+    
+    Define_Com Class(#PRIM_LIST) Name(#EntryList) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Height(704) Width(1088)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSKILCODE2) Displayposition(1) Parent(#EntryList) Source(#SKILCODE) Columnwidth(119) Columnreadonly(False)
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnDATEACQR2) Displayposition(2) Increment(1) Parent(#EntryList) Source(#DATEACQR) Wrap(False) Columnwidth(196) Columnreadonly(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnCOMMENT2) Displayposition(3) Parent(#EntryList) Source(#COMMENT) Columnwidth(213) Columnreadonly(False)
+    Define_Com Class(#PRIM_LIST.CheckBox) Name(#ColumnCheckBox2) Columnwidth(50) Displayposition(4) Parent(#EntryList)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXDEMO1) Columnwidth(174) Design(#xDemoWebDataEntryGrade) Displayposition(5) Parent(#EntryList) Columnreadonly(False)
+    
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    #Grade := P
+    Inz_List Named(#EntryList) Num_Entrys(10)
+    Endroutine
+    
+    End_Com

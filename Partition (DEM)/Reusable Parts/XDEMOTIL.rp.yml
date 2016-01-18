@@ -1,0 +1,98 @@
+﻿Reusable Part:
+  Name:               xDemoTileDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Sample Tile Design"
+
+  - FRA:
+      Description:        "Sample Tile Design"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Tile.iTileDesign *ListFields #ListFields) Displayposition(1) Height(70) Layoutmanager(#Table) Left(0) Tabposition(1) Top(0) Width(235) Themedrawstyle('ListItem')
+    
+    * Simple design for an item in a Prim_Tile
+    * An instance will be created for each item added to the Tile
+    * Implements the iTileDesign interface allowing the Tile to communicate with the design instance
+    
+    * Fields mapped in when the entry is added to the Tile
+    Group_By Name(#ListFields) Fields(#Std_text)
+    
+    Define_Com Class(#PRIM_PANL) Name(#ImagePanel) Displayposition(1) Height(37) Image(#xImageImage32) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(48)
+    Define_Com Class(#PRIM_LABL) Name(#Title) Caption('Title') Displayposition(2) Ellipses(Word) Height(20) Left(48) Marginleft(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(187) Wordwrap(False) Themedrawstyle('Strong+Heading2')
+    Define_Com Class(#PRIM_LABL) Name(#Caption1) Caption('Caption') Displayposition(5) Ellipses(Word) Height(17) Left(48) Marginleft(2) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(20) Verticalalignment(Center) Width(187) Wordwrap(False)
+    Define_Com Class(#PRIM_LABL) Name(#Caption2) Caption('Caption') Displayposition(4) Ellipses(Word) Height(17) Left(48) Marginleft(2) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(37) Verticalalignment(Center) Width(187) Wordwrap(False)
+    Define_Com Class(#PRIM_LABL) Name(#Caption3) Caption('Caption') Displayposition(3) Ellipses(Word) Height(16) Left(48) Marginleft(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(54) Verticalalignment(Center) Width(187) Wordwrap(False)
+    
+    Define_Com Class(#Prim_tblo) Name(#Table)
+    Define_Com Class(#Prim_tblo.Column) Name(#Column1) Parent(#Table) Units(Pixels) Width(48) Displayposition(1)
+    Define_Com Class(#Prim_tblo.Column) Name(#Column2) Parent(#Table) Displayposition(2)
+    Define_Com Class(#Prim_tblo.Row) Name(#Row1) Height(20) Parent(#Table) Units(Pixels) Displayposition(1)
+    Define_Com Class(#Prim_tblo.Row) Name(#Row2) Parent(#Table) Displayposition(2)
+    Define_Com Class(#Prim_tblo.Row) Name(#Row3) Parent(#Table) Displayposition(3)
+    Define_Com Class(#Prim_tblo.Row) Name(#Row4) Parent(#Table) Displayposition(4)
+    
+    Define_Com Class(#Prim_tblo.item) Name(#Item1) Column(#Column1) Manage(#ImagePanel) Parent(#Table) Row(#Row1) Rowspan(2)
+    Define_Com Class(#Prim_tblo.item) Name(#Item2) Column(#Column2) Manage(#Title) Parent(#Table) Row(#Row1)
+    Define_Com Class(#Prim_tblo.item) Name(#Item3) Column(#Column2) Manage(#Caption1) Parent(#Table) Row(#Row2)
+    Define_Com Class(#Prim_tblo.item) Name(#Item4) Column(#Column2) Manage(#Caption2) Parent(#Table) Row(#Row3)
+    Define_Com Class(#Prim_tblo.item) Name(#Item5) Column(#Column2) Manage(#Caption3) Parent(#Table) Row(#Row4)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Help('Executed when the item is deleted') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnFind) Help('Executed when the "Find" method is used in the book') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotFocus) Help('Executed when the item becomes the focus item') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotReference) Help('Executed when the item "RelatedReference" property is set') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotSelection) Help('Executed when the item becomes selected') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemImageChanged) Help('Executed when the item "Image" propoerty is set') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemLostFocus) Help('Executed when the item loses focus') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemLostSelection) Help('Executed when the item loses selection') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemRealizing) Help('Executed when the item is realized') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnSort) Help('Executed when the "Sort" method is used in the Book') Options(*redefine)
+    
+    Endroutine
+    
+    Mthroutine Name(OnUpdate) Help('Executed when the item is updated using UPD_ENTRY') Options(*redefine)
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,196 @@
+﻿Reusable Part:
+  Name:               XSShoppingCartTreeItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart Tree Item"
+
+  - FRA:
+      Description:        "Shopping Cart Tree Item"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Tree.iTreeDesign *ListFields #ShoppingCartDetail) Displayposition(1) Height(145) Left(0) Tabposition(1) Top(0) Width(600) Layoutmanager(#TableLayout1) Mouseoverstyle(#XSTheme01<PanelBorders1Bottom>) Style(#XSTheme01<PanelBorders2bottom>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    Define_Com Class(#Prim_Tree.TreeItem) Name(#CurrentTreeItem) Reference(*dynamic)
+    
+    * Fields mapped in when the entry is added to the Tree
+    Group_By Name(#ShoppingCartDetail) Fields(#XSCartID #XSProductID #XSProductDescription #XSProductImageLink #XSProductStockStatus #XSProductDetail #XSProductPrice #XSQuantity #XSItemTotalPrice)
+    
+    * LAYOUT: 5 Columns. 1 Row
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(5) Minwidth(150)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(5) Minwidth(150)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(2) Minwidth(100)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column4) Displayposition(4) Parent(#TableLayout1) Width(2) Minwidth(100)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column5) Displayposition(5) Parent(#TableLayout1) Width(2) Minwidth(100)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Column(#column4) Manage(#Panel1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#column4) Flow(Down) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Detail) Parent(#TableLayout1) Row(#Row1) Marginleft(5) Margintop(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Description) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(5) Margintop(10)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#ProductImage) Parent(#TableLayout1) Row(#Row1) Rowspan(4) Marginbottom(10) Marginright(20) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column3) Flow(Down) Manage(#XSProductPrice) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column3) Flow(Down) Manage(#LStockStatus) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#column5) Flow(Down) Manage(#XSItemTotalPrice) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(10)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(2) Parent(#TableLayout2) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column7) Displayposition(3) Parent(#TableLayout2) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column8) Displayposition(4) Parent(#TableLayout2) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column9) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column10) Displayposition(5) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout2) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(2) Parent(#TableLayout2) Height(30) Units(Pixels)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSQuantityItem1) Manage(#XSQuantity) Parent(#TableLayout2) Row(#Row3) Column(#Column7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#IncrementItem1) Manage(#LDecrement) Parent(#TableLayout2) Row(#Row3) Column(#Column6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DecrementItem1) Manage(#LDecrement) Parent(#TableLayout2) Row(#Row3) Column(#Column8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LRemoveItem1) Manage(#LRemove) Parent(#TableLayout2) Row(#Row4) Column(#Column7)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#ProductImage) Displayposition(1) Left(170) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(110) Height(134) Imagesizing(BestFit) Top(0)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Description) Caption('<description>') Displayposition(2) Ellipses(Word) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(145) Style(#XSTheme01<Text11BoldBl3>) Left(5) Height(55)
+    Define_Com Class(#PRIM_LABL) Name(#Detail) Caption('<detail>') Displayposition(3) Ellipses(Word) Left(5) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(68) Width(145) Height(141)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LStockStatus) Caption('Stock Status') Displayposition(5) Height(25) Left(300) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(45) Width(100) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#XSProductPrice.Visual) Name(#XSProductPrice) Displayposition(4) Left(300) Parent(#COM_OWNER) Tabposition(5) Width(100) Marginleft(10) Caption('$') Labelhoralignment(Right) Labeltype(Caption) Editstyle(#XSTheme01<Text10BoldAlmostBlack>) Style(#XSTheme01<Text10BoldAlmostBlack>) Readonly(True) Height(45)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(8) Left(400) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Width(100) Layoutmanager(#TableLayout2) Height(60)
+    
+    Define_Com Class(#XSQuantity.Visual) Name(#XSQuantity) Displayposition(3) Height(30) Left(35) Parent(#Panel1) Tabposition(3) Width(30) Marginleft(0) Labelhoralignment(Right) Labelposition(None) Editalignment(Right) Displayalignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#LDecrement) Caption('-') Displayposition(2) Ellipses(Word) Left(5) Parent(#Panel1) Tabposition(1) Tabstop(False) Verticalalignment(Center) Style(#XSTheme01<Text12BoldGn2>) Top(0) Alignment(Center) Height(30) Width(30) Mouseoverstyle(#XSTheme01<Text12BoldOr3>)
+    Define_Com Class(#PRIM_LABL) Name(#LIncrement) Caption('+') Displayposition(1) Ellipses(Word) Left(65) Parent(#Panel1) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Style(#XSTheme01<Text12BoldGn2>) Alignment(Center) Height(30) Width(30) Mouseoverstyle(#XSTheme01<Text12BoldOr3>)
+    Define_Com Class(#PRIM_LABL) Name(#LRemove) Caption('X') Displayposition(4) Ellipses(Word) Left(35) Parent(#Panel1) Tabposition(4) Tabstop(False) Top(30) Alignment(Center) Style(#XSTheme01<Text12BoldOr3>) Height(30) Width(30) Mouseoverstyle(#XSTheme01<Text12BoldGn2>)
+    
+    Define_Com Class(#XSItemTotalPrice.Visual) Name(#XSItemTotalPrice) Displayposition(6) Left(500) Parent(#COM_OWNER) Tabposition(6) Top(10) Width(296) Readonly(True) Style(#XSTheme01<Text10BoldAlmostBlack>) Editstyle(#XSTheme01<Text10BoldAlmostBlack>) Caption('$') Labeltype(Caption) Labelhoralignment(Right) Marginleft(10)
+    
+    Define_Com Class(#XSProductID.Visual) Name(#XSProductID) Displayposition(7) Left(8) Parent(#COM_OWNER) Tabposition(7) Visible(False) Width(5) Marginleft(70)
+    
+    Define_Pty Name(TreeItem) Get(*reference #CurrentTreeItem)
+    
+    Evtroutine Handling(#LRemove.Click)
+    
+    * Update the tree when item deleted
+    #Com_owner.OnDelete( #CurrentTreeItem )
+    
+    Endroutine
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #CurrentTreeItem <= #TreeItem
+    
+    #ProductImage.filename := #XSProductImageLink
+    
+    * Interpret the Stock Status into something meaningful to user
+    Case (#XSProductStockStatus)
+    
+    When ('= INSTOCK')
+    
+    #LStockStatus := 'In Stock'
+    
+    When ('= BACKORDER')
+    
+    #LStockStatus := 'On Order'
+    
+    Otherwise
+    
+    #LStockStatus := 'No longer available'
+    
+    Endcase
+    
+    #Description := #XSProductDescription
+    #Detail := #XSProductDetail
+    
+    Endroutine
+    
+    Mthroutine Name(OnUpdate) Options(*Redefine)
+    
+    Define_Com Class(#XSServer.UpdateCartItem) Name(#UpdateCartItem)
+    
+    * Update the Shopping Cart in the database
+    #UpdateCartItem.ExecuteAsync( #XSCartID #XSProductID #XSQuantity #XSItemTotalPrice #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSStatus )
+    
+    Evtroutine Handling(#UpdateCartItem.completed)
+    
+    #Com_owner.UpdateCartTotals
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Options(*Redefine)
+    
+    Define_Com Class(#XSServer.DeletefromCart) Name(#DeletefromCart)
+    
+    #DeletefromCart.ExecuteAsync( #XSCartID #XSProductID #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSStatus )
+    
+    Evtroutine Handling(#DeletefromCart.completed)
+    
+    * Remove item from the cart
+    #Com_owner.UpdateCartTotals
+    
+    If (#CurrentTreeItem.parentitems.ItemCount = 0)
+    
+    #MySession.AddMessage( ('Your shopping cart is empty') )
+    #MySession.ShowMessageBox
+    
+    Endif
+    
+    #CurrentTreeItem.Delete
+    
+    #CurrentTreeItem #TreeItem <= *null
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateCartTotals)
+    
+    * Update the Cart Totals by communicating with the application level object MySession
+    #MySession.pcartquantity := #XSCartTotalQuantity
+    #MySession.pCartPrice := #XSCartTotalPrice
+    #MySession.pCartTax := #XSCartTotalTax
+    #MySession.pCartShipping := #XSCartTotalShipping
+    #MySession.pCartTotal := #XSCartTotal
+    
+    Endroutine
+    
+    Evtroutine Handling(#LDecrement.Click)
+    
+    * Decrement the quantity
+    #XSQuantity -= 1
+    
+    If (#XSQuantity = 0)
+    
+    #Com_owner.OnDelete( #CurrentTreeItem )
+    
+    Return
+    
+    Endif
+    
+    #Com_owner.OnUpdate( #CurrentTreeItem )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LIncrement.click)
+    
+    * Increment the quantity
+    #XSQuantity += 1
+    #Com_owner.OnUpdate( #CurrentTreeItem )
+    
+    Endroutine
+    
+    End_Com

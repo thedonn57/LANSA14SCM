@@ -1,0 +1,94 @@
+﻿Reusable Part:
+  Name:               xDemoFieldVisSectionDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual - Section DropDown"
+
+  - FRA:
+      Description:        "Visual - Section DropDown"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_dc.iMonitorSubject #Prim_dc.iContextualSubject) Defaultpty(Value) Displayposition(1) Height(20) Layoutmanager(#Layout) Left(0) Tabposition(1) Tabstop(False) Top(0) Width(418)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_CMBX) Name(#DropDown) Componentversion(1) Displayposition(1) Left(0) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(1) Top(0) Width(418) Fixedheight(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#DropDown) Parent(#Layout) Row(#Row_1)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_1) Parent(#DropDown) Source(#SECTION) Usepicklist(False) Visible(False)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_2) Displayposition(1) Parent(#DropDown) Source(#SECDESC) Usepicklist(False)
+    
+    Define_Pty Name(Value) Get(GetPropertyValue) Set(SetPropertyValue)
+    
+    Define_Pty Name(Department) Set(SetDepartment)
+    
+    Ptyroutine Name(SetDepartment)
+    Define_Map For(*Input) Class(#deptment) Name(#Property)
+    
+    #Deptment := #Property
+    
+    Clr_List Named(#DropDown)
+    
+    Select Fields(#DropDown) From_File(sectab) With_Key(#deptment)
+    Add_Entry To_List(#DropDown)
+    Endselect
+    
+    Endroutine
+    
+    Ptyroutine Name(GetPropertyValue)
+    Define_Map For(*Output) Class(#Givename) Name(#Property)
+    
+    If (#DropDown.FocusItem *IsNot *null)
+    
+    Get_Entry Number(#DropDown.FocusItem.Entry) From_List(#DropDown)
+    
+    #Property := #section
+    
+    Endif
+    
+    Endroutine
+    
+    Ptyroutine Name(SetPropertyValue)
+    Define_Map For(*Input) Class(#Givename) Name(#Property)
+    
+    Selectlist Named(#DropDown)
+    
+    Continue If(#section <> #Property)
+    
+    #DropDown.CurrentItem.Focus := True
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(OnContextChanged) Options(*redefine)
+    
+    If (#Context *Is #prim_evp)
+    
+    #DropDown.ReadOnly := (#Context *As #prim_evp).ReadOnly
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#DropDown.ItemGotFocus)
+    
+    Signal Event(ValueChanged)
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    
+    

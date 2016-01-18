@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               CPFREL
+  Type:               Signed
+  Length:             3
+  Decimals:           1
+  Default Value:      "*CPFREL"
+  Edit Mask:          1
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current OS/400 or S/38 CPF release level"
+      Label:              "Release ......."
+      Heading1:           "Release"
+      Heading2:           "Level"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Version OS/400 ou CPF S/38 en cours"
+      Label:              "Version OS/CPF"
+      Heading1:           "Ver"
+      Heading2:           " "
+      Heading3:           " "

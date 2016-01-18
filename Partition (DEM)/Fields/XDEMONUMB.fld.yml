@@ -1,0 +1,42 @@
+﻿Field:
+  Name:               xDemoNumber
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Number"
+      Label:              "Number"
+      Heading1:           "Number"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nombre"
+      Label:              "Nombre"
+      Heading1:           "Nombre"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(298)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVSE) Name(#SpinEdit) Componentversion(1) Height(20) Usepicklist(False) Width(261)
+    
+    End_Com
+    
+    End_Com

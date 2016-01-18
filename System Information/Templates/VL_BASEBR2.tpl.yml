@@ -1,0 +1,21 @@
+﻿Template:
+  Name:                    VL_BASEBR2
+  Description:             Visual LANSA advanced tabbed detail
+  Extended Description 1:  Visual LANSA advanced child tabbed
+  Extended Description 2:  detail form
+
+  Source: |
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' This template is not available.            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' It is still under development.             ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of VL_BASEBR2
+
+      Text: |
+        This template is not available yet. It is still under development.

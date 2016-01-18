@@ -1,0 +1,39 @@
+﻿Reusable Part:
+  Name:               XDXPopupPanelTileDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Popup Panel TileDesign"
+
+  - FRA:
+      Description:        "Mosaïque panneaux contextuels"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #Prim_Tile.iTiledesign *ListFields #Fields) Dragstyle(Automatic) Height(60) Layoutmanager(#Layout) Mouseoverstyle(#XDXStyles<MouseOver>) Style(#XDXStyles<Item>) Width(248)
+     
+    * Fields received from tile on Add_entry
+    Group_By Name(#Fields) Fields(#Empno #Surname #Givename)
+    
+    Define_Com Class(#Prim_atlm) Name(#Layout) Processingorder(DisplayPosition)
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(1) Dragstyle(Automatic) Height(32) Image(#XDXImageEmployee32) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(4) Width(32)
+    Define_Com Class(#PRIM_LABL) Name(#lSurname) Caption('Surname') Displayposition(2) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(40) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Style(#XDXStyles<ItemHeading>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(208)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#lSurname) Marginleft(40) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lGivenName) Caption('Given Name') Displayposition(3) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(40) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(20) Verticalalignment(Center) Width(208)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#lGivenName) Marginleft(40) Parent(#Layout)
+    
+    Mthroutine Name(OnAdd) Options(*redefine)
+    
+    #lSurname := #Surname
+    #lGivenName := #Givename
+    
+    Endroutine
+    
+    End_Com
+    

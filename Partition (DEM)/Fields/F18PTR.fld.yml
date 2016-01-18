@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F18PTR
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "POINTER TO KEY LIST"
+      Label:              "F18PTR"
+      Heading1:           "POINTER TO"
+      Heading2:           "KEY LIST"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

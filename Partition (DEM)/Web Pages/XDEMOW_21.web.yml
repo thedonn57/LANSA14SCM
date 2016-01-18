@@ -1,0 +1,130 @@
+﻿Web Page:
+  Name:               xDemoWebGoogleCharts
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Google Charts"
+
+  - FRA:
+      Description:        "Using Google Charts"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme) Height(600)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider1) Displayposition(2) Parent(#TableLayout1) Width(4) Startrow(#Row2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.9)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#BarChart) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#PieChart) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Manage(#List) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Pie) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Bar) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1) Columnspan(3)
+    
+    Define_Com Class(#xDemoWebGoogleBarChart) Name(#BarChart) Displayposition(3) Height(560) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(40) Width(598) Visible(False)
+    Define_Com Class(#xDemoWebGooglePieChart) Name(#PieChart) Displayposition(2) Height(560) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(40) Width(598)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(4) Height(560) Left(602) Parent(#COM_OWNER) Tabposition(3) Top(40) Width(598) Rowheight(50) Columnlines(False) Rowlines(False) Columnheaderheight(0) Style(#Style1)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage1) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Source(#EMPTHM) Cellmarginbottom(2) Cellmargintop(2)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXDEMOW_61) Columnwidth(171) Design(#xDemoWebListAddressFields) Displayposition(3) Parent(#List) Columnunits(Proportion)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOALPH1) Displayposition(2) Parent(#List) Source(#xDemoAlpha128) Columnwidth(205)
+    Define_Com Class(#PRIM_SPBN) Name(#Pie) Caption('Pie Chart') Displayposition(5) Ellipses(Word) Height(40) Left(0) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(0) Width(120) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_SPBN) Name(#Bar) Caption('Bar Chart') Displayposition(6) Ellipses(Word) Height(40) Left(120) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Width(120) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(7) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(0) Height(40) Width(1200) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Department Employees') Displayposition(1) Ellipses(Word) Height(40) Left(602) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(0) Verticalalignment(Center) Width(598) Themedrawstyle('DarkTitle')
+    
+    Def_List Name(#DepartmentList) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working)
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working)
+    
+    Define_Com Class(#prim_kcol<#xDemoNumber #Deptment>) Name(#DepartmentEmployees)
+    Define_Com Class(#prim_kcol<#Deptdesc #Deptment>) Name(#Departments)
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #Com_owner.Load
+    
+    #PieChart.Title #BarChart.Title := "Employees by Department"
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    Define_Com Class(#xDemoDataServices.GetData) Name(#GetData)
+    
+    #GetData.Executeasync( #DepartmentList #Sections #Employees )
+    
+    Evtroutine Handling(#GetData.Completed)
+    
+    * Load to a collection for easy lookup
+    Selectlist Named(#DepartmentList)
+    #Departments<#Deptment> := #Deptdesc
+    Endselect
+    
+    Selectlist Named(#Employees)
+    
+    #DepartmentEmployees<#Deptment> += 1
+    
+    Endselect
+    
+    Selectlist Named(#DepartmentList)
+    
+    #PieChart.Insert( #DepartmentEmployees<#Deptment> #Departments<#Deptment> )
+    #BarChart.Insert( #DepartmentEmployees<#Deptment> #Departments<#Deptment> )
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(ShowEmployees)
+    Define_Map For(*Input) Class(#Deptment) Name(#Department)
+    
+    Clr_List Named(#List)
+    
+    Selectlist Named(#Employees)
+    
+    Continue If(#Deptment <> #Department)
+    
+    #xDemoAlpha128 := ("&1 &2 (&3)").Substitute( #Givename #Surname #Empno )
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Pie.Click)
+    
+    #BarChart.FadeOut
+    #PieChart.FadeIn
+    
+    Endroutine
+    
+    Evtroutine Handling(#Bar.Click)
+    
+    #BarChart.FadeIn
+    #PieChart.FadeOut
+    
+    Endroutine
+    
+    Evtroutine Handling(#BarChart.ItemSelected #PieChart.ItemSelected) Index(#Index)
+    
+    Get_Entry Number(#Index) From_List(#DepartmentList)
+    
+    #Com_owner.ShowEmployees( #Deptment )
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,62 @@
+﻿Form:
+  Name:               xDemoSQLSubSelectAll
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - Sub-select ALL"
+
+  - FRA:
+      Description:        "SELECT_SQL - Sub-select ALL"
+
+  Source: |
+    * META:Form,List,Database,SQL
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(528) Clientwidth(494) Height(567) Layoutmanager(#TableLayout_1) Left(306) Top(145) Width(510)
+    
+    * SQL Select and subselect All
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('EXAMPLE 1: Select all employees from the Personnel Master file whose salary is greater than ALL employees in the range A0001 to A1007. This examples uses the subselect parameter ALL. This subselection will be executed first and creates an internal table. When this is done, it compares the result of the internal table with the base file of this SELECT_SQL statement.') Displayposition(2) Height(68) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(4) Width(486)
+    Define_Com Class(#PRIM_LTVW) Name(#List1) Displayposition(4) Height(129) Left(0) Parent(#COM_OWNER) Tabposition(4) Top(76) Width(494)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List1) Source(#EMPNO) Width(101)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption('EXAMPLE 2: First select all employees from the Personnel Skills file with an employee number < A1234. When this is done, it looks in the Personnel Master file to see if there are customers with an employee number > every entry in the subselection table.') Displayposition(1) Height(48) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(209) Width(486)
+    Define_Com Class(#PRIM_LTVW) Name(#List2) Displayposition(3) Height(267) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(261) Width(494)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Displayposition(1) Parent(#List2) Source(#EMPNO) Width(21) Widthtype(Remainder)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(76) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Height(0.48) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Height(56) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#LABL_1) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_1) Manage(#List1) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Column(#Column_1) Manage(#LABL_2) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Column(#Column_1) Manage(#List2) Parent(#TableLayout_1) Row(#Row_4)
+    
+    Evtroutine Handling(#com_owner.createInstance)
+    
+    #Com_owner.Caption := *component_desc
+    
+    *  Fill ListView for example 1
+    Select_Sql Fields(#EMPNO) From_Files((PSLMST)) Where('SALARY > ALL (SELECT SALARY FROM "XDEMOLIB"."PSLMST"  WHERE EMPNO < ''A1007'')')
+    
+    Add_Entry To_List(#List1)
+    
+    Endselect
+    
+    *  Fill ListView for example 2
+    Clr_List Named(#List2)
+    Select_Sql Fields(#EMPNO) From_Files((PSLMST)) Where('EMPNO > ALL (SELECT EMPNO FROM "XDEMOLIB"."PSLSKL" WHERE EMPNO < ''A1234'')')
+    
+    Add_Entry To_List(#List2)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    

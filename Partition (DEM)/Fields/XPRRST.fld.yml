@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XPRRST
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Restricted Values (Y/N)?"
+      Label:              "XPRRST"
+      Heading1:           "Restricted"
+      Heading2:           "Values"
+      Heading3:           "(Y/N)?"
+
+  - FRA:
+      Description:        "Restricted Values (Y/N)?"
+      Label:              "XPRRST"
+      Heading1:           "Restricted"
+      Heading2:           "Values"
+      Heading3:           "(Y/N)?"

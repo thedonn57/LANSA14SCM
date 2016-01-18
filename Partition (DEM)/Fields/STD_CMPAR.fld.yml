@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_CMPAR
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "'GT'"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard comparison GT/EQ/LT"
+      Label:              "Standard compar"
+      Heading1:           "Standard"
+      Heading2:           "comparison"
+      Heading3:           "GT/EQ/LT"
+
+  - FRA:
+      Description:        "Comparaison standard GT/EQ/LT"
+      Label:              "Comparaison Std"
+      Heading1:           "Comparaison"
+      Heading2:           "Standard"
+      Heading3:           "GT/EQ/LT"

@@ -1,0 +1,121 @@
+﻿Web Page:
+  Name:               xDemoWebMessaging
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Messaging in the browser"
+
+  - FRA:
+      Description:        "MessageBox"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    * Demonstration of browser based message dialogs, prompting and the LANSA message box
+    * All browsers have their own implementation of the dialogs, so appearance and content will vary
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#ShowAlert) Caption('Alert') Displayposition(1) Ellipses(Word) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(4) Verticalalignment(Center) Height(192) Width(1192) Alignment(Center) Style(#Style_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ShowAlert) Parent(#TableLayout) Row(#Row) Margintop(4) Marginbottom(4) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_LABL) Name(#ShowPrompt) Caption('Prompt') Displayposition(2) Ellipses(Word) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(204) Verticalalignment(Center) Height(192) Width(1192) Alignment(Center) Style(#Style_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ShowPrompt) Parent(#TableLayout) Row(#Row_2) Margintop(4) Marginbottom(4) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_LABL) Name(#ShowConfirm) Caption('Confirm') Displayposition(3) Ellipses(Word) Left(4) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(404) Verticalalignment(Center) Height(192) Width(1192) Alignment(Center) Style(#Style_4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ShowConfirm) Parent(#TableLayout) Row(#Row_3) Margintop(4) Marginbottom(4) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_LABL) Name(#ShowMessageBox) Caption('Message Box') Displayposition(4) Ellipses(Word) Left(4) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(604) Verticalalignment(Center) Height(192) Width(1192) Alignment(Center) Style(#Style_5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ShowMessageBox) Parent(#TableLayout) Row(#Row_4) Margintop(4) Marginbottom(4) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_2) Backgroundbrush(#Brush) Fontsize(20) Cornertopleft(3) Cornertopright(3) Cornerbottomleft(3) Cornerbottomright(3) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush) Color(255:13:7)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_3) Backgroundbrush(#Brush_2) Fontsize(20) Cornertopleft(3) Cornertopright(3) Cornerbottomleft(3) Cornerbottomright(3) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_2) Color(29:143:255)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_4) Backgroundbrush(#Brush_3) Fontsize(20) Cornertopleft(3) Cornertopright(3) Cornerbottomleft(3) Cornerbottomright(3) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_3) Color(15:178:14)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_5) Backgroundbrush(#Brush_4) Fontsize(20) Cornertopleft(3) Cornertopright(3) Cornerbottomleft(3) Cornerbottomright(3) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_4) Color(247:255:2)
+    
+    * Message box definition
+    Define_Com Class(#prim_web.messageBox) Name(#MessageBox)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Set up the content of the LANSA message box and show
+    #MessageBox.Title := "Configurable Message Box"
+    
+    #MessageBox.Image := Information
+    
+    #MessageBox.Captions.Add( "Multiple captions" )
+    #MessageBox.Captions.Add( "Configurable image" )
+    #MessageBox.Captions.Add( "Choice of button set" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowAlert.Click)
+    
+    #xDemoAlpha128 := "Alert"
+    
+    #sys_web.Alert( #xDemoAlpha128 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowConfirm.Click)
+    
+    #xDemoAlpha128 := "Confirm"
+    
+    * Show the confirm dialog, and if the reply is OK
+    If (#sys_web.Confirm( #xDemoAlpha128 ) = OK)
+    
+    #ShowConfirm := "Confirm - OK"
+    
+    Else
+    
+    #ShowConfirm := "Confirm - Cancelled"
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowPrompt.Click)
+    
+    #xDemoAlpha128 := "Enter a value here"
+    
+    * Show the prompt and if the reply is OK
+    If (#sys_web.Prompt( "Prompt" #xDemoAlpha128 ) = OK)
+    
+    #ShowPrompt := ("Prompt &1").substitute( #xDemoAlpha128 )
+    
+    Else
+    
+    #ShowPrompt := "Prompt cancelled"
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowMessageBox.Click)
+    
+    #MessageBox.Show
+    
+    Endroutine
+    
+    Evtroutine Handling(#MessageBox.Closed)
+    
+    #ShowMessageBox += " " + #MessageBox.Result
+    
+    Endroutine
+    
+    Evtroutine Handling(#sys_web.CloseQuery) Querystring(#QueryString)
+    
+    #QueryString := "Closing the page will end the LANSA session"
+    
+    Endroutine
+    
+    End_Com

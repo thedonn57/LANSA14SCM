@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               EXP_LISTC
+  Type:               Packed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder List Count"
+      Label:              "List Count"
+      Heading1:           "List"
+      Heading2:           "Count"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Compteur Liste"
+      Label:              "Compteur liste"
+      Heading1:           "Compteur"
+      Heading2:           "Liste"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

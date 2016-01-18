@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W11DES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Advertisment Description"
+      Label:              "W11DES"
+      Heading1:           "Advertisment"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Advertisment Description"
+      Label:              "W11DES"
+      Heading1:           "Advertisment"
+      Heading2:           "Description"
+      Heading3:           " "

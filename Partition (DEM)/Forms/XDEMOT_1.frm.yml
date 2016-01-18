@@ -1,0 +1,111 @@
+﻿Form:
+  Name:               xDemoTreeViewMultiColumn
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Treeview - Multiple Columns"
+
+  - FRA:
+      Description:        "Treeview - Manual Positioning"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Multi-column tree') Clientheight(397) Clientwidth(907) Height(436) Layoutmanager(#TableLayout_1) Left(140) Top(203) Width(923) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(20) Componentversion(2) Displayposition(1) Fullrowselect(True) Haslines(False) Height(397) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Viewstyle(UnLevelled) Width(907) Rowheight(22)
+    
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Captiontype(Caption) Displayposition(1) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128) Width(21) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Captiontype(Caption) Displayposition(2) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_2) Width(36) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Captiontype(Caption) Displayposition(3) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_3) Width(40) Widthtype(Fixed)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    Select Fields(*All) From_File(Deptab)
+    
+    #Com_owner.AddEntry( #Deptment #Deptdesc "" #xImageDepartment32 )
+    
+    #Com_Owner.AddSections( #Tree.Currentitem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Sectab) With_Key(#Deptment)
+    
+    #Com_owner.AddEntry( #section #secdesc "" #xImageSection32 #ParentItem )
+    
+    #Com_Owner.AddEmployees( #Tree.Currentitem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Pslmst1) With_Key(#Deptment #Section)
+    
+    #Com_owner.AddEntry( #empno #Surname #GiveName #xImageEmployee32 #ParentItem )
+    
+    #Com_Owner.AddSkills( #Tree.Currentitem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddSkills) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Pslskl) With_Key(#empno)
+    
+    Fetch Fields(#skildesc) From_File(skltab) With_Key(#skilcode)
+    
+    #Com_owner.AddEntry( #Skilcode #Skildesc "" #xImageSkill32 #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Column1)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column2) Mandatory("")
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column3) Mandatory("")
+    Define_Map For(*Input) Class(#prim_flbx) Name(#Image) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Result) Class(#prim_tvit) Name(#Result) Mandatory(*null) Pass(*by_reference)
+    
+    #xDemoUnicode128 := #Column1
+    #xDemoUnicode128_2 := #Column2
+    #xDemoUnicode128_3 := #Column3
+    
+    Add_Entry To_List(#Tree)
+    
+    #Tree.Currentitem.ParentItem <= #ParentItem
+    
+    #Tree.Currentitem.image <= #Image
+    
+    #Result <= #Tree.Currentitem
+    
+    Endroutine
+    
+    End_Com
+    

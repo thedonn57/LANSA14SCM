@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               STD_DATEX
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard RDMLX date"
+      Label:              "Std RDMLX date"
+      Heading1:           "Standard"
+      Heading2:           "RDMLX"
+      Heading3:           "Date"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"

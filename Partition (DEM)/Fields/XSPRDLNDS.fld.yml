@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XSProductLineDescription
+  Type:               Char
+  Length:             100
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Line Description"
+      Label:              "Last Name"
+      Heading1:           "Last"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Description"
+      Label:              "Last Name"
+      Heading1:           "Last"
+      Heading2:           "Name"
+      Heading3:           " "

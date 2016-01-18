@@ -1,0 +1,69 @@
+﻿Reusable Part:
+  Name:               XDXUDCOnDemand
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "UDC On Demand"
+
+  - FRA:
+      Description:        "UDC On Demand"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(366) Layoutmanager(#TableLayout) Width(714)
+    
+    * User Designed Control - On Demand Loading of item
+    * This example uses the ItemRealizing event of the UDC to determine that more items need to be added
+    
+    Define_Com Class(#prim_Tile<#XDXUDCOnDemandDesign>) Name(#Tile) Displayposition(1) Height(314) Horizontalscrollinc(10) Left(6) Parent(#COM_OWNER) Showpartialitem(True) Tabposition(1) Top(46) Verticalscrollinc(10) Width(702)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption(*MTXTXDX096) Displayposition(2) Ellipses(Word) Height(28) Left(6) Marginleft(2) Parent(#COM_OWNER) Style(#XDXStyles<LargeHeading>) Tabposition(2) Tabstop(False) Top(6) Verticalalignment(Center) Width(702)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(40) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tile) Marginbottom(6) Marginleft(6) Marginright(6) Margintop(6) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#LABL_1) Marginbottom(6) Marginleft(6) Marginright(6) Margintop(6) Parent(#TableLayout) Row(#Row_1)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Add
+    
+    Endroutine
+    
+    Mthroutine Name(Add) Access(*Private)
+    
+    Define_Com Class(#prim_Tile.TileItem) Name(#ParentItem) Reference(*dynamic)
+    
+    Select Fields(*all) From_File(Pslmst)
+    
+    Fetch Fields(#Deptdesc) From_File(Deptab) With_Key(#Deptment)
+    Fetch Fields(#Secdesc) From_File(sectab) With_Key(#Deptment #Section)
+    
+    Add_Entry To_List(#Tile)
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tile.ItemRealizing) Item(#Item)
+    
+    If (#Item.Entry = #Tile.Items.ItemCount)
+    
+    #Com_owner.Add
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    
+    

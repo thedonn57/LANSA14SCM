@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPEVTDOC
+  Type:               BLOB
+  Length:             0
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Additional documentation"
+      Label:              "Additional docu"
+      Heading1:           "Additional documenta"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Additional documentation"
+      Label:              "Additional docu"
+      Heading1:           "Additional documenta"
+      Heading2:           " "
+      Heading3:           " "

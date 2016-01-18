@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*COMPANY"
+  Description:        "Name of current company / organisation"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             30
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W11SP1
+  Type:               Alphanumeric
+  Length:             100
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Spare Field"
+      Label:              "W11SP1"
+      Heading1:           "Spare"
+      Heading2:           "Field"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Spare Field"
+      Label:              "W11SP1"
+      Heading1:           "Spare"
+      Heading2:           "Field"
+      Heading3:           " "

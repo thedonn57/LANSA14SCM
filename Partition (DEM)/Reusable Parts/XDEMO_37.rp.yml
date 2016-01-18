@@ -1,0 +1,24 @@
+﻿Reusable Part:
+  Name:               xDemoWebPassingWorkingListsEmployeeItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Item"
+
+  - FRA:
+      Description:        "Employee Item"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_OBJT *listFields #ListFields)
+    
+    * These field values wil be mapped in to this object as part of the instance being created
+    * They will also be mapped in to the component when the collection is accessed using list Selectlist and Get_Entry
+    Group_By Name(#ListFields) Fields(#EMPNO #SURNAME #GIVENAME #ADDRESS1 #ADDRESS2 #ADDRESS3 #POSTCODE #PHONEHME #PHONEBUS #DEPTMENT #SECTION #SALARY #STARTDTE #TERMDATE #MNTHSAL #empthm)
+    
+    End_Com

@@ -1,0 +1,50 @@
+﻿Reusable Part:
+  Name:               XCCClientPanel
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Content Panel - Our Clients"
+
+  - FRA:
+      Description:        "Content Panel - Our Clients"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(400) Left(0) Tabposition(1) Width(600) Layoutmanager(#TableLayout) Top(0) Themedrawstyle('ContentPanel')
+    
+    * Table Layout with 2 Rows and 3 Columns
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(3) Parent(#TableLayout) Width(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#TableLayout) Width(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Units(Pixels) Height(100)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout)
+    
+    * Table Layout Items
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label_Heading) Parent(#TableLayout) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#Label_Close) Parent(#TableLayout) Row(#Row1) Sizing(None) Alignment(TopRight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#Image_Customer) Parent(#TableLayout) Row(#Row2) Margintop(30) Marginbottom(30)
+    
+    * Heading and Close button
+    Define_Com Class(#PRIM_LABL) Name(#Label_Heading) Caption('Our Clients LOVE them...') Displayposition(2) Ellipses(Word) Height(100) Left(50) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(500) Alignment(Center) Themedrawstyle('ContentCaption')
+    Define_Com Class(#PRIM_LABL) Name(#Label_Close) Caption('x') Displayposition(1) Ellipses(Word) Height(33) Left(558) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(42) Alignment(Center) Themedrawstyle('CloseButton')
+    
+    * An Image for the happy Client
+    Define_Com Class(#PRIM_IMAG) Name(#Image_Customer) Displayposition(3) Left(50) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(500) Height(240) Image(#XCCIMG01) Imagesizing(BestFit) Top(130)
+    
+    * Close Event
+    Define_Evt Name(Close)
+    
+    Evtroutine Handling(#Label_Close.Click)
+    
+    Signal Event(Close)
+    
+    Endroutine
+    
+    End_Com

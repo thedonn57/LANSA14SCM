@@ -1,0 +1,272 @@
+﻿Template:
+  Name:                    FRUTIL01
+  Description:             File Transfer Utility (for Length<=256)
+  Extended Description 1:  Transfer data from AS/400 -> PC or vice
+  Extended Description 2:  versa
+
+  Source: |
+    /* ********** ======================================================= */
+    /* ********** CHECK WHETHER THE TEMPLATE SHOULD BE USED AT ALL        */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Should you use this version of this template (please reply Y or N) ?') ANSWER(@@CANS001) EXTEND('You should only use this version of the file transfer utility template' 'against files where ALL the following criteria are met :' '* The aggregate byte length of all real and virtual fields is <= 256.' '* The total of all real and virtual fields is <= 100.' '* The function generated is to be used by developers as a utility only.' '* You understand that this function has been designed for optimal ease of' '  use rather than optimal performance. Generated code does NOT represent' '  an optimal performance solution and should NOT be used in benchmarks.') LOWER(*NO) VALUES(Y N)
+    @@IF       COND((*IF @@CANS001 *NE Y)) GOTO(END)
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF JUST ONE PHYSICAL FILE                      */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(1) PROMPT('Enter the name of the PHYSICAL file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' '**** The chosen file must have one or more PRIMARY KEYS ****') /* ======================================================= */
+    /* ********** GET FIELDS OF CHOSEN FILE INTO LIST 1                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** GET KEYS OF CHOSEN FILE INTO LIST 2                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT COMMITMENT CONTROL                            */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Is the file under manual (4GL level) commitment control (reply Y or N) ?') ANSWER(@@CANS002) EXTEND('If the file that you have chosen is normally used under manual (ie: 4GL ' 'level) commitment control reply Y, otherwise reply N.') LOWER(*NO) VALUES(Y N)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT DBCS CAPABILITY                               */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Does the file contain DBCS (Double Byte Character) data (reply Y or N) ?') ANSWER(@@CANS003) EXTEND('If the file you have chosen could contain DBCS (Double Byte Character)' 'data reply Y, otherwise reply N.') LOWER(*NO) VALUES(Y N)
+    /* ********** ======================================================= */
+    /* ********** NOW GENERATE THE CODE                                   */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1997 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT *LIGHTUSAGE)
+    @@COMMENT  COMMENT('Local Variables')
+    DEFINE     FIELD(#SC_TEXT01) TYPE(*CHAR) LENGTH(20) DESC('Text String') OUTPUT_ATR(RED) DEFAULT(SOURCE)
+    DEFINE     FIELD(#SC_TEXT02) TYPE(*CHAR) LENGTH(20) DESC('Text String') OUTPUT_ATR(RED) DEFAULT(TARGET)
+    DEFINE     FIELD(#SC_TEXT03) TYPE(*CHAR) LENGTH(60) DESC('Text String') OUTPUT_ATR(RED)
+    CHANGE     FIELD(#SC_TEXT03) TO('''Errors were detected. Use the Messages button to view details.''')
+    DEFINE     FIELD(#SC_SRCTGT) TYPE(*CHAR) LENGTH(6) DESC('Source and Targets List') DEFAULT('''1    1''')
+    DEFINE     FIELD(#SC_SRC400) TYPE(*CHAR) LENGTH(1) LABEL('AS/400 DBMS') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT)
+    DEFINE     FIELD(#SC_SRCFLT) TYPE(*CHAR) LENGTH(1) LABEL('Perm Flat File') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT 2)
+    DEFINE     FIELD(#SC_SRCLCL) TYPE(*CHAR) LENGTH(1) LABEL('PC DBMS') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT 3)
+    DEFINE     FIELD(#SC_TGT400) TYPE(*CHAR) LENGTH(1) LABEL('AS/400 DBMS') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 4)
+    DEFINE     FIELD(#SC_TGTFLT) TYPE(*CHAR) LENGTH(1) LABEL('Perm Flat File') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 5)
+    DEFINE     FIELD(#SC_TGTLCL) TYPE(*CHAR) LENGTH(1) LABEL('PC DBMS') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 6)
+    DEFINE     FIELD(#SC_DEFSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_CONSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_AS4NAM) TYPE(*CHAR) LENGTH(20) DESC('AS/400 Network Name') DEFAULT('APPN.XXXXXXXXXX')
+    DEFINE     FIELD(#SC_AS4MCC) TYPE(*CHAR) LENGTH(1) DESC('Manual Commitment Control') DEFAULT('@@CANS002')
+    DEFINE     FIELD(#SC_AS4DBC) TYPE(*CHAR) LENGTH(1) DESC('DBCS in File') DEFAULT('@@CANS003')
+    DEFINE     FIELD(#SC_AS4CTS) TYPE(*CHAR) LENGTH(10) LABEL('C->S Conv Table') DESC('Client->Server Translation Table') DEFAULT('QEBCDIC')
+    DEFINE     FIELD(#SC_AS4STC) TYPE(*CHAR) LENGTH(10) LABEL('S->C Conv Table') DESC('Server->Client Translation Table') DEFAULT('QASCII')
+    DEF_LIST   NAME(#AS400INF) FIELDS((#SC_AS4NAM) (#SC_AS4CTS) (#SC_AS4STC)) TYPE(*WORKING) ENTRYS(1)
+    DEFINE     FIELD(#SC_AS4USR) TYPE(*CHAR) LENGTH(10) DESC('AS400 User') DEFAULT(*USER)
+    DEFINE     FIELD(#SC_AS4PWD) TYPE(*CHAR) LENGTH(10) DESC('AS400 Password') INPUT_ATR(ND)
+    DEFINE     FIELD(#SC_OUTPUT) TYPE(*CHAR) LENGTH(65) DESC('Output File Name')
+    DEFINE     FIELD(#SC_ERRORS) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('Error Count')
+    DEFINE     FIELD(#SC_COUNT) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('List Entry Count/Total')
+    DEFINE     FIELD(#SC_RCDCNT) LENGTH(7) DECIMALS(0) REFFLD(#DATE) DESC('Record Count') EDIT_CODE(4) DEFAULT(0)
+    DEFINE     FIELD(#SC_RCDCHR) TYPE(*CHAR) LENGTH(7) DESC('Record Count as characters') TO_OVERLAY(#SC_RCDCNT)
+    DEFINE     FIELD(#SC_RCDL1C) TYPE(*CHAR) LENGTH(1) DESC('Last Digit of Record Count') TO_OVERLAY(#SC_RCDCNT 7)
+    DEFINE     FIELD(#SC_RETCDE) TYPE(*CHAR) LENGTH(2) DESC('Return Code')
+    DEFINE     FIELD(#SC_MSGTXT) TYPE(*CHAR) LENGTH(132) DESC('Message Text')
+    DEF_LIST   NAME(#SC_MSGLST) FIELDS(#SC_MSGTXT) TYPE(*WORKING) ENTRYS(9999)
+    DEF_LIST   NAME(#SC_MSGSTK) FIELDS(#SC_MSGTXT) TYPE(*WORKING) ENTRYS(9999)
+    DEFINE     FIELD(#SC_TMPFIL) TYPE(*CHAR) LENGTH(55) LABEL('Temp Flat File')
+    USE        BUILTIN(OV_QUERY_SYS_INFO) WITH_ARGS(TEMP_DIR) TO_GET(#SC_TMPFIL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#SC_TMPFIL #SC_FILNAM '''.TAB''') TO_GET(#SC_TMPFIL)
+    DEFINE     FIELD(#SC_PRMFIL) TYPE(*CHAR) LENGTH(55) LABEL('Perm Flat File')
+    USE        BUILTIN(OV_QUERY_SYS_INFO) WITH_ARGS(SYS_DIR) TO_GET(#SC_PRMFIL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#SC_PRMFIL #SC_FILNAM '''.TAB''') TO_GET(#SC_PRMFIL)
+    DEF_LIST   NAME(#SC_DATA01) FIELDS(@@LST01) COUNTER(#SC_COUNT) TYPE(*WORKING) ENTRYS(200)
+    GROUP_BY   NAME(#XG_KEYS01) FIELDS(@@LST02)
+    DEFINE     FIELD(#SC_FILNAM) TYPE(*CHAR) LENGTH(10) LABEL('Table Name') DEFAULT(@@FNAME01)
+    DEFINE     FIELD(#SC_FILDES) TYPE(*CHAR) LENGTH(40) LABEL('Description')
+    CHANGE     FIELD(#SC_FILDES) TO('''@@FDESC01''')
+    @@COMMENT  COMMENT('Application Logic')
+    BEGIN_LOOP
+    POP_UP     FIELDS((#SC_TEXT01 *L5 *P2 *NOID *OUT) (#SC_TEXT02 *L5 *P24 *NOID *OUT) (#SC_FILNAM *L3 *P2 *OUT) (#SC_SRC400 *L7 *P2 *IN) (#SC_SRCFLT *L9 *P2 *IN) (#SC_SRCLCL *L11 *P2 *IN) (#SC_TGT400 *L7 *P24 *IN) (#SC_TGTFLT *L9 *P24 *IN) (#SC_TGTLCL *L11 *P24 *IN) (#SC_TMPFIL *L13 *P2 *IN) (#SC_PRMFIL *L14 *P2 *IN) (#SC_FILDES *L3 *P24 *NOID *OUT)) AT_LOC(3 3) WITH_SIZE(74 18) PANEL_ID(*NONE) PANEL_TITL('Table Export or Import Utility') EXIT_KEY(*NO) PROMPT_KEY(*NO)
+    CHANGE     FIELD(#SC_ERRORS) TO(0)
+    CLR_LIST   NAMED(#SC_MSGLST)
+    DOUNTIL    COND('A = A')
+    CASE       OF_FIELD(#SC_SRCTGT)
+    @@COMMENT  COMMENT('AS/400 to Flat File       ')
+    WHEN       VALUE_IS('= ''1   1 ''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_PRMFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('AS/400 to PC DBMS      ')
+    WHEN       VALUE_IS('= ''1    1''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_TMPFIL)
+    @@COMMENT  COMMENT('Flat File to AS/400    ')
+    WHEN       VALUE_IS('= '' 1 1  ''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_PRMFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('Flat File to PC DBMS   ')
+    WHEN       VALUE_IS('= '' 1   1''')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_PRMFIL)
+    @@COMMENT  COMMENT('PC DBMS to AS/400      ')
+    WHEN       VALUE_IS('= ''  11  ''')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('PC DBMS to Flat        ')
+    WHEN       VALUE_IS('= ''  1 1 ''')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_PRMFIL)
+    @@COMMENT  COMMENT('Invalid selection      ')
+    OTHERWISE
+    MESSAGE    MSGTXT('Invalid source/target combination selected')
+    ENDCASE
+    ENDUNTIL
+    IF         COND('#SC_ERRORS *GT 0')
+    SELECTLIST NAMED(#SC_MSGLST)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT)
+    ENDSELECT
+    POP_UP     FIELDS((#SC_TEXT03 *L3 *P2 *NOID *OUT)) AT_LOC(6 3) WITH_SIZE(64 07) PANEL_ID(*NONE) PANEL_TITL('Import/Export Error(s)') EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    ENDIF
+    END_LOOP
+    @@COMMENT  COMMENT('Convert DBMS data into flat file')
+    SUBROUTINE NAME(DBMSTOFLAT) PARMS((#SC_OUTPUT *RECEIVED))
+    CLR_LIST   NAMED(#SC_DATA01)
+    IF         COND('#SC_CONSRV = OK')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Transferring contents of AS/400 table''' #SC_FILNAM '''into PC flat file''' #SC_OUTPUT)
+    ELSE
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Transferring contents of PC DBMS table''' #SC_FILNAM '''into PC flat file''' #SC_OUTPUT)
+    ENDIF
+    CHANGE     FIELD(#SC_RCDCNT) TO(0)
+    SELECT     FIELDS(*ALL) FROM_FILE(@@FNAME01)
+    CHANGE     FIELD(#SC_RCDCNT) TO('#SC_RCDCNT + 1')
+    ADD_ENTRY  TO_LIST(#SC_DATA01)
+    IF         COND('#SC_COUNT = 200')
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N) TO_GET(#SC_RETCDE)
+    CLR_LIST   NAMED(#SC_DATA01)
+    IF         COND('#SC_RETCDE *NE OK')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when writing to flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    LEAVE
+    ENDIF
+    ENDIF
+    IF         COND('#SC_RCDL1C = ''0''')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows transferred''' *BLANKS *BLANKS)
+    ENDIF
+    ENDSELECT
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y) TO_GET(#SC_RETCDE)
+    IF         COND('#SC_RETCDE *NE OK')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when writing to flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    ENDIF
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows transferred''' *BLANKS *BLANKS)
+    ENDROUTINE
+    @@COMMENT  COMMENT('Convert flat file into DBMS data')
+    SUBROUTINE NAME(FLATTODBMS) PARMS((#SC_OUTPUT *RECEIVED))
+    IF         COND('#SC_CONSRV = OK')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Updating contents of PC flat file''' #SC_OUTPUT '''into AS/400 table''' #SC_FILNAM)
+    ELSE
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Updating contents of PC flat file''' #SC_OUTPUT '''into PC DBMS table''' #SC_FILNAM)
+    ENDIF
+    CHANGE     FIELD(#SC_RCDCNT) TO(0)
+    DOUNTIL    COND('#SC_RETCDE = EF')
+    CLR_LIST   NAMED(#SC_DATA01)
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N) TO_GET(#SC_RETCDE)
+    IF         COND('#SC_RETCDE = ER')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when reading flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    LEAVE
+    ENDIF
+    EXECUTE    SUBROUTINE(FLATUPDATE)
+    ENDUNTIL
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows updated''' *BLANKS *BLANKS)
+    ENDROUTINE
+    @@COMMENT  COMMENT('Update DBMS from data in working list')
+    SUBROUTINE NAME(FLATUPDATE)
+    SELECTLIST NAMED(#SC_DATA01)
+    CHANGE     FIELD(#SC_RCDCNT) TO('#SC_RCDCNT + 1')
+    FETCH      FIELDS((#XG_KEYS01)) FROM_FILE(@@FNAME01) WITH_KEY(#XG_KEYS01)
+    IF_STATUS  IS(*OKAY)
+    UPDATE     FIELDS(*ALL) IN_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    ELSE
+    INSERT     FIELDS(*ALL) TO_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    ENDIF
+    IF_STATUS  IS_NOT(*OKAY)
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Previous Error(s) were''' '''detected when processing row number ''' #SC_RCDCHR *BLANKS)
+    @@IF       COND((*IF @@CANS002 *NE Y)) GOTO(L90)
+    ELSE
+    COMMIT
+    L90: /* **********                                                         */
+    ENDIF
+    IF         COND('#SC_RCDL1C = ''0''')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows updated''' *BLANKS *BLANKS)
+    ENDIF
+    ENDSELECT
+    ENDROUTINE
+    @@COMMENT  COMMENT('Connect to AS/400 server')
+    SUBROUTINE NAME(CONNECT)
+    CHANGE     FIELD(#SC_AS4PWD) TO(*NULL)
+    CLR_LIST   NAMED(#AS400INF)
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#AS400INF '''AS400INF.DTA'''  T) TO_GET(#SC_RETCDE)
+    USE        BUILTIN(CLR_MESSAGES)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#AS400INF)
+    DOWHILE    COND('(#SC_DEFSRV *NE OK) *OR (#SC_CONSRV *NE OK)')
+    POP_UP     FIELDS((#SC_AS4NAM *L3 *P2 *IN) (#SC_AS4PWD *L7 *P2 *IN) (#SC_AS4USR *L5 *P2 *OUT) (#SC_AS4CTS *L9 *P2 *IN)  (#SC_AS4STC *L11 *P2 *IN))  DESIGN(*DOWN) IDENTIFY(*LABEL) AT_LOC(9 38) WITH_SIZE(40 15) PANEL_ID(*NONE) PANEL_TITL('Connect to AS/400 Server') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) CURSOR_LOC(*ATFIELD #SC_AS4PWD)
+    USE        BUILTIN(DEFINE_OS_400_SERVER) WITH_ARGS(AS400 #SC_AS4NAM #SC_AS4MCC #SC_AS4DBC Y Y '''20''' #SC_AS4CTS #SC_AS4STC) TO_GET(#SC_DEFSRV)
+    IF         COND('(#SC_DEFSRV = OK) *AND (#SC_CONSRV *NE OK)')
+    USE        BUILTIN(CONNECT_SERVER) WITH_ARGS(AS400 #SC_AS4PWD) TO_GET(#SC_CONSRV)
+    IF         COND('#SC_CONSRV = OK')
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS('''*''' AS400 100 1000000)
+    ENDIF
+    ENDIF
+    ENDWHILE
+    CLR_LIST   NAMED(#AS400INF)
+    ADD_ENTRY  TO_LIST(#AS400INF)
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#AS400INF '''AS400INF.DTA'''  T) TO_GET(#SC_RETCDE)
+    ENDROUTINE
+    @@COMMENT  COMMENT('Disconnect from AS/400 server')
+    SUBROUTINE NAME(DISCONNECT)
+    IF         COND('#SC_CONSRV = OK')
+    USE        BUILTIN(DISCONNECT_FILE) WITH_ARGS('''*''' AS400)
+    USE        BUILTIN(DISCONNECT_SERVER) WITH_ARGS(AS400) TO_GET(#SC_CONSRV)
+    CHANGE     FIELD(#SC_CONSRV) TO(NO)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('Issue and record status message(s)')
+    SUBROUTINE NAME(SHOWSTATUS) PARMS((#SC_SUBV01 *RECEIVED) (#SC_SUBV02 *RECEIVED) (#SC_SUBV03 *RECEIVED) (#SC_SUBV04 *RECEIVED))
+    DEFINE     FIELD(#SC_SUBV01) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 1')
+    DEFINE     FIELD(#SC_SUBV02) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 2')
+    DEFINE     FIELD(#SC_SUBV03) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 3')
+    DEFINE     FIELD(#SC_SUBV04) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 4')
+    DEFINE     FIELD(#SC_MSGCDE) TYPE(*CHAR) LENGTH(2) DESC('Return Code')
+    @@COMMENT  COMMENT('Route/log messages already on queue')
+    CLR_LIST   NAMED(#SC_MSGSTK)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#SC_MSGCDE #SC_MSGTXT)
+    DOWHILE    COND('#SC_MSGCDE = OK')
+    ADD_ENTRY  TO_LIST(#SC_MSGLST)
+    ADD_ENTRY  TO_LIST(#SC_MSGSTK)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#SC_MSGCDE #SC_MSGTXT)
+    ENDWHILE
+    SELECTLIST NAMED(#SC_MSGSTK)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT) TYPE(*STATUS)
+    ENDSELECT
+    @@COMMENT  COMMENT('Now handle the message requested caller')
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#SC_SUBV01 #SC_SUBV02 #SC_SUBV03 #SC_SUBV04) TO_GET(#SC_MSGTXT)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT) TYPE(*STATUS)
+    ADD_ENTRY  TO_LIST(#SC_MSGLST)
+    @@COMMENT  COMMENT(' ')
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    END: @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)

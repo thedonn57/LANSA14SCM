@@ -1,0 +1,50 @@
+﻿Field:
+  Name:               xDemoBrushTile
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Brush Tile"
+      Label:              "Brush Tile"
+      Heading1:           "Brush"
+      Heading2:           "Tile"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Brush Tile"
+      Label:              "Brush Tile"
+      Heading1:           "Brush"
+      Heading2:           "Tile"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#PicklistItems) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Caption('MirrorBoth') Parent(#PicklistItems) Value('MIRRORBOTH')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Caption('MirrorHorizontal') Parent(#PicklistItems) Value('MIRRORHORIZONTAL')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_3) Caption('MirrorVertical') Parent(#PicklistItems) Value('MIRRORVERTICAL')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_4) Caption('None') Parent(#PicklistItems) Value('NONE')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_5) Caption('Tile') Default(True) Parent(#PicklistItems) Value('TILE')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#Picklist) Appearance(DropDownList) Componentversion(1) Fixedheight(False) Height(20) Width(237)
+    
+    End_Com
+    
+    End_Com

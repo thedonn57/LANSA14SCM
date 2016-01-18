@@ -1,0 +1,460 @@
+﻿Template:
+  Name:                    FRABMNT01
+  Description:             Action Bar "Object" - Basic Maintenance
+  Extended Description 1:  File maintenance template for
+  Extended Description 2:  processes of type Action Bar.
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ******************************************************* */
+    /* ********** *          T E M P L A T E  C O M M A N D S           * */
+    /* ********** ******************************************************* */
+    /* ********** ======================================================= */
+    /* ********** Get file to maintain                                    */
+    /* ********** ======================================================= */
+    @@GET_FILS PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the file used by this template') EXTEND('The file may be specified in full, partially (to cause a partial' 'list of available files to be displayed) or left blank (to cause a full' 'list of available files to be displayed). When a list of files is ' 'displayed, the file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** Ask for the name of the object                          */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Specify the name of the object that the file represents') ANSWER(@@CANS001) EXTEND('123456789012345' 'Specify a word that describes the object that the file being used by' 'this template represents. Use singular form, use at most 16 characters' 'and do NOT use any single quote characters in the name.' 'Use the HELP key to view more information about this question or to view' 'examples of the type of answers that you would give to this question.') HELPIDS(HELP020 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** Put key fields into list 1                              */
+    /* ********** ======================================================= */
+    @@CLR_LST  1
+    @@RTV_KEYS OF_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** Put fields for ADD screen into list 2                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  2
+    @@CLR_LST  21
+    @@CLR_LST  22
+    @@CLR_LST  23
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(21)
+    @@MAK_LSTS FROM_LSTS(21) INTO_LSTS((22 'Input' 'Fields for' 'ADD screen' *SEQUENCE *ALL) (23 'Output' 'Fields for' 'ADD screen' *SEQUENCE)) HELPIDS(HELP030 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@MRG_LSTS FROM_LSTS((22 *INPUT) (23 *OUTPUT)) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** Ask about the design of the ADD screen                  */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the ADD screen DOWN or ACROSS') ANSWER(@@CANS021) EXTEND('Reply DOWN or ACROSS only.' 'If your ADD screen contains 16 (or less) fields, DOWN is the' 'recommended value. If your ADD screen contains more than 16' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP040 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@QUESTION PROMPT('Identify fields on the ADD screen by LABEL, COLHDG, DESC or NOID') ANSWER(@@CANS022) EXTEND('Reply LABEL, COLHDG, DESC or NOID only.' 'If your ADD screen contains 16 (or less) fields, DESC is the   ' 'recommended value. If your ADD screen contains more than 16' 'fields, LABEL is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(LABEL COLHDG DESC NOID) HELPIDS(HELP050 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** Put fields for REVIEW/CHANGE/DELETE screen into 3       */
+    /* ********** ======================================================= */
+    @@CLR_LST  3
+    @@CLR_LST  31
+    @@CLR_LST  32
+    @@CLR_LST  33
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(31)
+    @@MAK_LSTS FROM_LSTS(31) INTO_LSTS((32 'Input Fields' 'for CHANGE' 'Screen' *SEQUENCE *ALL) (33 'Output Flds' 'for CHANGE' 'screen' *SEQUENCE)) HELPIDS(HELP060 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@MRG_LSTS FROM_LSTS((32) (33 *OUTPUT)) INTO_LST(3)
+    /* ********** ======================================================= */
+    /* ********** Ask about the design of the CHANGE screen               */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the CHANGE screen DOWN or ACROSS') ANSWER(@@CANS031) EXTEND('Reply DOWN or ACROSS only.' 'If your CHANGE screen contains 16 (or less) fields, DOWN is the' 'recommended value. If your CHANGE screen contains more than 16' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP070 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@QUESTION PROMPT('Identify fields on the CHANGE screen by LABEL, COLHDG, DESC or NOID') ANSWER(@@CANS032) EXTEND('Reply LABEL, COLHDG, DESC or NOID only.' 'If your CHANGE screen contains 16 (or less) fields, DESC is the   ' 'recommended value. If your CHANGE screen contains more than 16' 'fields, LABEL is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(LABEL COLHDG DESC NOID) HELPIDS(HELP080 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** Put fields to be PRINTed into list 4                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  4
+    @@CLR_LST  41
+    @@CLR_LST  42
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(41)
+    @@MAK_LSTS FROM_LSTS(41) INTO_LSTS((42 'Fields to' 'be PRINTed' *N *SEQUENCE *ALL)) HELPIDS(HELP090 HELP100 HELP110 HELP120 HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@MRG_LSTS FROM_LSTS(42) INTO_LST(4)
+    /* ********** ******************************************************* */
+    /* ********** *  B E G I N I N G   O F   R D M L   C O M M A N D S  * */
+    /* ********** ******************************************************* */
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    EXCHANGE   (@@LST01) OPTION(*ALWAYS)
+    @@COMMENT  '*******************************************************'
+    @@COMMENT  '*                  M A I N   L I N E                  *'
+    @@COMMENT  '*******************************************************'
+    CASE       #PD$OPT
+    WHEN       '= SLT'
+    EXECUTE    SLTREC
+    WHEN       '= CRT'
+    EXECUTE    CRTREC
+    WHEN       '= REV'
+    EXECUTE    WRKREC WITH_PARMS('''Review''')
+    WHEN       '= CHG'
+    EXECUTE    WRKREC WITH_PARMS('''Change''')
+    WHEN       '= DEL'
+    EXECUTE    WRKREC WITH_PARMS('''Delete''')
+    WHEN       '= PRT'
+    EXECUTE    PRTREC
+    ENDCASE
+    MENU
+    @@COMMENT  '*******************************************************'
+    @@COMMENT  'S L T R E C  - SELECT A RECORD'
+    @@COMMENT  '*******************************************************'
+    SUBROUTINE SLTREC
+    GROUP_BY   #SLT (@@LST01 (#STD_NDFLD *NOID))
+    BEGIN_LOOP
+    REQUEST    #SLT DESIGN(*@@CANS021) IDENTIFY(*@@CANS022) CURSOR_LOC(*ATFIELD #@@LEL0101)
+    BEGINCHECK
+    CHECK_FOR  IN_FILE(@@FNAME01) WITH_KEY(@@LST01)
+    IF_STATUS  IS_NOT(*EQUALKEY)
+    SET_ERROR  FOR_FIELD(#SLT) MSGTXT('Selected @@CANS001 not found')
+    ENDIF
+    ENDCHECK
+    MESSAGE    'Selected @@CANS001 found'
+    END_LOOP
+    ENDROUTINE
+    @@COMMENT  '*******************************************************'
+    @@COMMENT  'C R T R E C  - CREATE A NEW RECORD'
+    @@COMMENT  '*******************************************************'
+    SUBROUTINE CRTREC
+    GROUP_BY   #CRT (@@LST02 (#STD_NDFLD *NOID))
+    BEGIN_LOOP
+    CHANGE     #CRT *DEFAULT
+    SET_MODE   *ADD
+    REQUEST    #CRT DESIGN(*@@CANS021) IDENTIFY(*@@CANS022) CURSOR_LOC(*ATFIELD #@@LEL2201)
+    INSERT     #CRT TO_FILE(@@FNAME01)
+    MESSAGE    'New @@CANS001 added'
+    END_LOOP
+    ENDROUTINE
+    @@COMMENT  '*******************************************************'
+    @@COMMENT  'W R K R E C  - WORK WITH RECORD'
+    @@COMMENT  '*******************************************************'
+    SUBROUTINE WRKREC PARMS((#WRKMODE *RECEIVED))
+    DEFINE     #WRKMODE *CHAR 6
+    GROUP_BY   #WRK (@@LST03 (#STD_NDFLD *NOID))
+    BEGIN_LOOP
+    FETCH      #WRK FROM_FILE(@@FNAME01) WITH_KEY(@@LST01)
+    IF_STATUS  IS_NOT(*OKAY)
+    MESSAGE    'Selected @@CANS001 not found'
+    MENU
+    ENDIF
+    @@COMMENT  ' '
+    CASE       #WRKMODE
+    WHEN       '= ''Review'''
+    SET_MODE   *DISPLAY
+    WHEN       '= ''Change'''
+    SET_MODE   *CHANGE
+    WHEN       '= ''Delete'''
+    MESSAGE    'Press ENTER to confirm deletion of @@CANS001'
+    SET_MODE   *DELETE
+    ENDCASE
+    DISPLAY    #WRK DESIGN(*@@CANS031) IDENTIFY(*@@CANS032) CURSOR_LOC(*ATFIELD #@@LEL3201)
+    IF_MODE    IS(*DELETE)
+    DELETE     FROM_FILE(@@FNAME01)
+    MESSAGE    'Selected @@CANS001 deleted'
+    MENU
+    ENDIF
+    IF_MODE    IS(*CHANGE)
+    UPDATE     #WRK IN_FILE(@@FNAME01)
+    MESSAGE    'Selected @@CANS001 changed'
+    ENDIF
+    END_LOOP
+    ENDROUTINE
+    @@COMMENT  '*******************************************************'
+    @@COMMENT  'P R T R E C  - PRINT A RECORD'
+    @@COMMENT  '*******************************************************'
+    SUBROUTINE PRTREC
+    DEF_HEAD   #PRTH (#DATE #TIME) TEXT(('@@CANS001' 1 10) ('Information' 1 26))
+    DEF_LINE   #PRT (@@LST04) DESIGN(*DOWN) IDENTIFY(*LABEL)
+    FETCH      #PRT FROM_FILE(@@FNAME01) WITH_KEY(@@LST01)
+    IF_STATUS  IS(*OKAY)
+    PRINT      #PRT
+    ENDPRINT
+    MESSAGE    'Selected @@CANS001 printed'
+    ELSE
+    MESSAGE    'Selected @@CANS001 not found'
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  '*******************************************************'
+    @@CLR_LST  1
+    @@CLR_LST  2
+    @@CLR_LST  21
+    @@CLR_LST  22
+    @@CLR_LST  23
+    @@CLR_LST  3
+    @@CLR_LST  31
+    @@CLR_LST  32
+    @@CLR_LST  33
+    @@CLR_LST  4
+    @@CLR_LST  41
+    @@CLR_LST  42
+
+  Help Panels:
+  - HELP010:
+      Description:        Ask for file name
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Enter the name of the file that you wish to maintain with this function.  A    
+         blank or partial file name can be entered to display a list of files where one 
+         may be selected.  The file selected must have a key, if it does not have a key 
+         the function created by this template will receive fatal errors from the full  
+         function checker.                                                              
+                                                                                        
+           Example...         Entering the file name  . . . S                           
+                                                                                        
+                                may display files . . . . . SAPMST                      
+                                                            SALHST                      
+                                                            SUPMST                      
+                                                                                        
+                                of which SALHST may be selected.
+
+  - HELP020:
+      Description:        Ask for the name of the object
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Enter the name of the object being used.  This name will be used in messages   
+         throughout the produced file maintenance function.                             
+                                                                                        
+         Example...     If the file you were maintaining was a Customer Master file,    
+                        you may choose to use the object name "customer".  (Lower case  
+                        characters are recommended)                                     
+                                                                                        
+                        A sample of the messages produced would be...                   
+                                                                                        
+                           - Selected customer not found.                               
+                           - New customer added.                                        
+                           - Confirm deletion of this customer.                         
+                           - Selected customer printed.
+
+  - HELP030:
+      Description:        Ask for ADD screen fields
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Select the input and output fields for the screen used to add/create new       
+         records.  The user will be able to enter information into the input fields.    
+         Output fields will merely be displayed.  It is unlikely that output fields     
+         will be selected for a ADD screen as there will be no existing information     
+         that can be displayed.                                                         
+                                                                                        
+         Use a numerical sequence when selecting fields.  The sequence you choose       
+         here is the sequence the fields will appear in in the initial screen design.   
+         This sequence may be changed later using the RDML editor or the screen painter.
+
+  - HELP040:
+      Description:        Ask for screen design method
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         Enter the default design method for the ADD screen.  The possible values are   
+         DOWN or ACROSS.  It is recommended to choose DOWN if your ADD screen has 16 or 
+         less fields.  If there are more than 16 fields, ACROSS is the recommended      
+         design.  DOWN means design down the screen and ACROSS means design across the  
+         screen.                                                                        
+                                                                                        
+         Example...                                                                     
+                                                                                        
+         Customer. . . . _________                                                      
+         Description . . __________________________         <-- Using DOWN              
+         Status. . . . . __                                                             
+                                                                                        
+                                                                                        
+         Customer _________  Description ___________________  Status __   <-- Using     
+                                                                              ACROSS
+
+  - HELP050:
+      Description:        Ask for field identification
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Enter the default field indentification type for the ADD screen.  The field    
+         identification type is the way a field's description is displayed.             
+                                                                                        
+         Examples...                                                                    
+                                                                                        
+         Customer . . . _______                           <-- Label (LABEL)             
+                                                                                        
+         Customer Identification Code . . . . _______     <-- Description (DESC)        
+                                                                                        
+         ________                                         <-- No Identification (NOID)  
+                                                                                        
+                                                                                        
+         Customer                                                                       
+         Code                                             <-- Column Heading (COLHDG)   
+          _______
+
+  - HELP060:
+      Description:        Ask for CHANGE screen fields
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Select the input and output fields for the screen used to change existing      
+         records.  The user will be able to enter information into the input fields.    
+         Output fields will merely be displayed.                                        
+                                                                                        
+         Use a numerical sequence when selecting fields.  The sequence you choose       
+         here is the sequence the fields will appear in in the initial screen design.   
+         This sequence may be changed later using the RDML editor or the screen painter.
+
+  - HELP070:
+      Description:        Ask for screen design method
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         Enter the default design method for the CHANGE screen.  The possible values are
+         DOWN or ACROSS.  It is recommended to choose DOWN if your CHANGE screen has 16 
+         or less fields.  If there are more than 16 fields, ACROSS is the recommended   
+         design.  DOWN means design down the screen and ACROSS means design across the  
+         screen.                                                                        
+                                                                                        
+         Example...                                                                     
+                                                                                        
+         Customer. . . . _________                                                      
+         Description . . __________________________         <-- Using DOWN              
+         Status. . . . . __                                                             
+                                                                                        
+                                                                                        
+         Customer _________  Description ___________________  Status __   <-- Using     
+                                                                              ACROSS
+
+  - HELP080:
+      Description:        Ask for field identification
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Enter the default field indentification type for the CHANGE screen.  The field 
+         identification type is the way a field's description is displayed.             
+                                                                                        
+         Examples...                                                                    
+                                                                                        
+         Customer . . . _______                           <-- Label (LABEL)             
+                                                                                        
+         Customer Identification Code . . . . _______     <-- Description (DESC)        
+                                                                                        
+         ________                                         <-- No Identification (NOID)  
+                                                                                        
+                                                                                        
+         Customer                                                                       
+         Code                                             <-- Column Heading (COLHDG)   
+          _______
+
+  - HELP090:
+      Description:        Ask for fields to be printed
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         Ask for the fields to be printed.  The fields you select will be designed      
+         down the printed page.  Each record printed by the produced function will be   
+         a seperate report.                                                             
+                                                                                        
+         Example...                                                                     
+                                                                                        
+                ----------------------------------------------------------------        
+                ¦      Customer Information                 1/1/80  10:45:00   ¦        
+                ¦                                                              ¦        
+                ¦  Customer. . . . BJ2961                                      ¦        
+                ¦                                                              ¦        
+                ¦  Description . . Holistic Detective Agency                   ¦        
+                ¦                                                              ¦        
+                ¦  Contact Name. . Mr Dirk Gently                              ¦        
+                ¦                                                 .............¦        
+                ¦  Status. . . . . A1        ..................../                      
+                ¦.........................../
+
+  - HELP100:
+      Description:        Act/Bar File Maintenance
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         This action bar file maintenance template can be used to create a simple object
+         maintenance application that uses action bar style processing.  This template  
+         will create a function that will handle the following options...               
+                                                                                        
+                Object             Quit                                                 
+                                                                                        
+                ................                                                        
+                : _  Select    :                                                        
+                :    Create    :                                                        
+                :    Review    :    <--- These options will                             
+                :    Change    :         be handled by the                              
+                :    Delete    :         function created.                              
+                :    Print     :                                                        
+                :..............:                                                        
+                                                                                        
+         The function created will handle the above options for single record           
+         processing only.
+
+  - HELP110:
+      Description:        Options handled
+
+      Text: |
+        <-
+                                                                                        
+         A brief description of each option is as follows...                            
+                                                                                        
+          Select   Allows a single (probably unique) record to be selected.             
+                                                                                        
+          Create   Allows records to be created.  This template allows the user to      
+                   select which fields will be displayed/added.                         
+                                                                                        
+          Review   Allows the selected record to be reviewed.  The fields displayed are 
+                   the same as for the change screen.                                   
+                                                                                        
+          Change   Allows the selected record to be changed.  This template allows the  
+                   user to select which fields will be displayed/changed.               
+                                                                                        
+          Delete   Allows the selected record to be deleted.  Confirmation is required. 
+                   The fields displayed are the same as for the change screen.          
+                                                                                        
+          Print    Allows the selected record to be printed.  This template allows the  
+                   user to select which fields will be printed.
+
+  - HELP120:
+      Description:        Action Bar table setup
+
+      Text: |
+        <-
+                                                                                        
+         Setup the action bar control table so that the pull down options use the       
+         following values (option codes) in the PD$OPT field.                           
+                                                                                        
+                        Option Description     PD$OPT Value                             
+                             Select              SLT                                    
+                             Create              CRT                                    
+                             Review              REV                                    
+                             Change              CHG                                    
+                             Delete              DEL                                    
+                             Print               PRT                                    
+                                                                                        
+         The following help screens are for the questions asked by this template.  There
+         is one help screen per template question.  Pressing help on a particular       
+         template question will display the help screen for that question.  After the   
+         help for a particular question is displayed, subsequent help screens will      
+         display the beginning of the help for this template starting with the template 
+         functionality description.                                                     
+                                                                                        
+              The following help screens are for specific template questions...

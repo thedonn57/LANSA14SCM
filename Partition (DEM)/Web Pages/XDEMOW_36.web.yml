@@ -1,0 +1,101 @@
+﻿Web Page:
+  Name:               xDemoWebMailTo
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Preparing an email"
+
+  - FRA:
+      Description:        "Preparing an email"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout) Width(113) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(118) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.51)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(2) Parent(#TableLayout) Width(1.74)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#To) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Columnspan(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#CC) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Columnspan(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#BCC) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Columnspan(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Subject) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Columnspan(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Message) Parent(#TableLayout) Row(#Row_2) Columnspan(3) Marginleft(2) Marginright(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Send) Parent(#TableLayout) Row(#Row) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2)
+    
+    Define_Com Class(#xDemoUnicode4K.Visual) Name(#To) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Height(25) Width(1083) Top(2) Caption('To') Labeltype(Caption) Marginleft(60) Left(115) Labelselectable(False)
+    Define_Com Class(#xDemoUnicode4K.Visual) Name(#CC) Displayposition(2) Parent(#COM_OWNER) Tabposition(2) Top(31) Height(25) Width(1083) Caption('CC') Labeltype(Caption) Marginleft(60) Left(115) Labelselectable(False)
+    Define_Com Class(#xDemoUnicode4K.Visual) Name(#BCC) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Top(60) Height(25) Width(1083) Caption('BCC') Labeltype(Caption) Marginleft(60) Left(115) Labelselectable(False)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#Subject) Displayposition(4) Parent(#COM_OWNER) Tabposition(4) Top(89) Height(25) Width(1083) Labeltype(Caption) Marginleft(60) Caption('Subject') Left(115) Labelselectable(False)
+    Define_Com Class(#PRIM_TEXT) Name(#Message) Displayposition(5) Left(2) Parent(#COM_OWNER) Tabposition(5) Top(118) Width(1196) Height(680)
+    Define_Com Class(#PRIM_PHBN) Name(#Send) Caption('Send') Displayposition(6) Left(2) Parent(#COM_OWNER) Tabposition(6) Top(2) Width(109) Height(114) Imageposition(AboveCaption) Image(#xImageEmail32) Style(#Style1)
+    
+    Define_Com Class(#prim_alph) Name(#Mailto)
+    Define_Com Class(#prim_alph) Name(#Parameters)
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #To := "Sample@_YourSite_.Com"
+    #CC := "CC_Sample@_YourSite_.Com"
+    #BCC := "BCC_Sample@_YourSite_.Com"
+    #Subject := "Sample subject"
+    #Message := "Sample message content."
+    
+    Endroutine
+    
+    Evtroutine Handling(#Send.Click)
+    
+    #Com_owner.MailTo
+    
+    Endroutine
+    
+    Mthroutine Name(MailTo)
+    
+    #Mailto := ("mailto:&1").Substitute( #To )
+    
+    #Com_owner.Addparameter( CC #CC )
+    #Com_owner.Addparameter( BCC #BCC )
+    #Com_owner.Addparameter( Subject #Subject )
+    #Com_owner.Addparameter( Body #Message )
+    
+    #sys_web.navigate( (#Mailto + #Parameters) current )
+    
+    Endroutine
+    
+    Mthroutine Name(AddParameter) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Name)
+    Define_Map For(*Input) Class(#xDemoUnicode4K) Name(#Value)
+    
+    If (#Parameters = "")
+    
+    #Parameters := "?"
+    
+    Endif
+    
+    If (#Parameters <> "?")
+    
+    #Parameters += "&"
+    
+    Endif
+    
+    If (#Value = "")
+    
+    #Value := "???"
+    
+    Endif
+    
+    #Parameters += ("&1=&2").Substitute( #Name #Value.ReplaceAll( " " "%20" ) )
+    
+    Endroutine
+    
+    * mailto:name1@rapidtables.com?cc=name2@rapidtables.com&bcc=name3@rapidtables.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email
+    
+    End_Com

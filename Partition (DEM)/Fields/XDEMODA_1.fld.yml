@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               xDemoDateTime
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+  - SUTC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DateTime"
+      Label:              "DateTime"
+      Heading1:           "DateTime"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "DateTime"
+      Label:              "DateTime"
+      Heading1:           "DateTime"
+      Heading2:           " "
+      Heading3:           " "

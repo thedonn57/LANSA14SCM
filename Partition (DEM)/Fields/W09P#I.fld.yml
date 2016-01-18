@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W09P#I
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition"
+      Label:              "W09P#I"
+      Heading1:           "Partition"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Partition"
+      Label:              "W09P#I"
+      Heading1:           "Partition"
+      Heading2:           " "
+      Heading3:           " "

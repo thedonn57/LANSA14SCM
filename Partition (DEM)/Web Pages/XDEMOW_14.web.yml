@@ -1,0 +1,69 @@
+﻿Web Page:
+  Name:               xDemoWebRadioButtons
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Radio Buttons"
+
+  - FRA:
+      Description:        "Radio Buttons"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    * Buttons that work like radio buttons
+    * Click a button and it shows in a different style
+    * Styles are defined locally in this example.
+    
+    Define_Com Class(#prim_PHBN) Name(#Button1) Displayposition(1) Left(602) Parent(#COM_OWNER) Tabposition(1) Top(370) Width(140) Height(60) Style(#Unselected) Caption('Option 3') Tabstop(False) Image(#xImageHelp16)
+    Define_Com Class(#prim_PHBN) Name(#Button2) Displayposition(2) Left(746) Parent(#COM_OWNER) Tabposition(2) Top(370) Width(140) Height(60) Style(#Unselected) Caption('Option 4') Tabstop(False) Image(#xImageHelp16)
+    Define_Com Class(#prim_PHBN) Name(#Button3) Displayposition(3) Left(458) Parent(#COM_OWNER) Tabposition(3) Top(370) Width(140) Height(60) Style(#Unselected) Caption('Option 2') Tabstop(False) Image(#xImageHelp16)
+    Define_Com Class(#prim_PHBN) Name(#Button4) Displayposition(4) Left(314) Parent(#COM_OWNER) Tabposition(4) Top(370) Width(140) Height(60) Style(#Unselected) Caption('Option 1') Tabstop(False) Image(#xImageHelp16)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Manage(#Button2) Parent(#TableLayout) Row(#Row) Sizing(None) Column(#Column_2) Flow(Right) Alignment(CenterLeft) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Manage(#Button3) Parent(#TableLayout) Row(#Row) Sizing(None) Column(#Column) Flow(Left) Alignment(CenterRight) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Manage(#Button4) Parent(#TableLayout) Row(#Row) Sizing(None) Column(#Column) Flow(Left) Alignment(CenterRight) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Manage(#Button1) Parent(#TableLayout) Row(#Row) Sizing(None) Column(#Column_2) Flow(Right) Alignment(CenterLeft) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    
+    * Appearance for unselected buttons
+    Define_Com Class(#PRIM_VS.Style) Name(#Unselected) Backgroundbrush(#UnselectedBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#UnselectedBrush) Color(250:139:21)
+    
+    * Appearance for the selected button
+    Define_Com Class(#PRIM_VS.Style) Name(#Selected) Backgroundbrush(#SelectedBrush) Textcolor(White)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#SelectedBrush) Color(198:106:4)
+    
+    * Collection of buttons for easy manipulation
+    Define_Com Class(#prim_acol<#prim_PHBN>) Name(#RadioButtons)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Collect all button instances
+    #RadioButtons.insert( #Button1 )
+    #RadioButtons.insert( #Button2 )
+    #RadioButtons.insert( #Button3 )
+    #RadioButtons.insert( #Button4 )
+    
+    Endroutine
+    
+    * Pick up the click event from ANY of the buttons in the collection.
+    * #SENDER will be a reference to the button that fired the event.
+    Evtroutine Handling(#RadioButtons<>.Click) Com_Sender(#Sender)
+     
+    * Set ALL buttons to be unselected
+    #RadioButtons<>.Style <= #Unselected
+    
+    * Highlight the button that was clicked
+    #Sender.Style <= #Selected
+    
+    Endroutine
+    
+    End_Com

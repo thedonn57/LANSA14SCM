@@ -1,0 +1,69 @@
+﻿Reusable Part:
+  Name:               XDXCarouselDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Carousel Design"
+
+  - FRA:
+      Description:        "Dessin carrousel"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #Prim_caro.ICarouselDesign *ListFields #ListFields) Height(341) Layoutmanager(#Layout) Width(428)
+    
+    * Fields mapped in when the entry is added to the Book
+    Group_By Name(#ListFields) Fields(#Givename #Surname #Empimg #Empno)
+    
+    Define_Com Class(#Prim_atlm) Name(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItem) Attachment(Center) Manage(#Content) Marginbottom(2) Marginleft(20) Marginright(20) Margintop(12) Parent(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItemBG) Attachment(Center) Manage(#Background) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#LayoutItemCaption) Attachment(Bottom) Manage(#Name) Marginbottom(12) Marginleft(20) Marginright(20) Margintop(2) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_Panl) Name(#Background) Displayposition(1) Height(341) Layoutmanager(#Layout) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(428)
+    
+    Define_Com Class(#PRIM_Panl) Name(#Content) Displayposition(1) Height(263) Left(20) Parent(#Background) Style(#ContentStyle) Tabposition(1) Tabstop(False) Top(12) Width(388)
+    
+    Define_Com Class(#prim_labl) Name(#Name) Alignment(Center) Caption('Employee Name') Displayposition(2) Left(20) Parent(#Background) Style(#XDXStyles<LargeHeading>) Tabposition(2) Tabstop(False) Top(279) Width(388)
+    
+    Define_Com Class(#prim_vs.Style) Name(#ContentStyle) Backgroundbrush(#ContentBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#ContentBrush) Sizing(BestFit)
+    
+    Define_Com Class(#Prim_bmp) Name(#Image) Reference(*Dynamic)
+    
+    Mthroutine Name(OnAdd) Options(*redefine)
+    
+    #Com_owner.Opacity := 50
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    #Name := ("&1 &2 (&3)").Substitute( #GiveName #Surname #Empno )
+    
+    #Image <= #sys_appln.CreateBitmap
+    #Image.FileName := #Empimg.FileName
+    #ContentBrush.Image <= #Image
+    
+    Endroutine
+    
+    Mthroutine Name(onItemGotFocus) Options(*Redefine)
+    
+    #Com_owner.Opacity := 100
+    
+    Endroutine
+    
+    Mthroutine Name(onItemLostFocus) Options(*Redefine)
+    
+    #Com_owner.Opacity := 50
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    

@@ -1,0 +1,42 @@
+﻿Web Page:
+  Name:               xDemoWebPrompting
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Prompting"
+
+  - FRA:
+      Description:        "Prompting"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme) Style(#Style1)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme50)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#EmployeePromptItem1) Column(#Column1) Manage(#EmployeePrompt) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    
+    Define_Com Class(#xDemoAlpha128.Visual) Name(#xDemoAlpha128) Displayposition(1) Left(16) Parent(#COM_OWNER) Tabposition(1) Top(16) Height(25) Width(561) Caption('Employee') Placeholder('Select an Employee') Labeltype(Caption) Showprompter(True) Labelselectable(False)
+    
+    Define_Com Class(#xDemoWebPromptingEmployeePopup) Name(#EmployeePrompt) Parent(#COM_OWNER) Left(304) Top(196)
+    
+    Evtroutine Handling(#xDemoAlpha128.PrompterActivate)
+    
+    #EmployeePrompt.Show
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeePrompt.Selected) Givenname(#GivenName) Surname(#SurName) Id(#ID)
+    
+    #xDemoAlpha128 := ("&1 &2 (&3)").Substitute( #GivenName #SurName #ID )
+    
+    Endroutine
+    
+    End_Com

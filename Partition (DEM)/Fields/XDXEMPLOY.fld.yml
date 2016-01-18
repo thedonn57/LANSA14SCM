@@ -1,0 +1,46 @@
+﻿Field:
+  Name:               XDXEmployeeSort
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "'EMPNO'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "EmployeeSort"
+      Label:              "EmployeeSort"
+      Heading1:           "EmployeeSort"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "EmployeeSort"
+      Label:              "EmployeeSort"
+      Heading1:           "EmployeeSort"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(323)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Value('EMPNO') Parent(#Picklist) Default(True) Caption('Employee Number')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Value('GIVENAME') Caption('Given Name') Parent(#Picklist)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_3) Parent(#Picklist) Caption('Surname') Value('SURNAME')
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#DropDown) Appearance(DropDownList) Height(19) Componentversion(1) Width(251) Fixedheight(False)
+    
+    End_Com
+    End_Com

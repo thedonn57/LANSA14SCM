@@ -1,0 +1,50 @@
+﻿Field:
+  Name:               EMPTSYEAR
+  Type:               Packed
+  Length:             4
+  Decimals:           0
+  Default Value:      "*YYYY"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Year"
+      Label:              "Year"
+      Heading1:           "Year"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Année"
+      Label:              "Année"
+      Heading1:           "Année"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "must be > *ZERO"
+      Values:
+      - "*ZERO"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DEM0051
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(216)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               EXP_NVAL
+  Type:               Packed
+  Length:             21
+  Decimals:           5
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Numeric Value"
+      Label:              "Numeric Value"
+      Heading1:           "Expression"
+      Heading2:           "Builder"
+      Heading3:           "Numeric Value"
+
+  - FRA:
+      Description:        "Générateur d´Expression Valeur Numérique"
+      Label:              "Val. Numérique"
+      Heading1:           "Générateur"
+      Heading2:           "Expression"
+      Heading3:           "Valeur Numérique"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_NSTR
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Numeric String"
+      Label:              "Numeric String"
+      Heading1:           "Expression Builder"
+      Heading2:           "Numeric String"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Chaine Numérique"
+      Label:              "Chaine numér."
+      Heading1:           "Générateur Expr."
+      Heading2:           "Chaine numérique"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F03ALS
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Alias name"
+      Label:              "F03ALS"
+      Heading1:           "Alias name"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

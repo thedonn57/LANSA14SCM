@@ -1,0 +1,46 @@
+﻿Form:
+  Name:               xDemoTouchRotationAndMove
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Touch Rotation and Move"
+
+  - FRA:
+      Description:        "Touch Rotation"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(796) Clientwidth(1252) Height(835) Left(205) Top(133) Width(1268) Theme(#xDemoTheme)
+    
+    * Example
+    Define_Com Class(#prim_acol<#xDemoTouchRotationAndMoveImage>) Name(#Images)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    Select Fields(*all) From_File(pslimg)
+    
+    * Create a new image panel for the employee
+    #Images.Insert( (*New #xDemoTouchRotationAndMoveImage.Construct( #sys_appln.CreateBitmap( #Empimg ) )) )
+    
+    * Increment the rotation of the image
+    #Images.Last.rotation := (#Images.Itemcount - 1) * 9
+    
+    #Images.last.parent <= #com_owner
+    
+    * Position in the middle of the form
+    #Images.Last.Left := (#Com_owner.ClientWidth - #Images.Last.Width) / 2
+    
+    #Images.Last.Top := (#Com_owner.ClientHeight - #Images.Last.Height) / 2
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    
+    

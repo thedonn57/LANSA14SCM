@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60P#I
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition identifier"
+      Label:              "F60P#I"
+      Heading1:           "F60P#I"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Partition identifier"
+      Label:              "F60P#I"
+      Heading1:           "F60P#I"
+      Heading2:           " "
+      Heading3:           " "

@@ -1,0 +1,66 @@
+﻿Form:
+  Name:               xDemoSQLColumnFunctions
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - Column functions"
+
+  - FRA:
+      Description:        "SELECT_SQL - Column functions"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(373) Clientwidth(300) Height(412) Layoutmanager(#TableLayout_1) Left(303) Top(211) Width(316)
+    
+    * SQL data processing options
+    
+    Define_Com Class(#PRIM_LTVW) Name(#List) Displayposition(1) Height(373) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(300)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(2) Parent(#List) Source(#SALARY) Width(46) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#List) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Caption('Function') Captiontype(Caption) Displayposition(1) Parent(#List) Source(#XDEMOALPH) Width(51) Widthtype(Fixed)
+    
+    Evtroutine Handling(#com_owner.Createinstance)
+    
+    #com_owner.Caption := *component_desc
+    
+    Select_Sql Fields((#SALARY 'AVG(SALARY)')) From_Files((PSLMST))
+    #Com_owner.AddEntry( "Average" )
+    Endselect
+    
+    Select_Sql Fields((#SALARY 'COUNT(*)')) From_Files((PSLMST))
+    #Com_owner.AddEntry( "Count" )
+    Endselect
+    
+    Select_Sql Fields((#SALARY 'MAX(SALARY)')) From_Files((PSLMST))
+    #Com_owner.AddEntry( "Maximum Value" )
+    Endselect
+    
+    Select_Sql Fields((#SALARY 'MIN(SALARY)')) From_Files((PSLMST))
+    #Com_owner.AddEntry( "Minimum Value" )
+    Endselect
+    
+    Select_Sql Fields((#SALARY 'SUM(SALARY)')) From_Files((PSLMST))
+    #Com_owner.AddEntry( "Total" )
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*Private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Caption)
+    
+    #xDemoAlpha128 := #Caption
+    
+    Add_Entry To_List(#List)
+    
+    Endroutine
+    
+    End_Com
+    

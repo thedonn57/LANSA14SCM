@@ -1,0 +1,146 @@
+﻿Reusable Part:
+  Name:               XSProductsView3
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Products View 3"
+
+  - FRA:
+      Description:        "Products View 3"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(1190) Left(0) Tabposition(1) Top(0) Width(800) Layoutmanager(#TableLayout1)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 3 Rows, 1 Column
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LProductInformationItem1) Manage(#LProductInformation) Parent(#TableLayout1) Row(#Row1) Column(#Column1) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TileItem1) Manage(#Tile) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LPreviousItem1) Manage(#LPrevious) Parent(#TableLayout1) Row(#Row3) Sizing(None) Column(#Column1) Alignment(CenterRight) Flow(Left) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LNextItem1) Alignment(CenterRight) Column(#Column1) Manage(#LNext) Parent(#TableLayout1) Row(#Row3) Sizing(None) Flow(Left)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LProductInformation) Caption('Product Information') Displayposition(2) Ellipses(Word) Height(35) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Verticalalignment(Center) Marginleft(20) Width(800) Themedrawstyle('PanelHeader1')
+    
+    Define_Com Class(#PRIM_TILE<#XSProductTile2>) Name(#Tile) Displayposition(4) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(45) Width(800) Height(1110) Direction(RightToLeft)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LPrevious) Caption('< Previous') Displayposition(3) Ellipses(Word) Height(25) Left(560) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(1160) Verticalalignment(Center) Width(110) Themedrawstyle('ButtonLook2') Alignment(Center)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LNext) Caption('Next >') Displayposition(1) Ellipses(Word) Height(25) Left(690) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(1160) Verticalalignment(Center) Width(110) Themedrawstyle('ButtonLook2') Alignment(Center)
+    
+    * References to SrvRoutine in Server Module
+    Define_Com Class(#XSServer.LoadProductsNext) Name(#LoadNext)
+    Define_Com Class(#XSServer.LoadProductsPrevious) Name(#LoadPrevious)
+    
+    Define_Com Class(#prim_acol<#XSProductData>) Name(#Products)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #com_owner.LoadProducts( ' ' #MySession.pProductLine #MySession.pProductCategory #MySession.pProductSearch )
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.ReloadProducts)
+    
+    #com_owner.LoadProducts( ' ' #MySession.pProductLine #MySession.pProductCategory #MySession.pProductSearch )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadPrevious.Completed)
+    
+    If (*Not #XSMoreEntries)
+    
+    #LPrevious.visible := false
+    
+    Endif
+    
+    Clr_List Named(#Tile)
+    
+    For Each(#Product) In(#Products)
+    
+    Add_Entry To_List(#Tile)
+    
+    #Tile.CurrentItem.RelatedReference <= #Product
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadNext.Completed)
+    
+    If (*Not #XSMoreEntries)
+    
+    #LNext.visible := false
+    
+    Endif
+    
+    Clr_List Named(#Tile)
+    
+    For Each(#Product) In(#Products)
+    
+    Add_Entry To_List(#Tile)
+    
+    #Tile.CurrentItem.RelatedReference <= #Product
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#LPrevious.Click)
+    
+    * Process PREVIOUS button click
+    
+    #LNext.visible #LPrevious.visible := true
+    
+    Get_Entry Number(1) From_List(#Tile)
+    
+    * Load previous page of products from the database
+    #LoadPrevious.ExecuteAsync( #XSProductID #MySession.pProductLine #XSProductCategoryID #MySession.pCategorySelected #Products #XSMoreEntries )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LNext.Click)
+    
+    * Process NEXT button click
+    Define_Com Class(#XSProductData) Name(#gProduct) Reference(*Dynamic)
+    
+    #LNext.visible #LPrevious.visible := true
+    
+    Get_Entry Number(#Tile.items.itemcount) From_List(#Tile)
+    
+    #XSProductID := (#Tile.CurrentItem.RelatedReference *As #XSProductData).ID
+    #XSProductCategoryID := (#Tile.CurrentItem.RelatedReference *As #XSProductData).Category
+    
+    * Load next page of products from the database
+    #LoadNext.ExecuteAsync( #XSProductID #MySession.pProductLine #XSProductCategoryID #MySession.pCategorySelected #Products #XSMoreEntries )
+    
+    Endroutine
+    
+    Mthroutine Name(LoadProducts)
+    Define_Map For(*input) Class(#XSProductID) Name(#ID)
+    Define_Map For(*input) Class(#XSProductLineID) Name(#LineID)
+    Define_Map For(*input) Class(#XSProductCategoryID) Name(#CategoryID)
+    Define_Map For(*input) Class(#XSSearchValue) Name(#Search)
+    
+    * This will be first page processing
+    #LPrevious.visible := false
+    #LNext.visible := true
+    
+    * Load first (next) page of products from the database
+    #LoadNext.ExecuteAsync( #ID #LineID #CategoryID #MySession.pCategorySelected #Products #XSMoreEntries )
+    
+    Endroutine
+    
+    End_Com

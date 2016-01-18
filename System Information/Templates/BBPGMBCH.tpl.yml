@@ -1,0 +1,64 @@
+﻿Template:
+  Name:                    BBPGMBCH
+  Description:             "Build block : Batch program layout"
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1989')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Working fields, lists and groups')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Screen Panel Groups and Lists')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Report line declarations')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Program Mainline : @@FUNCTION')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    /* **********                                                         */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: PRT_ERROR')
+    @@COMMENT  COMMENT('Description....: Print errors from program queue')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT)
+    SUBROUTINE NAME(PRT_ERROR)
+    DEFINE     FIELD(#ERRTXT) TYPE(*CHAR) LENGTH(100) LABEL('Error :')
+    DEFINE     FIELD(#RETCODE) TYPE(*CHAR) LENGTH(2)
+    DEF_LINE   NAME(#ERROR) FIELDS((#ERRTXT)) IDENTIFY(*LABEL)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#RETCODE #ERRTXT)
+    DOWHILE    COND('#RETCODE *EQ OK')
+    PRINT      LINE(#ERROR)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#RETCODE #ERRTXT)
+    ENDWHILE
+    ENDROUTINE
+
+  Help Panels:
+  - HELP010:
+      Description:        Batch program layout
+
+      Text: |
+        <-
+                                                                                        
+          This template will produce a basic RDML batch program layout.                 
+                                                                                        
+          It does not ask any questions.                                                
+                                                                                        
+          It will generate a batch program layout including a subroutine called PRTERROR
+          from the Tips, Techniques and Guidelines Manual. This can either be deleted   
+          from your program, or used to print error details onto any report(s) that     
+          your batch program produces.                                                  
+                                                                                        
+                                                                                        
+                                                                                        
+              YOU SHOULD COPY THIS TEMPLATE AND MODIFY IT TO YOUR SITE STANDARDS

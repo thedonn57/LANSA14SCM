@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*WEBPATHINFO"
+  Description:        "Path information for WEB"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             255
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       W3@P2100

@@ -1,0 +1,434 @@
+﻿Template:
+  Name:                    FRMNT01
+  Description:             Flat Screen Maintenance
+  Extended Description 1:  Optional ADD, CHANGE and DELETE function
+  Extended Description 2:  keys for maintenance of primary file.
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* **********                                                         */
+    /* ********** GET NAMES OF UP TO 20 RELATED FILES                     */
+    /* **********                                                         */
+    @@GET_FILS TO(20) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the primary file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** LOAD DETAILS OF ALL FIELDS IN PRIMARY FILE INTO LIST 1  */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* **********                                                         */
+    /* ********** ASK USER TO SELECT FIELDS FOR DISPLAY                   */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'Appear on' 'Display' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** ASK USER IF CHANGE FUNCTION ALLOWED                     */
+    /* **********                                                         */
+    @@QUESTION PROMPT('Is the change function key to be enabled ?') ANSWER(@@CANS001) EXTEND('Reply Y or N only.' 'Your reply will determine whether or not this function will allow the' 'CHANGE function key to be used to change records in the primary file.' ' ' 'Use the HELP function key for more information and examples') LOWER(*NO) SPCVAL((Y *YES) ('y' *YES) (N *NO) ('n' *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** ASK THE USER TO MAKE A LIST OF ALL FIELDS IN LIST 5     */
+    /* ********** THAT ARE NOT TO BE UPDATED IF CHANGE ENABLED            */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(6)
+    @@IF       COND((*IF @@CANS001 *EQ *NO)) GOTO(A05)
+    @@CLR_LST  NUMBER(5)
+    @@MAK_LSTS FROM_LSTS(2) INTO_LSTS((5 'Fields that' 'Cannot be' 'Updated' *YESNO *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    @@MRG_LSTS FROM_LSTS((5 *OUTPUT)) INTO_LST(6)
+    A05: @@LABEL
+    @@MRG_LSTS FROM_LSTS((2)) INTO_LST(6)
+    /* **********                                                         */
+    /* ********** ASK USER IF ADD FUNCTION ALLOWED                        */
+    /* **********                                                         */
+    @@QUESTION PROMPT('Is the add function key to be enabled ?') ANSWER(@@CANS002) EXTEND('Reply Y or N only.' 'Your reply will determine whether or not this function will allow the' 'ADD function key to be used to add additional records to the primary file.' 'Use the HELP function key for more information and examples.') LOWER(*NO) SPCVAL((Y *YES) ('y' *YES) (N *NO) ('n' *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** ASK USER IF DELETE FUNCTION ALLOWED                     */
+    /* **********                                                         */
+    @@QUESTION PROMPT('Is the delete function key to be enabled ?') ANSWER(@@CANS003) EXTEND('Reply Y or N only.' 'Your reply will determine whether or not this function will allow the' 'DELETE function key to be used to delete records from the primary file.' ' ' 'Use the HELP function key for more information and examples') LOWER(*NO) SPCVAL((Y *YES) ('y' *YES) (N *NO) ('n' *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** PUT ALL FIELDS FROM OTHER SELECTED FILES INTO LIST 3    */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(3)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(3)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* **********                                                         */
+    /* ********** ASK THE USER TO MAKE A LIST OF ALL FIELDS IN LIST 2     */
+    /* ********** IF MORE THAN 1 FILE SELECTED                            */
+    /* **********                                                         */
+    @@IF       COND((*IF @@TFMX *EQ 1)) GOTO(A25)
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(3) INTO_LSTS((4 'Additional' 'Fields to' 'Appear' *YESNO *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    @@MRG_LSTS FROM_LSTS((4 *OUTPUT)) INTO_LST(6)
+    A25: @@LABEL
+    /* **********                                                         */
+    /* ********** ASK THE USER HOW TO DESIGN THE PANELS                   */
+    /* **********                                                         */
+    @@QUESTION PROMPT('Design fields on the data entry panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS004) EXTEND('Reply DOWN or ACROSS only.' 'If your data entry panel contains 17 (or less) fields, DOWN is the   ' 'recommended value. If your data entry panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 6 AS *HIDDEN     */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(6)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* **********                                                         */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* **********                                                         */
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(@@LST06)
+    @@COMMENT  'Loop until user EXITs or CANCELs'
+    BEGIN_LOOP
+    /* **********                                                         */
+    /* ********** REQUEST KEYS OF THE BASE FILE                           */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@IF       COND((*IF @@CANS004 *NE DOWN)) GOTO(R01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) ADD_KEY(@@CANS002)
+    @@GOTO     LABEL(R02)
+    L91: @@LABEL
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) ADD_KEY(@@CANS002) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    @@GOTO     LABEL(R02)
+    R01: @@IF       COND((*IF @@CANS004 *NE ACROSS)) GOTO(R02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L93)
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*ACROSS) IDENTIFY(*LABEL) ADD_KEY(@@CANS002)
+    @@GOTO     LABEL(R02)
+    L93: @@LABEL
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*ACROSS) IDENTIFY(*LABEL) ADD_KEY(@@CANS002) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    /* **********                                                         */
+    /* ********** IF ADD KEY ENABLED, THEN CODE FOR ADD INSERTED          */
+    /* **********                                                         */
+    R02: @@IF       COND((*IF @@CANS002 *EQ *NO)) GOTO(A45)
+    IF_MODE    IS(*ADD)
+    EXECUTE    SUBROUTINE(ADDRECORD)
+    SET_MODE   TO(*DISPLAY)
+    ELSE
+    A45: @@LABEL
+    /* **********                                                         */
+    /* ********** FETCH DETAILS FROM THE BASE FILE                        */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Fetch file @@FNAME01 details     ')
+    FETCH      FIELDS((#PANELDATA)) FROM_FILE(@@FNAME01) WITH_KEY(@@LST03) NOT_FOUND(R10) ISSUE_MSG(*YES)
+    /* **********                                                         */
+    /* ********** FETCH DETAILS FROM ALL SECONDARY FILES                  */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#PANELDATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    /* **********                                                         */
+    /* ********** DISPLAY DETAILS TO USER                                 */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Display results to the user      ')
+    SET_MODE   TO(*DISPLAY)
+    @@IF       COND((*IF @@CANS004 *NE DOWN)) GOTO(D01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L94)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*DOWN) IDENTIFY(*DESC)       ADD_KEY(@@CANS002) CHANGE_KEY(@@CANS001) DELETE_KEY(@@CANS003)
+    @@GOTO     LABEL(D02)
+    L94: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*DOWN) IDENTIFY(*DESC)       ADD_KEY(@@CANS002) CHANGE_KEY(@@CANS001) DELETE_KEY(@@CANS003) CURSOR_LOC(*ATFIELD #@@LEL0601)
+    @@GOTO     LABEL(D02)
+    D01: @@IF       COND((*IF @@CANS004 *NE ACROSS)) GOTO(D02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L95)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*ACROSS) IDENTIFY(*LABEL)    ADD_KEY(@@CANS002) CHANGE_KEY(@@CANS001) DELETE_KEY(@@CANS003)
+    @@GOTO     LABEL(D02)
+    L95: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*ACROSS) IDENTIFY(*LABEL)    ADD_KEY(@@CANS002) CHANGE_KEY(@@CANS001) DELETE_KEY(@@CANS003) CURSOR_LOC(*ATFIELD #@@LEL0601)
+    /* **********                                                         */
+    /* ********** IF ADD KEY ENABLED INSERT CODE FOR ADD KEY              */
+    /* **********                                                         */
+    D02: @@IF       COND((*IF @@CANS002 *EQ *NO)) GOTO(A70)
+    IF_MODE    IS(*ADD)
+    EXECUTE    SUBROUTINE(ADDRECORD)
+    SET_MODE   TO(*DISPLAY)
+    ENDIF
+    A70: @@LABEL
+    /* **********                                                         */
+    /* ********** IF CHANGE KEY ENABLED INSERT CODE FOR CHANGE KEY        */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS001 *EQ *NO)) GOTO(A75)
+    IF_MODE    IS(*CHANGE)
+    UPDATE     FIELDS((#PANELDATA)) IN_FILE(@@FNAME01) ISSUE_MSG(*YES)
+    ENDIF
+    A75: @@LABEL
+    /* **********                                                         */
+    /* ********** IF DELETE KEY ENABLED INSERT CODE FOR DELETE KEY        */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS003 *EQ *NO)) GOTO(A80)
+    IF_MODE    IS(*DELETE)
+    DELETE     FROM_FILE(@@FNAME01) ISSUE_MSG(*YES)
+    ENDIF
+    A80: @@LABEL
+    /* **********                                                         */
+    /* ********** IF ADD KEY ENABLED INSERT ENDIF FOR ADD KEY CODE        */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS002 *EQ *NO)) GOTO(A82)
+    ENDIF
+    A82: @@LABEL
+    END_LOOP
+    /* **********                                                         */
+    /* ********** IF ADD KEY ENABLED THEN INSERT ADD SUBROUTINE           */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS002 *EQ *NO)) GOTO(A85)
+    @@QUESTION PROMPT('Supply a word that describes WHAT this maintenance program works with') ANSWER(@@CANS005) EXTEND('123456789012345678' 'The word you specify here is used to build messages that appear on the' 'data entry screen panel. You should use ONE word only, use lowercase' 'characters only and only use singular form (eg: "customer", "employee"' '"order"). Do NOT use more than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070 HELP080)
+    /* **********                                                         */
+    /* ********** ASK USER FOR FIELDS TO APPEAR ON ADD PANEL              */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(3) INTO_LSTS((4 'Fields to' 'Appear on' 'Add Panel' *SEQUENCE *ALL))
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Subroutine to add a new record to the primary file')
+    SUBROUTINE NAME(ADDRECORD)
+    GROUP_BY   NAME(#ADDDATA) FIELDS(@@LST04)
+    @@COMMENT  'Issue initial data entry message'
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS005''')
+    @@COMMENT  COMMENT('Do data entry until terminated by EXIT or CANCEL ')
+    CHANGE     FIELD(#ADDDATA) TO(*DEFAULT)
+    BEGIN_LOOP
+    @@COMMENT  'Request user inputs or corrects details'
+    @@IF       COND((*IF @@CANS004 *NE DOWN)) GOTO(D11)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L96)
+    REQUEST    FIELDS((#ADDDATA)) DESIGN(*DOWN) IDENTIFY(*DESC ) MENU_KEY(*YES *RETURN)
+    @@GOTO     LABEL(D12)
+    L96: @@LABEL
+    REQUEST    FIELDS((#ADDDATA)) DESIGN(*DOWN) IDENTIFY(*DESC ) MENU_KEY(*YES *RETURN) CURSOR_LOC(*ATFIELD #@@LEL0401)
+    @@GOTO     LABEL(D12)
+    D11: @@IF       COND((*IF @@CANS004 *NE ACROSS)) GOTO(D12)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L97)
+    REQUEST    FIELDS((#ADDDATA)) DESIGN(*ACROSS) IDENTIFY(*LABEL) MENU_KEY(*YES *RETURN)
+    @@GOTO     LABEL(D12)
+    L97: @@LABEL
+    REQUEST    FIELDS((#ADDDATA)) DESIGN(*ACROSS) IDENTIFY(*LABEL) MENU_KEY(*YES *RETURN) CURSOR_LOC(*ATFIELD #@@LEL0401)
+    D12: @@COMMENT  'Perform any program level validation here'
+    BEGINCHECK
+    ENDCHECK
+    @@COMMENT  'Attempt to insert data into the data base'
+    INSERT     FIELDS((#ADDDATA)) TO_FILE(@@FNAME01)
+    @@COMMENT  'If okay, reset fields and issue accepted message'
+    CHANGE     FIELD(#ADDDATA) TO(*DEFAULT)
+    MESSAGE    MSGID(DCU0011) MSGF(DC@M01) MSGDTA('''@@CANS005''')
+    END_LOOP
+    ENDROUTINE
+    A85: @@LABEL
+    /* **********                                                         */
+    /* ********** CLEAR ALL WORK LISTS                                    */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@CLR_LST  NUMBER(6)
+
+  Help Panels:
+  - HELP010:
+      Description:        "   Flat Screen Maintenance"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a flat screen maintenance program. You can 
+         use the resulting program as is, or modify the resulting program yourself so   
+         that it exactly matches your requirements. When you elect to use this template 
+         you will be asked some or all of the following things .....                    
+                                                                                        
+        1. To nominate the primary file (either physical or logical) that is to be used 
+           in this RDML program. You can enter the full file name, a partial file       
+           name (to get a partial list of available files), or leave the name blank     
+           (to get a full list of available files). When a list of files is displayed   
+           the required one may be chosen from the list.                                
+                                                                                        
+        2. Next, you must choose and order the fields that are to appear on the         
+           display panel.                                                               
+                                                                                        
+        3. Then you will be asked to specify if the change function key is to be        
+           enabled. This will allow this RDML program to be used to modify records      
+           in the primary file.
+
+  - HELP020:
+      Description:        "   Flat Screen Maintenance"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+        4. Next, you will be asked to select those fields that are not to be modified   
+           by this RDML program. You will only be given this selection if you specified 
+           that the change key was to be enabled.                                       
+                                                                                        
+        5. You will then be asked if the add function key is to be enabled. This will   
+           allow the RDML program to be used to add new records to the primary file.    
+                                                                                        
+        6. After this, you will then be asked if the delete function key is to be       
+           enabled. This will allow this RDML program to be used to delete records      
+           from the primary file.                                                       
+                                                                                        
+        7. Next, you will be asked to choose and order fields from any secondary        
+           files that are to appear on the display panel. These fields will not be      
+           able to be modified in this RDML program.
+
+  - HELP030:
+      Description:        "   Flat screen maintenance"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+        8. Next, you will be asked whether fields on the display panel are to be        
+           designed across the screen or down the screen. If you have 17 (or less)      
+           fields it is recommended that you use down the screen. If you have more      
+           than 17, it is recommended that you use across the screen.                   
+                                                                                        
+           If you specified that this RDML program is to enable the add function key    
+           then you will also be asked the following last two questions :               
+                                                                                        
+        9. To specify a word that describes what type of "entity" this maintenance      
+           program works with. Some examples would be "order", "customer", "employee".  
+           Note that only one word is used, all lowercase characters are used and that  
+           the singular form of the word is used. Additionally, no word is more than 20 
+           characters long. You should follow these guidelines as well to get the best  
+           results.                                                                     
+                                                                                        
+        10. You will be asked to choose and order fields from the primary file that are 
+            to appear on the add function panel. These fields will all be input capable.
+            Key fields of the file must be chosen.
+
+  - HELP040:
+      Description:        "    Example First Panel"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         Employee No . . .
+
+  - HELP050:
+      Description:        "  Example Maintenance Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . : A1234                                                       
+         Given Name . . . : JOHN                                                        
+         Surname  . . . . : SMITH                                                       
+         Address  . . . . : 121 Railway Street                Note the details from     
+         City . . . . . . : SYDNEY                            secondary file(s)         
+         State  . . . . . : NSW  NEW SOUTH WALES  <---------                            
+         Country  . . . . : AUS  AUSTRALIA                                              
+         Home Phone . . . : 634-3747                                                    
+         Bus Phone  . . . : 547-5468                                                    
+         Start Date . . . : 010289                                                      
+         Salary . . . . . : 30000.00               This is an example of what a display 
+                                                   panel created by this template on a  
+                                                   Personnel file might look like.      
+                                                   Note the DOWN the screen design.     
+                                                                                        
+                                                   The function keys for Add, Change    
+                                                   and Delete will appear if enabled.
+
+  - HELP060:
+      Description:        "  Example Add Function Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . .                                                             
+         Given Name . . . .                                                             
+         Surname  . . . . .                                                             
+         Address  . . . . .                                                             
+         City . . . . . . .                                                             
+         State  . . . . . .                                                             
+         Country  . . . . .                                                             
+         Home Phone . . . .                                                             
+         Bus Phone  . . . .                                                             
+         Start Date . . . .                                                             
+         Salary . . . . . .                        This is an example of what the add   
+                                                   panel created by this template on a  
+                                                   Personnel file might look like.      
+                                                   Note the DOWN the screen design and  
+                                                   the initial message at the bottom.   
+                                                                                        
+                                                                                        
+                                                                                        
+         Input employee details and press enter.
+
+  - HELP070:
+      Description:        "  Example Add Function Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . : A1234                                                       
+         Given Name . . . . JOHN                                                        
+         Surname  . . . . . SMITH                                                       
+         Address  . . . . . 121 Railway Street                                          
+         City . . . . . . . SYDNEY                                                      
+         State  . . . . . . NSE                                                         
+         Country  . . . . . AUS                                                         
+         Home Phone . . . . 634-3747                                                    
+         Bus Phone  . . . . 547-5468                                                    
+         Start Date . . . . 010289                                                      
+         Salary . . . . . . 30000.00               Next the user would input the data   
+                                                   and press enter. If the data was not 
+                                                   valid, the field(s) in error would   
+                                                   be indicated like in this example.   
+                                                   The user can scroll the messages to  
+                                                   view the error in "Start Date".      
+                                                                                        
+                                                                                        
+         State code NSE is unknown. Please check entry or use Prompt key to select.    +
+
+  - HELP080:
+      Description:        "  Example Add Function Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . .                                                             
+         Given Name . . . .                                                             
+         Surname  . . . . .                                                             
+         Address  . . . . .                                                             
+         City . . . . . . .                                                             
+         State  . . . . . .                                                             
+         Country  . . . . .                                                             
+         Home Phone . . . .                                                             
+         Bus Phone  . . . .                                                             
+         Start Date . . . .                                                             
+         Salary . . . . . .                        After all data is correct, the next  
+                                                   panel the user sees would look like  
+                                                   this. Note the message.              
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Details of employee saved - input details of next employee.

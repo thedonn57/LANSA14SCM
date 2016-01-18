@@ -1,0 +1,248 @@
+﻿Template:
+  Name:                    BBRDMLBIF
+  Description:             RDML Built-In Function
+  Extended Description 1:  Skeleton for an RDML Built-In Function
+
+  Source: |
+    @@QUESTION PROMPT('Will the Built-In Function terminate between USEs? (Y / N)') ANSWER(@@CANS001) EXTEND('This answer governs whether the function will' 'be *HEAVYUSAGE or *LIGHTUSAGE' 'Y = *LIGHTUSAGE' 'N = *HEAVYUSAGE') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1998')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION')
+    @@COMMENT  COMMENT('Type ..........: Built_In Function')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES')
+    @@COMMENT  COMMENT('=======================================================')
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(FU1)
+    FUNCTION   OPTIONS(*DIRECT *NOMESSAGES *LIGHTUSAGE *MLOPTIMISE *BUILTIN)
+    @@GOTO     LABEL(FU9)
+    FU1: @@LABEL
+    FUNCTION   OPTIONS(*DIRECT *NOMESSAGES *HEAVYUSAGE *MLOPTIMISE *BUILTIN)
+    FU9: @@LABEL
+    @@QUESTION PROMPT('Do the current name or description need to be overridden (Y/N)') ANSWER(@@CANS002) EXTEND('This answer governs whether "@@FUNCTION" is to be the BIF name and' '"@@FUNCDES" is to be the BIF description' 'Y = You will be prompted for the name and description required' 'N = These remain as the BIF name and description, respectively') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030)
+    @@IF       COND((*IF @@CANS002 *EQ N)) GOTO(BNO)
+    @@QUESTION PROMPT('What is the name of the Built-In Function?') ANSWER(@@CANS003) EXTEND('123456789012345678<- No more than 18 characters' 'This is the name that will be specified when the BIF is used.' 'Make it as meaningful as possible within the UD_, OV_ naming conventions') LOWER(*NO) RANGE(('AAAAAAAAAAAAAAAAAA' 'Z99999999999999999')) HELPIDS(HELP010 HELP020 HELP030)
+    @@QUESTION PROMPT('What is the description of the Built-In Function?') ANSWER(@@CANS004) EXTEND('1234567890123456789012345678901234567890<- no more than 40 characters' 'This is the description that will be held in the BIF Definition file' 'Describe the BIF as meaningfully as is possible') LOWER(*YES) HELPIDS(HELP010 HELP020 HELP030)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Special field to name the Built-In Function')
+    @@COMMENT  COMMENT('=======================================================')
+    DEFINE     FIELD(#BIF_NAME) TYPE(*CHAR) LENGTH(20) DESC('@@CANS004') DEFAULT(@@CANS003)
+    BNO: @@LABEL
+    @@QUESTION PROMPT('How many arguments will the Built-In Function have?') ANSWER(@@NANS005) EXTEND('(0 - 20)' 'Check now that you are not going to define required arguments or' 'lists after optional arguments') RANGE((0 20)) HELPIDS(HELP020 HELP030 HELP010)
+    @@IF       COND((*IF @@NANS005 *EQ 0)) GOTO(AR9)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Built-In Function Arguments')
+    @@COMMENT  COMMENT('=======================================================')
+    @@SET_IDX  IDX_NAME(AR) TO(0)
+    AR1: @@LABEL
+    @@INC_IDX  IDX_NAME(AR)
+    @@CMP_IDX  IDX_NAME(AR) IDX_VALUE(@@NANS005) IF_GT(AR9)
+    @@QUESTION PROMPT('What is the description of Built-In Function Argument @@INDEXAR?') ANSWER(@@CANS011) EXTEND('1234567890123456789012345678901234567890<- no more than 40 characters' 'This is the description that will be held in the BIF Parameter file' 'Describe the argument as meaningfully as is possible') LOWER(*YES) HELPIDS(HELP020 HELP030 HELP010)
+    @@QUESTION PROMPT('What is the type of Built-In Function Argument @@INDEXAR?') ANSWER(@@CANS012) EXTEND('A = alpha, S = signed, P = packed, L = list') LOWER(*NO) VALUES(A S P L) HELPIDS(HELP020 HELP030 HELP010)
+    @@IF       COND((*IF @@CANS012 *EQ L)) GOTO(AR2)
+    @@QUESTION PROMPT('Is the Built-In Function Argument @@INDEXAR Required or Optional?') ANSWER(@@CANS013) EXTEND('R = required, O = Optional' 'Remember that a required or list argument cannot be defined after an' 'optional argument') LOWER(*NO) VALUES(R O) HELPIDS(HELP020)
+    @@GOTO     LABEL(AR3)
+    AR2: @@LABEL
+    @@QUESTION PROMPT('What is the maximum number of entries for list Argument @@INDEXAR?') ANSWER(@@NANS014) EXTEND('(1 - 9999)') RANGE((1 9999)) HELPIDS(HELP020 HELP030 HELP010)
+    AR3: @@LABEL
+    @@QUESTION PROMPT('What is the length for Argument @@INDEXAR of type @@CANS012?') ANSWER(@@NANS015) EXTEND('For A (1 - 256), S (1 - 30), P (1 - 30), L (1 - 256)') RANGE((1 256)) HELPIDS(HELP020 HELP030 HELP010)
+    @@IF       COND((*IF @@CANS012 *EQ A)) GOTO(AR4)
+    @@IF       COND((*IF @@CANS012 *EQ L)) GOTO(AR5)
+    @@QUESTION PROMPT('How many decimal places for argument @@INDEXAR of type @@CANS012?') ANSWER(@@NANS016) EXTEND('(0 - 9 or @@NANS015)' 'The maximum is 9 or @@NANS015, whichever is smaller') RANGE((0 9)) HELPIDS(HELP020 HELP030 HELP010)
+    AR4: @@LABEL
+    @@IF       COND((*IF @@CANS013 *EQ R)) GOTO(AR5)
+    @@QUESTION PROMPT('What is the default value of Argument @@INDEXAR?') ANSWER(@@CANS017) EXTEND('1234567890<- no more than 10 characters' ' This is the default that will be used if the argument is not specified') LOWER(*YES) HELPIDS(HELP020 HELP030 HELP010)
+    AR5: @@LABEL
+    @@COMMENT  COMMENT('Argument @@INDEXAR, @@CANS011')
+    @@IF       COND((*IF @@CANS012 *EQ A) (*AND @@CANS013 *EQ R)) GOTO(AAR)
+    @@IF       COND((*IF @@CANS012 *EQ A) (*AND @@CANS013 *EQ O)) GOTO(AAO)
+    @@IF       COND((*IF @@CANS012 *EQ S) (*AND @@CANS013 *EQ R)) GOTO(ASR)
+    @@IF       COND((*IF @@CANS012 *EQ S) (*AND @@CANS013 *EQ O)) GOTO(ASO)
+    @@IF       COND((*IF @@CANS012 *EQ P) (*AND @@CANS013 *EQ R)) GOTO(APR)
+    @@IF       COND((*IF @@CANS012 *EQ P) (*AND @@CANS013 *EQ O)) GOTO(APO)
+    @@IF       COND((*IF @@CANS012 *EQ L)) GOTO(ALR)
+    ALR: @@LABEL
+    @@COMMENT  COMMENT('Replace field  ARG@@INDEXARFILL with the field(s)')
+    @@COMMENT  COMMENT('that will really be in the list')
+    DEFINE     FIELD(#BIF_ALC@@INDEXAR) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('@@CANS011')
+    DEFINE     FIELD(#ARG@@INDEXARFILL) TYPE(*CHAR) LENGTH(@@NANS015) DESC('Dummy Field for Prototyping')
+    DEF_LIST   NAME(#BIF_ARG@@INDEXAR) FIELDS((#ARG@@INDEXARFILL)) COUNTER(#BIF_ALC@@INDEXAR) TYPE(*WORKING) ENTRYS(@@NANS014)
+    @@GOTO     LABEL(AR6)
+    AAR: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) TYPE(*CHAR) LENGTH(@@NANS015) DESC('@@CANS011')
+    @@GOTO     LABEL(AR6)
+    AAO: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) TYPE(*CHAR) LENGTH(@@NANS015) DESC('@@CANS011') DEFAULT('@@CANS017')
+    @@GOTO     LABEL(AR6)
+    ASR: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) REFFLD(#REP1PAGE) LENGTH(@@NANS015) DECIMALS(@@NANS016) DESC('@@CANS011')
+    @@GOTO     LABEL(AR6)
+    ASO: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) REFFLD(#REP1PAGE) LENGTH(@@NANS015) DECIMALS(@@NANS016) DESC('@@CANS011') DEFAULT(@@CANS017)
+    @@GOTO     LABEL(AR6)
+    APR: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) TYPE(*DEC) LENGTH(@@NANS015) DECIMALS(@@NANS016) DESC('@@CANS011')
+    @@GOTO     LABEL(AR6)
+    APO: @@LABEL
+    DEFINE     FIELD(#BIF_ARG@@INDEXAR) TYPE(*DEC) LENGTH(@@NANS015) DECIMALS(@@NANS016) DESC('@@CANS011') DEFAULT(@@CANS017)
+    @@GOTO     LABEL(AR6)
+    AR6: @@LABEL
+    @@GOTO     LABEL(AR1)
+    AR9: @@LABEL
+    @@QUESTION PROMPT('How many return values will the Built-In Function have?') ANSWER(@@NANS006) EXTEND('(0 - 20)' 'Check now that you are not going to define required return values or' 'lists after optional return values') RANGE((0 20)) HELPIDS(HELP030 HELP010 HELP020)
+    @@IF       COND((*IF @@NANS006 *EQ 0)) GOTO(RV9)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Built-In Function Return Values')
+    @@COMMENT  COMMENT('=======================================================')
+    @@SET_IDX  IDX_NAME(RV) TO(0)
+    RV1: @@LABEL
+    @@INC_IDX  IDX_NAME(RV)
+    @@CMP_IDX  IDX_NAME(RV) IDX_VALUE(@@NANS006) IF_GT(RV9)
+    @@QUESTION PROMPT('What is the description of Built-In Function Return Value @@INDEXRV?') ANSWER(@@CANS021) EXTEND('1234567890123456789012345678901234567890<- no more than 40 characters' ' This is the description that will be held in the BIF Parameter file' 'Describe the return value as meaningfully as is possible') LOWER(*YES) HELPIDS(HELP030 HELP010 HELP020)
+    @@QUESTION PROMPT('What is the type of Return Value @@INDEXRV?') ANSWER(@@CANS022) EXTEND('A = alpha, S = signed, P = packed, L = list') LOWER(*NO) VALUES(A S P L) HELPIDS(HELP030 HELP010 HELP020)
+    @@IF       COND((*IF @@CANS022 *EQ L)) GOTO(RV2)
+    @@QUESTION PROMPT('Is the Return Value @@INDEXRV Required or Optional?') ANSWER(@@CANS023) EXTEND('R = required, O = Optional' 'Remember that a required or list return value cannot be defined after an' 'optional return value') LOWER(*NO) VALUES(R O) HELPIDS(HELP030 HELP010 HELP020)
+    @@GOTO     LABEL(RV3)
+    RV2: @@LABEL
+    @@QUESTION PROMPT('What is the maximum number of entries for list Return Value @@INDEXRV?') ANSWER(@@NANS024) EXTEND('(1 - 9999)') RANGE((1 9999)) HELPIDS(HELP030 HELP010 HELP020)
+    RV3: @@LABEL
+    @@QUESTION PROMPT('What is the length for Return Value @@INDEXRV of type @@CANS022?') ANSWER(@@NANS025) EXTEND('For A (1 - 256), S (1 - 30), P (1 - 30), L (1 - 256)') RANGE((1 256)) HELPIDS(HELP030 HELP010 HELP020)
+    @@IF       COND((*IF @@CANS022 *EQ A)) GOTO(RV4)
+    @@IF       COND((*IF @@CANS022 *EQ L)) GOTO(RV4)
+    @@QUESTION PROMPT('How many decimal places for return value @@INDEXRV of type @@CANS022?') ANSWER(@@NANS026) EXTEND('(0 - 9 or @@NANS025)' 'The maximum is 9 or @@NANS025, whichever is smaller') RANGE((0 9)) HELPIDS(HELP030 HELP010 HELP020)
+    RV4: @@LABEL
+    @@COMMENT  COMMENT('Return Value @@INDEXRV, @@CANS021')
+    @@IF       COND((*IF @@CANS022 *EQ A) (*AND @@CANS023 *EQ R)) GOTO(RAR)
+    @@IF       COND((*IF @@CANS022 *EQ A) (*AND @@CANS023 *EQ O)) GOTO(RAO)
+    @@IF       COND((*IF @@CANS022 *EQ S) (*AND @@CANS023 *EQ R)) GOTO(RSR)
+    @@IF       COND((*IF @@CANS022 *EQ S) (*AND @@CANS023 *EQ O)) GOTO(RSO)
+    @@IF       COND((*IF @@CANS022 *EQ P) (*AND @@CANS023 *EQ R)) GOTO(RPR)
+    @@IF       COND((*IF @@CANS022 *EQ P) (*AND @@CANS023 *EQ O)) GOTO(RPO)
+    @@IF       COND((*IF @@CANS012 *EQ L)) GOTO(RLR)
+    RLR: @@LABEL
+    @@COMMENT  COMMENT('Replace field  RET@@INDEXRVFILL with the fields')
+    @@COMMENT  COMMENT('that will really be in the list')
+    DEFINE     FIELD(#BIF_RLC@@INDEXRV) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('@@CANS021')
+    DEFINE     FIELD(#RET@@INDEXRVFILL) TYPE(*CHAR) LENGTH(@@NANS025) DESC('Dummy Field for Prototyping')
+    DEF_LIST   NAME(#BIF_RET@@INDEXRV) FIELDS((#RET@@INDEXRVFILL)) COUNTER(#BIF_RLC@@INDEXRV) TYPE(*WORKING) ENTRYS(@@NANS024)
+    @@GOTO     LABEL(RV5)
+    RAR: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) TYPE(*CHAR) LENGTH(@@NANS025) DESC('@@CANS021')
+    @@GOTO     LABEL(RV5)
+    RAO: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) TYPE(*CHAR) LENGTH(@@NANS025) DESC('@@CANS021') DEFAULT(*BLANK)
+    @@GOTO     LABEL(RV5)
+    RSR: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) REFFLD(#REP1PAGE) LENGTH(@@NANS025) DECIMALS(@@NANS026) DESC('@@CANS021')
+    @@GOTO     LABEL(RV5)
+    RSO: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) REFFLD(#REP1PAGE) LENGTH(@@NANS025) DECIMALS(@@NANS026) DESC('@@CANS021') DEFAULT(*ZERO)
+    @@GOTO     LABEL(RV5)
+    RPR: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) TYPE(*DEC) LENGTH(@@NANS025) DECIMALS(@@NANS026) DESC('@@CANS021')
+    @@GOTO     LABEL(RV5)
+    RPO: @@LABEL
+    DEFINE     FIELD(#BIF_RET@@INDEXRV) TYPE(*DEC) LENGTH(@@NANS025) DECIMALS(@@NANS026) DESC('@@CANS021') DEFAULT(*ZERO)
+    @@GOTO     LABEL(RV5)
+    RV5: @@LABEL
+    @@GOTO     LABEL(RV1)
+    RV9: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Working fields, lists and groups')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline : @@FUNCTION')
+    @@COMMENT  COMMENT('=======================================================')
+    @@IF       COND((*IF @@CANS001 *EQ Y)) GOTO(ML1)
+    @@COMMENT  COMMENT('This is an evaluation call')
+    @@COMMENT  COMMENT(' ')
+    IF         COND('*BIF_SHUTDOWN *NE Y')
+    @@COMMENT  COMMENT('>>> Put Built-In Function evaluation logic    <<<')
+    @@COMMENT  COMMENT('>>> here.                                     <<<')
+    @@COMMENT  COMMENT('>>> Two system variables are available to     <<<')
+    @@COMMENT  COMMENT('>>> tell you how many arguments and return    <<<')
+    @@COMMENT  COMMENT('>>> values have been used. They are:          <<<')
+    @@COMMENT  COMMENT('>>> *BIF_ARGCOUNT and *BIF_RETCOUNT.          <<<')
+    ELSE
+    @@COMMENT  COMMENT('>>> Put Built-In Function shutdown logic      <<<')
+    @@COMMENT  COMMENT('>>> here                                      <<<')
+    ENDIF
+    @@GOTO     LABEL(ML9)
+    ML1: @@LABEL
+    @@COMMENT  COMMENT('>>> Put Built-In Function logic               <<<')
+    @@COMMENT  COMMENT('>>> here                                      <<<')
+    @@COMMENT  COMMENT('>>> Two system variables are available to     <<<')
+    @@COMMENT  COMMENT('>>> tell you how many arguments and return    <<<')
+    @@COMMENT  COMMENT('>>> values have been passed. They are:        <<<')
+    @@COMMENT  COMMENT('>>> *BIF_ARGCOUNT and *BIF_RETCOUNT.          <<<')
+    ML9: @@LABEL
+    @@COMMENT  COMMENT('Return control to the invoker')
+    RETURN
+
+  Help Panels:
+  - HELP010:
+      Description:        "  RDML BIF Definition"
+
+      Text: |
+        <-
+                                                                                        
+        Use this building block only when you are starting a new manually coded RDML    
+        function that is to be used as a Built-In function.                             
+                                                                                        
+        Before you attempt to compile any function that is created from this template   
+        you should have read the section in the LANSA Built-In Functions Guide that     
+        explains about creating Built-In Functions that are coded in RDML.              
+                                                                                        
+                                                                                        
+                                                                                        
+        This template will ask you the following questions:                             
+                                                                                        
+          Will the BIF terminate between uses (seton LR)? (Y/N)                         
+          Do the name or description need to be overridden? (Y/N)                       
+          If you need to override either                                                
+                Specify the name of the BIF (18 characters)                             
+                Specify the description for the BIF (40 characters)                     
+                                                                                        
+         WARNING. Choose the BIF name carefully with respect to the type of Built-In    
+                  Function that is being created. This name is very important.
+
+  - HELP020:
+      Description:        "   RDML BIF Parameters"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+               How many arguments will the BIF have? (0 - 20)                           
+               For each argument:                                                       
+                     Specify its description (40 characters)                            
+                     Specify its type (A/S/P/L)                                         
+                     If it is not a List                                                
+                         Is it Required or Optional? (R/O)                              
+                     If it is a list                                                    
+                         What is the maximum number of entries? (1 - 9999)              
+                     What is its length ?                                               
+                     If it is Signed or Packed                                          
+                         How many decimals?                                             
+                     If it is Optional                                                  
+                         What is its default value? (10 characters)
+
+  - HELP030:
+      Description:        "   RDML BIF Return Values"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+               How many return values will the BIF have? (0 - 20)                       
+               For each return value:                                                   
+                     Specify its description (40 characters)                            
+                     Specify its type (A/S/P/L)                                         
+                     If it is not a List                                                
+                         Is it Required or Optional? (R/O)                              
+                     If it is a list                                                    
+                         What is the maximum number of entries? (1 - 9999)              
+                     What is its length ?                                               
+                     If it is Signed or Packed                                          
+                         How many decimals?

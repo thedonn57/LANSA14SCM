@@ -1,0 +1,75 @@
+﻿Field:
+  Name:               GRADE
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grade Obtained for Skill"
+      Label:              "Grade.........."
+      Heading1:           "Grade"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Niveau acquis pour chaque formation"
+      Label:              "Niveau  . . . ."
+      Heading1:           "Niveau"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Grade must be 'P','F','M','D'"
+      Values:
+      - "'P'"
+      - "'F'"
+      - "'M'"
+      - "'D'"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0007
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This field represents the grade the employee obtained when
+          attempting to acquire a skill that involved some sort of final
+          test or examination. The allowable values for this field are ....
+      
+             F : Fail
+             P : Pass
+             M : Merit pass
+             D : Distinctive pass
+      
+          Where a skill is acquired or recognised that does not involve a
+          test or examination, the grade should always be specified
+          as a "P" (for Pass).
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Cette zone repésente le niveau que l'employé a obtenu losque la
+          formation qu'il a suivie impliquait un quelconque test ou examen
+          final. Les valeurs possibles sont ...
+      
+             F : Faible
+             P : Passable
+             M : Moyen
+             D : Distingué
+      
+          Lorsqu'une formation acquise n'incluait pas de test ou d'examen,
+          le niveau précisé devra être "P".
+      

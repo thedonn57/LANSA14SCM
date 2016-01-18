@@ -1,0 +1,150 @@
+﻿Web Page:
+  Name:               XEPMain
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Editor: Phone"
+
+  - FRA:
+      Description:        "Employee Editor: Phone"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Blue>) Icon(#XEPBM003) Caption('Employees') Width(500)
+    
+    * Layout
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemStatusMessage) Alignment(BottomCenter) Column(#Column1) Manage(#LabelStatusMessage) Parent(#TableLayout) Row(#Row1) Sizing(None) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemList) Column(#Column1) Parent(#TableLayout) Row(#Row1) Manage(#EmployeeList)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemViewer) Column(#Column1) Parent(#TableLayout) Row(#Row1) Manage(#EmployeeViewer)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemEditor) Column(#Column1) Parent(#TableLayout) Row(#Row1) Manage(#EmployeeEditor)
+    
+    * An animated status message
+    Define_Com Class(#PRIM_LABL) Name(#LabelStatusMessage) Displayposition(4) Ellipses(Word) Height(37) Left(177) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(743) Verticalalignment(Center) Width(146) Visible(False) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_ANIM) Name(#StatusMessageAnimation)
+    Define_Com Class(#PRIM_ANIM.Visibility) Name(#FadeIn) Duration(500) Starttime(1000) Parent(#StatusMessageAnimation) Manage(#LabelStatusMessage) Visible(True)
+    Define_Com Class(#PRIM_ANIM.Visibility) Name(#FadeOut) Starttime(5000) Parent(#StatusMessageAnimation) Manage(#LabelStatusMessage) Duration(500)
+    
+    * References to three different views: Employee - LIST/VIEWER/EDITOR
+    Define_Com Class(#XEPList) Name(#EmployeeList) Parent(#COM_OWNER) Tabposition(3) Height(800)
+    Define_Com Class(#XEPViewer) Name(#EmployeeViewer) Parent(#COM_OWNER) Displayposition(2) Tabposition(2) Height(800) Visible(False)
+    Define_Com Class(#XEPEditor) Name(#EmployeeEditor) Parent(#COM_OWNER) Height(800) Visible(False) Displayposition(3)
+    
+    * The delete-confimation popup.
+    Define_Com Class(#XEPDelete) Name(#DeleteEmployeePopup)
+    
+    * The Messages Popup
+    Define_Com Class(#XEPMessages) Name(#MessagesPopup)
+    
+    * ************************************
+    * Events coming from the EMPLOYEE-LIST
+    * ************************************
+    
+    Evtroutine Handling(#EmployeeList.AddClicked)
+    
+    #EmployeeEditor.AddEmployee
+    
+    #COM_OWNER.Transition From(#EmployeeList) To(#EmployeeEditor) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeList.EmployeeClicked) Employee(#Employee)
+    
+    #EmployeeViewer.ViewEmployee( #Employee )
+    
+    #COM_OWNER.Transition From(#EmployeeList) To(#EmployeeViewer) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Endroutine
+    
+    * **************************************
+    * Events coming from the EMPLOYEE-VIEWER
+    * **************************************
+    
+    Evtroutine Handling(#EmployeeViewer.BackClicked)
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeViewer.DeleteClicked)
+    
+    #DeleteEmployeePopup.ShowPopup Placement(Center)
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeViewer.EditClicked)
+    
+    #EmployeeEditor.EditEmployee( #EmployeeViewer.CurrentEmployee )
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeEditor) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Endroutine
+    
+    * **************************************
+    * Events coming from the EMPLOYEE-EDITOR
+    * **************************************
+    
+    Evtroutine Handling(#EmployeeEditor.EditCancelled)
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    #COM_OWNER.ShowStatusMessage( "Editing Cancelled" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeEditor.EditCompleted)
+    
+    #EmployeeList.UpdateEmployee( #EmployeeEditor.CurrentEmployee )
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    #COM_OWNER.ShowStatusMessage( "Employee Updated" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeEditor.EditFailed)
+    
+    #MessagesPopup.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    * ********************************************
+    * Events coming from the DELETE EMPLOYEE POPUP
+    * ********************************************
+    
+    Evtroutine Handling(#DeleteEmployeePopup.OkClicked)
+    
+    #EmployeeList.DeleteEmployee( #EmployeeViewer.CurrentEmployee )
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    #COM_OWNER.ShowStatusMessage( "Employee Deleted" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#DeleteEmployeePopup.CancelClicked)
+    
+    * Nothing to do
+    
+    Endroutine
+    
+    * ***************
+    * Private Methods
+    * ***************
+    
+    Mthroutine Name(ShowStatusMessage) Access(*PRIVATE)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#StatusMessage)
+    
+    #LabelStatusMessage := #StatusMessage
+    
+    #StatusMessageAnimation.Start
+    
+    Endroutine
+    
+    End_Com

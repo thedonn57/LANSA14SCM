@@ -1,0 +1,73 @@
+﻿Field:
+  Name:               EMPTSTASK
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "'SCHED'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Task"
+      Label:              "Task"
+      Heading1:           "Task"
+      Heading2:           "code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code groupe tâche"
+      Label:              "Code grpe tâche"
+      Heading1:           "Code"
+      Heading2:           "groupe"
+      Heading3:           "tâche"
+
+  Validation Rules:
+  - List Check:
+      Description:        "must be a valid task code"
+      Values:
+      - "'EVENT'"
+      - "'LEAVE'"
+      - "'OVERT'"
+      - "'SCHED'"
+      - "'SICKL'"
+      - "'TRAIN'"
+      - "'PHLDY'"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0053
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Height(19) Usepicklist(False) Width(209)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#Item_1) Caption('Scheduled work') Default(True) Parent(#Picklist) Value('SCHED')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_2) Caption('Overtime') Parent(#Picklist) Value('OVERT')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_3) Caption('Annual leave') Parent(#Picklist) Value('LEAVE')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_4) Caption('Sick leave') Parent(#Picklist) Value('SICKL')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_5) Caption('Training') Parent(#Picklist) Value('TRAIN')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_6) Caption('External event') Parent(#Picklist) Value('EVENT')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Componentversion(1) Defaultvisual(True) Height(86) Marginleft(100) Width(261)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist_1) Appearance(DropDownList) Componentversion(1) Height(20) Marginleft(100) Width(273)
+    
+    End_Com
+    
+    End_Com

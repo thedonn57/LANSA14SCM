@@ -1,0 +1,22 @@
+﻿Icon:
+  Name:               STD_ICON
+
+  Framework:
+    Id1:                10240
+    Id2:                10
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard icon"
+
+  - FRA:
+      Description:        "Icône standard"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_ICON
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_ICON)
+    End_Com

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               SYSVAR$AV
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Variable Alphanumeric Result"
+      Label:              "Alpha result"
+      Heading1:           "System Variable"
+      Heading2:           "Alphanumeric"
+      Heading3:           "Result"
+
+  - FRA:
+      Description:        "Variable système résultat alphanumérique"
+      Label:              "Resultat alpha."
+      Heading1:           "Variable système"
+      Heading2:           "Résultat"
+      Heading3:           "Alphanumérique"

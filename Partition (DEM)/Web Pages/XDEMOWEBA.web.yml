@@ -1,0 +1,119 @@
+﻿Web Page:
+  Name:               xDemoWebAnchors
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Jumping to a point in a page"
+
+  - FRA:
+      Description:        "Jumping to a point in a page"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#AttachLayout) Theme(#SYS_THEME<2015Green>) Style(#Style1)
+    
+    * Demonstration of a jumping to a particular point on a page
+    * Click the numbers to jump to the equivalent position
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Fontsize(22) Fontunits(Pixel)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem) Attachment(Top) Manage(#Label_1) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_2) Attachment(Top) Manage(#Label_2) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_3) Attachment(Top) Manage(#Label_3) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_4) Attachment(Top) Manage(#Label_4) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_5) Attachment(Top) Manage(#Label_5) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_6) Attachment(Top) Manage(#Label_6) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_7) Attachment(Top) Manage(#Label_7) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_8) Attachment(Top) Manage(#Label_8) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_9) Attachment(Top) Manage(#Label_9) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_10) Attachment(Top) Manage(#Label_10) Parent(#AttachLayout) Marginbottom(4)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem_11) Attachment(Top) Manage(#Panel) Parent(#AttachLayout) Marginbottom(4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_10Item) Column(#Column) Flow(Right) Manage(#Button_10) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_9Item) Column(#Column) Flow(Right) Manage(#Button_9) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_8Item) Column(#Column) Flow(Right) Manage(#Button_8) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_7Item) Column(#Column) Flow(Right) Manage(#Button_7) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_6Item) Column(#Column) Flow(Right) Manage(#Button_6) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_5Item) Column(#Column) Flow(Right) Manage(#Button_5) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_4Item) Column(#Column) Flow(Right) Manage(#Button_4) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_3Item) Column(#Column) Flow(Right) Manage(#Button_3) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_2Item) Column(#Column) Flow(Right) Manage(#Button_2) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button_1Item) Column(#Column) Flow(Right) Manage(#Button_1) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LabelItem) Column(#Column) Flow(Right) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(CenterLeft) Marginleft(4)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_1) Caption('Anchor Point 1') Displayposition(2) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(85) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption('Anchor Point 2') Displayposition(3) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(239) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_3) Caption('Anchor Point 3') Displayposition(4) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(393) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_4) Caption('Anchor Point 4') Displayposition(5) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(547) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_5) Caption('Anchor Point 5') Displayposition(6) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(701) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_6) Caption('Anchor Point 6') Displayposition(7) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(855) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_7) Caption('Anchor Point 7') Displayposition(8) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(1009) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_8) Caption('Anchor Point 8') Displayposition(9) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(1163) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_9) Caption('Anchor Point 9') Displayposition(10) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(1317) Verticalalignment(Center) Width(1182) Height(150) Marginleft(4) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_10) Caption('Anchor Point 10') Displayposition(11) Ellipses(Word) Height(150) Left(0) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(1471) Verticalalignment(Center) Width(1182) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PANL) Name(#Panel) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(1182) Height(81) Layoutmanager(#TableLayout) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_1) Caption('1') Displayposition(2) Ellipses(Word) Left(137) Parent(#Panel) Tabposition(10) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_2) Caption('2') Displayposition(3) Ellipses(Word) Left(221) Parent(#Panel) Tabposition(9) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_3) Caption('3') Displayposition(4) Ellipses(Word) Left(305) Parent(#Panel) Tabposition(8) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_4) Caption('4') Displayposition(5) Ellipses(Word) Left(389) Parent(#Panel) Tabposition(7) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_5) Caption('5') Displayposition(6) Ellipses(Word) Left(473) Parent(#Panel) Tabposition(6) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_6) Caption('6') Displayposition(7) Ellipses(Word) Left(557) Parent(#Panel) Tabposition(5) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_7) Caption('7') Displayposition(8) Ellipses(Word) Left(641) Parent(#Panel) Tabposition(4) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_8) Caption('8') Displayposition(9) Ellipses(Word) Left(725) Parent(#Panel) Tabposition(3) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_9) Caption('9') Displayposition(10) Ellipses(Word) Left(809) Parent(#Panel) Tabposition(2) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PHBN) Name(#Button_10) Caption('10') Displayposition(11) Ellipses(Word) Left(893) Parent(#Panel) Tabposition(1) Tabstop(False) Top(18) Height(45) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Jump to') Displayposition(1) Ellipses(Word) Height(53) Left(4) Parent(#Panel) Tabposition(11) Tabstop(False) Top(14) Width(129) Verticalalignment(Center)
+    
+    * Collection of anchor points keyed by the buttons
+    Define_Com Class(#prim_Dcol<#Prim_labl #prim_phbn>) Name(#Anchors)
+    
+    Define_Com Class(#prim_acol<#prim_phbn>) Name(#Buttons)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    * Collect the buttons for easier use
+    #Buttons.insert( #Button_1 )
+    #Buttons.insert( #Button_2 )
+    #Buttons.insert( #Button_3 )
+    #Buttons.insert( #Button_4 )
+    #Buttons.insert( #Button_5 )
+    #Buttons.insert( #Button_6 )
+    #Buttons.insert( #Button_7 )
+    #Buttons.insert( #Button_8 )
+    #Buttons.insert( #Button_9 )
+    #Buttons.insert( #Button_10 )
+    
+    * Show a "Hand" cursor on mouse over
+    #Buttons<>.Cursor <= #sys_Appln.Cursors<Hand>
+    
+    * Link the anchor labels to the buttons in the header
+    #Anchors.Insert( #Label_1 #Button_1 )
+    #Anchors.Insert( #Label_2 #Button_2 )
+    #Anchors.Insert( #Label_3 #Button_3 )
+    #Anchors.Insert( #Label_4 #Button_4 )
+    #Anchors.Insert( #Label_5 #Button_5 )
+    #Anchors.Insert( #Label_6 #Button_6 )
+    #Anchors.Insert( #Label_7 #Button_7 )
+    #Anchors.Insert( #Label_8 #Button_8 )
+    #Anchors.Insert( #Label_9 #Button_9 )
+    #Anchors.Insert( #Label_10 #Button_10 )
+    
+    Endroutine
+    
+    * One of the buttons in the collection was clicked #Sender contains a reference to the clicked button.
+    Evtroutine Handling(#Buttons<>.Click) Com_Sender(#Sender)
+    
+    * Set the page scroll position to the top of the control associated with the button.
+    #Com_owner.VerticalScrollTo( #Anchors<#Sender> Center )
+    
+    Endroutine
+    
+    End_Com

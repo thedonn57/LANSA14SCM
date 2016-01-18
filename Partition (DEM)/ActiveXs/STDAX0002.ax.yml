@@ -1,0 +1,24 @@
+﻿ActiveX:
+  Name:               StdWord2013ActiveX
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Microsoft Word 2013 Active X"
+
+  - FRA:
+      Description:        "Standard Microsoft Word 2013 Active X"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT . :  STDAX0002                        *
+    *  DATE  . . . :  JAN 2013                         *
+    *  DESCRIPTION :                                   *
+    *                                                  *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_MCCO) Progid('Word.Application.15') Typelibid('{00020905-0000-0000-C000-000000000046}8.5,0')
+    End_Com

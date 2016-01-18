@@ -1,0 +1,271 @@
+﻿Form:
+  Name:               xDemoBrushesImage
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Understanding Image Brushes"
+
+  - FRA:
+      Description:        "Understanding Image Brushes"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Image Brush') Clientheight(561) Clientwidth(884) Height(600) Layoutmanager(#TableLayout_1) Left(261) Top(219) Width(900) Theme(#xDemoTheme)
+    
+    * Demonstration of a Style using an Image Brush
+    * Set the properties and see how they affect the behaviour of the image
+    * Sample code will be generated to demonstrate the generated RDMLX
+    
+    Define_Com Class(#prim_vs.Style) Name(#BrushStyle) Backgroundbrush(#Brush)
+    Define_Com Class(#Prim_Vs.ImageBrush) Name(#Brush) Image(#xImageGlobe512) Sizing(BestFit)
+    
+    Define_Com Class(#PRIM_PANL) Name(#BrushSample) Displayposition(5) Height(341) Left(0) Parent(#COM_OWNER) Style(#BrushStyle) Tabposition(2) Tabstop(False) Top(36) Width(544)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lBrushSample) Caption('Image Brush Sample') Displayposition(3) Height(34) Left(0) Marginleft(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(1) Verticalalignment(Center) Width(401) Themedrawstyle('Heading2')
+    
+    Define_Com Class(#PRIM_LABL) Name(#lDefinition) Caption('Brush Definition') Displayposition(2) Height(36) Left(544) Marginleft(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(340) Themedrawstyle('Heading2')
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(36) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Height(2.29) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(1.23)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(0.77)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(4) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#BrushSample) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Alignment(CenterLeft) Column(#Column_2) Manage(#lDefinition) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Alignment(CenterLeft) Column(#Column_1) Manage(#lBrushSample) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#xDemoBrushTile.Picklist) Name(#Tile) Caption('Tile') Displayposition(6) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(4) Top(40) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Tile) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#xDemoBrushSizing.Picklist) Name(#Sizing) Caption('Sizing') Displayposition(7) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(5) Top(69) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Sizing) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#xDemoBrushAlignment.Picklist) Name(#Alignment) Caption('Alignment') Displayposition(8) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(6) Top(98) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Alignment) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#xDemoBrushUnits.Picklist) Name(#Units) Caption('Units') Displayposition(9) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(7) Top(127) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_4) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Units) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Top) Caption('Top') Componentversion(1) Displayalignment(Right) Displayposition(10) Editalignment(Right) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(8) Top(156) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_5) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Top) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Left) Caption('Left') Componentversion(1) Displayalignment(Right) Displayposition(11) Editalignment(Right) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(9) Top(185) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_6) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Left) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Height) Caption('Height') Componentversion(1) Displayalignment(Right) Displayposition(12) Editalignment(Right) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(10) Top(214) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_7) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Height) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Width) Caption('Width') Componentversion(1) Displayalignment(Right) Displayposition(13) Editalignment(Right) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(11) Top(243) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_8) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Width) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Opacity) Caption('Opacity') Componentversion(1) Displayalignment(Right) Displayposition(14) Editalignment(Right) Height(25) Labeltype(Caption) Left(546) Marginleft(100) Parent(#COM_OWNER) Tabposition(12) Top(272) Width(336)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_9) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Opacity) Marginleft(2) Marginright(2) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_labl) Name(#OpacityText) Alignment(Center) Caption('This text becomes clearer as the opacity of the brush decreases') Displayposition(15) Height(341) Left(0) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(36) Verticalalignment(Center) Width(544)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Column(#Column_1) Manage(#OpacityText) Parent(#TableLayout_1) Row(#Row_2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#GeneratedSource) Caption('Generated Source') Displayposition(1) Ellipses(Word) Height(36) Left(0) Marginleft(2) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(377) Verticalalignment(Center) Width(544) Themedrawstyle('Heading2')
+    Define_Com Class(#prim_memo) Name(#Memo) Currentline(1) Displayposition(4) Height(148) Left(0) Marginleft(2) Maximumlinelength(256) Parent(#COM_OWNER) Readonly(True) Tabposition(14) Top(413) Width(884) Wordwrap(True) Themedrawstyle('FixedFont')
+    Define_Com Class(#PRIM_MECL) Name(#MECL_1) Columnrole(Data) Displayposition(1) Parent(#Memo) Source(#xDemoAlpha256)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Height(36) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#GeneratedSource) Parent(#TableLayout_1) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Memo) Parent(#TableLayout_1) Row(#Row1) Columnspan(2)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Populate defaults
+    #Sizing := #Brush.Sizing
+    #Tile := #Brush.Tile
+    #Alignment := #Brush.Alignment
+    #Units := #Brush.Units
+    
+    #Left := #Brush.Left
+    #Top := #Brush.Top
+    #Height := #Brush.Height
+    #Width := #Brush.Width
+    #Opacity := #Brush.Opacity
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.Initialize)
+    
+    If (#sys_appln.RenderStyle <> DirectX)
+    
+    Use Builtin(MESSAGE_BOX_SHOW) With_Args(*Default *Default 'Error' 'DirectX only' 'Brushes are only available when executing under DirectX or VL Web')
+    
+    Endif
+    
+    Endroutine
+    
+    * Apply Sizing parameter change to brush and update the sample source
+    Evtroutine Handling(#Sizing.Changed)
+    
+    #Brush.Sizing := #Sizing
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Tile parameter change to brush and update the sample source
+    Evtroutine Handling(#Tile.Changed)
+    
+    #Brush.Tile := #Tile
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Alignment parameter change to brush and update the sample source
+    Evtroutine Handling(#Alignment.Changed)
+    
+    #Brush.Alignment := #Alignment
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Units parameter change to brush and update the sample source
+    Evtroutine Handling(#Units.Changed)
+    
+    #Brush.Units := #Units
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Width parameter change to brush and update the sample source
+    Evtroutine Handling(#Width.Changed)
+    
+    #Width := #Width.Max( 0 )
+    
+    #Brush.Width := #Width
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Height parameter change to brush and update the sample source
+    Evtroutine Handling(#Height.Changed)
+    
+    #Height := #Height.Max( 0 )
+    
+    #Brush.Height := #Height
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Left parameter change to brush and update the sample source
+    Evtroutine Handling(#Left.Changed)
+    
+    #Brush.Left := #Left.Max( 0 )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Top parameter change to brush and update the sample source
+    Evtroutine Handling(#Top.Changed)
+    
+    #Brush.Top := #Top.Max( 0 )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Opacity parameter change to brush and update the sample source
+    Evtroutine Handling(#Opacity.Changed)
+    
+    #Opacity := #Opacity.Bound( 0 100 )
+    
+    #Brush.Opacity := #Opacity
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Refresh the sample code for the brush
+    Mthroutine Name(UpdateSource) Access(*private)
+    
+    Clr_List Named(#Memo)
+    
+    #Com_owner.AddSourceLine( "Define_Com Class(#prim_vs.Style) Name(#BrushStyle) Backgroundbrush(#Brush)" )
+    
+    #Com_owner.AddSourceLine( #Com_owner.GetBrushLine )
+    
+    Endroutine
+    
+    * Construct the image brush line of source
+    Mthroutine Name(GetBrushLine) Access(*private)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    #Result := "Define_Com Class(#Prim_Vs.ImageBrush) Name(#Brush) Colors(#BrushColors) "
+    
+    If (#Brush.Alignment <> Center)
+    
+    #Result += ("Alignment(&1) ").Substitute( #Brush.Alignment )
+    
+    Endif
+    
+    If (#Brush.Height <> 100)
+    
+    #Result += ("Height(&1) ").Substitute( #Brush.Height.Asstring )
+    
+    Endif
+    
+    #Result += ("Image(#xImageGlobe512) ")
+    
+    If (#Brush.Left <> 0)
+    
+    #Result += ("Left(&1) ").Substitute( #Brush.Left.Asstring )
+    
+    Endif
+    
+    If (#Brush.Opacity <> 100)
+    
+    #Result += ("Opacity(&1) ").Substitute( #Brush.Opacity.asstring )
+    
+    Endif
+    
+    If (#Brush.Sizing <> None)
+    
+    #Result += ("Sizing(&1) ").Substitute( #Brush.Sizing )
+    
+    Endif
+    
+    If (#Brush.Tile <> None)
+    
+    #Result += ("Tile(&1) ").Substitute( #Brush.Tile )
+    
+    Endif
+    
+    If (#Brush.Top <> 0)
+    
+    #Result += ("Top(&1) ").Substitute( #Brush.Top.Asstring )
+    
+    Endif
+    
+    If (#Brush.Units <> Percentage)
+    
+    #Result += ("Units(&1) ").Substitute( #Brush.Units )
+    
+    Endif
+    
+    If (#Brush.Width <> 100)
+    
+    #Result += ("Width(&1) ").Substitute( #Brush.Width.Asstring )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(AddSourceLine) Access(*private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Text)
+    
+    #xDemoAlpha256 := #Text
+    
+    Add_Entry To_List(#Memo)
+    
+    Endroutine
+    
+    End_Com
+    
+    

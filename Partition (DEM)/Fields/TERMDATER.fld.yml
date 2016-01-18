@@ -1,0 +1,56 @@
+﻿Field:
+  Name:               TERMDATER
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Termination Date (YYMMDD)"
+      Label:              "Term. date....."
+      Heading1:           "Term."
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date de départ, AAMMJJ"
+      Label:              "Date de départ"
+      Heading1:           "Date de"
+      Heading2:           "départ"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the date on which the respective
+            employee terminated his service for the company.
+      
+                  For instance .... 880201
+                                    871226
+      
+            Note that the termination date has to be in YYMMDD format,
+            that is, in the Year-Month-Date order.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient la date de départ de la société de
+            l'employé concerné.
+      
+      
+                  Par exple:
+                         880201
+                         871226
+      
+      
+            Cette date doit être dans le format AAMMJJ, c'est à dire
+            Année-Mois-Jour.

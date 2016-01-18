@@ -1,0 +1,128 @@
+﻿Reusable Part:
+  Name:               xDemoWebMessageBar
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message Bar"
+
+  - FRA:
+      Description:        "Message Bar"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(25) Left(0) Tabposition(1) Top(0) Width(665) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme100) Opacity(50)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Units(Pixels) Width(28)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(28) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column3) Manage(#Next) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#Previous) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageTextItem1) Column(#Column1) Manage(#MessageText) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column4) Manage(#List) Parent(#TableLayout2) Row(#Row2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#MessageText) Displayposition(3) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(609) Marginleft(4)
+    Define_Com Class(#prim_spbn) Name(#Next) Displayposition(1) Height(20) Image(#xImageUp16) Left(641) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(2) Width(20) Visible(False)
+    Define_Com Class(#prim_spbn) Name(#Previous) Displayposition(2) Height(20) Image(#xImageDown16) Left(613) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(2) Width(20) Visible(False)
+    Define_Com Class(#PRIM_PPNL) Name(#Popup) Closebutton(True) Left(184) Titlebar(True) Top(32) Layoutmanager(#TableLayout2) Height(274) Width(329) Shroudstyle(#Style1) Caption('Messages')
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(244) Left(0) Parent(#Popup) Tabposition(2) Top(30) Width(329) Columnheaderheight(0) Columnlines(False) Rowlines(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT1) Displayposition(1) Parent(#List) Source(#xDemoCaption) Columnunits(Proportion) Columnwidth(1)
+    
+    Define_Com Class(#prim_nmbr) Name(#CurrentMessage)
+    
+    
+    Evtroutine Handling(#sys_msgq.MessageAdded #sys_msgq.MessageRemoved)
+    
+    #MessageText := ""
+    #Next.Visible #Previous.Visible := #sys_msgq.Messages.Itemcount > 1
+    
+    If (#sys_msgq.Messages.itemcount > 0)
+    
+    #Com_owner.ActivateMessage( #sys_msgq.Messages.itemcount )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ActivateMessage) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_nmbr) Name(#Index)
+    
+    Define_Com Class(#prim_nmbr) Name(#i)
+    
+    #CurrentMessage := #Index
+    
+    Case (#Index)
+    When (> #sys_msgq.Messages.ItemCount)
+    
+    #Com_owner.ActivateMessage( 1 )
+    
+    When (= 0)
+    
+    #Com_owner.ActivateMessage( #sys_msgq.Messages.ItemCount )
+    
+    Otherwise
+    
+    For Each(#Message) In(#Sys_msgq.Messages)
+    
+    #i += 1
+    
+    #MessageText := #Message.Text
+    
+    Leave If(#i = #Index)
+    
+    Endfor
+    
+    * #MessageText := #sys_msgq.Messages<#Index>.Text
+    Endcase
+    
+    Endroutine
+    
+    Evtroutine Handling(#Next.Click)
+    
+    #Com_owner.ActivateMessage( (#CurrentMessage - 1) )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Previous.Click)
+    
+    #Com_owner.ActivateMessage( (#CurrentMessage + 1) )
+    
+    Endroutine
+    
+    Evtroutine Handling(#MessageText.DoubleClick)
+    
+    #Com_owner.ShowMessagesPopup
+    
+    Endroutine
+    
+    Mthroutine Name(ShowMessagesPopup)
+    
+    Clr_List Named(#List)
+    
+    For Each(#Message) In(#Sys_msgq.Messages)
+    
+    #xDemoCaption := #Message.Text
+    
+    Add_Entry To_List(#List)
+    
+    Endfor
+    
+    #Popup.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    End_Com

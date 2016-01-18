@@ -1,0 +1,33 @@
+﻿ActiveX:
+  Name:               VA_HTML
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Groups:
+  - Id1:                1021
+    Id2:                1600
+
+  Multilingual Details:
+  - ENG:
+      Description:        "HTML Editor"
+
+  - FRA:
+      Description:        "Editeur HTML"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT . :  STD_ACTVX                        *
+    *  DATE  . . . :  DEC'99                           *
+    *  DESCRIPTION :                                   *
+    *                                                  *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_MCVO) Displayposition(1) Height(148) Left(0) Progid('DHTMLEdit.DHTMLEdit.1') Tabposition(1) Top(0) Typelibid('{683364A1-B37D-11D1-ADC5-006008A5848C}1.0,0') Width(184)
+    End_Com
+
+  Data: |
+    010000009400000038000000500000000002362DF5FFD1118D0300A0C959BC0A40A55F0206000000535F48544D4C40A55F02
+    06000000535F48544D4C40A55F020000000000020000041300004C0F00000B0000000B0000000B00FFFF0B0000000B000000
+    0300010000000B00FFFF0300010000000B00FFFF0B0000000B0000000300320000000300320000000B0000000B000000

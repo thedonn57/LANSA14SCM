@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$NV
+  Type:               Packed
+  Length:             30
+  Decimals:           9
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Value of field to be validated (Numeric)"
+      Label:              "Numeric value"
+      Heading1:           "Value of field"
+      Heading2:           "(Numeric)"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Valeur de la zone à valider (Numérique)"
+      Label:              "Valeur numér."
+      Heading1:           "Valeur de la zone"
+      Heading2:           "(Numérique)"
+      Heading3:           " "

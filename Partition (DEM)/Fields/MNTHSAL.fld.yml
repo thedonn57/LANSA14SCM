@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               MNTHSAL
+  Type:               Packed
+  Length:             11
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    SALARY
+  Edit Mask:          1
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Monthly Salary"
+      Label:              "Monthly Salary"
+      Heading1:           "Monthly"
+      Heading2:           "Salary"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Salaire mensuel"
+      Label:              "Salaire mensuel"
+      Heading1:           "Salaire"
+      Heading2:           "mensuel"
+      Heading3:           " "

@@ -1,0 +1,48 @@
+﻿Form:
+  Name:               xDemoSQLJoinFileToItself
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - Joining a file to itself"
+
+  - FRA:
+      Description:        "SELECT_SQL - Joining a file to itself"
+
+  Source: |
+    * META:Form,List,Database,SQL
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(302) Clientwidth(424) Layoutmanager(#TableLayout_1) Left(299) Top(195) Width(440) Height(341)
+    
+    * SQL Processing with a recursive join
+    
+    Define_Com Class(#PRIM_LTVW) Name(#List) Displayposition(1) Height(243) Left(2) Parent(#COM_OWNER) Tabposition(1) Top(57) Width(420)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List) Source(#EMPNO) Width(28)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Displayposition(2) Parent(#List) Source(#SURNAME) Width(37)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_3) Displayposition(3) Parent(#List) Source(#SALARY) Widthtype(Remainder)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('In this example, a selection is required which will display all employees who have a higher salary than employee number A1234. Attention: the table PSLMST will be joined with....ITSELF. This is an example of ''Auto-Join''.') Displayposition(2) Height(47) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(4) Width(416)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(55) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#LABL_1) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_1) Manage(#List) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_2)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #com_owner.Caption := *component_desc
+    
+    * Get records where salary is greater than the salary of employe A1234
+    Select_Sql Fields((#EMPNO P2.EMPNO) (#SURNAME P2.SURNAME) (#SALARY P2.SALARY)) From_Files((PSLMST P1)(PSLMST P2)) Where('P1.EMPNO=''A1234'' AND P2.SALARY > P1.SALARY')
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

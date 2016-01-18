@@ -1,0 +1,145 @@
+﻿File:
+  Name:                           XSShoppingCartItem
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             XSSHPITM
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart Item"
+
+  - FRA:
+      Description:        "Shopping Cart Item"
+
+  Real Fields:
+  - XSCRTID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSCSTPRC:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSQTY:
+      Type:               Signed
+      Length:             7
+      Decimals:           0
+
+  - XSDSCPCT:
+      Type:               Signed
+      Length:             5
+      Decimals:           2
+
+  - XSPRDPRC:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSPRDTAX:
+      Type:               Signed
+      Length:             5
+      Decimals:           2
+
+  - XSPRDSHP:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSITMPRC:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSITMTAX:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSITMSHP:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  Primary Keys:
+  - XSCRTID
+  - XSPRDID
+
+  Virtual Fields:
+  - XSITMPRCV:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+      Virtual Field Type: Code Fragment
+      Derive On Input:    No
+      Derive On Output:   Yes
+      Output Fragment: |
+        * RDML Code Fragment to apply XSITMPRC to real file fields
+        #XSItemTotalPrice := #XSQuantity * #XSProductPrice
+        * #XSItemTotalPrice := #XSItemTotalPriceV
+
+  - XSITMTAXV:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+      Virtual Field Type: Code Fragment
+      Derive On Input:    No
+      Derive On Output:   Yes
+      Output Fragment: |
+        * RDML Code Fragment to apply XSITMTAX to real file fields
+        #XSItemTotalTax := (#XSProductPrice * #XSProductTaxPercent) / 100 * #XSQuantity
+
+  - XSITMSHPV:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+      Virtual Field Type: Code Fragment
+      Derive On Input:    No
+      Derive On Output:   Yes
+      Output Fragment: |
+        * RDML Code Fragment to apply XSITMSHPV to real file fields
+        #XSItemTotalShipping := #XSQuantity * #XSProductShipping
+
+  Batch Control:
+  - Total Price, Tax, Shipping:
+      Controlled File:    XSSHPCRT
+
+      Keys:
+      - XSCRTID
+
+      Links:
+      - Source Field:       XSITMPRC
+        Target Field:       XSCRTPRC
+      - Source Field:       XSITMTAX
+        Target Field:       XSCRTTAX
+      - Source Field:       XSITMSHP
+        Target Field:       XSCRTSHP
+      - Source Field:       XSQTY
+        Target Field:       XSCRTQTY

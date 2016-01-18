@@ -1,0 +1,108 @@
+﻿File:
+  Name:                           DC@F60
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@R60
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition Languages"
+
+  - FRA:
+      Description:        "Partition Languages"
+
+  Real Fields:
+  - F60P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - F60PLN:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - F60PLD:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - F60DBC:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F60RLT:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F60P#D:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - F60MSG:
+      Type:               Alphanumeric
+      Length:             100
+      Decimals:           0
+
+  - F60CHR:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  Logical Views:
+  - DC@F60V1:
+      Identifier:         DC@F60V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R60V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@F60 /EDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@F60 /EDLO"
+
+      Fields:
+      - F60P#I
+      - F60PLN
+      - F60PLD
+      - F60DBC
+      - F60RLT
+      - F60P#D
+      - F60MSG
+      - F60CHR
+
+      Keys:
+      - F60P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - F60PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               W11CLK
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Click count"
+      Label:              "W11CLK"
+      Heading1:           "Click"
+      Heading2:           "Count"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Click count"
+      Label:              "W11CLK"
+      Heading1:           "Click"
+      Heading2:           "Count"
+      Heading3:           " "

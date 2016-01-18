@@ -1,0 +1,64 @@
+﻿Web Page:
+  Name:               xDemoWebAnimationTable
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Table Animations"
+
+  - FRA:
+      Description:        "Table Animations"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Orange>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column) Manage(#Panel1) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column_2) Manage(#Panel2) Parent(#TableLayout) Row(#Row_2) Columnspan(2) Rowspan(2)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Height(267) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(400) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_PANL) Name(#Panel2) Displayposition(2) Height(533) Left(400) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(267) Width(800) Themedrawstyle('DarkTitle')
+    
+    Define_Com Class(#prim_anim) Name(#Animation)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#Item1) Column(#Column_2) Row(#Row_2) Rowspan(2) Columnspan(2) Parent(#Animation) Manage(#LayoutItem1)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#Item2) Column(#Column) Row(#Row) Rowspan(1) Columnspan(1) Parent(#Animation) Manage(#LayoutItem2)
+    Define_Com Class(#prim_anim.Opacity) Name(#Item5) Parent(#Animation) Manage(#Panel1) Duration(500)
+    Define_Com Class(#prim_anim.Opacity) Name(#Item6) Parent(#Animation) Manage(#Panel2) Duration(500)
+    Define_Com Class(#prim_anim.Opacity) Name(#Item7) Parent(#Animation) Manage(#Panel1) Duration(500) Starttime(500) Opacity(100)
+    Define_Com Class(#prim_anim.Opacity) Name(#Item8) Parent(#Animation) Manage(#Panel2) Duration(500) Starttime(500) Opacity(100)
+    
+    Define_Com Class(#prim_anim) Name(#Animation2)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#Item3) Column(#Column) Row(#Row) Rowspan(1) Columnspan(1) Parent(#Animation2) Manage(#LayoutItem1)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#Item4) Column(#Column_2) Row(#Row_2) Rowspan(2) Columnspan(2) Parent(#Animation2) Manage(#LayoutItem2)
+    
+    Evtroutine Handling(#Panel1.Click #Panel2.Click) Com_Sender(#Sender)
+    
+    #Sender.DisplayPosition := 1
+    
+    If ((*Not #Animation.IsAnimating) *And (*Not #Animation2.IsAnimating))
+    
+    If (#LayoutItem1.Row *IsEqualTo #Row)
+    
+    #Animation.Start
+    
+    Else
+    
+    #Animation2.Start
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

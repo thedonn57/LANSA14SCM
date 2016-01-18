@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               XSProductID
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product ID"
+      Label:              "Product ID"
+      Heading1:           "Product"
+      Heading2:           "ID"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product ID"
+      Label:              "Product Categor"
+      Heading1:           "Product"
+      Heading2:           "Category"
+      Heading3:           "ID"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(298)
+    
+    End_Com
+    
+    End_Com

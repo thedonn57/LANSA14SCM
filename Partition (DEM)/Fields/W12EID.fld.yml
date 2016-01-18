@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12EID
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "WAM Tech Service Provider"
+      Label:              "W12EID"
+      Heading1:           "WAM"
+      Heading2:           "Tech Service"
+      Heading3:           "Provider"
+
+  - FRA:
+      Description:        "WAM Tech Service Provider"
+      Label:              "W12EID"
+      Heading1:           "WAM"
+      Heading2:           "Tech Service"
+      Heading3:           "Provider"

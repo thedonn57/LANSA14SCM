@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               LISTDUMMY
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List dummy control field"
+      Label:              "List Dummy"
+      Heading1:           "List"
+      Heading2:           "Dummy"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, zone fictive pour bâtir une liste"
+      Label:              "Liste fictive ."
+      Heading1:           "Liste"
+      Heading2:           "Fictive"
+      Heading3:           " "

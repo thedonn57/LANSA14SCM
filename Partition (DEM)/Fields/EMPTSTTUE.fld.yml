@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSTTUE
+  Type:               Packed
+  Length:             15
+  Decimals:           1
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tuesday hours worked"
+      Label:              "Tuesday hours w"
+      Heading1:           "Tuesday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Heures travaillées le mardi"
+      Label:              "Heures mardi"
+      Heading1:           "Heures"
+      Heading2:           "travaillées"
+      Heading3:           "mardi"

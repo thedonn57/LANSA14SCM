@@ -1,0 +1,47 @@
+﻿File:
+  Name:                           SKLTAB
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             SKLTAB
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                Yes
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)  SHARE(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Skill code table"
+
+  - FRA:
+      Description:        "Table des codes formation"
+
+  Real Fields:
+  - SKILCODE:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - SKILDESC:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  Primary Keys:
+  - SKILCODE

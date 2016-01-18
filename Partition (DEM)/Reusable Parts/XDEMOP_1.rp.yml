@@ -1,0 +1,41 @@
+﻿Reusable Part:
+  Name:               xDemoPopup
+  Enabled For RDMLX:  Yes
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Popups"
+
+  - FRA:
+      Description:        "Popups"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(256) Left(0) Top(0) Width(256) Layoutmanager(#TableLayout) Style(#Style_3)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(254) Width(254) Alignment(Center) Caption('A hint can be anything you like') Style(#Style_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Alignment(TopCenter)
+    Define_Com Class(#PRIM_IMAG) Name(#Image_2) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Image(#xImageGlobe512) Height(254) Width(254) Imagesizing(FitBoth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Image_2) Parent(#TableLayout) Row(#Row)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_2) Fontsize(12) Textcolor(White)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_3) Normbackcolor(Transparent)
+    
+    Define_Pty Name(ImageCaption) Set(SetImageCaption)
+    
+    Ptyroutine Name(SetImageCaption)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Property)
+    
+    #Label := #Property
+    
+    Endroutine
+    
+    End_Com

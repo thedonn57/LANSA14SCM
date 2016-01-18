@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               xDemoBlob
+  Type:               BLOB
+  Length:             0
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Blob"
+      Label:              "Blob"
+      Heading1:           "Blob"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Blob"
+      Label:              "Blob"
+      Heading1:           "Blob"
+      Heading2:           " "
+      Heading3:           " "

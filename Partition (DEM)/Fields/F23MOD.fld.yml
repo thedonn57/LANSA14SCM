@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23MOD
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Process name"
+      Label:              "F23MOD"
+      Heading1:           "Process"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Process name"
+      Label:              "F23MOD"
+      Heading1:           "Process"
+      Heading2:           "Name"
+      Heading3:           " "

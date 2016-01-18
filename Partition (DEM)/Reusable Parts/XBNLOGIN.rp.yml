@@ -1,0 +1,162 @@
+﻿Reusable Part:
+  Name:               XBNLogin
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Login Control"
+
+  - FRA:
+      Description:        "Login Control"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(409) Left(0) Tabposition(1) Top(0) Width(289) Layoutmanager(#TableLayout)
+    
+    * Table Layout: 5 Column, 12 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout) Width(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout) Width(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(4) Parent(#TableLayout) Width(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout) Height(5) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(4) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(5) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(6) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(7) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row8) Displayposition(8) Parent(#TableLayout) Height(43) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row9) Displayposition(9) Parent(#TableLayout) Height(43) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row10) Displayposition(10) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row11) Displayposition(11) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row12) Displayposition(12) Parent(#TableLayout)
+    
+    * Table Layout Items
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#LoginButton1) Parent(#TableLayout) Row(#Row6) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column3) Manage(#LoginButton2) Parent(#TableLayout) Row(#Row6) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column4) Manage(#LoginButton3) Parent(#TableLayout) Row(#Row6) Margintop(2) Marginbottom(2) Marginright(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column2) Manage(#LoginButton4) Parent(#TableLayout) Row(#Row7) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column3) Manage(#LoginButton5) Parent(#TableLayout) Row(#Row7) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column4) Manage(#LoginButton6) Parent(#TableLayout) Row(#Row7) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Column(#Column2) Manage(#LoginButton7) Parent(#TableLayout) Row(#Row8) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Column(#Column3) Manage(#LoginButton8) Parent(#TableLayout) Row(#Row8) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Column(#Column4) Manage(#LoginButton9) Parent(#TableLayout) Row(#Row8) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Column(#Column2) Manage(#LoginButton0) Parent(#TableLayout) Row(#Row9) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#AccessCode) Parent(#TableLayout) Row(#Row5) Columnspan(3) Marginleft(3) Marginright(3) Marginbottom(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#AccessCodeLabel) Parent(#TableLayout) Row(#Row4) Marginleft(3) Columnspan(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#ClientNumberLabel) Parent(#TableLayout) Row(#Row1) Marginleft(3) Columnspan(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#ClientNumber) Parent(#TableLayout) Row(#Row2) Columnspan(3) Marginleft(3) Marginright(3) Marginbottom(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Column(#Column3) Manage(#LoginButton_Clear) Parent(#TableLayout) Row(#Row9) Columnspan(2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Column(#Column2) Flow(Down) Manage(#Enter) Parent(#TableLayout) Row(#Row11) Columnspan(3) Marginleft(20) Marginright(20)
+    
+    * Access code Label and Edit
+    Define_Com Class(#PRIM_LABL) Name(#AccessCodeLabel) Caption('Access Code:') Displayposition(13) Ellipses(Word) Height(30) Left(33) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(65) Verticalalignment(Center) Width(256)
+    Define_Com Class(#PRIM_EDIT) Name(#AccessCode) Displayposition(12) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(14) Width(174) Left(33) Top(95) Passwordchar('*') Readonly(True) Autoselect(False) Enabled(False)
+    
+    * Client number Label and Edit
+    Define_Com Class(#PRIM_LABL) Name(#ClientNumberLabel) Caption('Client Number:') Displayposition(14) Ellipses(Word) Height(30) Left(33) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(0) Verticalalignment(Center) Width(256)
+    Define_Com Class(#PRIM_EDIT) Name(#ClientNumber) Displayposition(15) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(12) Width(174) Left(33) Top(30)
+    
+    * Numeric KeyPad Buttons
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton1) Displayposition(10) Ellipses(Word) Height(40) Left(32) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(127) Verticalalignment(Center) Width(56) Alignment(Center) Caption('1') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton2) Displayposition(9) Ellipses(Word) Height(40) Left(92) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(127) Verticalalignment(Center) Width(56) Alignment(Center) Caption('2') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton3) Displayposition(8) Ellipses(Word) Height(40) Left(152) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(127) Verticalalignment(Center) Width(56) Alignment(Center) Caption('3') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton4) Displayposition(7) Ellipses(Word) Height(40) Left(32) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(171) Verticalalignment(Center) Width(56) Alignment(Center) Caption('4') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton5) Displayposition(6) Ellipses(Word) Height(40) Left(92) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(171) Verticalalignment(Center) Width(56) Alignment(Center) Caption('5') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton6) Displayposition(5) Ellipses(Word) Height(40) Left(152) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(171) Verticalalignment(Center) Width(56) Alignment(Center) Caption('6') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton7) Displayposition(4) Ellipses(Word) Height(39) Left(32) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(215) Verticalalignment(Center) Width(56) Alignment(Center) Caption('7') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton8) Displayposition(3) Ellipses(Word) Height(39) Left(92) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(215) Verticalalignment(Center) Width(56) Alignment(Center) Caption('8') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton9) Displayposition(2) Ellipses(Word) Height(39) Left(152) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(215) Verticalalignment(Center) Width(56) Alignment(Center) Caption('9') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton_Clear) Displayposition(1) Ellipses(Word) Height(39) Left(92) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(258) Verticalalignment(Center) Width(116) Alignment(Center) Caption('Clear') Themedrawstyle('LoginButton')
+    Define_Com Class(#PRIM_LABL) Name(#LoginButton0) Displayposition(11) Ellipses(Word) Height(39) Left(32) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(258) Verticalalignment(Center) Width(56) Alignment(Center) Caption('0') Themedrawstyle('LoginButton')
+    
+    * We keep the numeric keypad buttons in a collection to simplify the code
+    Define_Com Class(#PRIM_LCOL<#PRIM_LABL>) Name(#LoginButtonButtons)
+    
+    * Enter Button
+    Define_Com Class(#PRIM_LABL) Name(#Enter) Caption('Enter') Displayposition(16) Ellipses(Word) Height(44) Left(50) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(329) Verticalalignment(Center) Width(140) Themedrawstyle('LoginButton') Alignment(Center)
+    
+    * Event: Login Failed
+    Define_Evt Name(LoginFailed)
+    
+    * Event: Login Succeeded, provides the username and account number
+    Define_Evt Name(LoginSucceeded)
+    Define_Map For(*Input) Class(#prim_alph) Name(#ClientName)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    * Populate the keypad collection
+    #LoginButtonButtons.Insert( #LoginButton0 )
+    #LoginButtonButtons.Insert( #LoginButton1 )
+    #LoginButtonButtons.Insert( #LoginButton2 )
+    #LoginButtonButtons.Insert( #LoginButton3 )
+    #LoginButtonButtons.Insert( #LoginButton4 )
+    #LoginButtonButtons.Insert( #LoginButton5 )
+    #LoginButtonButtons.Insert( #LoginButton6 )
+    #LoginButtonButtons.Insert( #LoginButton7 )
+    #LoginButtonButtons.Insert( #LoginButton8 )
+    #LoginButtonButtons.Insert( #LoginButton9 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoginButtonButtons<>.Click) Com_Sender(#LoginButtonKey)
+    
+    * Add the clicked key to the Access Code
+    #AccessCode += #LoginButtonKey.Caption
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoginButton_Clear.Click)
+    
+    * Clear the Access Code
+    #AccessCode := *BLANKS
+    
+    Endroutine
+    
+    Evtroutine Handling(#Enter.Click)
+    
+    #COM_OWNER.PerformLogin
+    
+    Endroutine
+    
+    Mthroutine Name(PerformLogin) Access(*PROTECT)
+    
+    Define_Com Class(#PRIM_ALPH) Name(#LoginResult)
+    Define_Com Class(#PRIM_ALPH) Name(#ClientName)
+    
+    * Define the client-side object that communicates with the 'Login' Server Routine
+    Define_Com Class(#XBNServer.Login) Name(#LoginRoutine)
+    
+    * Login to our server module, we can do this a-synchronously
+    #LoginRoutine.ExecuteAsync Accesscode(#AccessCode) Clientnumber(#ClientNumber) Loginresult(#LoginResult) Clientname(#ClientName)
+    
+    Evtroutine Handling(#LoginRoutine.Completed)
+    
+    Case (#LoginResult)
+    
+    When (= OK)
+    
+    * Login was SUCCESSFUL, let the main page know
+    Signal Event(LoginSucceeded) Clientname(#ClientName)
+    
+    * Clear the access code in case we show again
+    #AccessCode := *BLANKS
+    
+    Otherwise
+    
+    * Login was NOT SUCCESSFUL, let the main page know
+    Signal Event(LoginFailed)
+    
+    Endcase
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

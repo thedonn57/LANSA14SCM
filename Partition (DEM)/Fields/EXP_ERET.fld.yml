@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_ERET
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Return Code"
+      Label:              "Return Code"
+      Heading1:           "Return"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Code retour"
+      Label:              "Code Retour"
+      Heading1:           "Code"
+      Heading2:           "Retour"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

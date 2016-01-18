@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               EMPEVTUDT
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+  - SUTC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Last update date and time"
+      Label:              "Last update dat"
+      Heading1:           "Last update date and"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Last update date and time"
+      Label:              "Last update dat"
+      Heading1:           "Last update date and"
+      Heading2:           " "
+      Heading3:           " "

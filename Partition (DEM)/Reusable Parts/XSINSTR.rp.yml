@@ -1,0 +1,55 @@
+﻿Reusable Part:
+  Name:               XSInstore
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Instore Services"
+
+  - FRA:
+      Description:        "Instore Services"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(250) Left(0) Tabposition(1) Top(0) Width(383) Themedrawstyle('Panel1') Layoutmanager(#TableLayout1)
+    
+    * Table Layout: 1 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DIYScheduleItem1) Manage(#DIYSchedule) Parent(#TableLayout1) Row(#Row1) Column(#Column1) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LatestCatalogueItem1) Manage(#ToolHire) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Alignment(CenterRight)
+    
+    * Panel to contain image for DIY Schedule
+    Define_Com Class(#PRIM_PANL) Name(#DIYSchedule) Displayposition(1) Height(124) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(381) Image(#XSImage06) Top(0) Imagealignment(CenterLeft)
+    * Panel to contain image for Tool Hire
+    Define_Com Class(#PRIM_PANL) Name(#ToolHire) Displayposition(2) Height(124) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(124) Width(381) Image(#XSImage05) Imagealignment(CenterLeft)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    * Set cursor to show a HAND when you mouseover the image
+    #DIYSchedule.Cursor #ToolHire.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#DIYSchedule.Click)
+    
+    * Navigate directly to document in the web server images directory
+    #sys_web.Navigate( "/images/lansatools/DIY-Workshops-Schedule.pdf" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ToolHire.Click)
+    
+    * Navigate directly to document in the web server images directory
+    #sys_web.Navigate( "/images/lansatools/Tool-Hire.pdf" New )
+    
+    Endroutine
+    
+    End_Com

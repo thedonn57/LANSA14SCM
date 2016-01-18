@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSVSAT
+  Type:               Packed
+  Length:             15
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Saturday hours worked $ value"
+      Label:              "Saturday hours"
+      Heading1:           "Saturday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Valeur $ heures travaillées le samedi"
+      Label:              "Valeur h samedi"
+      Heading1:           "Valeur $"
+      Heading2:           "heures"
+      Heading3:           "samedi"

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60RLT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "RLTB support required"
+      Label:              "F60RLT"
+      Heading1:           "F60RLT"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "RLTB support required"
+      Label:              "F60RLT"
+      Heading1:           "F60RLT"
+      Heading2:           " "
+      Heading3:           " "

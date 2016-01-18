@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_BOOL
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Boolean"
+      Label:              "Standard"
+      Heading1:           "Boolean"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Booléen standard"
+      Label:              "Booléen std"
+      Heading1:           "Booléen"
+      Heading2:           " "
+      Heading3:           " "

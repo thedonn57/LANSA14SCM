@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               XSCartExpiry
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Cart Expiry Date"
+      Label:              "Cart Expiry Dat"
+      Heading1:           "Cart"
+      Heading2:           "Expiry"
+      Heading3:           "Date"
+
+  - FRA:
+      Description:        "Cart Expiry Date"
+      Label:              "Cart Expiry Dat"
+      Heading1:           "Cart"
+      Heading2:           "Expiry"
+      Heading3:           "Date"

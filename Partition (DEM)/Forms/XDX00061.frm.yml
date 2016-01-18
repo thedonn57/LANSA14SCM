@@ -1,0 +1,32 @@
+﻿Form:
+  Name:               XDXBaseForm
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Base Form"
+
+  - FRA:
+      Description:        "Formulaire de base"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM *Implements #Prim_App.iHelpHandler) Clientheight(302) Clientwidth(484) Left(198) Top(206)
+    
+    * Base Form
+    * Uses iHelpHandler interface to interrupt F1 Processing
+    
+    * Shared application object
+    Define_Com Class(#XDXApplication) Name(#Application) Scope(*Application)
+    
+    Mthroutine Name(ProcessHelpRequest) Options(*Redefine)
+    
+    #Handled := True
+    
+    Endroutine
+    
+    End_Com

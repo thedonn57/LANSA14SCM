@@ -1,0 +1,194 @@
+﻿File:
+  Name:                           DC@X03
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@X03
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Component Registry"
+
+  - FRA:
+      Description:        "XML Component Registry"
+
+  Real Fields:
+  - X03P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - X03PEN:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - X03CMP:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - X03IOV:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - X03SEN:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - X03TYP:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - X03DES:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - X03MOD:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - X03FMT:
+      Type:               Alphanumeric
+      Length:             7
+      Decimals:           0
+
+  - X03PAG:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - X03TXT:
+      Type:               Alphanumeric
+      Length:             255
+      Decimals:           0
+
+  - X03SP1:
+      Type:               Alphanumeric
+      Length:             100
+      Decimals:           0
+
+  Logical Views:
+  - DC@X03V1:
+      Identifier:         DC@X03V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@X03V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@X03         /NOE"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@X03         /NOE"
+
+      Fields:
+      - X03P#I
+      - X03PEN
+      - X03SEN
+      - X03CMP
+      - X03TYP
+      - X03DES
+      - X03MOD
+      - X03FMT
+      - X03PAG
+      - X03TXT
+      - X03IOV
+      - X03SP1
+
+      Keys:
+      - X03P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03PEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03SEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03CMP:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03IOV:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@X03V2:
+      Identifier:         DC@X03V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@X03V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@X03         /NOE"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@X03         /NOE"
+
+      Fields:
+      - X03P#I
+      - X03PEN
+      - X03SEN
+      - X03CMP
+      - X03TYP
+      - X03DES
+      - X03MOD
+      - X03FMT
+      - X03PAG
+      - X03TXT
+      - X03IOV
+      - X03SP1
+
+      Keys:
+      - X03P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03PEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03SEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03CMP:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X03IOV:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

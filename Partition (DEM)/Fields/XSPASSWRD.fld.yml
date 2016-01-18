@@ -1,0 +1,41 @@
+﻿Field:
+  Name:               XSPassword
+  Type:               String
+  Length:             40
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - ND
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Password"
+      Label:              "Password"
+      Heading1:           "Password"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Password"
+      Label:              "Password"
+      Heading1:           "Password"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(661)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_char.std_char') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

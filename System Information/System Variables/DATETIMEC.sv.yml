@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DATETIMEC"
+  Description:        "Current date and time (character)"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             14
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

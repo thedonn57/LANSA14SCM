@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               EMPEVTDAT
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*YYYYMMDDC"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event date"
+      Label:              "Event date"
+      Heading1:           "Event date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Event date"
+      Label:              "Event date"
+      Heading1:           "Event date"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDate) Defaultvisual(True) Height(19) Showtime(False) Width(247)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_date.std_date') Name(#Weblet) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,265 @@
+﻿File:
+  Name:                           LZ2I
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             LZ2I
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Inventory in Warehouse"
+
+  - FRA:
+      Description:        "Inventaire"
+
+  Real Fields:
+  - LZCOCDWHS:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - LZWHCDWHS:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - LZPRCDPRD:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - LZDATEINV:
+      Type:               Signed
+      Length:             8
+      Decimals:           0
+
+  - LZINQT:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - LZINVL:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZINSS:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - LZINRP:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - LZINPR:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  Primary Keys:
+  - LZCOCDWHS
+  - LZWHCDWHS
+  - LZPRCDPRD
+
+  Virtual Fields:
+  - LZYMD_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEINV
+      Source Date Format: YYYYMMDD
+      Target Date Format: YYMMDD
+
+  - LZMDY_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEINV
+      Source Date Format: YYYYMMDD
+      Target Date Format: MMDDYY
+
+  - LZDMY_VIR:
+      Type:               Packed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEINV
+      Source Date Format: YYYYMMDD
+      Target Date Format: DDMMYY
+
+  Logical Views:
+  - LZ2IPRD:
+      Identifier:         LZ2IPRD
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      LZ2IPRD
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Inventory in Warehouse by Products"
+
+      - FRA:
+          Description:        "Inventaire de Produit"
+
+      Keys:
+      - LZPRCDPRD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - LZCOCDWHS:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - LZWHCDWHS:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - LZWHCDWHS:
+    - Lookup Check:
+        Description:        "RUOM CANNOT ADD - LZ2W DOES NO"
+        File:               LZ2W
+        Keys:
+        - LZCOCDWHS
+        - LZWHCDWHS
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     LUO4009
+
+  - LZPRCDPRD:
+    - Lookup Check:
+        Description:        "RUOM CANNOT ADD - LZ2P DOES NO"
+        File:               LZ2P
+        Keys:
+        - LZPRCDPRD
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     LUO4009
+
+  - LZINSS:
+    - Range Check:
+        Description:        "Valid range for Safety Stock"
+        Ranges:
+        - From:               +0
+          To:                 LZINRP
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Safety Stock must be greater than 0 and less/equal to Reorder Point."
+
+  - LZINRP:
+    - Simple Logic Check:
+        Description:        "Reorder *GE Safety Stock"
+        Condition:          "(#LZINRP *GE #LZINSS)"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Reorder Point must be greater than or equal to safety stock."
+
+  Access Routes:
+  - LCL0000001:
+      Description:        refers to Sales History
+      File:               LZ2E
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDWHS
+      - LZWHCDWHS
+      - LZPRCDPRD
+
+  - LCL0000002:
+      Description:        refers to sales history by product
+      File:               LZ2EPRD
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZPRCDPRD
+
+  - RUO0000003:
+      Description:        is a child of/belongs to (1:1)
+      File:               LZ2W
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDWHS
+      - LZWHCDWHS
+
+  - RUO0000004:
+      Description:        is a child of/belongs to (1:1)
+      File:               LZ2P
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZPRCDPRD

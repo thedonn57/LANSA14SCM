@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*SSERVER_TYPE"
+  Description:        "Type"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             10
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

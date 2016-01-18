@@ -1,0 +1,185 @@
+﻿Web Page:
+  Name:               xDemoWebMaintenanceMultiplePageEditor
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Multipage - Employee Editor"
+
+  - FRA:
+      Description:        "Multipage - Employee Editor"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    *
+    * D E S I G N
+    *
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(45) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.59)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(1.82)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(4) Parent(#TableLayout) Width(0.94)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(5) Parent(#TableLayout) Width(0.92)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessagesItem1) Column(#Column) Manage(#Messages) Parent(#TableLayout) Row(#Row) Sizing(None) Rowspan(6) Columnspan(6)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(1) Left(685) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Height(587) Width(513) Top(47) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#Image) Parent(#TableLayout) Row(#Row_2) Columnspan(3) Rowspan(3) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_2) Cornertopleft(8) Cornerbottomleft(8) Cornertopright(8) Cornerbottomright(8) Backgroundbrush(#Brush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush) Color(242:242:242)
+    Define_Com Class(#EMPNO.Visual) Name(#EMPNO) Componentversion(1) Displayposition(2) Height(22) Left(4) Parent(#COM_OWNER) Tabposition(16) Usepicklist(False) Width(251) Top(47) Marginleft(170) Readonly(True) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#EMPNO) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2)
+    Define_Com Class(#SURNAME.Visual) Name(#SURNAME) Displayposition(3) Left(4) Parent(#COM_OWNER) Tabposition(2) Top(73) Height(22) Marginleft(170) Width(673) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SURNAME) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginleft(4) Margintop(2) Marginbottom(2) Columnspan(2) Marginright(2)
+    Define_Com Class(#GIVENAME.Visual) Name(#GIVENAME) Displayposition(4) Left(4) Parent(#COM_OWNER) Tabposition(3) Top(99) Height(22) Marginleft(170) Width(673) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#GIVENAME) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginleft(4) Margintop(2) Marginbottom(2) Columnspan(2) Marginright(2)
+    Define_Com Class(#ADDRESS1.Visual) Name(#ADDRESS1) Displayposition(5) Height(22) Left(4) Parent(#COM_OWNER) Tabposition(4) Top(125) Width(673) Marginleft(170) Usepicklist(False) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS1) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginleft(4) Margintop(2) Marginbottom(2) Columnspan(2) Marginright(2)
+    Define_Com Class(#ADDRESS2.Visual) Name(#ADDRESS2) Componentversion(1) Displayposition(6) Height(22) Left(4) Parent(#COM_OWNER) Tabposition(5) Top(151) Usepicklist(False) Width(673) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS2) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginleft(4) Margintop(2) Marginbottom(2) Columnspan(2) Marginright(2)
+    Define_Com Class(#ADDRESS3.Visual) Name(#ADDRESS3) Componentversion(1) Displayposition(7) Height(22) Left(4) Parent(#COM_OWNER) Tabposition(6) Top(177) Usepicklist(False) Width(673) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS3) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginleft(4) Margintop(2) Marginbottom(2) Columnspan(2) Marginright(2)
+    Define_Com Class(#POSTCODE.Visual) Name(#POSTCODE) Componentversion(1) Displayposition(8) Height(22) Left(2) Parent(#COM_OWNER) Tabposition(7) Top(203) Usepicklist(False) Width(341) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#POSTCODE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PHONEHME.Visual) Name(#PHONEHME) Componentversion(1) Displayposition(10) Height(22) Left(2) Parent(#COM_OWNER) Tabposition(8) Top(255) Usepicklist(False) Width(341) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#PHONEHME) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PHONEBUS.Visual) Name(#PHONEBUS) Componentversion(1) Displayposition(9) Height(22) Left(2) Parent(#COM_OWNER) Tabposition(9) Top(229) Usepicklist(False) Width(341) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_11) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#PHONEBUS) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#DEPTMENT.Visual) Name(#DEPTMENT) Displayposition(11) Left(2) Parent(#COM_OWNER) Tabposition(10) Top(281) Height(22) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_12) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#DEPTMENT) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#SECTION.Visual) Name(#SECTION) Displayposition(12) Left(2) Parent(#COM_OWNER) Tabposition(11) Top(307) Height(22) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_13) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SECTION) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#SALARY.Visual) Name(#SALARY) Componentversion(1) Displayposition(13) Height(22) Left(2) Parent(#COM_OWNER) Tabposition(12) Top(333) Usepicklist(False) Width(341) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_14) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SALARY) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#STARTDTE.Visual) Name(#STARTDTE) Displayposition(14) Left(2) Parent(#COM_OWNER) Tabposition(13) Top(359) Height(22) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_15) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#STARTDTE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#TERMDATE.Visual) Name(#TERMDATE) Displayposition(15) Left(2) Parent(#COM_OWNER) Tabposition(14) Top(385) Height(22) Marginleft(170) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_16) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#TERMDATE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(4) Margintop(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider) Displayposition(3) Parent(#TableLayout) Width(4) Startrow(#Row_2)
+    Define_Com Class(#PRIM_LABL) Name(#Title) Caption('Loading...') Displayposition(19) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(2) Verticalalignment(Center) Height(41) Width(1198) Marginleft(2) Themedrawstyle('DarkTitle+Heading1+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Title) Parent(#TableLayout) Row(#Row) Margintop(2) Marginbottom(2) Marginleft(2) Columnspan(6)
+    Define_Com Class(#PRIM_SPBN) Name(#Save) Caption('Save') Displayposition(17) Ellipses(Word) Left(1060) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(2) Height(41) Width(68) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_17) Alignment(CenterRight) Column(#Column_5) Flow(Left) Manage(#Save) Parent(#TableLayout) Row(#Row) Margintop(2) Marginbottom(2) Marginright(2) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(6) Parent(#TableLayout) Width(70) Units(Pixels)
+    Define_Com Class(#PRIM_SPBN) Name(#Close) Caption('Close') Displayposition(16) Ellipses(Word) Left(1130) Parent(#COM_OWNER) Tabposition(18) Tabstop(False) Top(2) Height(41) Width(70) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_18) Alignment(CenterRight) Column(#Column_5) Flow(Left) Manage(#Close) Parent(#TableLayout) Row(#Row) Sizing(FitToHeight) Marginbottom(2) Margintop(2)
+    
+    Define_Com Class(#xDemoWebMessagesPopup) Name(#Messages) Parent(#COM_OWNER) Left(388) Top(268)
+    
+    *
+    * V A R I A B L E S
+    *
+    
+    Group_By Name(#Employee) Fields(#EMPNO #SURNAME #GIVENAME #ADDRESS1 #ADDRESS2 #ADDRESS3 #POSTCODE #PHONEHME #PHONEBUS #DEPTMENT #SECTION #SALARY #STARTDTE #TERMDATE #Empthm)
+    
+    *
+    * I M P L E M E N T A T I O N
+    *
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Save.Cursor #Close.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#sys_web.urlchanged)
+    
+    For Each(#Parameter) In(#sys_web.urlparameters)
+    
+    Continue If(#Parameter.Name.upperCase <> Employee)
+    
+    #Com_owner.LoadEmployee( #Parameter.value )
+    
+    Leave
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(LoadEmployee) Access(*Private)
+    Define_Map For(*Input) Class(#empno) Name(#EmployeeNumber)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployee) Name(#GetEmployee)
+    Define_Com Class(#xDemoDataServices.GetEmployeeImage) Name(#GetEmployeeImage)
+    
+    #GetEmployee.executeasync( #EmployeeNumber #Employee )
+    #GetEmployeeImage.executeasync( #EmployeeNumber #Empthm )
+    
+    #EMPNO := #EmployeeNumber
+    
+    Evtroutine Handling(#GetEmployee.Completed)
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#GetEmployeeImage.Completed)
+    
+    #Image.Image <= #sys_appln.CreateBitmap( #Empthm )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(Update) Access(*Private)
+    
+    #com_owner.caption #Title := ("&1 &2 (&3)").Substitute( #GIVENAME #SURNAME #EMPNO )
+    
+    Endroutine
+    
+    Evtroutine Handling(#SURNAME.Changed)
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#GIVENAME.Changed)
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Save.Click)
+    
+    #Com_owner.Save
+    
+    Endroutine
+    
+    Evtroutine Handling(#Close.Click)
+    
+    #sys_web.close
+    
+    Endroutine
+    
+    Mthroutine Name(Save)
+    
+    Define_Com Class(#xDemoDataServices.SaveEmployee) Name(#SaveEmployee)
+    
+    #sys_msgq.ClearAll
+    
+    #SaveEmployee.executeasync( #Employee #io$sts )
+    
+    Evtroutine Handling(#SaveEmployee.Completed)
+    
+    If (#io$sts = OK)
+    
+    #sys_web.localStorage.add( UpdateEmployee #EMPNO )
+    
+    Else
+    
+    #Messages.Show
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

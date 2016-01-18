@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12US3
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "User Information -3"
+      Label:              "W12US3"
+      Heading1:           "User"
+      Heading2:           "Information- 3"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "User Information -3"
+      Label:              "W12US3"
+      Heading1:           "User"
+      Heading2:           "Information- 3"
+      Heading3:           " "

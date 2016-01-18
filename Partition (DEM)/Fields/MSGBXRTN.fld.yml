@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               MSGBXRTN
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message box return code"
+      Label:              "Message box ret"
+      Heading1:           "Message"
+      Heading2:           "box return"
+      Heading3:           "code"
+
+  - FRA:
+      Description:        "Code retour de boite de message"
+      Label:              "Ret boite msg"
+      Heading1:           "Code retour"
+      Heading2:           "boite"
+      Heading3:           "message"

@@ -1,0 +1,30 @@
+﻿Process:
+  Name:                      XSRules
+  Menu Style:                SAA/CUA
+  Anticipated Usage:         Light
+  Optimize For Remote Comms: No
+  Enable For Web:            No
+  Generate XML:              No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Complex logic rules"
+
+  - FRA:
+      Description:        "Complex logic rules"
+
+  Functions:
+  - XSRULE1:
+      Name:               XSRule1
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Check Email Format"
+
+      - FRA:
+          Description:        "Check Email Format"
+
+      Allowed Next Functions:
+      - "*ANY"

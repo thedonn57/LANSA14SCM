@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F03OAT
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Output attribute list"
+      Label:              "F03OAT"
+      Heading1:           "Output attr list"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

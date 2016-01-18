@@ -1,0 +1,38 @@
+﻿Reusable Part:
+  Name:               XSAccountInformation
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Account Information"
+
+  - FRA:
+      Description:        "Account Information"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(690) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1)
+    
+    * Table Layout: 1 Column, 1 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel1Item1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column1) Alignment(TopLeft) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountInformation2Item1) Manage(#XSAccountInformation2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column1) Alignment(TopLeft) Flow(Down) Margintop(10)
+    
+    * Title Panel
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(1000) Style(#XSTheme01<PanelBorders1>) Top(0)
+    
+    * Title
+    Define_Com Class(#PRIM_LABL) Name(#LCurrentSelection) Caption('MY ACCOUNT') Displayposition(1) Ellipses(Word) Height(48) Parent(#Panel1) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(998) Style(#XSTheme01<Text12BoldAlmostBlack>) Left(0) Marginleft(10)
+    
+    * Account Information Panel
+    Define_Com Class(#XSAccountInformation2) Name(#XSAccountInformation2) Parent(#COM_OWNER) Tabstop(False) Top(60) Displayposition(2) Tabposition(2)
+    
+    
+    End_Com

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               STD_VBIN
+  Type:               VarBinary
+  Length:             256
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Varbinary field"
+      Label:              "Std VBinary"
+      Heading1:           "Standard"
+      Heading2:           "Varbinary"
+      Heading3:           "Field"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSTOTH
+  Type:               Packed
+  Length:             30
+  Decimals:           1
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Total hours worked for week"
+      Label:              "Total hours wor"
+      Heading1:           "Total"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Total heures travaillées par semaine"
+      Label:              "Total heures"
+      Heading1:           "Total"
+      Heading2:           "heures"
+      Heading3:           "travaillées"

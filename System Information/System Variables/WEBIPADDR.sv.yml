@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*WEBIPADDR"
+  Description:        "Web IP address"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             50
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       W3@P2100

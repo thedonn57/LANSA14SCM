@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XSProductDetail
+  Type:               Char
+  Length:             100
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Detail"
+      Label:              "Product Detail"
+      Heading1:           "Product"
+      Heading2:           "Detail"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Detail"
+      Label:              "Product Detail"
+      Heading1:           "Product"
+      Heading2:           "Detail"
+      Heading3:           " "

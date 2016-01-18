@@ -1,0 +1,75 @@
+﻿Reusable Part:
+  Name:               xDemoWebUDCTreeDepartmentItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Department Design"
+
+  - FRA:
+      Description:        "Arborescence dépts"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #xDemoWebUDCTreeBaseItem) Height(36) Width(454) Layoutmanager(#TableLayout_1)
+    
+    Define_Com Class(#prim_imag) Name(#ExpandCollapse) Displayposition(1) Height(12) Left(9) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(12) Top(12) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(2) Height(36) Image(#xImageDepartment32) Left(34) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(32) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#lDepartment) Caption('Department Details') Displayposition(3) Ellipses(Word) Height(36) Left(70) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(384) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_2) Manage(#Image) Parent(#TableLayout_1) Row(#Row_1) Alignment(CenterLeft) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#lDepartment) Parent(#TableLayout_1) Row(#Row_1) Column(#Column_3)
+    
+    Define_Com Class(#xDemoWebDataDepartment) Name(#gDepartment) Reference(*dynamic)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ExpandCollapseItem1) Manage(#ExpandCollapse) Parent(#TableLayout_1) Row(#Row_1) Sizing(None) Column(#Column_1)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #ExpandCollapse.image <= #xImageCollapsed16
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotReference) Options(*Redefine)
+    
+    #gDepartment <= #TreeItem.RelatedReference *As #xDemoWebDataDepartment
+    
+    #lDepartment := ("&1 (&2)").Substitute( #gDepartment.Description #gDepartment.ID )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ExpandCollapse.Click #Com_owner.DoubleClick)
+    
+    #Com_owner.ExpandCollapse
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemExpanding) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #xImageExpanded16
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemCollapsed) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #xImageCollapsed16
+    
+    Endroutine
+    
+    Mthroutine Name(OnSort) Options(*Redefine)
+    
+    #Result := Equal
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,490 @@
+﻿Template:
+  Name:                    FRUTIL02
+  Description:             File Transfer Utility - Generic
+
+  Source: |
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF JUST ONE PHYSICAL FILE                      */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) PROMPT('Enter the name of the file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed the' 'file required may be selectedfrom the list.' '**** The chosen file must have one or more UNIQUE Primary Keys ****') HELPIDS(HELP010)
+    /* ********** ======================================================= */
+    /* ********** GET THE NUMBER OF APPENDAGE LISTS REQUIRED              */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('How many Appendage Lists are required for the selected file ? (0 - 10)') ANSWER(@@NANS001) EXTEND('The Primary and Appendage lists must meet the following criteria:' '* The aggregate byte length of all real and virtual fields is <= 256.' '* The total of all real and virtual fields is <= 100.' '* The function generated is to be used by developers as a utility only.' '* You understand that this function has been designed for optimal ease of' '  use rather than optimal performance. Generated code does NOT represent' '  an optimal performance solution and should NOT be used in benchmarks.') LOWER(*NO) RANGE((0 10)) HELPIDS(HELP010)
+    /* ********** ======================================================= */
+    /* ********** GET FIELDS OF CHOSEN FILE INTO LIST 1                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** GET KEYS OF CHOSEN FILE INTO LIST 2                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** NOW GENERATE THE CODE                                   */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1997 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT *LIGHTUSAGE)
+    @@COMMENT  COMMENT('Local Variables')
+    DEFINE     FIELD(#SC_TEXT01) TYPE(*CHAR) LENGTH(20) DESC('Text String') OUTPUT_ATR(RED) DEFAULT(SOURCE)
+    DEFINE     FIELD(#SC_TEXT02) TYPE(*CHAR) LENGTH(20) DESC('Text String') OUTPUT_ATR(RED) DEFAULT(TARGET)
+    DEFINE     FIELD(#SC_TEXT03) TYPE(*CHAR) LENGTH(60) DESC('Text String') OUTPUT_ATR(RED)
+    CHANGE     FIELD(#SC_TEXT03) TO('''Errors were detected. Use the Messages button to view details.''')
+    DEFINE     FIELD(#SC_SRCTGT) TYPE(*CHAR) LENGTH(6) DESC('Source and Targets List')
+    DEFINE     FIELD(#SC_SRC400) TYPE(*CHAR) LENGTH(1) LABEL('AS/400 DBMS') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT)
+    DEFINE     FIELD(#SC_SRCFLT) TYPE(*CHAR) LENGTH(1) LABEL('Perm Flat File') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT 2)
+    DEFINE     FIELD(#SC_SRCLCL) TYPE(*CHAR) LENGTH(1) LABEL('PC DBMS') INPUT_ATR(RB01) TO_OVERLAY(#SC_SRCTGT 3)
+    DEFINE     FIELD(#SC_TGT400) TYPE(*CHAR) LENGTH(1) LABEL('AS/400 DBMS') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 4)
+    DEFINE     FIELD(#SC_TGTFLT) TYPE(*CHAR) LENGTH(1) LABEL('Perm Flat File') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 5)
+    DEFINE     FIELD(#SC_TGTLCL) TYPE(*CHAR) LENGTH(1) LABEL('PC DBMS') INPUT_ATR(RB02) TO_OVERLAY(#SC_SRCTGT 6)
+    DEFINE     FIELD(#SC_DEFSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_CONSRV) TYPE(*CHAR) LENGTH(2) DESC('Return Code') DEFAULT(NO)
+    DEFINE     FIELD(#SC_AS4NAM) TYPE(*CHAR) LENGTH(20) DESC('AS/400 Network Name') DEFAULT('APPN.XXXXXXXXXX')
+    DEFINE     FIELD(#SC_AS4USR) TYPE(*CHAR) LENGTH(10) DESC('AS400 User') DEFAULT(*USER)
+    DEFINE     FIELD(#SC_AS4PWD) TYPE(*CHAR) LENGTH(10) DESC('AS400 Password') INPUT_ATR(ND)
+    DEFINE     FIELD(#SC_OUTPUT) TYPE(*CHAR) LENGTH(65) DESC('Output File Name')
+    DEFINE     FIELD(#SC_ERRORS) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('Error Count')
+    DEFINE     FIELD(#SC_COUNT) TYPE(*DEC)  LENGTH(7) DECIMALS(0) DESC('List Entry Count/Total')
+    DEFINE     FIELD(#SC_RCDCNT) LENGTH(7)  DECIMALS(0) REFFLD(#DATE) DESC('Record Count') EDIT_CODE(4) DEFAULT(0)
+    DEFINE     FIELD(#SC_RCDCHR) TYPE(*CHAR) LENGTH(7) DESC('Record Count as characters') TO_OVERLAY(#SC_RCDCNT)
+    DEFINE     FIELD(#SC_RCDL1C) TYPE(*CHAR) LENGTH(1) DESC('Last Digit of Record Count') TO_OVERLAY(#SC_RCDCNT 7)
+    DEFINE     FIELD(#SC_RETCDE) TYPE(*CHAR) LENGTH(2) DESC('Return Code')
+    DEFINE     FIELD(#SC_MSGTXT) TYPE(*CHAR) LENGTH(132) DESC('Message Text')
+    DEF_LIST   NAME(#SC_MSGLST) FIELDS(#SC_MSGTXT) TYPE(*WORKING) ENTRYS(9999)
+    DEF_LIST   NAME(#SC_MSGSTK) FIELDS(#SC_MSGTXT) TYPE(*WORKING) ENTRYS(9999)
+    DEFINE     FIELD(#SC_TMPFIL) TYPE(*CHAR) LENGTH(55) LABEL('Temp Flat File')
+    USE        BUILTIN(OV_QUERY_SYS_INFO) WITH_ARGS(TEMP_DIR) TO_GET(#SC_TMPFIL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#SC_TMPFIL #SC_FILNAM '''.TAB''') TO_GET(#SC_TMPFIL)
+    DEFINE     FIELD(#SC_PRMFIL) TYPE(*CHAR) LENGTH(55) LABEL('Perm Flat File')
+    USE        BUILTIN(OV_QUERY_SYS_INFO) WITH_ARGS(SYS_DIR) TO_GET(#SC_PRMFIL)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#SC_PRMFIL #SC_FILNAM '''.TAB''') TO_GET(#SC_PRMFIL)
+    DEFINE     FIELD(#SC_APPND) TYPE(*CHAR) LENGTH(1) LABEL('Append Field') DESC('Append Field') DEFAULT(A)
+    DEFINE     FIELD(#SC_SELOPT) TYPE(*CHAR) LENGTH(20) DESC('Selection Option') DEFAULT(N)
+    DEFINE     FIELD(#SC_SELPOS) TYPE(*DEC) LENGTH(7) DECIMALS(0) DESC('Selection  Position') DEFAULT(0)
+    DEFINE     FIELD(#SC_SELVAL) TYPE(*CHAR) LENGTH(256) DESC('Selection Compare ') DEFAULT(*BLANKS)
+    DEFINE     FIELD(#SC_II) TYPE(*DEC)  LENGTH(7) DECIMALS(0) DESC('List Entry Index')
+    /* ********** ======================================================= */
+    /* ********** BUILD THE PRIMARY LIST                                  */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@NANS001 *EQ 0)) GOTO(AP0)
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(01) INTO_LSTS((03 'Fields for' 'Primary' 'List')) HELPIDS(HELP010)
+    DEF_LIST   NAME(#SC_DATA01) FIELDS(@@LST03) COUNTER(#SC_COUNT) TYPE(*WORKING) ENTRYS(200)
+    @@GOTO     LABEL(APS)
+    AP0: @@LABEL
+    DEF_LIST   NAME(#SC_DATA01) FIELDS(@@LST01) COUNTER(#SC_COUNT) TYPE(*WORKING) ENTRYS(200)
+    @@GOTO     LABEL(APZ)
+    /* ********** ======================================================= */
+    /* ********** BUILD THE APPENDAGE LISTS                               */
+    /* ********** ======================================================= */
+    APS: @@SET_IDX  IDX_NAME(NN) TO(0)
+    APL: @@INC_IDX  IDX_NAME(NN)
+    @@CMP_IDX  IDX_NAME(NN) IDX_VALUE(@@NANS001) IF_GT(APZ)
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(01) INTO_LSTS((03 'Fields for' 'Appendage' 'List')) HELPIDS(HELP010)
+    DEF_LIST   NAME(#SC_APL@@INDEXNN) FIELDS(#SC_APPND @@LST03) TYPE(*WORKING) ENTRYS(200)
+    DEF_LIST   NAME(#SC_APF@@INDEXNN) FIELDS(@@LST03) TYPE(*WORKING) ENTRYS(200)
+    @@GOTO     LABEL(APL)
+    APZ: @@LABEL
+    GROUP_BY   NAME(#XG_KEYS01) FIELDS(@@LST02)
+    DEFINE     FIELD(#SC_FILNAM) TYPE(*CHAR) LENGTH(10) LABEL('Table Name') DEFAULT(@@FNAME01)
+    DEFINE     FIELD(#SC_FILDES) TYPE(*CHAR) LENGTH(40) LABEL('Description')
+    CHANGE     FIELD(#SC_FILDES) TO('''@@FDESC01''')
+    @@COMMENT  COMMENT('Application Logic')
+    BEGIN_LOOP
+    POP_UP     FIELDS((#SC_TEXT01 *L5 *P2 *NOID *OUT) (#SC_TEXT02 *L5 *P24 *NOID *OUT) (#SC_FILNAM *L3 *P2 *OUT) (#SC_SRC400 *L7 *P2 *IN) (#SC_SRCFLT *L9 *P2 *IN) (#SC_SRCLCL *L11 *P2 *IN) (#SC_TGT400 *L7 *P24 *IN) (#SC_TGTFLT *L9 *P24 *IN) (#SC_TGTLCL *L11 *P24 *IN) (#SC_TMPFIL *L13 *P2 *IN) (#SC_PRMFIL *L14 *P2 *IN) (#SC_FILDES *L3 *P24 *NOID *OUT)) AT_LOC(3 3) WITH_SIZE(74 18) PANEL_TITL('Table Export or Import Utility') EXIT_KEY(*NO) PROMPT_KEY(*NO)
+    CHANGE     FIELD(#SC_ERRORS) TO(0)
+    CLR_LIST   NAMED(#SC_MSGLST)
+    @@COMMENT  COMMENT(' ')
+    CASE       OF_FIELD(#SC_SRCTGT)
+    @@COMMENT  COMMENT('AS/400 to Flat File       ')
+    WHEN       VALUE_IS('= ''1   1 ''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_PRMFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('AS/400 to PC DBMS      ')
+    WHEN       VALUE_IS('= ''1    1''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_TMPFIL)
+    @@COMMENT  COMMENT('Flat File to AS/400    ')
+    WHEN       VALUE_IS('= '' 1 1  ''')
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_PRMFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('Flat File to PC DBMS   ')
+    WHEN       VALUE_IS('= '' 1   1''')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_PRMFIL)
+    @@COMMENT  COMMENT('PC DBMS to AS/400      ')
+    WHEN       VALUE_IS('= ''  11  ''')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(CONNECT)
+    LEAVE      IF('#SC_CONSRV *NE OK')
+    EXECUTE    SUBROUTINE(FLATTODBMS) WITH_PARMS(#SC_TMPFIL)
+    EXECUTE    SUBROUTINE(DISCONNECT)
+    @@COMMENT  COMMENT('PC DBMS to Flat        ')
+    WHEN       VALUE_IS('= ''  1 1 ''')
+    EXECUTE    SUBROUTINE(DBMSTOFLAT) WITH_PARMS(#SC_PRMFIL)
+    @@COMMENT  COMMENT('Invalid selection      ')
+    OTHERWISE
+    MESSAGE    MSGTXT('Invalid source/target combination selected')
+    ENDCASE
+    @@COMMENT  COMMENT(' ')
+    IF         COND('#SC_ERRORS *GT 0')
+    SELECTLIST NAMED(#SC_MSGLST)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT)
+    ENDSELECT
+    POP_UP     FIELDS((#SC_TEXT03 *L3 *P2 *NOID *OUT)) AT_LOC(6 3) WITH_SIZE(64 07) PANEL_TITL('Import/Export Error(s)') EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    ENDIF
+    END_LOOP
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Convert DBMS data into flat file')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(DBMSTOFLAT) PARMS((#SC_OUTPUT *RECEIVED))
+    CLR_LIST   NAMED(#SC_DATA01)
+    IF         COND('#SC_CONSRV = OK')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Transferring contents of AS/400 table''' #SC_FILNAM '''into PC flat file''' #SC_OUTPUT)
+    ELSE
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Transferring contents of PC DBMS table''' #SC_FILNAM '''into PC flat file''' #SC_OUTPUT)
+    ENDIF
+    CHANGE     FIELD(#SC_RCDCNT) TO(0)
+    SELECT     FIELDS(*ALL) FROM_FILE(@@FNAME01)
+    CHANGE     FIELD(#SC_RCDCNT) TO('#SC_RCDCNT + 1')
+    ADD_ENTRY  TO_LIST(#SC_DATA01)
+    /* ********** ======================================================= */
+    /* ********** LOAD ANY REQUIRED APPENDAGE LISTS                       */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(NN) TO(0)
+    ALL: @@INC_IDX  IDX_NAME(NN)
+    @@CMP_IDX  IDX_NAME(NN) IDX_VALUE(@@NANS001) IF_GT(ALZ)
+    ADD_ENTRY  TO_LIST(#SC_APL@@INDEXNN)
+    @@GOTO     LABEL(ALL)
+    ALZ: @@LABEL
+    IF         COND('#SC_COUNT = 200')
+    /* ********** ======================================================= */
+    /* ********** DO THE APPROPRIATE TRANSFORM LIST                       */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@NANS001 *EQ 0)) GOTO(LN0)
+    @@IF       COND((*IF @@NANS001 *EQ 1)) GOTO(LN1)
+    @@IF       COND((*IF @@NANS001 *EQ 2)) GOTO(LN2)
+    @@IF       COND((*IF @@NANS001 *EQ 3)) GOTO(LN3)
+    @@IF       COND((*IF @@NANS001 *EQ 4)) GOTO(LN4)
+    @@IF       COND((*IF @@NANS001 *EQ 5)) GOTO(LN5)
+    @@IF       COND((*IF @@NANS001 *EQ 6)) GOTO(LN6)
+    @@IF       COND((*IF @@NANS001 *EQ 7)) GOTO(LN7)
+    @@IF       COND((*IF @@NANS001 *EQ 8)) GOTO(LN8)
+    @@IF       COND((*IF @@NANS001 *EQ 9)) GOTO(LN9)
+    @@IF       COND((*IF @@NANS001 *EQ 10)) GOTO(LNA)
+    LN0: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN1: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN2: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN3: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN4: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN5: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN6: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN7: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN8: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LN9: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08 #SC_APL09) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LNA: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08 #SC_APL09 #SC_APL10) TO_GET(#SC_RETCDE)
+    LNZ: @@LABEL
+    CLR_LIST   NAMED(#SC_DATA01)
+    /* ********** ======================================================= */
+    /* ********** CLEAR APPENDAGE LISTS                                   */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(NN) TO(0)
+    CLL: @@INC_IDX  IDX_NAME(NN)
+    @@CMP_IDX  IDX_NAME(NN) IDX_VALUE(@@NANS001) IF_GT(CLZ)
+    CLR_LIST   NAMED(#SC_APL@@INDEXNN)
+    @@GOTO     LABEL(CLL)
+    CLZ: @@LABEL
+    IF         COND('#SC_RETCDE *NE OK')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when writing to flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    LEAVE
+    ENDIF
+    ENDIF
+    IF         COND('#SC_RCDL1C = ''0''')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows transferred''' *BLANKS *BLANKS)
+    ENDIF
+    ENDSELECT
+    /* ********** ======================================================= */
+    /* ********** DO THE APPROPRIATE TRANSFORM LIST                       */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@NANS001 *EQ 0)) GOTO(LY0)
+    @@IF       COND((*IF @@NANS001 *EQ 1)) GOTO(LY1)
+    @@IF       COND((*IF @@NANS001 *EQ 2)) GOTO(LY2)
+    @@IF       COND((*IF @@NANS001 *EQ 3)) GOTO(LY3)
+    @@IF       COND((*IF @@NANS001 *EQ 4)) GOTO(LY4)
+    @@IF       COND((*IF @@NANS001 *EQ 5)) GOTO(LY5)
+    @@IF       COND((*IF @@NANS001 *EQ 6)) GOTO(LY6)
+    @@IF       COND((*IF @@NANS001 *EQ 7)) GOTO(LY7)
+    @@IF       COND((*IF @@NANS001 *EQ 8)) GOTO(LY8)
+    @@IF       COND((*IF @@NANS001 *EQ 9)) GOTO(LY9)
+    @@IF       COND((*IF @@NANS001 *EQ 10)) GOTO(LYA)
+    LY0: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY1: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY2: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY3: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY4: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY5: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY6: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY7: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY8: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LYZ)
+    LY9: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08 #SC_APL09) TO_GET(#SC_RETCDE)
+    @@GOTO     LABEL(LNZ)
+    LYA: @@LABEL
+    USE        BUILTIN(TRANSFORM_LIST) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' Y #SC_APL01 #SC_APL02 #SC_APL03 #SC_APL04 #SC_APL05 #SC_APL06 #SC_APL07 #SC_APL08 #SC_APL09 #SC_APL10) TO_GET(#SC_RETCDE)
+    LYZ: @@LABEL
+    IF         COND('#SC_RETCDE *NE OK')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when writing to flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    ENDIF
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows transferred''' *BLANKS *BLANKS)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Convert flat file into DBMS data')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(FLATTODBMS) PARMS((#SC_OUTPUT *RECEIVED))
+    IF         COND('#SC_CONSRV = OK')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Updating contents of PC flat file''' #SC_OUTPUT '''into AS/400 table''' #SC_FILNAM)
+    ELSE
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Updating contents of PC flat file''' #SC_OUTPUT '''into PC DBMS table''' #SC_FILNAM)
+    ENDIF
+    CHANGE     FIELD(#SC_RCDCNT) TO(0)
+    DOUNTIL    COND('#SC_RETCDE = EF')
+    CLR_LIST   NAMED(#SC_DATA01)
+    /* ********** ======================================================= */
+    /* ********** CLEAR APPENDAGE LISTS                                   */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(NN) TO(0)
+    CFL: @@INC_IDX  IDX_NAME(NN)
+    @@CMP_IDX  IDX_NAME(NN) IDX_VALUE(@@NANS001) IF_GT(CFZ)
+    CLR_LIST   NAMED(#SC_APF@@INDEXNN)
+    @@GOTO     LABEL(CFL)
+    CFZ: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** DO THE APPROPRIATE TRANSFORM FILE                       */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@NANS001 *EQ 0)) GOTO(FN0)
+    @@IF       COND((*IF @@NANS001 *EQ 1)) GOTO(FN1)
+    @@IF       COND((*IF @@NANS001 *EQ 2)) GOTO(FN2)
+    @@IF       COND((*IF @@NANS001 *EQ 3)) GOTO(FN3)
+    @@IF       COND((*IF @@NANS001 *EQ 4)) GOTO(FN4)
+    @@IF       COND((*IF @@NANS001 *EQ 5)) GOTO(FN5)
+    @@IF       COND((*IF @@NANS001 *EQ 6)) GOTO(FN6)
+    @@IF       COND((*IF @@NANS001 *EQ 7)) GOTO(FN7)
+    @@IF       COND((*IF @@NANS001 *EQ 8)) GOTO(FN8)
+    @@IF       COND((*IF @@NANS001 *EQ 9)) GOTO(FN9)
+    @@IF       COND((*IF @@NANS001 *EQ 10)) GOTO(FNA)
+    FN0: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN1: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN2: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN3: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN4: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN5: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN6: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05 #SC_APF06) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN7: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05 #SC_APF06 #SC_APF07) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN8: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05 #SC_APF06 #SC_APF07 #SC_APF08) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FN9: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05 #SC_APF06 #SC_APF07 #SC_APF08 #SC_APF09) TO_GET(#SC_RETCDE)
+    @@GOTO     FNZ
+    FNA: @@LABEL
+    USE        BUILTIN(TRANSFORM_FILE) WITH_ARGS(#SC_DATA01 #SC_OUTPUT T B Y '''.''' N #SC_SELOPT #SC_SELPOS #SC_SELVAL #SC_APF01 #SC_APF02 #SC_APF03 #SC_APF04 #SC_APF05 #SC_APF06 #SC_APF07 #SC_APF08 #SC_APF09 #SC_APF10) TO_GET(#SC_RETCDE)
+    FNZ: @@LABEL
+    IF         COND('#SC_RETCDE = ER')
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Fatal Error detected when reading flat file''' #SC_OUTPUT *BLANKS *BLANKS)
+    LEAVE
+    ENDIF
+    EXECUTE    SUBROUTINE(FLATUPDATE)
+    ENDUNTIL
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows updated''' *BLANKS *BLANKS)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Update DBMS from data in working list')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(FLATUPDATE)
+    CHANGE     FIELD(#SC_II) TO(1)
+    DOWHILE    COND('#SC_II *LE #SC_COUNT')
+    GET_ENTRY  NUMBER(#SC_II) FROM_LIST(#SC_DATA01)
+    /* ********** ======================================================= */
+    /* ********** GET MATCHING APPENDAGE LIST ENTRIES                     */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(NN) TO(0)
+    GEL: @@INC_IDX  IDX_NAME(NN)
+    @@CMP_IDX  IDX_NAME(NN) IDX_VALUE(@@NANS001) IF_GT(GEZ)
+    GET_ENTRY  NUMBER(#SC_II) FROM_LIST(#SC_APF@@INDEXNN)
+    @@GOTO     LABEL(GEL)
+    GEZ: @@LABEL
+    CHANGE     FIELD(#SC_RCDCNT) TO('#SC_RCDCNT + 1')
+    FETCH      FIELDS((#XG_KEYS01)) FROM_FILE(@@FNAME01) WITH_KEY(#XG_KEYS01)
+    IF_STATUS  IS(*OKAY)
+    UPDATE     FIELDS(*ALL) IN_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    ELSE
+    INSERT     FIELDS(*ALL) TO_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    ENDIF
+    IF_STATUS  IS_NOT(*OKAY)
+    CHANGE     FIELD(#SC_ERRORS) TO('#SC_ERRORS + 1')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS('''Previous Error(s) were''' '''detected when processing row number ''' #SC_RCDCHR *BLANKS)
+    ENDIF
+    IF         COND('#SC_RCDL1C = ''0''')
+    EXECUTE    SUBROUTINE(SHOWSTATUS) WITH_PARMS(#SC_RCDCHR '''Rows updated''' *BLANKS *BLANKS)
+    ENDIF
+    CHANGE     FIELD(#SC_II) TO('#SC_II + 1')
+    ENDWHILE
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Connect to AS/400 server')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(CONNECT)
+    CHANGE     FIELD(#SC_AS4PWD) TO(*NULL)
+    DOWHILE    COND('(#SC_DEFSRV *NE OK) *OR (#SC_CONSRV *NE OK)')
+    POP_UP     FIELDS((#SC_AS4NAM *L3 *P2 *IN) (#SC_AS4PWD *L7 *P2 *IN) (#SC_AS4USR *L5 *P2 *OUT)) DESIGN(*DOWN) IDENTIFY(*LABEL) AT_LOC(13 38) WITH_SIZE(40 11) PANEL_TITL('Connect to AS/400 Server') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO)
+    USE        BUILTIN(DEFINE_OS_400_SERVER) WITH_ARGS(AS400 #SC_AS4NAM N) TO_GET(#SC_DEFSRV)
+    IF         COND('(#SC_DEFSRV = OK) *AND (#SC_CONSRV *NE OK)')
+    USE        BUILTIN(CONNECT_SERVER) WITH_ARGS(AS400 #SC_AS4PWD) TO_GET(#SC_CONSRV)
+    IF         COND('#SC_CONSRV = OK')
+    USE        BUILTIN(CONNECT_FILE) WITH_ARGS('''*''' AS400)
+    ENDIF
+    ENDIF
+    ENDWHILE
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Disconnect from AS/400 server')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(DISCONNECT)
+    IF         COND('#SC_CONSRV = OK')
+    USE        BUILTIN(DISCONNECT_FILE) WITH_ARGS('''*''' AS400)
+    USE        BUILTIN(DISCONNECT_SERVER) WITH_ARGS(AS400) TO_GET(#SC_CONSRV)
+    CHANGE     FIELD(#SC_CONSRV) TO(NO)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Issue and record status message(s)')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(SHOWSTATUS) PARMS((#SC_SUBV01 *RECEIVED) (#SC_SUBV02 *RECEIVED) (#SC_SUBV03 *RECEIVED) (#SC_SUBV04 *RECEIVED))
+    DEFINE     FIELD(#SC_SUBV01) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 1')
+    DEFINE     FIELD(#SC_SUBV02) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 2')
+    DEFINE     FIELD(#SC_SUBV03) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 3')
+    DEFINE     FIELD(#SC_SUBV04) TYPE(*CHAR) LENGTH(60) DESC('Substitution Variable 4')
+    DEFINE     FIELD(#SC_MSGCDE) TYPE(*CHAR) LENGTH(2) DESC('Return Code')
+    @@COMMENT  COMMENT('Route/log messages already on queue')
+    CLR_LIST   NAMED(#SC_MSGSTK)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#SC_MSGCDE #SC_MSGTXT)
+    DOWHILE    COND('#SC_MSGCDE = OK')
+    ADD_ENTRY  TO_LIST(#SC_MSGLST)
+    ADD_ENTRY  TO_LIST(#SC_MSGSTK)
+    USE        BUILTIN(GET_MESSAGE) TO_GET(#SC_MSGCDE #SC_MSGTXT)
+    ENDWHILE
+    SELECTLIST NAMED(#SC_MSGSTK)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT) TYPE(*STATUS)
+    ENDSELECT
+    @@COMMENT  COMMENT('Now handle the message requested caller')
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#SC_SUBV01 #SC_SUBV02 #SC_SUBV03 #SC_SUBV04) TO_GET(#SC_MSGTXT)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#SC_MSGTXT) TYPE(*STATUS)
+    ADD_ENTRY  TO_LIST(#SC_MSGLST)
+    @@COMMENT  COMMENT(' ')
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    END: @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+
+  Help Panels:
+  - HELP010:
+      Description:        File Transfer Utility-Generic
+
+      Text: |
+        <-
+         This application template generates code to copy a file from an AS/400 file, a 
+         LANSA/PCX file, or a PC Flat file, to an AS400 file, a LANSA/PCX file, or a PC 
+         Flat file. You will be asked to input 3 pieces of information .....            
+                                                                                        
+           1. Select the file that is to be transferred. This file MUST have a unique   
+              Key.                                                                      
+           2. Specify the number of appendage lists required. The number required is    
+              determined making sure that each appendage list keeps in the limit of     
+              having a total length of no more than 255 and that the number of fields   
+              in each appendage list is no more than 99.( The limits are not 256 bytes  
+              and 100 fields for the appendage lists because a 1 byte field will        
+              automatically be added to the appendage lists to specify the "appendage   
+              option" when using the TRANSFORM_LIST Built-In function.                  
+           3. Select the fields to be added to the Primary list and each appendage list.
+              You must be careful to ensure that you add a field to only one list.      
+                                                                                        
+         The generated code will if required prompt for the connection parameters to an 
+         AS/400. Files are transfered using the TRANSFORM_LIST and TRANSFORM_FILE       
+         Built-In functions. Hence, this template generates code that can only be run   
+         from a LANSA/X session.

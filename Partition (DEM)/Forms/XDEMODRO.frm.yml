@@ -1,0 +1,76 @@
+﻿Form:
+  Name:               xDemoDropShadow
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drop Shadow"
+
+  - FRA:
+      Description:        "Drop Shadow"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Height(414) Clientwidth(922) Clientheight(375) Left(170) Top(233) Width(938) Style(#Style2)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Effect(#DropShadow) Backgroundbrush(#Brush2) Fontsize(18) Borderbottom(1) Borderbrush(#Brush1) Borderleft(1) Borderright(1) Bordertop(1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme800)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(Theme300)
+    Define_Com Class(#Prim_vs.DropShadow) Name(#DropShadow) Color(Black) Shadowdepth(20)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Backgroundbrush(#Brush3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(Theme50)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Label1') Displayposition(1) Ellipses(Word) Left(152) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(144) Verticalalignment(Center) Width(249) Style(#Style1) Height(121) Alignment(Center)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#BlurRadius) Componentversion(1) Displayposition(3) Left(552) Parent(#COM_OWNER) Tabposition(3) Top(66) Caption('Blur Radius') Labeltype(Caption)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#ShadowDepth) Componentversion(1) Displayposition(2) Left(552) Parent(#COM_OWNER) Tabposition(2) Top(96) Caption('Shadow Depth') Labeltype(Caption)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#Direction) Displayposition(4) Left(552) Parent(#COM_OWNER) Tabposition(4) Top(128) Width(257) Caption('Direction') Labeltype(Caption)
+    Define_Com Class(#PRIM_CKBX) Name(#Transparent) Caption('Transparent') Displayposition(5) Left(552) Marginleft(2) Parent(#COM_OWNER) Tabposition(5) Top(32) Height(29) Width(223)
+    
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #BlurRadius := #DropShadow.blurRadius
+    #ShadowDepth := #DropShadow.ShadowDepth
+    #Direction := #DropShadow.Direction
+    
+    Endroutine
+    
+    Evtroutine Handling(#BlurRadius.Changed)
+    
+    #DropShadow.blurRadius := #BlurRadius
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShadowDepth.Changed)
+    
+    #DropShadow.ShadowDepth := #ShadowDepth
+    
+    Endroutine
+    
+    Evtroutine Handling(#Direction.Changed)
+    
+    #DropShadow.Direction := #Direction
+    
+    Endroutine
+    
+    Evtroutine Handling(#Transparent.Click)
+    
+    If (#Transparent.buttonState = Checked)
+    
+    #Brush2.Color := Transparent
+    
+    Else
+    
+    #Brush2.Color := Theme300
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

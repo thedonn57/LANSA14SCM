@@ -1,0 +1,49 @@
+﻿Form:
+  Name:               xDemoDropDownSample
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drop Down Sample"
+
+  - FRA:
+      Description:        "Drop Down Samples"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(205) Clientwidth(579) Height(244) Left(93) Top(242) Width(595)
+    
+    * Demonstration of using prebuilt drop down parts
+    
+    * Simple drop down showing a single line for each item
+    Define_Com Class(#xDemoDropDown) Name(#DropDown) Parent(#COM_OWNER) Top(8) Width(286) Left(8)
+    
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    * Read from the personnel table
+    Select Fields(#Empno #surname #givename #deptment) From_File(pslmst2)
+    
+    * Get the thumbnail from the image file and a description for the department code
+    Fetch Fields(#empthm) From_File(pslimg) With_Key(#Empno)
+    
+    #DropDown.Add( #Empno (#Surname + ", " + #Givename) )
+    
+    Endselect
+    
+    Endroutine
+    
+    * Item chosen from the drop down
+    Evtroutine Handling(#DropDown.ItemGotFocus) Value(#Value) Caption(#Caption)
+    
+    #Com_owner.Caption := #Value + " " + #Caption
+    
+    Endroutine
+    
+    End_Com
+    
+    

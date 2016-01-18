@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSVFRI
+  Type:               Packed
+  Length:             15
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Friday hours worked $ value"
+      Label:              "Friday hours wo"
+      Heading1:           "Friday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Valeur $ heures travaillées le vendredi"
+      Label:              "Val h vendredi"
+      Heading1:           "Valeur $"
+      Heading2:           "heures"
+      Heading3:           "vendredi"

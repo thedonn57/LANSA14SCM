@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_LISTN
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Saved List Name"
+      Label:              "Saved List Name"
+      Heading1:           "Saved"
+      Heading2:           "List"
+      Heading3:           "Name"
+
+  - FRA:
+      Description:        "Générateur d´Expr. Nom Liste Sauvevarde"
+      Label:              "Nom Liste Sauv."
+      Heading1:           "Nom"
+      Heading2:           "Liste"
+      Heading3:           "Sauvegarde"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

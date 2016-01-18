@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F15PTR
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "KEY LIST POINTER"
+      Label:              "F15PTR"
+      Heading1:           "POINTER TO"
+      Heading2:           "KEY LIST"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

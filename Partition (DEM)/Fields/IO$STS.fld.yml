@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               IO$STS
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Data base I/O operation status code"
+      Label:              "I/O status ...."
+      Heading1:           "I/O"
+      Heading2:           "Status"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code statut opération I/O"
+      Label:              "Statut I/O  . ."
+      Heading1:           "Statut"
+      Heading2:           "I/O"
+      Heading3:           " "

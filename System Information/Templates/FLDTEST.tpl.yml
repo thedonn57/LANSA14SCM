@@ -1,0 +1,153 @@
+﻿Template:
+  Name:                    FLDTEST
+  Description:             Test Fields on Display
+  Extended Description 1:  Create a simple display to test fields.
+
+  Source: |
+    @@COMMENT  COMMENT('=========================================== ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=========================================== ')
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE FIRST FIELD IN THE DISPLAY                  */
+    /* ********** ======================================================= */
+    D01: @@LABEL
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS001) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'You must enter at least one field for the display.' 'Use the HELP function key for more information.') HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(D01)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 2nd FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS002) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 2. The maximum is 10 fields.' 'Leave the field blank if there are no more fields to display.') HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS002 *EQ ' ')) GOTO(G01)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 3rd FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS003) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 3. The maximum is 10 fields.' 'Leave this field balnk if there are no more fields to display.') HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS003 *EQ ' ')) GOTO(G02)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 4TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS004) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 4. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.')  HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS004 *EQ ' ')) GOTO(G03)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 5TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS005) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 5. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.')  HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS005 *EQ ' ')) GOTO(G04)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 6TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS006) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 6. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.') HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS006 *EQ ' ')) GOTO(G05)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 7TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS007) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 7. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.')  HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS007 *EQ ' ')) GOTO(G06)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 8TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS008) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 8. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.')  HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS008 *EQ ' ')) GOTO(G07)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 9TH FIELD IN THE DISPLAY                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS009) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is field 9. The maximum is 10 fields.' 'Leave this field blank if there are no more fields to display.')  HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS009 *EQ ' ')) GOTO(G08)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE 10TH FIELD IN THE DISPLAY                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Enter the name of a field to display.') ANSWER(@@CANS010) EXTEND('123456789' 'Enter the name of a field which you have created in the repository. Do' 'not use the # character to proceed the field name.' 'This is the last field allowed on the display.'  'Leave this field blank if there are no more fields to  display.') HELPIDS(HELP010 HELP030)
+    @@IF       COND((*IF @@CANS010 *EQ ' ')) GOTO(G09)
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE RDML PROGRAM                               */
+    /* ********** ======================================================= */
+    G10: @@LABEL    /* 10 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005 #@@CANS006 #@@CANS007 #@@CANS008 #@@CANS009 #@@CANS010)
+    @@GOTO     LABEL(G11)
+    G09: @@LABEL    /* 9 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005 #@@CANS006 #@@CANS007 #@@CANS008 #@@CANS009)
+    @@GOTO     LABEL(G11)
+    G08: @@LABEL    /* 8 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005 #@@CANS006 #@@CANS007 #@@CANS008)
+    @@GOTO     LABEL(G11)
+    G07: @@LABEL    /* 7 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005 #@@CANS006 #@@CANS007)
+    @@GOTO     LABEL(G11)
+    G06: @@LABEL    /* 6 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005 #@@CANS006)
+    @@GOTO     LABEL(G11)
+    G05: @@LABEL    /* 5 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004 #@@CANS005)
+    @@GOTO     LABEL(G11)
+    G04: @@LABEL    /* 4 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003 #@@CANS004)
+    @@GOTO     LABEL(G11)
+    G03: @@LABEL    /* 3 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002 #@@CANS003)
+    @@GOTO     LABEL(G11)
+    G02: @@LABEL    /* 2 fields in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001 #@@CANS002)
+    @@GOTO     LABEL(G11)
+    G01: @@LABEL    /* One field in group */
+    FUNCTION   OPTIONS(*DIRECT)
+    GROUP_BY   NAME(#PANELDATA) FIELDS(#@@CANS001)
+    @@GOTO     LABEL(G11)
+    G11: @@LABEL
+    @@COMMENT  'Do data entry until terminated by EXIT or CANCEL'
+    BEGIN_LOOP
+    REQUEST    FIELDS(#PANELDATA) DESIGN(*DOWN) IDENTIFY(*DESC)
+    END_LOOP
+    /* **********                                                         */
+
+  Help Panels:
+  - HELP010:
+      Description:        Test Field Display
+
+      Text: |
+        This template can be used to create a simple display program. You can enter     
+        the names of up to 10 fields. The fields you enter will be displayed so that    
+        you can review the field characteristics, defaults, edit codes, etc.            
+                                                                                        
+        1. You must enter at least 1 field.                                             
+        2. Do not preceed the field name with the # symbol. If you wish to display      
+           the field EMPNO, simply enter EMPNO. Do NOT enter #EMPNO.                    
+        3. If you leave the field blank, then no other fields will be requested.        
+        4. You may enter up to 10 fields.                                               
+                                                                                        
+        When your fields are dsiplayed:                                                 
+        1. When the screen is first displayed, the field default values are shown.      
+        2. The fields are not reset to their defaults so that you can enter data and    
+           see it redisplayed on the screen.                                            
+        3. The display loops until you press cancel or exit.                            
+        4. Fields are displayed down the panel.                                         
+        5. Fields are displayed using their descriptions.                               
+        6. You cannot test field validations since no file is being used.
+
+  - HELP030:
+      Description:        Example Display Panel
+
+      Text: |
+        Employee Number......                                                           
+        Employee Given Name(s)...                                                       
+        Employee Surname .....                                                          
+        Street No and Name ....                                                         
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                               This is an example of a display                          
+                               using the EMPNO, GIVENAME, SURNAME                       
+                               and ADDRESS1 fields.

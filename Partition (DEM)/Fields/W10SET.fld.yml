@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               W10SET
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current Set Number"
+      Label:              "W10SET"
+      Heading1:           "Current"
+      Heading2:           "Set"
+      Heading3:           "Number"
+
+  - FRA:
+      Description:        "Current Set Number"
+      Label:              "W10SET"
+      Heading1:           "Current"
+      Heading2:           "Set"
+      Heading3:           "Number"

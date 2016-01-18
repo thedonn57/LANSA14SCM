@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_AVAL
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Alpha Value"
+      Label:              "Alpha Value"
+      Heading1:           "Expression Builder"
+      Heading2:           "Alpha Value"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Valeur Alpha"
+      Label:              "Valeur Alpha"
+      Heading1:           "Générateur"
+      Heading2:           "Expression"
+      Heading3:           "Valeur Alpha"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

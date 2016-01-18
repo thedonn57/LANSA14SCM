@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_OPER
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Operator"
+      Label:              "Express.Operatr"
+      Heading1:           "Expression"
+      Heading2:           "Operator"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Opérateur"
+      Label:              "Expr. Opérateur"
+      Heading1:           "Opérateur"
+      Heading2:           "Expression"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

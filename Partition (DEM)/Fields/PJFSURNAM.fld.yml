@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PJFSURNAM
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Surname"
+      Label:              "Surname"
+      Heading1:           "Surname"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom"
+      Label:              "Nom"
+      Heading1:           "Nom"
+      Heading2:           " "
+      Heading3:           " "

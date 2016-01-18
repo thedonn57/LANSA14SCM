@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               TIMEDATE
+  Type:               Signed
+  Length:             12
+  Decimals:           0
+  Default Value:      "*TIMEDATE"
+  Edit Mask:          "'0 :  :  &  /  /  '"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current time and date (numeric)"
+      Label:              "Time / date ..."
+      Heading1:           "Time / date"
+      Heading2:           "-----------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure et date en cours (numérique)"
+      Label:              "Heure / date  ."
+      Heading1:           "Heure / date"
+      Heading2:           " "
+      Heading3:           " "

@@ -1,0 +1,97 @@
+﻿Field:
+  Name:               TERMDATE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Reference Field:    RETDAT
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Termination Date (DDMMYY)"
+      Label:              "Term. date....."
+      Heading1:           "Term."
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date de départ, JJMMAA"
+      Label:              "Date de départ"
+      Heading1:           "Date de"
+      Heading2:           "départ"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Termination date zero"
+      Condition:          "#termdate *eq 0"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Accept
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DEM0018
+
+  - Date Check:
+      Description:        "Valid termination date"
+      Date Format:        DDMMYY
+      Days After:         9999999
+      Days Before:        9999999
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0019
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Marginleft(178) Usepicklist(False) Width(279)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual_Host #xDemoFieldVisNumberAsDate) Name(#DatePrompt) Height(21) Width(251) Marginleft(184)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the date on which the respective
+            employee terminated his service for the company.
+      
+                  For instance .... 010288
+                                    261287
+      
+            Note that the termination date has to be in DDMMYY format,
+            that is, in the Date-Month-Year order.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient la date de départ de la société de
+            l'employé concerné.
+      
+      
+                  Par exple:
+                         010288
+                         261287
+      
+      
+            Cette date doit être dans le format JJMMAA, c'est à dire
+            Jour-Mois-Année.

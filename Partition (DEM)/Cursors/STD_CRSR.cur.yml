@@ -1,0 +1,22 @@
+﻿Cursor:
+  Name:               STD_CRSR
+
+  Framework:
+    Id1:                10240
+    Id2:                10
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard cursor"
+
+  - FRA:
+      Description:        "Curseur standard"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_CRSR
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_CRSR)
+    End_Com

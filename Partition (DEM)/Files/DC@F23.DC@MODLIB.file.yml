@@ -1,0 +1,158 @@
+﻿File:
+  Name:                           DC@F23
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@R23
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Function Definitions"
+
+  - FRA:
+      Description:        "Function Definitions"
+
+  Real Fields:
+  - F23P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - F23MOD:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F23FMT:
+      Type:               Alphanumeric
+      Length:             7
+      Decimals:           0
+
+  - F23TYP:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F23STY:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F23DNF:
+      Type:               Alphanumeric
+      Length:             7
+      Decimals:           0
+
+  - F23ANF:
+      Type:               Alphanumeric
+      Length:             140
+      Decimals:           0
+
+  - F23FID:
+      Type:               Alphanumeric
+      Length:             6
+      Decimals:           0
+
+  - F23APM:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F23SP1:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F23SET:
+      Type:               Packed
+      Length:             3
+      Decimals:           0
+
+  - F23CRL:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - F23CPC:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - F23MSQ:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - F23SP2:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  Logical Views:
+  - DC@F23V1:
+      Identifier:         DC@F23V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R23V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@F23 /EDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@F23 /EDLO"
+
+      Fields:
+      - F23MOD
+      - F23FMT
+      - F23DES
+      - F23TYP
+      - F23STY
+      - F23HLP
+      - F23DNF
+      - F23ANF
+      - F23FID
+      - F23APM
+      - F23SP1
+      - F23SET
+      - F23P#I
+      - F23CRL
+      - F23CPC
+      - F23MSQ
+      - F23SP2
+      - F23SP3
+      - F23SP4
+
+      Keys:
+      - F23P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - F23MOD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - F23FMT:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

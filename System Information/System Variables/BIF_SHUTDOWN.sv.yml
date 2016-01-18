@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*BIF_SHUTDOWN"
+  Description:        "BIF Function - Shutdown Call (Y/N)"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             1
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       F@SYSVAR

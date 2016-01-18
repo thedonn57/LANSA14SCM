@@ -1,0 +1,69 @@
+﻿Reusable Part:
+  Name:               xDemoWebDataSection
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Section Data Object"
+
+  - FRA:
+      Description:        "Section Data Object"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_objt *ListFields #listFields)
+    
+    * Field values to be mapped in when the instance is created
+    Group_By Name(#listFields) Fields(#Deptment #Section #Secdesc)
+    
+    * Global scoped reference to the Data Model Object
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    * Published properties of the Employee
+    Define_Pty Name(ID) Get(*auto #Section)
+    Define_Pty Name(Description) Get(*auto #Secdesc)
+    Define_Pty Name(DepartmentCode) Get(*auto #Deptment)
+    Define_Pty Name(Department) Get(GetDepartment)
+    Define_Pty Name(Employees) Get(GetEmployees)
+    
+    * Return the Department instance for this Section
+    Ptyroutine Name(GetDepartment)
+    Define_Map For(*output) Class(#xDemoWebDataDepartment) Name(#Property) Pass(*by_reference)
+    
+    #Property <= #gData.FindDepartment( #Deptment )
+    
+    Endroutine
+    
+    * Return a collection of Employees for this Section
+    Ptyroutine Name(GetEmployees)
+    Define_Map For(*output) Class(#prim_acol<#xDemoWebDataEmployee>) Name(#Property) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoWebDataDepartment) Name(#Department) Reference(*Dynamic)
+    
+    * Get the Department reference
+    #Department <= #Com_owner.Department
+    
+    If (#Department *IsNot *null)
+    
+    * Create the collection object
+    #Property <= *New #prim_acol<#xDemoWebDataEmployee>
+    
+    * Look through the employees for the department and match on Section
+    For Each(#Employee) In(#Department.Employees)
+    
+    Continue If(#Employee.SectionCode <> #Section)
+    
+    #Property.insert( #Employee )
+    
+    Endfor
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

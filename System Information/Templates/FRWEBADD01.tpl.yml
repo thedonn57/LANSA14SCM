@@ -1,0 +1,123 @@
+﻿Template:
+  Name:                    FRWEBADD01
+  Description:             Data entry for *WEBEVENT
+  Extended Description 1:  Flat screen data entry using a
+  Extended Description 2:  "*WEBEVENT function."
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1999 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE "WORD"                                      */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes WHAT this data entry program works with') ANSWER(@@CANS001) EXTEND('123456789012345678' 'The word you specify here is used to build messages that appear on the' 'data entry screen. You should use ONE word only, use lowercase' 'characters only and only use singular form (eg: "customer", "employee"' '"order"). Do NOT use more than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF JUST ONE PHYSICAL FILE                      */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(1) PROMPT('Enter the name of the PHYSICAL file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** GET FIELDS OF CHOSEN FILE INTO LIST 1                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** GET KEYS OF CHOSEN FILE INTO LIST 2                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** GET USER TO CHOOSE FIELDS TO APPEAR ON PANEL            */
+    /* ********** AND PUT RESULTS INTO LIST 3                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(2) INTO_LSTS((3 'Fields to' 'Appear on' 'Entry Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** GET USER TO CHOOSE FIELDS TO WORK WITH IN PROGRAM       */
+    /* ********** AND PUT RESULTS INTO LIST 4                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((4 'Fields to   ' 'Work with  ' 'in Program ' *YESNO *NO)) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** MERGE FIELDS IN LIST 4 INTO LIST 3 AS *HIDDEN           */
+    /* ********** ======================================================= */
+    @@MRG_LSTS FROM_LSTS((4 *HIDDEN)) INTO_LST(3)
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE RDML PROGRAM                               */
+    /* ********** ======================================================= */
+    @@COMMENT  'Function control options'
+    FUNCTION   OPTIONS(*DIRECT *WEBEVENT)
+    @@COMMENT  'Group and field declarations'
+    GROUP_BY   NAME(#PANELDATA) FIELDS((#STDNEXT *HIDDEN) (#STDRENTRY *HIDDEN) @@LST03)
+    IF         COND('#STDRENTRY *EQ N')
+    @@COMMENT  'Perform any program level validation here'
+    BEGINCHECK
+    ENDCHECK   IF_ERROR(T01)
+    @@COMMENT  'Attempt to insert data into the data base'
+    INSERT     FIELDS((#PANELDATA)) TO_FILE(@@FNAME01) VAL_ERROR(T01)
+    @@COMMENT  'If okay, reset fields and issue accepted message'
+    CHANGE     FIELD(#PANELDATA) TO(*DEFAULT)
+    MESSAGE    MSGID(DCU0011) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    ELSE
+    @@COMMENT  'Issue initial data entry message'
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    ENDIF
+    @@COMMENT  'Request user inputs or corrects details'
+    T01: REQUEST    FIELDS((#PANELDATA)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    D02: @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+
+  Help Panels:
+  - HELP010:
+      Description:        Data entry for *WEBEVENT
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple data entry program using a LANSA  
+         for the WEB *WEBEVENT style.                                                   
+                                                                                        
+         You can use the resulting program as is, or modify the resulting program       
+         yourself so that it exactly matches your requirements. When you elect to use   
+         this template you will be asked the following questions .....                  
+                                                                                        
+         1. To specify a word that describes what type of "entity" the data entry       
+            program works with. Some examples would be "order", "customer", "employee". 
+            Note that only one word is used, all lowercase characters are used and that 
+            the singular form of the word is used. Additionally no word is more than 18 
+            characters long. You should follow these guidelines as well to get the best 
+            results.                                                                    
+                                                                                        
+         2. To nominate the physical file that is to contain valid data entered from    
+            the data entry panel. You can enter the full file name, a partial file      
+            name (to get a partial list of available files), or leave the name blank    
+            (to get a full list of available files). When a list of files is displayed  
+            the one required may be chosen from the list.
+
+  - HELP020:
+      Description:        Data entry for *WEBEVENT
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         3. Next, you must choose and order the fields that are to appear on the data   
+            entry panel. These fields will be input capable on the panel and may be     
+            input or changed by the person that uses the resulting RDML program.        
+                                                                                        
+         4. Finally, you are optionally allowed to choose fields that you do not want   
+            to appear on the data entry panel, but that you do want to manipulate within
+            the RDML program. For example, your file may contain a "time and date" field
+            that records when the file record was created. You want to set its value in 
+            the program, but you do not want it to appear on the data entry panel.

@@ -1,0 +1,58 @@
+﻿Field:
+  Name:               xDepartmentCode
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department"
+      Label:              "Department"
+      Heading1:           "Department"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Department"
+      Label:              "Department"
+      Heading1:           "Department"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(201) Componentversion(1)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          Department Abbreviation is the shortened version of the
+          full department name.
+      
+          Example: R&D is often used as the abbreviation for the research
+          and development department.
+      
+          Choose an abbreviation from which it will be easy to determine
+          the full department name.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+          Il s'agit du code du département. Il comporte de 1 à 4 caractères
+          alphanumériques. En général, lorsqu'on vous demande le code d'un
+          département et que vous ne le connaissez pas, utilisez la touche
+          d'invite sur cette zone. Une liste de tous les départements
+          sera affichée dans une fenêtre et le département pourra être
+          choisi dans cette liste.

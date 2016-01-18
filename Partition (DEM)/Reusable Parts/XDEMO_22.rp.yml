@@ -1,0 +1,114 @@
+﻿Reusable Part:
+  Name:               xDemoWebMoreLessEmployeeItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "More/Less Employee"
+
+  - FRA:
+      Description:        "More/Less Employee"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Tree.iTreeDesign) Displayposition(1) Height(281) Left(0) Tabposition(1) Top(0) Width(557) Layoutmanager(#TableLayout) Themedrawstyle('ListItem')
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(26) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(24) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout) Height(24) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout) Height(24) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(5) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_6) Displayposition(6) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_7) Displayposition(7) Parent(#TableLayout) Width(80) Units(Pixels)
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(1) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(2) Height(41) Width(32) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Image) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginleft(4) Marginright(4) Margintop(2)
+    Define_Com Class(#PRIM_LABL) Name(#gEmployeeName) Caption('Employee Name') Displayposition(2) Ellipses(Word) Left(40) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Verticalalignment(Center) Height(24) Width(240) Top(2) Themedrawstyle('Strong')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#gEmployeeName) Parent(#TableLayout) Row(#Row) Columnspan(3) Margintop(2)
+    Define_Com Class(#PRIM_LABL) Name(#gDepartment) Caption('Department') Displayposition(3) Ellipses(Word) Left(40) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(26) Verticalalignment(Center) Height(24) Width(240)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#gDepartment) Parent(#TableLayout) Row(#Row_2) Columnspan(3)
+    Define_Com Class(#PRIM_LABL) Name(#MoreLess) Caption('show details') Displayposition(4) Ellipses(Word) Left(40) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(50) Verticalalignment(Center) Height(24) Width(160) Themedrawstyle('Emphasis') Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#MoreLess) Parent(#TableLayout) Row(#Row_3) Columnspan(2)
+    Define_Com Class(#PRIM_LABL) Name(#gStartDate) Caption('StartDate') Displayposition(5) Ellipses(Word) Left(280) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Verticalalignment(Center) Height(24) Width(240) Marginleft(2) Top(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Alignment(TopLeft) Column(#Column_5) Flow(Down) Manage(#gStartDate) Parent(#TableLayout) Row(#Row) Columnspan(3) Margintop(2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_8) Displayposition(8) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Contact Details') Displayposition(6) Ellipses(Word) Left(40) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(74) Verticalalignment(Center) Height(24) Width(240)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row_4) Columnspan(3)
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption('Address') Displayposition(7) Ellipses(Word) Left(40) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(98) Verticalalignment(Center) Height(24) Width(80) Themedrawstyle('Strong')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Label_2) Parent(#TableLayout) Row(#Row_5) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#gAddress1) Caption('Address1') Displayposition(8) Ellipses(Word) Left(120) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(98) Verticalalignment(Center) Height(24) Width(160)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#gAddress1) Parent(#TableLayout) Row(#Row_5) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_LABL) Name(#gAddress2) Caption('Address2') Displayposition(9) Ellipses(Word) Left(120) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(122) Verticalalignment(Center) Height(24) Width(160)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#gAddress2) Parent(#TableLayout) Row(#Row_5) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_LABL) Name(#gAddress3) Caption('Address3') Displayposition(10) Ellipses(Word) Left(120) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(146) Verticalalignment(Center) Height(24) Width(160)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#gAddress3) Parent(#TableLayout) Row(#Row_5) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_LABL) Name(#gPostCode) Caption('PostCode') Displayposition(11) Ellipses(Word) Left(120) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(170) Verticalalignment(Center) Height(24) Width(160)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_11) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#gPostCode) Parent(#TableLayout) Row(#Row_5) Sizing(FitToWidth) Columnspan(2)
+    
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #Com_owner.Height := #MoreLess.Top + #MoreLess.height
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemGotReference) Help('Executed when the item "RelatedReference" property is set') Options(*redefine)
+    
+    Define_Com Class(#xDemoWebDataEmployee) Name(#Employee) Reference(*Dynamic)
+    
+    #Employee <= #TreeItem.RelatedReference *As #xDemoWebDataEmployee
+    
+    #gEmployeeName := ("&1 &2 (&3)").Substitute( #Employee.GivenName #Employee.Surname #Employee.ID )
+    #gDepartment := ("&1 (&2)").Substitute( #Employee.Department.Description #Employee.DepartmentCode )
+    #Image.Image <= #Employee.Thumbnail
+    
+    #gAddress1 := #Employee.AddressLine1
+    #gAddress2 := #Employee.AddressLine2
+    #gAddress3 := #Employee.AddressLine3
+    #gPostCode := #Employee.PostCode.Asstring
+    
+    If (#Employee.TerminationDate.IsNotSqlNull)
+    
+    #gStartDate := ("No longer employed - &1").substitute( #Employee.TerminationDate.AsDisplayString( DDsMMsCCYY ) )
+    #gStartDate.ThemeDrawStyle := Poor
+    
+    Else
+    
+    #gStartDate := ("Joined - &1").substitute( #Employee.StartDate.AsDisplayString( DDsMMsCCYY ) )
+    #gStartDate.ThemeDrawStyle := Good
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#MoreLess.Click)
+    
+    If (#Com_owner.Height > (#MoreLess.Top + #MoreLess.height))
+    
+    #Com_owner.Height := #MoreLess.Top + #MoreLess.height
+    #MoreLess.Caption := "show details"
+    
+    Else
+    
+    #Com_owner.Height := #gPostCode.Top + #gPostCode.height
+    #MoreLess.Caption := "hide details"
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

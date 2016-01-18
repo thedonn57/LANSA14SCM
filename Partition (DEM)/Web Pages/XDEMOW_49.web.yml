@@ -1,0 +1,155 @@
+﻿Web Page:
+  Name:               xDemoWebUsingThemes
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Themes"
+
+  - FRA:
+      Description:        "Using Themes"
+
+  Source: |
+    * META:Web Page,Theme,Table Layout,List,DropDown,Database,Image
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(473) Width(1049) Layoutmanager(#TableLayout1) Verticalscroll(False) Horizontalscroll(False) Theme(#xDemoThemeTheme1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Borderbottom(9) Borderleft(9) Borderright(9) Bordertop(9) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(56:194:255)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(2) Parent(#TableLayout1) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(4) Parent(#TableLayout1) Height(1.71)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(5) Parent(#TableLayout1) Height(28) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(1) Parent(#TableLayout1) Height(65) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutList) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button1) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button2) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button3) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(CenterRight) Column(#Column1) Flow(Down) Manage(#Find) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label4) Parent(#TableLayout1) Row(#Row4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(BottomRight) Column(#Column1) Flow(Down) Manage(#Watermark) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginbottom(18) Marginright(18) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label5) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label6) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label7) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label8) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label9) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label10) Parent(#TableLayout1) Row(#Row5) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(CenterRight) Column(#Column1) Flow(Right) Manage(#ChangeBank) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Dark Title') Displayposition(2) Ellipses(Word) Height(45) Left(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Verticalalignment(Center) Width(160) Top(68) Themedrawstyle('Dark') Alignment(Center)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(5) Height(280) Left(0) Parent(#COM_OWNER) Tabposition(4) Top(165) Width(1049) Rowlines(False) Columnlines(False) Rowheight(22) Selectionstyle(All)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(1) Parent(#List) Source(#EMPNO) Columnwidth(142)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(2) Parent(#List) Source(#SURNAME)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(3) Parent(#List) Source(#GIVENAME)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS11) Displayposition(4) Parent(#List) Source(#ADDRESS1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS21) Displayposition(5) Parent(#List) Source(#ADDRESS2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS31) Displayposition(6) Parent(#List) Source(#ADDRESS3)
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnPOSTCODE1) Displayposition(7) Increment(1) Parent(#List) Source(#POSTCODE) Wrap(False)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Caption('Default Button') Displayposition(6) Left(2) Parent(#COM_OWNER) Tabposition(7) Top(128) Width(103) Buttondefault(True)
+    Define_Com Class(#PRIM_PHBN) Name(#Button2) Caption('Button 2') Displayposition(7) Left(109) Parent(#COM_OWNER) Tabposition(6) Top(128) Width(96)
+    Define_Com Class(#PRIM_PHBN) Name(#Button3) Caption('Button 3') Displayposition(8) Left(209) Parent(#COM_OWNER) Tabposition(5) Top(128) Width(96)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('Medium Title') Displayposition(3) Ellipses(Word) Height(45) Left(166) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Verticalalignment(Center) Width(160) Top(68) Themedrawstyle('Medium') Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Caption('Light Title') Displayposition(4) Ellipses(Word) Height(45) Left(330) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(160) Top(68) Themedrawstyle('Light') Alignment(Center)
+    Define_Com Class(#xDemoUnicode128.Visual) Name(#Find) Componentversion(1) Displayposition(9) Height(25) Parent(#COM_OWNER) Tabposition(8) Top(128) Usepicklist(False) Width(263) Left(782) Marginleft(50) Caption('Find') Labeltype(Caption)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Powered by LANSA') Displayposition(11) Ellipses(Word) Height(28) Left(0) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(445) Verticalalignment(Center) Width(1049) Alignment(Right) Marginright(18) Themedrawstyle('Dark')
+    Define_Com Class(#PRIM_LABL) Name(#Watermark) Displayposition(12) Ellipses(Word) Height(128) Left(903) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(299) Verticalalignment(Center) Width(128) Alignment(Center) Themedrawstyle('Watermark') Opacity(20)
+    Define_Com Class(#PRIM_LABL) Name(#Label5) Displayposition(10) Ellipses(Word) Height(65) Left(0) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(0) Verticalalignment(Center) Width(281) Themedrawstyle('Title') Marginleft(2) Caption('Theme Title')
+    Define_Com Class(#PRIM_LABL) Name(#Label6) Displayposition(13) Ellipses(Word) Height(65) Left(281) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(0) Verticalalignment(Center) Width(88) Themedrawstyle('Dark') Alignment(Center) Caption('Option 1')
+    Define_Com Class(#PRIM_LABL) Name(#Label7) Displayposition(14) Ellipses(Word) Height(65) Left(369) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(0) Verticalalignment(Center) Width(88) Themedrawstyle('Dark') Alignment(Center) Caption('Option 2')
+    Define_Com Class(#PRIM_LABL) Name(#Label8) Displayposition(15) Ellipses(Word) Height(65) Left(457) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(0) Verticalalignment(Center) Width(88) Themedrawstyle('Dark') Alignment(Center) Caption('Option 3')
+    Define_Com Class(#PRIM_LABL) Name(#Label9) Displayposition(16) Ellipses(Word) Height(65) Left(545) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(0) Verticalalignment(Center) Width(88) Themedrawstyle('Dark') Alignment(Center) Caption('Option 4')
+    Define_Com Class(#PRIM_LABL) Name(#Label10) Displayposition(17) Ellipses(Word) Height(65) Left(633) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(0) Verticalalignment(Center) Width(88) Themedrawstyle('Dark') Alignment(Center) Caption('Option 5')
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(18) Left(0) Parent(#COM_OWNER) Tabposition(18) Tabstop(False) Top(0) Height(65) Width(1049) Themedrawstyle('Dark')
+    Define_Com Class(#PRIM_LABL) Name(#ChangeBank) Displayposition(1) Ellipses(Word) Left(936) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(65) Verticalalignment(Center) Width(113) Themedrawstyle('PushButton') Alignment(Center) Caption('Change Theme')
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    #Com_owner.LoadData
+    
+    Endroutine
+    
+    Mthroutine Name(LoadData)
+    
+    * Get some default Data
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #List )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Find.Changed)
+    
+    Define_Com Class(#xDemoUnicode128) Name(#Cell)
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#List)
+    
+    * Remove any draw styles
+    #List.currentItem.ThemeDrawStyle := ""
+    
+    * Loop through the columns inspecting each cell
+    For Each(#Column) In(#List.Columns)
+    
+    #Cell := #Com_owner.GetCellValue( #Column )
+    
+    * If the cell contains the value required, apply the highlight style
+    Continue If(#Find = "")
+    Continue If(*Not #Cell.lowercase.contains( #Find.lowercase ))
+    
+    #List.currentItem.ThemeDrawStyle := Light
+    
+    Leave
+    
+    Endfor
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(GetCellValue) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_list.Column) Name(#Column) Pass(*By_Reference)
+    Define_Map For(*Result) Class(#xDemoUnicode128) Name(#Result)
+    
+    * processing depends on column type
+    If (#Column *Is #Prim_list.String)
+    
+    #Result := (#Column *As #Prim_list.String).CurrentItem.Value
+    
+    Endif
+    
+    If (#Column *Is #Prim_list.Number)
+    
+    #Result := (#Column *As #Prim_list.Number).CurrentItem.Value.Asstring
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#ChangeBank.Click)
+    
+    If (#Com_owner.Theme *IsEqualTo #xDemoThemeTheme1)
+    
+    #Com_owner.Theme <= #xDemoThemeTheme2
+    
+    Else
+    
+    #Com_owner.Theme <= #xDemoThemeTheme1
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    
+    

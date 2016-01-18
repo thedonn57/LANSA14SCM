@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23MSQ
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Menu Sequence"
+      Label:              "F23MSQ"
+      Heading1:           "Menu"
+      Heading2:           "Sequence"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Menu Sequence"
+      Label:              "F23MSQ"
+      Heading1:           "Menu"
+      Heading2:           "Sequence"
+      Heading3:           " "

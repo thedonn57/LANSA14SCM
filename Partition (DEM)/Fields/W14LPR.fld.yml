@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W14LPR
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Link to Process"
+      Label:              "W14LPR"
+      Heading1:           "Link to"
+      Heading2:           "Process"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Link to Process"
+      Label:              "W14LPR"
+      Heading1:           "Link to"
+      Heading2:           "Process"
+      Heading3:           " "

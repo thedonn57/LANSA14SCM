@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               MMDDYYYYC
+  Type:               Alphanumeric
+  Length:             8
+  Decimals:           0
+  Default Value:      "*MMDDYYYYC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Character date in format MMDDYYYY"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date alphanumérique au format MMJJAAAA"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

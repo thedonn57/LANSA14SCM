@@ -1,0 +1,42 @@
+﻿Reusable Part:
+  Name:               XSShoppingCartView2
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart View 2"
+
+  - FRA:
+      Description:        "Shopping Cart View 2"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(650) Left(0) Tabposition(1) Top(0) Width(800) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(45) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSShoppingCart3Item2) Manage(#XSShoppingCart3) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Margintop(10) Alignment(TopCenter) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Manage(#XSShoppingCartView4) Parent(#TableLayout1) Row(#Row2) Alignment(TopCenter) Marginleft(5) Sizing(FitToWidth) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel1Item1) Alignment(TopLeft) Column(#Column1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row1) Columnspan(2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LCurrentSelectionItem1) Manage(#LCurrentSelection) Parent(#TableLayout2) Row(#Row5) Column(#Column5) Alignment(CenterLeft)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(3) Height(45) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Width(800) Style(#XSTheme01<PanelBorders1>) Layoutmanager(#TableLayout2)
+    Define_Com Class(#PRIM_LABL) Name(#LCurrentSelection) Caption('MY SHOPPING CART') Displayposition(1) Ellipses(Word) Height(43) Parent(#Panel1) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(798) Style(#XSTheme01<Text12BoldAlmostBlack>) Left(0) Marginleft(10)
+    
+    Define_Com Class(#XSShoppingCartView3) Name(#XSShoppingCart3) Height(595) Parent(#COM_OWNER) Tabstop(False) Width(534) Top(55)
+    Define_Com Class(#XSShoppingCartView4) Name(#XSShoppingCartView4) Displayposition(2) Height(640) Left(539) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(261) Top(55)
+    
+    End_Com

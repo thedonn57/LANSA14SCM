@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STDPRVFUN
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Previous function name"
+      Label:              "Function ......"
+      Heading1:           "Function"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom de la fonction précédente"
+      Label:              "Fonction  . . ."
+      Heading1:           "Fonction"
+      Heading2:           " "
+      Heading3:           " "

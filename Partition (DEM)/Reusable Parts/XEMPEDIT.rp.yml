@@ -1,0 +1,113 @@
+﻿Reusable Part:
+  Name:               xEmployeeEditor
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                110
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Editor for xEmployee data"
+
+  - FRA:
+      Description:        "Editor for xEmployee data"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Caption('Caption') Closebutton(True) Left(0) Height(529) Titlebar(True) Top(0) Width(601) Layoutmanager(#AttachLayout1) Autoclose(False)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem1) Attachment(Bottom) Manage(#XEDMessages) Parent(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem2) Attachment(Center) Manage(#Tab1) Parent(#AttachLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1) Margintop(4) Marginleft(4) Marginright(4) Marginbottom(4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeIdentification) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeTitle) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeSurname) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeGivenNames) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeDateofBirth) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeGender) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeStreet) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeCity) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeState) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeePostalCode) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeCountry) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeHomeTelephone) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeBusinessTelephone) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeMobilePhone) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeSalary) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeStartDate) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem18) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeTerminationDate) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem19) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xDepartmentCode) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem20) Alignment(BottomRight) Column(#Column2) Flow(Down) Manage(#Button1) Parent(#TableLayout2) Row(#Row2) Sizing(None) Marginbottom(4) Marginright(5)
+    
+    
+    Define_Com Class(#XEDMessages) Name(#XEDMessages) Displayposition(3) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(502) Width(599)
+    Define_Com Class(#PRIM_TAB) Name(#Tab1) Bottomlayoutpriority(4) Componentversion(2) Displayposition(2) Height(497) Left(0) Leftlayoutpriority(1) Parent(#COM_OWNER) Rightlayoutpriority(2) Tabposition(3) Top(30) Toplayoutpriority(3) Width(599)
+    Define_Com Class(#PRIM_TBSH) Name(#Sheet1) Caption('Details') Displayposition(1) Height(474) Left(0) Parent(#Tab1) Tabposition(1) Tabstop(False) Top(23) Width(599) Layoutmanager(#TableLayout2)
+    Define_Com Class(#PRIM_TBSH) Name(#Sheet2) Caption('Photo') Displayposition(2) Height(474) Left(0) Parent(#Tab1) Tabposition(2) Tabstop(False) Top(23) Width(599) Layoutmanager(#TableLayout1)
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(1) Left(4) Parent(#Sheet2) Tabposition(1) Tabstop(False) Top(4) Imagesizing(BestFit) Height(466) Width(591)
+    Define_Com Class(#xEmployeeIdentification.Visual) Name(#xEmployeeIdentification) Displayposition(1) Parent(#Sheet1) Tabposition(1) Top(2) Left(2) Width(203) Height(24)
+    Define_Com Class(#xEmployeeTitle.Visual) Name(#xEmployeeTitle) Displayposition(2) Parent(#Sheet1) Tabposition(2) Top(30) Left(2)
+    Define_Com Class(#xEmployeeSurname.Visual) Name(#xEmployeeSurname) Displayposition(3) Parent(#Sheet1) Tabposition(3) Top(53) Left(2)
+    Define_Com Class(#xEmployeeGivenNames.Visual) Name(#xEmployeeGivenNames) Displayposition(4) Parent(#Sheet1) Tabposition(4) Top(76) Left(2)
+    Define_Com Class(#xEmployeeDateofBirth.Visual) Name(#xEmployeeDateofBirth) Displayposition(5) Parent(#Sheet1) Tabposition(5) Top(99) Left(2)
+    Define_Com Class(#xEmployeeGender.Visual) Name(#xEmployeeGender) Displayposition(6) Parent(#Sheet1) Tabposition(6) Top(122) Left(2) Marginleft(150)
+    Define_Com Class(#xEmployeeStreet.Visual) Name(#xEmployeeStreet) Displayposition(7) Parent(#Sheet1) Tabposition(7) Top(146) Left(2)
+    Define_Com Class(#xEmployeeCity.Visual) Name(#xEmployeeCity) Componentversion(1) Displayposition(8) Parent(#Sheet1) Tabposition(8) Top(169) Left(2)
+    Define_Com Class(#xEmployeeState.Visual) Name(#xEmployeeState) Displayposition(9) Parent(#Sheet1) Tabposition(9) Top(192) Left(2)
+    Define_Com Class(#xEmployeePostalCode.Visual) Name(#xEmployeePostalCode) Displayposition(10) Parent(#Sheet1) Tabposition(10) Top(215) Left(2)
+    Define_Com Class(#xEmployeeCountry.Visual) Name(#xEmployeeCountry) Displayposition(11) Parent(#Sheet1) Tabposition(11) Top(238) Left(2)
+    Define_Com Class(#xEmployeeHomeTelephone.Visual) Name(#xEmployeeHomeTelephone) Displayposition(12) Parent(#Sheet1) Tabposition(12) Top(261) Left(2)
+    Define_Com Class(#xEmployeeBusinessTelephone.Visual) Name(#xEmployeeBusinessTelephone) Displayposition(13) Parent(#Sheet1) Tabposition(13) Top(284) Left(2) Marginleft(150)
+    Define_Com Class(#xEmployeeMobilePhone.Visual) Name(#xEmployeeMobilePhone) Displayposition(14) Parent(#Sheet1) Tabposition(14) Top(307) Left(2)
+    Define_Com Class(#xEmployeeSalary.Visual) Name(#xEmployeeSalary) Displayposition(15) Parent(#Sheet1) Tabposition(15) Top(330) Left(2)
+    Define_Com Class(#xEmployeeStartDate.Visual) Name(#xEmployeeStartDate) Displayposition(16) Parent(#Sheet1) Tabposition(16) Top(353) Left(2)
+    Define_Com Class(#xEmployeeTerminationDate.Visual) Name(#xEmployeeTerminationDate) Displayposition(17) Parent(#Sheet1) Tabposition(17) Top(376) Left(2)
+    Define_Com Class(#xDepartmentCode.Visual) Name(#xDepartmentCode) Displayposition(18) Parent(#Sheet1) Tabposition(18) Top(399) Left(2)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Caption('Save') Displayposition(19) Left(514) Parent(#Sheet1) Tabposition(19) Top(445)
+    
+    Define_Evt Name(Saved)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    Group_By Name(#xEmployee) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    Mthroutine Name(LoadEmployee)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    Define_Com Class(#xEmployeeData.Find) Name(#Find)
+    #sys_msgq.ClearAll
+    #Find.ExecuteAsync( #ID #xEmployee )
+    Evtroutine Handling(#Find.Completed)
+    #Com_owner.Caption := ("&1 &2 (&3)").Substitute( #xEmployeeGivenNames #xEmployeeSurname #xEmployeeIdentification )
+    #Image1.FileName := #xEmployeeImage
+    #Com_owner.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    Endroutine
+    Endroutine
+    
+    
+    Evtroutine Handling(#Button1.Click)
+    #Com_owner.Save
+    Endroutine
+    
+    Mthroutine Name(Save)
+    Define_Com Class(#xEmployeeData.Save) Name(#Save)
+    #sys_msgq.ClearAll
+    #Save.ExecuteAsync( #xEmployee #io$sts )
+    Evtroutine Handling(#Save.Completed)
+    If (#io$sts = OK)
+    #Com_owner.ClosePopup
+    Signal Event(Saved) Id(#xEmployeeIdentification)
+    Endif
+    Endroutine
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,46 @@
+﻿Reusable Part:
+  Name:               xDemoWebListInputDepartment
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Cell"
+
+  - FRA:
+      Description:        "Department Cell"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #prim_list.IListCellDesign) Displayposition(1) Height(25) Left(0) Tabposition(1) Top(0) Width(201) Layoutmanager(#TableLayout)
+    
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column_2) Manage(#DropDown) Parent(#TableLayout) Row(#Row)
+    
+    Define_Com Class(#prim_vs.Style) Name(#ListCell) Bordertop(0) Borderbottom(0) Borderleft(0) Borderright(0)
+    
+    Define_Com Class(#PRIM_List.DropDown) Name(#DropDown) Displayposition(1) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(201) Style(#ListCell) Columnlines(False) Rowlines(False) Columnheaderheight(0)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTDESC) Displayposition(1) Parent(#DropDown) Source(#DEPTDESC) Columnunits(Proportion)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+     
+    For Each(#Department) In(#gData.Departments)
+    
+    #Deptdesc := #Department.Description
+    Add_Entry To_List(#DropDown)
+    
+    #DropDown.Currentitem.RelatedReference <= #Department
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

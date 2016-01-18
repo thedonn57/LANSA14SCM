@@ -1,0 +1,794 @@
+﻿Template:
+  Name:                    FRPRT05
+  Description:             Drill Down Style Summary Reports
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ANSWER AND LIST VARIABLE USAGE                          */
+    /* ********** ======================================================= */
+    /* ********** Name      Description of Usage                          */
+    /* ********** ----      --------------------                          */
+    /* ********** @@CANS001 Report TIT_(s)                                */
+    /* ********** @@CANS007 Optimised for maximum speed                   */
+    /* ********** @@CANS008 Used for SORTING ORDER input                  */
+    /* ********** @@CANS009 Used for type of drill down report            */
+    /* ********** @@CANS010 Used for extra fields in the heading area     */
+    /* ********** @@CANS011 Used for extra fileds in detail area          */
+    /* ********** @@LST01   List of all fields from all files             */
+    /* ********** @@LST02   List of fields from base file only            */
+    /* ********** @@LST03   List of keys of base file                     */
+    /* ********** @@LST04   List of numeric fields from all files         */
+    /* ********** @@LST04   List of numeric fields from all files         */
+    /* ********** @@LST14   List of sort order of file                    */
+    /* ********** @@LST16   List of KEEP_TOTAL fields                     */
+    /* ********** @@CANS16  List 16 alternate column headings             */
+    /* ********** @@LST17   List of KEEP_AVG fields                       */
+    /* ********** @@CANS17  List 17 alternate column headings             */
+    /* ********** @@LST18   List of KEEP_MIN fields                       */
+    /* ********** @@CANS18  List 18 alternate column headings             */
+    /* ********** @@LST19   List of KEEP_MAX fields                       */
+    /* ********** @@CANS19  List 19 alternate column headings             */
+    /* ********** @@LST20   List of KEEP_COUNT fields                     */
+    /* ********** @@CANS20  List 20 alternate column headings             */
+    /* ********** @@LST22   List of all fields to be extracted            */
+    /* ********** @@LST98   Work list only                                */
+    /* ********** @@LST99   Work list only                                */
+    /* ********** CF        Current File Loop Index (short scoped)        */
+    /* ********** OQ        Value greater than zero indicates OPNQRYF     */
+    /* ********** RT        Count of run time expressions used            */
+    /* ********** LV        Low value of range variable                   */
+    /* ********** HV        High value of range variable                  */
+    /* ********** EN        Expressions in numeric used                   */
+    /* ********** EA        Expressions in alphanumeric used              */
+    /* ********** EI        Free form expression input required           */
+    /* ********** NK        Number of sort leys                           */
+    /* ********** SU        Number of subtotal levels                     */
+    /* ********** WA        Loop work variable 1                          */
+    /* ********** WB        Loop work variable 2                          */
+    /* ********** WC        Loop work variable 3                          */
+    /* ********** XE - XD   Loop work variables                           */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* ********** INITIALSE SOME INDEXES                                  */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(LV) TO(1)
+    @@SET_IDX  IDX_NAME(HV) TO(2)
+    @@SET_IDX  IDX_NAME(RT) TO(0)
+    @@SET_IDX  IDX_NAME(OQ) TO(0)
+    @@SET_IDX  IDX_NAME(EN) TO(0)
+    @@SET_IDX  IDX_NAME(EA) TO(0)
+    @@SET_IDX  IDX_NAME(EI) TO(0)
+    @@SET_IDX  IDX_NAME(NK) TO(0)
+    @@SET_IDX  IDX_NAME(SU) TO(0)
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 50 RELATED FILES                     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the primary file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 1   */
+    /* ********** LOAD DETAILS OF FIELDS FROM THE BASE FILE INTO LIST 2   */
+    /* ********** LOAD DETAILS OF KEYS OF BASE FILE INTO LIST 3           */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(12)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(2)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(12) REAL_ONLY(*YES)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(1)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(4) NUM_ONLY(*YES)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** START TO BUILD UP MAXIMUM LIST 22 OF ALL FIELDS         */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(22)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(22)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 22 AS WELL       */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(99)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(99)
+    @@MRG_LSTS FROM_LSTS(99) INTO_LST(22)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK WHAT SORT OF SORT ORDERING IS REQUIRED              */
+    /* ********** ======================================================= */
+    O05: @@QUESTION PROMPT('How do you want to sort / order information printed on this report ?') ANSWER(@@CANS008) EXTEND('Answer KEYS or SORT where these things mean ....' 'KEYS    : the natural order implied by the keys of this file are to be' '          used to print and total information.' 'SORT    : information in the file needs to be reordered (sorted) into' '          a different order before details are printed or totalled.') LOWER(*NO) VALUES(KEYS SORT) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@CLR_LST  NUMBER(14)
+    /* ********** SORT                                                    */
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(O10)
+    @@MAK_LSTS FROM_LSTS(12) INTO_LSTS((14 'Sort Order' '1=Highest' '99=Lowest' *SEQUENCE))  HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@INC_IDX  IDX_NAME(OQ)
+    @@GOTO     LABEL(O30)
+    /* ********** KEYS                                                    */
+    O10: @@LABEL
+    @@RTV_KEYS OF_FILE(1) INTO_LST(14)
+    @@GOTO     LABEL(O30)
+    O30: @@LABEL
+    @@SET_IDX  IDX_NAME(NK) TO(@@LNE14)
+    @@CMP_IDX  IDX_NAME(NK) IDX_VALUE(1) IF_LT(O05)
+    @@CMP_IDX  IDX_NAME(NK) IDX_VALUE(8) IF_GT(O05)
+    @@MRG_LSTS FROM_LSTS(14) INTO_LST(22)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT SUBTOTALLING                                  */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(16)
+    @@CLR_LST  NUMBER(17)
+    @@CLR_LST  NUMBER(18)
+    @@CLR_LST  NUMBER(19)
+    @@CLR_LST  NUMBER(20)
+    @@CMP_IDX  IDX_NAME(NK) IDX_VALUE(1) IF_LT(STE)
+    @@SET_IDX  IDX_NAME(SU) TO(@@LNE14)
+    @@MRG_LSTS FROM_LSTS(14) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(4)  INTO_LSTS((16 'Select' 'To' KEEP_TOTAL *YESNO) (17 'Select' 'To' 'KEEP_AVG')) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@MRG_LSTS FROM_LSTS(16) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(17) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(4)  INTO_LSTS((18 'Select' 'To' KEEP_MIN *YESNO) (19 'Select' 'To' 'KEEP_MAX')) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@MRG_LSTS FROM_LSTS(18) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(19) INTO_LST(22)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((20 'Select' 'To' KEEP_COUNT *YESNO)) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@MRG_LSTS FROM_LSTS(20) INTO_LST(22)
+    STE: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    OPEN       FILE(*ALL) USE_OPTION(*ONDEMAND)
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL SUBTOTAL, ETC WORK FIELDS                  */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(UA9)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    UA1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE14) IF_GT(UA9)
+    @@COMMENT  'Level @@INDEXWA/@@LEL14WA Work Fields'
+    DEFINE     FIELD(#TIT_@@INDEXWA) REFFLD(#STD_TITLE)
+    @@QUESTION PROMPT('Please specify a title for the level @@INDEXWA / @@LEL14WA report') ANSWER(@@CANS001) EXTEND('1234567890123456789012345678901234567890' 'Use from 1 to 40 characters for your title. Use upper and lowercase' 'characters. Do NOT use quote symbols in your title.' 'For more information use HELP.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    CHANGE     FIELD(#TIT_@@INDEXWA) TO('''@@CANS001''')
+    /* ********** KEEP_TOTAL VALUES                                       */
+    @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA2: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE16) IF_GT(UA3)
+    @@QUESTION PROMPT('Specify column headings for KEEP_TOTAL of @@LEL16WB (sort level @@LEL14WA)') ANSWER(@@CANS016) EXTEND('''12345678901234567890'' ''12345678901234567890'' ''12345678901234567890''' 'You are using KEEP_TOTAL (ie: keeping a total)' 'of @@LEL16WB (@@LDS16WB)' 'at level @@INDEXWA/@@LEL14WA (@@LDS14WA).' 'Specify up to 3 column headings formatted EXACTLY as shown, OR, leave/make' 'the answer area completely blank to use the system default column' 'headings. Input column headings with care. Refer to associated HELP text' 'for examples. Do NOT use quote symbols other than as delimiters.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS016 *EQ ' ')) GOTO(TO1)
+    DEFINE     FIELD(#TOT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL16WB) COLHDG(@@CANS016)
+    @@GOTO     LABEL(TO2)
+    TO1: @@LABEL
+    DEFINE     FIELD(#TOT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL16WB)
+    TO2: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA2)
+    /* ********** KEEP_AVG VALUES                                         */
+    UA3: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA4: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE17) IF_GT(UA5)
+    @@QUESTION PROMPT('Specify column headings for KEEP_AVG of @@LEL17WB (sort level @@LEL14WA)') ANSWER(@@CANS017) EXTEND('''12345678901234567890'' ''12345678901234567890'' ''12345678901234567890''' 'You are using KEEP_AVG (ie: keeping an average or simple mean)' 'of @@LEL17WB (@@LDS17WB)' 'at level @@INDEXWA/@@LEL14WA (@@LDS14WA).' 'Specify up to 3 column headings formatted EXACTLY as shown, OR, leave/make' 'the answer area completely blank to use the system default column' 'headings. Input column headings with care. Refer to associated HELP text' 'for examples. Do NOT use quote symbols other than as delimiters.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS017 *EQ ' ')) GOTO(AV1)
+    DEFINE     FIELD(#AVG_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL17WB) COLHDG(@@CANS017)
+    @@GOTO     LABEL(AV2)
+    AV1: @@LABEL
+    DEFINE     FIELD(#AVG_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL17WB)
+    AV2: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA4)
+    /* ********** KEEP_MIN VALUES                                         */
+    UA5: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UA6: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE18) IF_GT(UA7)
+    @@QUESTION PROMPT('Specify column headings for KEEP_MIN of @@LEL18WB (sort level @@LEL14WA)') ANSWER(@@CANS018) EXTEND('''12345678901234567890'' ''12345678901234567890'' ''12345678901234567890''' 'You are using KEEP_MIN (ie: keeping the minimum value of)' 'of @@LEL18WB (@@LDS18WB)' 'at level @@INDEXWA/@@LEL14WA (@@LDS14WA).' 'Specify up to 3 column headings formatted EXACTLY as shown, OR, leave/make' 'the answer area completely blank to use the system default column' 'headings. Input column headings with care. Refer to associated HELP text' 'for examples. Do NOT use quote symbols other than as delimiters.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS018 *EQ ' ')) GOTO(MI1)
+    DEFINE     FIELD(#MIN_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL18WB) COLHDG(@@CANS018)
+    @@GOTO     LABEL(MI2)
+    MI1: @@LABEL
+    DEFINE     FIELD(#MIN_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL18WB)
+    MI2: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UA6)
+    /* ********** KEEP_MAX VALUES                                         */
+    UA7: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UB1: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE19) IF_GT(UB4)
+    @@QUESTION PROMPT('Specify column headings for KEEP_MAX of @@LEL19WB (sort level @@LEL14WA)') ANSWER(@@CANS019) EXTEND('''12345678901234567890'' ''12345678901234567890'' ''12345678901234567890''' 'You are using KEEP_MAX (ie: keeping the maximum value of)' 'of @@LEL19WB (@@LDS19WB)' 'at level @@INDEXWA/@@LEL14WA (@@LDS14WA).' 'Specify up to 3 column headings formatted EXACTLY as shown, OR, leave/make' 'the answer area completely blank to use the system default column' 'headings. Input column headings with care. Refer to associated HELP text' 'for examples. Do NOT use quote symbols other than as delimiters.') HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS019 *EQ ' ')) GOTO(MX1)
+    DEFINE     FIELD(#MAX_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL19WB) COLHDG(@@CANS019)
+    @@GOTO     LABEL(MX2)
+    MX1: @@LABEL
+    DEFINE     FIELD(#MAX_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL19WB)
+    MX2: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UB1)
+    /* ********** KEEP_COUNT                                              */
+    UB4: @@SET_IDX  IDX_NAME(WB) TO(1)
+    UB5: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE20) IF_GT(UA8)
+    @@QUESTION PROMPT('Specify column headings for KEEP_COUNT of @@LEL20WB (sort level @@LEL14WA)') ANSWER(@@CANS020) EXTEND('''12345678901234567890'' ''12345678901234567890'' ''12345678901234567890''' 'You are using KEEP_COUNT (ie: counting the different instances of)' 'of @@LEL20WB (@@LDS20WB)' 'at level @@INDEXWA/@@LEL14WA (@@LDS14WA).' 'Specify up to 3 column headings formatted EXACTLY as shown, OR, leave/make' 'the answer area completely blank to use the system default column' 'headings. Input column headings with care. Refer to associated HELP text' 'for examples. Do NOT use quote symbols other than as delimiters.')  HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS020 *EQ ' ')) GOTO(CO1)
+    DEFINE     FIELD(#CNT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL20WB) TYPE(*DEC) LENGTH(7) DECIMALS(0) EDIT_CODE(3) DEFAULT(0) COLHDG(@@CANS020)
+    @@GOTO     LABEL(CO2)
+    CO1: @@LABEL
+    DEFINE     FIELD(#CNT_@@INDEXWA@@INDEXWB) REFFLD(#@@LEL20WB) TYPE(*DEC) LENGTH(7) DECIMALS(0) EDIT_CODE(3) DEFAULT(0)
+    CO2: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(UB5)
+    /* ********** NEXT SUBTOTAL LEVEL                                     */
+    UA8: @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(UA1)
+    UA9: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL BREAK LINES                                */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('For lower level "drill down" reports what type of page control is required') ANSWER(@@CANS009) EXTEND('Reply NEWPAGE or INLINE only, where these things mean :' 'NEWPAGE : Means that a new page should be started when the higher level' '          of sort order changes. This is most effective when a relatively' '          small number of sort levels, with a very high summary rate,' '          are being used.' 'INLINE  : means that an inline heading should be used, rather than a new' ' page, when the next higher level of sort order changes.' 'Use the HELP key for more information and examples.') LOWER(*NO) VALUES(NEWPAGE INLINE) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(UD9)
+    @@SET_IDX  IDX_NAME(WB) TO(0)
+    @@SET_IDX  IDX_NAME(WC) TO(0)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    UC1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE14) IF_GT(UD9)
+    @@CLR_LST  NUMBER(99)
+    @@CLR_LST  NUMBER(98)
+    @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(2) IF_LT(T20)
+    @@QUESTION PROMPT('Extra fields in the HEADING area of the level @@INDEXWA/@@LEL14WA report ?') ANSWER(@@CANS010) EXTEND('If you wish to add extra fields to the heading area of this drill down' 'report reply Y, otherwise reply N. The heading area may be the top of each' 'NEWPAGE or as INLINE headings in the report detail area. Note that all' 'relevant sort fields are AUTOMATICALLY included. You need not add them.' 'If you reply Y you will be presented with a list of all fields from all' 'selected files. You may choose your required additional fields from this' 'list. However you MUST NOT select any field that is part of the sort key' 'that you elected to use with this report. This will cause an RDML error.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS010 *EQ N)) GOTO(T20)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((99 'Additional' '  Header' '  Fields' *SEQUENCE *NO)) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@MRG_LSTS FROM_LSTS((99)) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS((99)) INTO_LST(98)
+    @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(0) IF_GT(T10)
+    @@CLR_LST  NUMBER(99)
+    T10: @@LABEL
+    @@CMP_IDX  IDX_NAME(WC) IDX_VALUE(0) IF_GT(T20)
+    @@CLR_LST  NUMBER(98)
+    T20: @@LABEL
+    @@COMMENT  'Level @@INDEXWA/@@LEL14WA Report Lines'
+    Q01: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(1) IF_GT(Q02)
+    DEF_HEAD   NAME(#HED_01) FIELDS((#TIT_01) (#DATE) (#TIME) (#USER) (#REP1PAGE)) TRIGGER_BY(*OVERFLOW) FOR_REPORT(1) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q02: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(2) IF_GT(Q03)
+    DEF_HEAD   NAME(#HED_02) FIELDS((#TIT_02) (#DATE) (#TIME) (#USER) (#REP2PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(2) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q03: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(3) IF_GT(Q04)
+    DEF_HEAD   NAME(#HED_03) FIELDS((#TIT_03) (#DATE) (#TIME) (#USER) (#REP3PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(3) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q04: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(4) IF_GT(Q05)
+    DEF_HEAD   NAME(#HED_04) FIELDS((#TIT_04) (#DATE) (#TIME) (#USER) (#REP4PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(4) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q05: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(5) IF_GT(Q06)
+    DEF_HEAD   NAME(#HED_05) FIELDS((#TIT_05) (#DATE) (#TIME) (#USER) (#REP5PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(5) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q06: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(6) IF_GT(Q07)
+    DEF_HEAD   NAME(#HED_06) FIELDS((#TIT_06) (#DATE) (#TIME) (#USER) (#REP6PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(6) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q07: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(7) IF_GT(Q08)
+    DEF_HEAD   NAME(#HED_07) FIELDS((#TIT_07) (#DATE) (#TIME) (#USER) (#REP7PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(7) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q08: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(8) IF_GT(Q09)
+    DEF_HEAD   NAME(#HED_08) FIELDS((#TIT_08) (#DATE) (#TIME) (#USER) (#REP8PAGE) @@LSX14/WB @@LST99) TRIGGER_BY(*OVERFLOW @@LSX14/WB )  FOR_REPORT(8) DESIGN(*DOWN)
+    @@GOTO     LABEL(Q09)
+    Q09: @@LABEL
+    @@CMP_IDX  IDX_NAME(WC) IDX_VALUE(1) IF_LT(H05)
+    DEF_BREAK  NAME(#LED_@@INDEXWA) FIELDS(@@LSX14/WC @@LST98) TRIGGER_BY(@@LSX14/WC ) TYPE(*LEADING) FOR_REPORT(@@INDEXWA) SPACE_BEF(2) SPACE_AFT(1) DESIGN(*ACROSS) IDENTIFY(*LABEL)
+    H05: @@LABEL
+    @@CLR_LST  NUMBER(99)
+    @@QUESTION PROMPT('Extra fields in the DETAIL area of the level @@INDEXWA/@@LEL14WA report ?') ANSWER(@@CANS011) EXTEND('If you wish to add extra fields to the detail area of this drill down' 'report reply Y, otherwise reply N.' 'Note that the sort level field @@LEL14WA is AUTOMATICALLY included.' 'You do not have to add field @@LEL14WA to the detail area of this report.' 'If you reply Y you will be presented with a list of all fields from all' 'selected files. You may choose your required additional fields from this' 'list. However you MUST NOT select field @@LEL14WA from the list displayed.' 'If you do choose it an RDML error will result.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS011 *EQ N)) GOTO(T40)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((99 'Additional' '  Detail' '  Fields' *SEQUENCE *NO)) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@MRG_LSTS FROM_LSTS((99)) INTO_LST(22)
+    T40: @@LABEL
+    @@SET_IDX  IDX_NAME(XA) TO(@@LNE16)
+    @@SET_IDX  IDX_NAME(XB) TO(@@LNE17)
+    @@SET_IDX  IDX_NAME(XC) TO(@@LNE18)
+    @@SET_IDX  IDX_NAME(XD) TO(@@LNE19)
+    @@SET_IDX  IDX_NAME(XE) TO(@@LNE20)
+    DEF_BREAK  NAME(#BRK_@@INDEXWA) FIELDS(#@@LEL14WA  @@LST99    @@GENNAME/WA/XA/#TOT_ @@GENNAME/WA/XB/#AVG_ @@GENNAME/WA/XC/#MIN_ @@GENNAME/WA/XD/#MAX_ @@GENNAME/WA/XE/#CNT_ ) TRIGGER_BY(@@LSX14/WA) FOR_REPORT(@@INDEXWA) DESIGN(*ACROSS) IDENTIFY(*COLHDG) SPACE_BEF(1) SPACE_AFT(0)
+    @@INC_IDX  IDX_NAME(WA)
+    @@IF       COND((*IF @@CANS009 *EQ NEWPAGE)) GOTO(H10)
+    @@INC_IDX  IDX_NAME(WC)
+    @@GOTO     H20
+    H10: @@LABEL
+    @@INC_IDX  IDX_NAME(WB)
+    H20: @@LABEL
+    @@GOTO     LABEL(UC1)
+    UD9: @@LABEL
+    @@COMMENT  'Main Processing group'
+    GROUP_BY   NAME(#FETCHDATA) FIELDS(@@LST22)
+    /* ********** ======================================================= */
+    /* ********** INITIALISE PROGRAM VARIABLES                            */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Should this report use options to maximise its performance ?') ANSWER(@@CANS007) EXTEND('Answer Y (yes) or N (no) only.' 'By answering Y (yes) you will increase the compile time of this report' 'but reduce its execution time once it is compiled.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP050 HELP060 HELP070 HELP080 HELP090 HELP100 HELP110 HELP120 HELP130 HELP140)
+    @@IF       COND((*IF @@CANS007 *NE Y)) GOTO(DBA)
+    @@COMMENT  'Use *DBOPTIMISE for best performance'
+    FUNCTION   OPTIONS(*DBOPTIMISE)
+    DBA: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** START GENERATING THE PROGRAM MAINLINE                   */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('==================================')
+    @@COMMENT  COMMENT('If this function is running online')
+    @@COMMENT  COMMENT('==================================')
+    IF         COND('*JOBMODE = I')
+    /* ********** ======================================================= */
+    /* ********** HANDLE REORDERING OF FILE BY OPNQRYF SORT               */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(SOA)
+    CHANGE     FIELD(#STD_QORD) TO('@@LSU14')
+    EXCHANGE   FIELDS(#STD_QORD)
+    SOA: @@LABEL
+    @@COMMENT  COMMENT('Submit batch run of this function')
+    SUBMIT     PROCESS(#PROCESS) FUNCTION(#FUNCTION) JOB(#FUNCTION)
+    @@COMMENT  COMMENT('==========================================')
+    @@COMMENT  COMMENT('Else, if this function is running in batch')
+    @@COMMENT  COMMENT('==========================================')
+    ELSE
+    @@IF       COND((*IF @@CANS008 *EQ KEYS)) GOTO(X14)
+    @@COMMENT  COMMENT('Use OPNQRYF to order details')
+    @@IF       COND((*IF @@CANS007 *NE Y)) GOTO(DBB)
+    OPEN       FILE(@@FNAME01) USE_OPTION(*OPNQRYF) KEYFLD(#STD_QORD) OPTIMIZE(*ALLIO) SEQONLY(*YES 50)
+    @@GOTO     LABEL(DBC)
+    DBB: @@LABEL
+    OPEN       FILE(@@FNAME01) USE_OPTION(*OPNQRYF) KEYFLD(#STD_QORD)
+    DBC: @@LABEL
+    X14: @@LABEL
+    @@COMMENT  COMMENT('Select required @@FNAME01 details')
+    @@IF       COND((*IF @@CANS007 *NE Y)) GOTO(DBD)
+    SELECT     FIELDS((#FETCHDATA)) FROM_FILE(@@FNAME01) OPTIONS(*BLOCK050)
+    @@GOTO     LABEL(DBE)
+    DBD: @@LABEL
+    SELECT     FIELDS(#FETCHDATA) FROM_FILE(@@FNAME01)
+    DBE: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** FETCH DETAILS FROM ALL SECONDARY FILES                  */
+    /* ********** ======================================================= */
+    X20: @@LABEL
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(99)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(99)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#FETCHDATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST99) KEEP_LAST(5)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL KEEP_TOTAL, ETC LINES                      */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(XA9)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    XA1: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE14) IF_GT(XA9)
+    @@COMMENT  'Level @@INDEXWA/@@LEL14WA work fields'
+    /* ********** KEEP_TOTAL VALUES                                       */
+    @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA2: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE16) IF_GT(XA3)
+    KEEP_TOTAL OF_FIELD(#@@LEL16WB) IN_FIELD(#TOT_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX14/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA2)
+    /* ********** KEEP_AVERAGE VALUES                                     */
+    XA3: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA4: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE17) IF_GT(XA5)
+    KEEP_AVG   OF_FIELD(#@@LEL17WB) IN_FIELD(#AVG_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX14/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA4)
+    /* ********** KEEP_MIN VALUES                                         */
+    XA5: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XA6: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE18) IF_GT(XA7)
+    KEEP_MIN   OF_FIELD(#@@LEL18WB) IN_FIELD(#MIN_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX14/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XA6)
+    /* ********** KEEP_MAX VALUES                                         */
+    XA7: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XB1: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE19) IF_GT(XB4)
+    KEEP_MAX   OF_FIELD(#@@LEL19WB) IN_FIELD(#MAX_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX14/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XB1)
+    /* ********** KEEP_MAX COUNT                                          */
+    XB4: @@SET_IDX  IDX_NAME(WB) TO(1)
+    XB5: @@CMP_IDX  IDX_NAME(WB) IDX_VALUE(@@LNE20) IF_GT(XA8)
+    KEEP_COUNT OF_FIELD(#@@LEL20WB) IN_FIELD(#CNT_@@INDEXWA@@INDEXWB) BY_FIELD(@@LSX14/WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(XB5)
+    /* ********** NEXT SUBTOTAL LEVEL                                     */
+    XA8: @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(XA1)
+    XA9: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** PRINT THE DETAILS                                       */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Print all break totals')
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(XF5)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    XF3: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE14) IF_GT(XF5)
+    PRINT      LINE(*BREAKS) ON_REPORT(@@INDEXWA)
+    @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(XF3)
+    XF5: @@LABEL
+    ENDSELECT
+    @@COMMENT  COMMENT('Finish all printing and end function')
+    @@CMP_IDX  IDX_NAME(SU) IDX_VALUE(1) IF_LT(XG5)
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    XG3: @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(@@LNE14) IF_GT(XG5)
+    ENDPRINT   REPORT_NUM(@@INDEXWA)
+    @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(XG3)
+    XG5: @@LABEL
+    ENDIF
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@CLR_LST  NUMBER(7)
+    @@CLR_LST  NUMBER(8)
+    @@CLR_LST  NUMBER(14)
+    @@CLR_LST  NUMBER(16)
+    @@CLR_LST  NUMBER(17)
+    @@CLR_LST  NUMBER(18)
+    @@CLR_LST  NUMBER(19)
+    @@CLR_LST  NUMBER(20)
+    @@CLR_LST  NUMBER(22)
+    @@CLR_LST  NUMBER(99)
+    @@CLR_LST  NUMBER(98)
+    /* ********** ======================================================= */
+    /* ********** END OF TEMPLATE                                         */
+    /* ********** ======================================================= */
+
+  Help Panels:
+  - HELP000:
+      Description:        What are Drill Down Reports ?
+
+      Text: |
+        <-
+                                                                                        
+         This template produces a series of up to 8 reports that "drill down" through   
+         successively more detailed levels of summary information.                      
+                                                                                        
+         The best way to understand what sort of information this template can produce  
+         is to think of an example.                                                     
+                                                                                        
+         Imagine a data base table that contains one years SALES information. It might  
+         include details such as ....                                                   
+                                                                                        
+                      The Company that sold the product (Company)                       
+                      The Division within the company that sold the product (Division)  
+                      The Identification of the product (Product)                       
+                      The Quantity of the product that was sold (Quantity)              
+                      The Value of the product that was sold (Value)                    
+                                                                                        
+          By using this template over a data base table like this you could produce a   
+          set of 3 "drill down" reports like the following examples ....
+
+  - HELP002:
+      Description:        What are Drill Down Reports ?
+
+      Text: |
+        <-
+                                                                                        
+         The first (and highest level) drill down report might look like this .....     
+                                                                                        
+                                              Total    Total                            
+                         Company           Quantity    Value                            
+                         XXXXXXXXXXXXXXXXX 99999999  9999999                            
+                         XXXXXXXXXXXXXXXXX 99999999  9999999                            
+                         XXXXXXXXXXXXXXXXX 99999999  9999999                            
+                                                                                        
+         It summarises all sales of all products by individual company.                 
+                                                                                        
+         However, the user might require some more detail, so in this case the user     
+         would "drill down" to the next level of detail.                                
+                                                                                        
+         The next level of detail comes with the second drill down report.
+
+  - HELP004:
+      Description:        What are Drill Down Reports ?
+
+      Text: |
+        <-
+                                                                                        
+         The second drill down report might look like this .....                        
+                                                                                        
+                             Company : XXXXXXXXXXXXXXX                                  
+                                                  Total    Total                        
+                             Division          Quantity    Value                        
+                             XXXXXXXXXXXXXXXXX 99999999  9999999                        
+                             XXXXXXXXXXXXXXXXX 99999999  9999999                        
+                                                                                        
+                             Company : XXXXXXXXXXXXXXX                                  
+                                                  Total    Total                        
+                             Division          Quantity    Value                        
+                             XXXXXXXXXXXXXXXXX 99999999  9999999                        
+                             XXXXXXXXXXXXXXXXX 99999999  9999999                        
+                                                                                        
+         Which shows more detail because it breaks sales down by division within the    
+         individual companies. A lower level of detail could be obtained by progressing 
+         to the third drill down report.
+
+  - HELP006:
+      Description:        What are Drill Down Reports ?
+
+      Text: |
+        <-
+                                                                                        
+         The third drill down report might look like this .....                         
+                                                                                        
+                  Company : XXXXXXXXXXXXXXX  Division : XXXXXXXXXXXXXXXX                
+                                                 Total    Total                         
+                            Product           Quantity    Value                         
+                            XXXXXXXXXXXXXXXXX 99999999  9999999                         
+                            XXXXXXXXXXXXXXXXX 99999999  9999999                         
+                                                                                        
+                  Company : XXXXXXXXXXXXXXX  Division : XXXXXXXXXXXXXXXX                
+                                                 Total    Total                         
+                            Product           Quantity    Value                         
+                            XXXXXXXXXXXXXXXXX 99999999  9999999                         
+                            XXXXXXXXXXXXXXXXX 99999999  9999999                         
+                                                                                        
+        which shows even more detail because it breaks down individual product sales    
+        by the divisions within the companies.                                          
+                                                                                        
+        Hopefully this example has given you an idea as to how "drill down" reports     
+        break information down into a series of increasingly detailed reports.
+
+  - HELP050:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+         If the "Drill Down" template is used then it will ask you a series of questions
+         that are related to :                                                          
+                                                                                        
+            1. Identification of the files from which information is to be extracted.   
+            2. The order that information should be processed from the files.           
+            3. Details of the fields that are to be totalled, averaged, etc.            
+            4. Report layout details such as titles, column headings, page formats, etc 
+            5. Whether the report should be compiled for optimal performance.           
+                                                                                        
+         The replies to these questions are usually simple and self explanatory. However
+         in a little more detail the questions work like this :                         
+                                                                                        
+         1. FILE IDENTIFICATION                                                         
+                                                                                        
+            Files are identified in the same way as most other templates. You are asked 
+            to nominate and select a "base" file and then to choose related files from  
+            which information should be extracted. Do not choose a related file unless  
+            you actually wish to use information from it.
+
+  - HELP060:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+         2. ORDERING THE INFORMATION                                                    
+                                                                                        
+            Once the required files have been selected you are given an option to       
+            specify what order you want information from the base file processed        
+            in. This is of course a very significant choice, because the order that     
+            you choose relates directly to the order, levels and number of drill        
+            down reports that are produced.                                             
+                                                                                        
+            You can use options KEYS to indicate that you wish to use the natural       
+            keys of the base physical or logical file. This is a good choice because    
+            the access path already exists, so no sorting / access path building should 
+            be required to process the information in this order.                       
+                                                                                        
+            You can also specify option SORT, and then by numbering the required fields 
+            from 1 (highest/most significant) to 99 (lowest/least significant) indicate 
+            the order that the information should be processed in.                      
+                                                                                        
+            Choose at most 8 (eight) different fields when using SORT.
+
+  - HELP070:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+         2. ORDERING THE INFORMATION (continued)                                        
+                                                                                        
+            If the template appears to go into a loop here and refuse to progress       
+            any further it is probably because you have chosen more than 8 fields       
+            to sort on, or because you have used option KEYS and there are more than    
+            8 natural keys associated with the base file.                               
+                                                                                        
+         3. SUBTOTALLING, AVERAGING, ETC                                                
+                                                                                        
+            Once all the sort levels have been selected you will be presented with      
+            3 successive panels that allow you to make lists of ....                    
+                                                                                        
+              - Fields to be (sub)totalled (called KEEP_TOTAL in RDML terms)            
+              - Fields that are to have an average/mean kept (called KEEP_AVG)          
+              - Fields that are to have a maximum value kept (called KEEP_MAX)          
+              - Fields that are to have a minimum value kept (called KEEP_MIN)          
+              - Fields that are to have unique occurrences (within the sort order)      
+                counted (which is different to totalling). This is called KEEP_COUNT.
+
+  - HELP080:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+         3. SUBTOTALLING, AVERAGING, ETC (continued)                                    
+                                                                                        
+            The values that you choose are totalled/averaged/counted/etc at each sort   
+            level and will produce a separate drill down report for each sort level.    
+                                                                                        
+         4. TITLES, COLUMN HEADINGS AND PAGE FORMATS                                    
+                                                                                        
+            Once all totalling requirements have been identified you will then be asked 
+            to specify additional information for each drill down report. Remember that 
+            one drill down report is produced for each sort level.                      
+                                                                                        
+            Firstly you will be asked to specify a title for the report. This is fairly 
+            standard. The usual requirements with regard to width (40 characters total),
+            upper and lower case characters (makes the report look good) and the non-use
+            of quote (') symbols apply (they confuse the RDML syntax checker and simply 
+            mean that you will have to edit the RDML function later to remove them).    
+                                                                                        
+            Next you will be asked about column headings.
+
+  - HELP090:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        4. TITLES, COLUMN HEADINGS AND PAGE FORMATS (continued)                         
+                                                                                        
+           The specification of column headings is very easy. It just requires some care
+           and precision. The input area is formatted like this ....                    
+                                                                                        
+              '12345678901234567890' '12345678901234567890' '12345678901234567890'      
+                                                                                        
+           and it is indicating that if you want to specify alternate column heading    
+           then you should input them like this ....                                    
+                                                                                        
+              'Total               ' 'Monthly             ' 'Sales               '      
+              '12345678901234567890' '12345678901234567890' '12345678901234567890'      
+                                                                                        
+           or like this .....                                                           
+                                                                                        
+              'Total Monthly Sales ' '                    ' '                    '      
+              '12345678901234567890' '12345678901234567890' '12345678901234567890'      
+                                                                                        
+           where the first example is 3 lines of headings and the last is just 1 line.
+
+  - HELP100:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        4. TITLES, COLUMN HEADINGS AND PAGE FORMATS (continued)                         
+                                                                                        
+           Of course the previous column heading examples are very formal. If you are   
+           familiar with the RDML command language you may realise that column heading  
+           details that you input are generated straight into the COLHDG parameter of   
+           of a DEFINE command. Thus all of the following are valid .....               
+                                                                                        
+                     Actual Input                   On the Report                       
+                     Customer Number                 CUSTOMER                           
+                                                     NUMBER                             
+                                                                                        
+                    'Customer Number'               Customer Number                     
+                                                                                        
+                    'Customer' 'Number'             Customer                            
+                                                    Number                              
+                                                                                        
+                     Month Total Sale Volume        Will cause an RDML syntax error     
+                                                                                        
+                    'Month Total' 'Sale' 'Volume'   Is fine and will generate 3 headings
+
+  - HELP110:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        4. TITLES, COLUMN HEADINGS AND PAGE FORMATS (continued)                         
+                                                                                        
+           If you do happen to cause an RDML syntax error no harm will result. Simply   
+           locate the DEFINE command and correct the COLHDG parameter.                  
+                                                                                        
+           If you do not want to specify alternate column headings simply blank out     
+           the entire input area and press enter. Normal Data Dictionary defaults for   
+           the column headings will result.                                             
+                                                                                        
+           In this area, the final question you will be asked relates to the type of    
+           page format you would like for drill down reports (other than the first one).
+                                                                                        
+           You may reply NEWPAGE or INLINE to this question. Your reply here indicates  
+           how changes of the major sort key should be handled on drill down reports    
+           (other then the first one).                                                  
+                                                                                        
+           The example at the start of this help text spoke of a file that contained    
+           SALES details relating to companies, divisions and products.
+
+  - HELP120:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        4. TITLES, COLUMN HEADINGS AND PAGE FORMATS (continued)                         
+                                                                                        
+           The first level report was easy. A list of companies and total sales.        
+                                                                                        
+           It is the second (and lower) level reports that are affected by this         
+           option. If the report designer had replied NEWPAGE ....                      
+                                                                                        
+           Report 2 (division totals) would have had the company number in the heading  
+           area and started a new page for every different company.                     
+                                                                                        
+           Report 3 (product totals) would have had company and division in the heading 
+           area and started a new page every time the division or company changed.      
+                                                                                        
+           However, if the user had replied INLINE ...                                  
+                                                                                        
+           Report 2 would have had the company printed as an "inline" heading when it   
+           changed. A new page would only have been started when the current page was   
+           full up.
+
+  - HELP130:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        4. TITLES, COLUMN HEADINGS AND PAGE FORMATS (continued)                         
+                                                                                        
+           Similarly report 3 would have had "inline" headings of company and division  
+           and only started a new page when the current one was full up.                
+                                                                                        
+           The best way to decide about the NEWPAGE/INLINE option is to experiment.     
+                                                                                        
+           Generally NEWPAGE works best when ....                                       
+                                                                                        
+              (a). There a relatively few sorting levels.                               
+                                                                                        
+              (b). Each level produces a fairly high degree of summarisation. For       
+                   instance, if a level 2 compound sort key changes 500 times, then     
+                   an associated level 3 drill down report would produce 500 pages      
+                   of output, because it starts a new page everytime its next higher    
+                   level sort key changes.
+
+  - HELP140:
+      Description:        "    Using this Template"
+
+      Text: |
+        <-
+                                                                                        
+        5. PERFORMANCE OPTIONS                                                          
+                                                                                        
+           The final question that this template asks relates to performance options.   
+           Since this type of drill down or summary style report is very likely to      
+           be processing large volumes of information from the base file, and because   
+           it has an option to use OPNQRYF (Open Query File - an IBM supplied data      
+           base file access method), it is one of the very few templates that have an   
+           option to use a LANSA facility called *DBOPTIMISE (or *DBOPTIMIZE).          
+                                                                                        
+           If you reply Y (yes) to this question you will ....                          
+                                                                                        
+             (a). Make the compile of the resulting RDML function take considerably     
+                  longer.                                                               
+                                                                                        
+             (b). Considerably reduce the time that the function takes to produce       
+                  the drill down reports.                                               
+                                                                                        
+           Refer to LANSA manuals for more details about *DBOPTIMISE / *DBOPTIMIZE.

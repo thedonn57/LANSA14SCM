@@ -1,0 +1,127 @@
+﻿Reusable Part:
+  Name:               XSCountryDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country Dropdown"
+
+  - FRA:
+      Description:        "Country Dropdown"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(21) Left(0) Tabposition(1) Top(0) Width(489) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#CountriesItem1) Alignment(TopLeft) Column(#Column1) Manage(#Countries) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST.DropDown) Name(#Countries) Columnheaderheight(0) Columnlines(False) Displayposition(1) Left(0) Parent(#COM_OWNER) Rowlines(False) Showselection(False) Tabposition(1) Top(0) Dropdownstyle(DropDown) Width(489) Rowheight(25) Height(21)
+    Define_Com Class(#PRIM_LIST.String) Name(#DropDownColumn1) Columnresize(False) Columnunits(Proportion) Columnwidth(1) Displayposition(1) Parent(#Countries) Source(#XSCountryName)
+    
+    Def_List Name(#CountryList) Fields(#XSCountryName) Counter(#listcount) Type(*Working) Entrys(500)
+    
+    Define_Com Class(#XSCountryName) Name(#SelectedCountry)
+    
+    Define_Com Class(#XSServer.LoadCountries) Name(#LoadCountries)
+    
+    Define_Pty Name(pCurrentValue) Get(GetCurrent) Set(SetCurrent)
+    
+    Define_Evt Name(CountryUpdated)
+    Define_Map For(*Input) Class(#XSCountryName) Name(#CountryID)
+    
+    Ptyroutine Name(GetCurrent)
+    Define_Map For(*output) Class(#XSCountryName) Name(#value)
+    
+    #SelectedCountry #value := #Countries.value
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCurrent)
+    Define_Map For(*input) Class(#XSCountryName) Name(#value)
+    
+    #SelectedCountry := #value
+    
+    #Com_owner.HighlightSelection
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #LoadCountries.ExecuteAsync( #CountryList )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadCountries.completed)
+    
+    * Add a blank entry to accommodate countries other than USA
+    * #XSCountryName := *blanks
+    * Add_Entry To_List(#Countries)
+    
+    Selectlist Named(#CountryList)
+    
+    Add_Entry To_List(#Countries)
+    
+    * #Countries.CurrentItem.MouseOverStyle <= #xsstyle01<BackgroundBlue2>
+    
+    Endselect
+    
+    #Com_owner.HighlightSelection
+    
+    Endroutine
+    
+    * Mthroutine Name(AddDropDownEntry)
+    * Define_Map For(*input) Class(#XSCountryName) Name(#Country)
+    *
+    * #XSCountryName := #Country
+    * Add_Entry To_List(#Countries)
+    *
+    * Endroutine
+    
+    Mthroutine Name(HighlightSelection)
+    
+    * default to USA
+    If (#SelectedCountry = *blank)
+    
+    #SelectedCountry := 'United States'
+    
+    Endif
+    
+    Selectlist Named(#Countries)
+    
+    Continue If(#SelectedCountry.uppercase <> #XSCountryName.uppercase)
+    
+    #Countries.CurrentItem.Selected := true
+    
+    * #Countries.CurrentItem.MouseOverStyle <= #xsstyle01<BackgroundBlue3>
+    * #Countries.CurrentItem.FocusedStyle <= #xsstyle01<BackgroundBlue1>
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Countries.Changed)
+    
+    * Ensure first character is uppercase for automatching
+    If (#Countries.value.CurChars = 1)
+    
+    #Countries.value := #Countries.value.UpperCase
+    
+    Endif
+    
+    #com_owner.pCurrentValue := #Countries.value
+    
+    Signal Event(CountryUpdated) Countryid(#com_owner.pCurrentValue)
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSVWED
+  Type:               Packed
+  Length:             15
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Wednesday hours worked $ value"
+      Label:              "Wednesday hours"
+      Heading1:           "Wednesday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Valeur $ heures travaillées le mercredi"
+      Label:              "Val h mercredi"
+      Heading1:           "Valeur $"
+      Heading2:           "heures"
+      Heading3:           "mercredi"

@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*JOBMODE"
+  Description:        "Current job mode (batch or interactive)"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             1
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

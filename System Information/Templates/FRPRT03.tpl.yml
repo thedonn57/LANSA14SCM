@@ -1,0 +1,318 @@
+﻿Template:
+  Name:                    FRPRT03
+  Description:             Header/Detail Style Report
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 50 RELATED FILES                     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('Enter the name of the primary file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF FIELDS OF "HEADER" INTO LIST 1          */
+    /* ********** LOAD DETAILS OF FIELDS OF "BROWSE" INTO LIST 2          */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(A12)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(2)   /* DETAIL */
+    @@GOTO     LABEL(A14)
+    A12: @@RTV_FLDS FROM_FILE(CF) INTO_LST(1)   /* HEADER */
+    A14: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO SELECT THE HEADER FIELDS REQUIRED       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(11)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((11 'To Print' 'in Header' '  Area' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** MERGE LISTS 11 INTO 14                                  */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(14)
+    @@MRG_LSTS FROM_LSTS(11) INTO_LST(14)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO SELECT THE BROWSE FIELDS REQUIRED       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(22)
+    @@MAK_LSTS FROM_LSTS(2) INTO_LSTS((22 'To print' 'in Detail' '  Area' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** MERGE LIST 22 INTO 24                                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(24)
+    @@MRG_LSTS FROM_LSTS(22) INTO_LST(24)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 14 OR LIST 24    */
+    /* ********** LIST 3 IS A WORKING LIST ONLY                           */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(A34)
+    @@IF       COND((*IF @@FRELRCF *EQ M)) GOTO(A34)
+    @@MRG_LSTS FROM_LSTS((3)) INTO_LST(24)  /*DETAIL LIST */
+    @@GOTO     LABEL(A36)
+    A34: @@MRG_LSTS FROM_LSTS((3)) INTO_LST(14)  /*HEADER LIST */
+    A36: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE REPORT TITLE                                */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Please specify a title for this report') ANSWER(@@CANS005) EXTEND('1234567890123456789012345678901234567890' 'Use from 1 to 40 characters for your title. Use upper and lowercase' 'characters. For additional information and examples use the HELP' 'function key.') HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER HOW TO DESIGN THE PANELS                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields in the header area DOWN the report or ACROSS the report') ANSWER(@@CANS002) EXTEND('Reply DOWN or ACROSS only.' 'If your header area contains 30 (or less) fields, DOWN is the   ' 'recommended value. If your header area contains more than 30' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT RUNNING IN BATCH                              */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this report to run in batch') ANSWER(@@CANS006) EXTEND('Reply Y or N only. For additional information and examples use the ' 'HELP function key.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP025 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  'Group and line declarations'
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    OPEN       FILE(*ALL) USE_OPTION(*ONDEMAND)
+    DEFINE     FIELD(#FORCETRIG) TYPE(*DEC) LENGTH(7) DECIMALS(0)
+    GROUP_BY   NAME(#HEADER) FIELDS(@@LST14)
+    GROUP_BY   NAME(#LIST) FIELDS(@@LST24)
+    DEF_HEAD   NAME(#HDR01) FIELDS((#REP1PAGE) (#DATE) (#TIME) (#FUNCTION) (#STD_TITLE) @@LST11) DESIGN(*@@CANS002) TRIGGER_BY(*OVERFLOW #FORCETRIG)
+    DEF_LINE   NAME(#DET01) FIELDS(@@LST22)
+    CHANGE     FIELD(#STD_TITLE) TO('''@@CANS005''')
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE KEYS OF THE BASE FILE                          */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z10)
+    @@COMMENT  COMMENT('If this program is running online')
+    IF         COND('*JOBMODE = I')
+    Z10: @@LABEL
+    @@COMMENT  COMMENT('Request report print criteria')
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC)
+    @@GOTO     LABEL(L92)
+    L91: @@LABEL
+    REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    L92: @@LABEL
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z20)
+    @@COMMENT  COMMENT('Submit batch run of this program')
+    SUBMIT     PROCESS(#PROCESS) FUNCTION(#FUNCTION) EXCHANGE(@@LST03) JOB(#FUNCTION)
+    @@COMMENT  COMMENT('Else, if this program is running in batch')
+    ELSE
+    Z20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** SELECT ALL MATCHING DETAILS FROM THE BASE FILE          */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Select required @@FNAME01 details')
+    SELECT     FIELDS(#HEADER) FROM_FILE(@@FNAME01) WITH_KEY(@@LST03) NBR_KEYS(*COMPUTE) GENERIC(*YES)
+    CHANGE     FIELD(#FORCETRIG) TO('#FORCETRIG + 1')
+    /* ********** ======================================================= */
+    /* ********** GENERATE FETCHES TO ALL FILES IN THE HEADER AREA        */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    H10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(H20)
+    @@IF       COND((*IF @@FAREACF *EQ B)) GOTO(H15)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#HEADER)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03) KEEP_LAST(1)
+    H15: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(H10)
+    H20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** NOW EXTRACT DATA TO BE PLACED INTO THE BROWSE LIST      */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    @@SET_IDX  IDX_NAME(SC) TO(0)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A80)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(A78)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@IF       COND((*IF @@FRELRCF *EQ M)) GOTO(A55)
+    /* ********** FETCH INTO THE LIST ENTRY                               */
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#LIST)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03) KEEP_LAST(1)
+    @@GOTO     LABEL(A78)
+    /* ********** THE ONE AND ONLY SELECT COMMAND                         */
+    A55: @@COMMENT  COMMENT('Select all file @@FNAMECF details')
+    @@INC_IDX  IDX_NAME(SC)
+    SELECT     FIELDS((#LIST)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03)
+    @@GOTO     LABEL(A78)
+    /* ********** INC INDEX AND LOOP AROUND                               */
+    A78: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A80: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** PRINT THE DETAIL LINE                                   */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Print the detail line ')
+    PRINT      LINE(#DET01)
+    /* ********** ======================================================= */
+    /* ********** ENDSELECT FOR THE DETAIL (IF SELECT USED)               */
+    /* ********** ======================================================= */
+    @@CMP_IDX  IDX_NAME(SC) IDX_VALUE(0) IF_EQ(A90)
+    ENDSELECT
+    A90: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ENDSELECT FOR THE OUTER SELECT LOOP ON THE HEADER FILE  */
+    /* ********** ======================================================= */
+    ENDSELECT
+    @@COMMENT  COMMENT('Finish all printing and end program')
+    ENDPRINT
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z30)
+    ENDIF
+    Z30: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED TO SAVE DISK SPACE                 */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(11)
+    @@CLR_LST  NUMBER(14)
+    @@CLR_LST  NUMBER(22)
+    @@CLR_LST  NUMBER(24)
+
+  Help Panels:
+  - HELP010:
+      Description:        "  Header/Detail Style Report"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a header / detail style report.            
+                                                                                        
+         Each header / detail style report page typically has a header area containing  
+         details from the file upon which the template is based, and additional data    
+         from other files that are in "1:1" relationships with the base file.           
+                                                                                        
+         Additionally it has a detail or list area containing multiple occurences of    
+         information from a file that is associated with the base file in a "1:many"    
+         relationship. Additionally, details from other files associated in "1:1"       
+         relationships with the main file in the list area may be shown.                
+                                                                                        
+         This style of report is very widely used. Some examples might include ....     
+                                                                                        
+             a. Print an order and a list of all associated line items                  
+                                                                                        
+             b. Print all employee details, and for each employee print salary payments 
+                                                                                        
+             c. Print a GL account's details and a list of all transactions
+
+  - HELP020:
+      Description:        "  Header/Detail Style Report"
+
+      Text: |
+        <-
+                                                                                        
+         If you elect to use this template you will be asked ....                       
+                                                                                        
+         1. To nominate the file upon which the report is to be based. The file named   
+            may be a physical file or a logical file. You may specify the file name in  
+            full, in part (to select from a partial list of all available files), or    
+            leave the name blank (to select from a list of all available files).        
+                                                                                        
+            Once the base file has been chosen, other associated files may be chosen.   
+            Information from these other files may be presented in the header or detail 
+            area of the report. This decision is made automatically by the template     
+            according to the file's relationship with the base file.                    
+                                                                                        
+         2. To choose and order the fields that you wish to appear in the header area   
+            of each report page. Note that a new page is started for each base file     
+            record that is processed by the resulting program.                          
+                                                                                        
+         3. To choose and order the fields that you wish to appear in the detail area   
+            of each report page.
+
+  - HELP025:
+      Description:        "  Header/Detail Style Print"
+
+      Text: |
+        <-
+                                                                                        
+         4. Next you will be asked to specify a title for your report.                  
+            Use upper and lower case characters in the title.                           
+            Do not use any single quote (') characters in the title.                    
+            Use at most 40 characters for the title (including imbedded blanks).        
+                                                                                        
+         5. You will then be asked to specify whether fields in the header area of the  
+            report should be designed across the report or down the report.             
+                                                                                        
+         6. Finally you will be asked whether the report should run in batch.           
+            Reply Y or N only to this question.                                         
+            If you reply Y, then the generated program, when used, will request that    
+            the user input the report run parameters and then submit a job to batch     
+            to actually produce the required report.                                    
+            If you reply N, then the generated program, when used, will request that    
+            the user input the report run parameters and then produce the report online.
+            If the user's request involves the reading of a large number of records from
+            the base file, it may "lock up" their workstation for an extended period of 
+            time.
+
+  - HELP030:
+      Description:        "  Header/Detail Style Report"
+
+      Text: |
+        <-
+                                                                                        
+         Order number . . . 300987                                                      
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                              This is an example of the first panel     
+                                              that would be presented by a program      
+                                              created by this template over an          
+                                              ORDERS file.                              
+                                                                                        
+                                              It is requesting that the user input      
+                                              the order number of the order that is     
+                                              to be printed. The user has entered       
+                                              a value of "300987".
+
+  - HELP040:
+      Description:        "  Header/Detail Style Report"
+
+      Text: |
+        <-
+                                                                                        
+         Order number . . . : 300987                                        Page :  1   
+         Date due . . . . . : 11/21/89                                                  
+         Customer no  . . . : 75691                                                     
+         Customer name  . . : ACME TOOL AND DIE COMPANY                                 
+         City / state . . . : CHICAGO / ILLINOIS                                        
+         Phone number . . . : (312) 647-4377                                            
+                                                                                        
+         Product                            Quantity           Unit       Total         
+         Number   Description               Ordered    Unit    Price      Price         
+         0102029  1" Galvanized Hex Nuts      1,000    BOX      1.14   1,140.00         
+         0303948  Bolt Cutters                    5    UNIT    31.00     155.00         
+         0485786  High Tension Cable                                                    
+         0979794  Acetylene Hose                This is an example of the resulting     
+         4048487  1/2" Ring Spanner              REPORT   Note how the header area has  
+         4944048  Ball and Pane Hammer          details from the ORDERS file and from   
+         3039393  Asbsetos Gloves               the CUSTOMERS file.                     
+         9303030  Tape Measure                  The detail area has details from the    
+         2828393  Nylon String                  LINE ITEMS file and the PRODUCT file.   
+         3930304  Heat Shrinkable Wrapping

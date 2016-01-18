@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               DATE8C
+  Type:               Alphanumeric
+  Length:             8
+  Decimals:           0
+  Default Value:      "*DATE8C"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "8 Character date in installation format"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date alpha (8) format d´installation"
+      Label:              "Date"
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

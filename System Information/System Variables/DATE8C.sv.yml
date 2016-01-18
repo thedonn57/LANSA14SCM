@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DATE8C"
+  Description:        "Character 8 digit date in system format"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             8
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

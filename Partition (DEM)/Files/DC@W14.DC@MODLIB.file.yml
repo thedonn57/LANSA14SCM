@@ -1,0 +1,350 @@
+﻿File:
+  Name:                           DC@W14
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@W14
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Web Event Links"
+
+  - FRA:
+      Description:        "Web Event Links"
+
+  Real Fields:
+  - W14P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - W14PLN:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - W14PRO:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - W14FUN:
+      Type:               Alphanumeric
+      Length:             7
+      Decimals:           0
+
+  - W14KWD:
+      Type:               Alphanumeric
+      Length:             8
+      Decimals:           0
+
+  - W14DES:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - W14LPR:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - W14LFN:
+      Type:               Alphanumeric
+      Length:             7
+      Decimals:           0
+
+  Logical Views:
+  - DC@W14V1:
+      Identifier:         DC@W14V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W14V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PRO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14FUN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W14V2:
+      Identifier:         DC@W14V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W14V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PRO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14FUN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W14V3:
+      Identifier:         DC@W14V3
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W14V3
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #3 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #3 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PRO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14FUN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W14V4:
+      Identifier:         DC@W14V4
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W14V4
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #4 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #4 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PRO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14FUN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W14V5:
+      Identifier:         DC@W14V5
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      DC@W14V5
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #5 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #5 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14LPR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14LFN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W14V6:
+      Identifier:         DC@W14V6
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      DC@W14V6
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #6 over DC@W14     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #6 over DC@W14     /NOEDLO"
+
+      Fields:
+      - W14P#I
+      - W14PLN
+      - W14PRO
+      - W14FUN
+      - W14KWD
+      - W14DES
+      - W14LPR
+      - W14LFN
+
+      Keys:
+      - W14P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14LPR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14LFN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14KWD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W14PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

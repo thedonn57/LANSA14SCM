@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               XSItemTotalShippingV
+  Type:               Signed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Cart Item Total Shipping"
+      Label:              "Item Total Ship"
+      Heading1:           "Item Total"
+      Heading2:           "Shipping"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Price"
+      Label:              "Product Price"
+      Heading1:           "Product"
+      Heading2:           "Price"
+      Heading3:           " "

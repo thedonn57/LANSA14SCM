@@ -1,0 +1,51 @@
+﻿Reusable Part:
+  Name:               xDemoWebPassingWorkingListsListViewer
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List Viewer"
+
+  - FRA:
+      Description:        "List Viewer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(409) Left(0) Top(0) Width(657) Layoutmanager(#TableLayout1) Closebutton(True) Titlebar(True) Caption('List Contents') Autoclose(False) Shroudstyle(#Style1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme900) Opacity(30)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#List1) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List1) Displayposition(1) Height(377) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(30) Width(655) Columnlines(False) Rowlines(False)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnEMPTHM1) Displayposition(1) Parent(#List1) Source(#EMPTHM) Columnwidth(44) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(2) Parent(#List1) Source(#EMPNO) Columnwidth(97)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(3) Parent(#List1) Source(#SURNAME) Columnunits(Proportion)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(4) Parent(#List1) Source(#GIVENAME) Columnunits(Proportion)
+    
+    
+    Mthroutine Name(Show)
+    Define_Map For(*Input) Class(#Prim_acol<#xDemoWebPassingWorkingListsEmployeeItem>) Name(#Employees) Pass(*by_reference)
+    
+    Clr_List Named(#List1)
+    
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List1)
+    
+    Endselect
+    
+    #Com_owner.ShowPopup
+    
+    Endroutine
+    
+    End_Com

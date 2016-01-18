@@ -1,0 +1,59 @@
+﻿Field:
+  Name:               STD_DAY
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard DAY"
+      Label:              "Day"
+      Heading1:           "Day"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Jour Standard"
+      Label:              "Jour"
+      Heading1:           "Jour"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Must be between 1 and 31"
+      Ranges:
+      - From:               +1
+        To:                 +31
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1079
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a day identifier (as in date, e.g. May 20).
+        Enter a valid day number into the field.
+      
+      
+        Validation Rules :  Must be in the range of 1 to 31.
+      
+        Maximum Length   :  2 numerics
+      
+      
+      
+      $$NOAUTO

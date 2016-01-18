@@ -1,0 +1,138 @@
+﻿Reusable Part:
+  Name:               XDXPersonnelTreeEmployee
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Employee Design"
+
+  - FRA:
+      Description:        "Arborescence employés"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXPersonnelTreeDesign) Dragstyle(Automatic) Height(80) Layoutmanager(#TableLayout) Width(602)
+    
+    Define_Com Class(#prim_tblo) Name(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row4) Displayposition(4) Parent(#TableLayout)
+    
+    Define_Com Class(#prim_tblo.Column) Name(#Col1) Displayposition(1) Parent(#TableLayout) Units(Pixels) Width(96)
+    Define_Com Class(#prim_tblo.Column) Name(#Col2) Displayposition(2) Parent(#TableLayout) Units(Pixels) Width(180)
+    Define_Com Class(#prim_tblo.Column) Name(#Col3) Displayposition(3) Parent(#TableLayout)
+    
+    Define_Com Class(#Prim_tblo.Item) Name(#Item1) Column(#Col1) Manage(#Image) Parent(#TableLayout) Row(#Row1) Rowspan(4)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item2) Column(#Col3) Manage(#lWorkPhone) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item3) Column(#Col2) Manage(#lName) Parent(#TableLayout) Row(#Row1)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item4) Column(#Col2) Manage(#lAddress1) Parent(#TableLayout) Row(#Row2)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item5) Column(#Col2) Manage(#lAddress2) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item6) Column(#Col2) Manage(#lAddress3) Parent(#TableLayout) Row(#Row4)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item7) Column(#Col3) Manage(#lPhone) Parent(#TableLayout) Row(#Row2)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(1) Dragstyle(Automatic) Height(80) Image(#XDXImageEmployee32) Imagealignment(TopRight) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(96)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lWorkPhone) Caption('Work Phone') Displayposition(3) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(276) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(40) Verticalalignment(Center) Width(326)
+    Define_Com Class(#PRIM_LABL) Name(#lName) Caption('Name') Displayposition(2) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(96) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Style(#XDXStyles<ItemHeading>) Tabposition(6) Tabstop(False) Top(0) Verticalalignment(Center) Width(180)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress1) Caption('Address 1') Displayposition(4) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(96) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(20) Verticalalignment(Center) Width(180)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress2) Caption('Address 2') Displayposition(5) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(96) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(40) Verticalalignment(Center) Width(180)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress3) Caption('Address 3') Displayposition(6) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(96) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(60) Verticalalignment(Center) Width(180)
+    Define_Com Class(#PRIM_LABL) Name(#lPhone) Caption('Home Phone') Displayposition(7) Dragstyle(Automatic) Ellipses(Word) Height(20) Left(276) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(20) Verticalalignment(Center) Width(326)
+    
+    Define_Pty Name(Empno) Get(*auto #Empno)
+    Define_Pty Name(GiveName) Get(*auto #Givename)
+    Define_Pty Name(Surname) Get(*auto #Surname)
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    Define_Map For(*Input) Class(#GiveName) Name(#EmployeeGivenName)
+    Define_Map For(*Input) Class(#SurName) Name(#EmployeeSurname)
+    Define_Map For(*Input) Class(#Address1) Name(#EmployeeAddress1)
+    Define_Map For(*Input) Class(#Address2) Name(#EmployeeAddress2)
+    Define_Map For(*Input) Class(#Address3) Name(#EmployeeAddress3)
+    Define_Map For(*Input) Class(#Postcode) Name(#EmployeePostCode)
+    Define_Map For(*Input) Class(#PhoneHme) Name(#EmployeeHomePhone)
+    Define_Map For(*Input) Class(#Phonebus) Name(#EmployeeWorkPhone)
+    
+    #Empno := #EmployeeNumber
+    #Givename := #EmployeeGivenName
+    #Surname := #EmployeeSurname
+    
+    #lName := ("&1 &2 (&3)").Substitute( #EmployeeGivenName #EmployeeSurname #Empno )
+    #lAddress1 := #EmployeeAddress1
+    #lAddress2 := #EmployeeAddress2
+    #lAddress3 := ("&1 &2").Substitute( #EmployeeAddress3 #EmployeePostCode.Asstring )
+    #lPhone := ("Home Phone - &1").Substitute( #EmployeeHomePhone )
+    #lWorkPhone := ("Work Phone - &1").Substitute( #EmployeeWorkPhone )
+    
+    Endroutine
+    
+    Mthroutine Name(Sorted)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Key)
+    
+    Case (#Key)
+    
+    When (= EMPNO)
+    
+    #lName := ("&1 - &2 &3").Substitute( #Empno #GiveName #Surname )
+    
+    When (= GIVENAME)
+    
+    #lName := ("&1 &2 (&3)").Substitute( #GiveName #Surname #Empno )
+    
+    When (= SURNAME)
+    
+    #lName := ("&1, &2 (&3)").Substitute( #Surname #GiveName #Empno )
+    
+    Endcase
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.DragOver) Dragstate(#DragState)
+    
+    Case (#DragState)
+    
+    When (= Enter)
+    
+    #Com_owner.styles.Add( #XDXStyles<DragOver> )
+    
+    When (= Exit)
+    
+    #Com_owner.styles.Remove( #XDXStyles<DragOver> )
+    
+    Endcase
+    
+    Endroutine
+    
+    Mthroutine Name(OnSort) Options(*Redefine)
+    
+    Case (#Key)
+    
+    When (= EMPNO)
+    
+    #Result := #Empno.Compare( (#CompareTo.Design *As #XDXPersonnelTreeEmployee).Empno )
+    
+    When (= GIVENAME)
+    
+    #Result := #Givename.Compare( (#CompareTo.Design *As #XDXPersonnelTreeEmployee).Givename )
+    
+    When (= SURNAME)
+    
+    #Result := #Surname.Compare( (#CompareTo.Design *As #XDXPersonnelTreeEmployee).Surname )
+    
+    Endcase
+    
+    * Update name details to reflect sort sequence
+    #Com_owner.Sorted( #Key )
+    (#CompareTo.Design *As #XDXPersonnelTreeEmployee).Sorted( #Key )
+    
+    Endroutine
+    
+    End_Com
+    

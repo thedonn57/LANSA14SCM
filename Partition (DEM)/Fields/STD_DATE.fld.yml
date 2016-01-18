@@ -1,0 +1,72 @@
+﻿Field:
+  Name:               STD_DATE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Output Attributes:
+  - DATX
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard DATE"
+      Label:              "Date"
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date standard"
+      Label:              "Date"
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Date Check:
+      Description:        "Must be valid Date"
+      Date Format:        SysFmt
+      Days After:         9999999
+      Days Before:        9999999
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1083
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_DATE
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a Date. Enter a valid Date into the field..
+      
+      
+        Validation Rules :  Valid Date in normal system format.
+      
+        Maximum Length   :    6 numerics
+      
+      
+      
+      $$NOAUTO

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSVMON
+  Type:               Packed
+  Length:             15
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Monday hours worked $ value"
+      Label:              "Monday hours wo"
+      Heading1:           "Monday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Valeur $ heures travaillées le lundi"
+      Label:              "Valeur h lundi"
+      Heading1:           "Valeur $"
+      Heading2:           "heures"
+      Heading3:           "lundi"

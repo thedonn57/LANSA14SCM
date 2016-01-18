@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F23SET
+  Type:               Packed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Pointer to 29/30 set"
+      Label:              "F23SET"
+      Heading1:           "Pointer"
+      Heading2:           "to DC@F29/"
+      Heading3:           "DC@F30 set"
+
+  - FRA:
+      Description:        "Pointer to 29/30 set"
+      Label:              "F23SET"
+      Heading1:           "Pointer"
+      Heading2:           "to DC@F29/"
+      Heading3:           "DC@F30 set"

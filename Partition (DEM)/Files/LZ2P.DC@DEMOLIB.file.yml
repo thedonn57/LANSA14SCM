@@ -1,0 +1,129 @@
+﻿File:
+  Name:                           LZ2P
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             LZ2P
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product"
+
+  - FRA:
+      Description:        "Produit"
+
+  Real Fields:
+  - LZUNCOUNT:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - LZDATEPRD:
+      Type:               Signed
+      Length:             8
+      Decimals:           0
+
+  - LZPRCD:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - LZPRDS:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - LZPRST:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - LZPRWT:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  Primary Keys:
+  - LZPRCD
+
+  Virtual Fields:
+  - LZPRWTVIR:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+      Virtual Field Type: Calculation
+      Derive On Input:    Yes
+      Operations:
+      - Factor 1:           LZPRWT
+        Operator:           Multiply
+        Factor 2:           2.1
+        Result:             LZPRWTVIR
+
+  - LZMDY_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEPRD
+      Source Date Format: YYYYMMDD
+      Target Date Format: MMDDYY
+
+  - LZDMY_VIR:
+      Type:               Packed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEPRD
+      Source Date Format: YYYYMMDD
+      Target Date Format: DDMMYY
+
+  - LZYMD_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEPRD
+      Source Date Format: YYYYMMDD
+      Target Date Format: YYMMDD
+
+  Access Routes:
+  - LCL0000001:
+      Description:        is the parent of / owns Sales History
+      File:               LZ2EPRD
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZPRCD

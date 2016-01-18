@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*CPUTYPE"
+  Description:        "CPU Type (AS400 or S38)"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             5
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

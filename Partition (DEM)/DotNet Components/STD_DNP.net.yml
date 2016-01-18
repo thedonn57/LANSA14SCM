@@ -1,0 +1,23 @@
+﻿.NET Component:
+  Name:               STD_DNP
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard .NET Component"
+
+  - FRA:
+      Description:        "Standard .NET Component"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT:  STD_DNP                             *
+    *                                                  *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT) Componentassembly('')
+    End_Com

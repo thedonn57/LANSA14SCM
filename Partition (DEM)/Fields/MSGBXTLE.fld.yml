@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               MSGBXTLE
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message box title"
+      Label:              "Message box tit"
+      Heading1:           "Message"
+      Heading2:           "box"
+      Heading3:           "title"
+
+  - FRA:
+      Description:        "Titre de boite de message"
+      Label:              "Titre boite msg"
+      Heading1:           "Titre"
+      Heading2:           "boite"
+      Heading3:           "message"

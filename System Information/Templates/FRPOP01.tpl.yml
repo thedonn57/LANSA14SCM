@@ -1,0 +1,139 @@
+﻿Template:
+  Name:                    FRPOP01
+  Description:             Pop Up Prompter (Full File Displayed)
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ------------------------------------------------        */
+    /* ********** BEGINNING OF TEMPLATE STATEMENTS                        */
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK FOR HEADING OF WINDOW PANEL                         */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Enter the title of the POP UP window, up to 20 characters') ANSWER(@@CANS001) EXTEND('12345678901234567890' 'This will be used for the panel title that appears in the window.' 'Use upper and lower case characters. Do not use any '' (quote symbols).' 'Use at most 20 characters.' 'For additional information and examples use the HELP function key.') HELPIDS(HELP010 HELP020 HELP030)
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK FOR NAME OF FILE TO BE USED                         */
+    /* ********** ------------------------------------------------        */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Specify the name of the file to be displayed in this pop up window') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030)
+    /* ********** ------------------------------------------------        */
+    /* ********** DEFINE FIELDS TO BE USED IN FUNCTION                    */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(01) INTO_LST(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'display in' 'Window') (3 'Values to' 'Return')) HELPIDS(HELP010 HELP020 HELP030)
+    @@CLR_LST  NUMBER(4)
+    @@MRG_LSTS FROM_LSTS(2) INTO_LST(4)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(4)
+    /* ********** ------------------------------------------------        */
+    /* ********** END OF TEMPLATE COMMANDS                                */
+    /* ********** ------------------------------------------------        */
+    /* ********** BEGINNING OF RDML STATEMENTS                            */
+    /* ********** ------------------------------------------------        */
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT *CLOSE_DISPLAY)
+    @@COMMENT  COMMENT('Define list to be displayed in window')
+    DEF_LIST   NAME(#XXXXLIST) FIELDS(@@LST04) SEL_ENTRY(#LISTENTRY)
+    @@COMMENT  COMMENT('Build list for display in window')
+    CLR_LIST   NAMED(#XXXXLIST)
+    SELECT     FIELDS(#XXXXLIST) FROM_FILE(@@FNAME01)
+    ADD_ENTRY  TO_LIST(#XXXXLIST)
+    ENDSELECT
+    @@COMMENT  COMMENT('Display window until CANCEL or entry selected')
+    DOUNTIL    COND('#LISTENTRY *GT 0')
+    POP_UP     AT_LOC(5 22) PANEL_TITL('@@CANS001') BROWSELIST(#XXXXLIST) EXIT_KEY(*NO) MENU_KEY(*YES *MENU)        PROMPT_KEY(*NO) CURSOR_LOC(*ATFIELD #@@LEL0201) DESIGN(*DOWN)
+    IF         COND('#LISTENTRY *GT 0')
+    GET_ENTRY  NUMBER(#LISTENTRY) FROM_LIST(#XXXXLIST)
+    ENDIF
+    ENDUNTIL
+    EXCHANGE   FIELDS(@@LST03)
+    MENU
+    /* ********** ------------------------------------------------        */
+    /* ********** END       OF RDML STATEMENTS                            */
+    /* ********** ------------------------------------------------        */
+    /* ********** TEMPLATE TIDY UP  STATEMENTS                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+
+  Help Panels:
+  - HELP010:
+      Description:        Pop up prompter - full file
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple pop up prompter. You can use the  
+         resulting program as is, or modify the resulting program yourself so that it   
+         exactly matches your requirements. Use this template when the file containing  
+         the details to be popped up contains typically 50 or less entries. In such     
+         cases it is uneconomical to give the user search abilities as there are so     
+         few records in the file. If you elect to use this template you will be         
+         asked ...                                                                      
+                                                                                        
+         1. To specify a title that describes the type of information that will be      
+            displayed in the pop up window. An example would be  "Company Codes" or     
+            "Customer Types". Both upper and lower case should be used in the title.    
+            Use at most 20 characters for the title and do not use any ' (single quotes)
+            in the title.                                                               
+                                                                                        
+         2. To nominate the file that contains the data you wish to display in the      
+            pop up window. You can enter the full file name, a partial file name        
+            (to get a partial list of available files), or leave the name blank (to     
+            get a full list of available files). When a list of files is displayed      
+            the one required may be chosen from the list.
+
+  - HELP020:
+      Description:        Pop up prompter - full file
+
+      Text: |
+        <-
+                                                                                        
+        3. Next, you must choose the fields that are to display in the pop up window.   
+           Remember that a good looking window (ie: one without line wrap around) has   
+           a finite width. So only select fields that the user really needs to see in   
+           the window. Do not fill the window up with extraneous information.           
+                                                                                        
+           On the same screen you will be asked to choose the field(s) that should be   
+           passed back to the routine that invoked the pop up window (ie: via the       
+           exchange list facility).                                                     
+                                                                                        
+           Normally you would only choose the primary key(s) of the file being used.    
+                                                                                        
+           For instance, in a window showing customer details you would normally        
+           exchange back the customer number (ie: the unique identifier of the customer 
+           selected from the window). Similarly, in a window showing company details    
+           you would exchange back the company number (ie: the unique identifier of the 
+           company selected from the window).
+
+  - HELP030:
+      Description:        Pop up prompter - full file
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01           Choose Company Code                  :  
+                            :                                                        :  
+                            : Comp                                                   :  
+                            :  No  Company Description                               :  
+                            : 0001 Acme Engineering Pty Ltd                          :  
+                            : 0002 Acme Steel & Aluminium Processing Industries      :  
+                            : 0005 Acme Ship and Frame Fabricators Pty Ltd           :  
+                            : 0007 Acme Holdings Limited                             :  
+                            : 0009 Acme Finance Incorporated                         :  
+                                           estments Pty Limited                    + :  
+              This is an example of a pop                                            :  
+              up using a COMPANY file.     F3=Exit F14=Msgs                          :  
+              Note the title area.                                                   :  
+              The company number would be  ..........................................:  
+              returned to the caller.

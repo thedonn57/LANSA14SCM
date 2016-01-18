@@ -1,0 +1,68 @@
+﻿Template:
+  Name:                    JSMSKEL
+  Description:             Creates a basic JSM skeleton RDML
+  Extended Description 1:  The generated function opens/closes and
+  Extended Description 2:  optionally loads/unloads a specified ser
+  Extended Description 3:  vice
+
+  Source: |
+    @@COMMENT  '===================================================='
+    @@COMMENT  ' Process ........:  @@PROCESS  '
+    @@COMMENT  ' Function .......:  @@FUNCTION '
+    @@COMMENT  ' Created on .....:  @@DATE  at  @@TIME  '
+    @@COMMENT  ' Description ....:  @@FUNCDES  '
+    @@COMMENT  ' Template........:  JSMSKEL    '
+    @@COMMENT  '===================================================='
+    FUNCTION   OPTIONS(*DIRECT)
+    @@COMMENT  '                               '
+    @@COMMENT  ' OPEN JSM AND VERIFY STATUS '
+    USE        BUILTIN(JSM_OPEN) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS)
+    @@COMMENT  '                               '
+    @@QUESTION PROMPT('Do you wish to load a JSM Service?') ANSWER(@@CANS001) EXTEND('If yes, type in the name of the Service to load, for example HTTPCLIENT.') LOWER(*NO)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(L01)
+    @@COMMENT  'BUILD THE SERVICE LOAD COMMAND  '
+    CHANGE     FIELD(#JSMCMD) TO(SERVICE_LOAD)
+    EXECUTE    SUBROUTINE(KEYWRD) WITH_PARMS('''SERVICE''' '@@CANS001' )
+    USE        BUILTIN(JSM_COMMAND) WITH_ARGS(#JSMCMD) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS)
+    L01: @@LABEL
+    @@COMMENT  '                                 '
+    @@COMMENT  '    YOUR OWN LOGIC HERE          '
+    @@COMMENT  '                                 '
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(L02)
+    @@COMMENT  'UNLOAD SERVICE                   '
+    CHANGE     FIELD(#JSMCMD) TO(SERVICE_UNLOAD)
+    USE        BUILTIN(JSM_COMMAND) WITH_ARGS(SERVICE_UNLOAD) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS)
+    L02: @@LABEL
+    @@COMMENT  'CLOSE JSM AND VERIFY STATUS '
+    USE        BUILTIN(JSM_CLOSE) TO_GET(#JSMSTS #JSMMSG)
+    EXECUTE    SUBROUTINE(CHECK_STS)
+    @@COMMENT  '                                 '
+    RETURN
+    @@COMMENT  '                                 '
+    @@COMMENT  'Subroutine to build JSM commands. existing JSM command'
+    @@COMMENT  '                                 '
+    SUBROUTINE NAME(KEYWRD) PARMS((#KEYWORD *RECEIVED) (#KEYW_VAL1 *RECEIVED))
+    DEFINE     FIELD(#KEYWORD) REFFLD(#STD_TEXT)
+    DEFINE     FIELD(#KEYW_VAL1) REFFLD(#STD_TEXTL)
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#JSMCMD #KEYWORD) TO_GET(#JSMCMD)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#JSMCMD '''(''' #KEYW_VAL1 ''')''') TO_GET(#JSMCMD)
+    ENDROUTINE
+    @@COMMENT  '                                  '
+    @@COMMENT  ' Check the status of the JSM command issued'
+    @@COMMENT  '                                  '
+    SUBROUTINE NAME(CHECK_STS)
+    @@COMMENT  '                                  '
+    DEFINE     FIELD(#MSGDTA) TYPE(*CHAR) LENGTH(132)
+    @@COMMENT  '                                  '
+    IF         COND('#JSMSTS *NE OK')
+    @@COMMENT  '                                  '
+    USE        BUILTIN(BCONCAT) WITH_ARGS('''Error Status Code: ''' #JSMSTS) TO_GET(#MSGDTA)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#MSGDTA)
+    USE        BUILTIN(BCONCAT) WITH_ARGS('''Error Message: ''' #JSMMSG) TO_GET(#MSGDTA)
+    MESSAGE    MSGID(DCM9899) MSGF(DC@M01) MSGDTA(#MSGDTA)
+    ENDIF
+    @@COMMENT  '                                   '
+    ENDROUTINE

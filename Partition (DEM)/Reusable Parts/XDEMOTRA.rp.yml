@@ -1,0 +1,115 @@
+﻿Reusable Part:
+  Name:               xDemoTraceHandlerDesktop
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Desktop Trace Handler"
+
+  - FRA:
+      Description:        "Desktop Trace Handler"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #prim_app.ITraceHandler) Displayposition(1) Height(270) Left(0) Tabposition(1) Top(0) Width(500)
+    
+    * Include a Define_Com for this reusable part in your main form
+    * It will install itself as the TraceHandler
+    * You can then embed #sys_appln.TraceMessageData( xxx ) whereever you want to send trace data to the output file.
+    * This tracehandler creates \x_lansa\x_usertrace.nnn where nnn is the next filename in sequence
+    
+    Define Field(#FilHandle) Type(*dec) Length(3) Decimals(0)
+    
+    Define Field(#Tab) Type(*char) Length(1)
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    #Tab := (09).asChar
+    
+    #Sys_appln.TraceHandler <= #Com_owner /* Set this to be the trace handler for the application */
+    
+    Endroutine
+    
+    Mthroutine Name(Initialize) Help('Tracing is starting') Options(*redefine)
+    
+    #Com_owner.OpenTraceFile
+    
+    Endroutine
+    
+    Mthroutine Name(OpenTraceFile) Help('Open the stream file ready for input') Access(*private)
+    
+    Use Builtin(Stm_File_Open) With_Args(#Com_owner.GetNextFile Append N N) To_Get(#FilHandle #io$sts)
+    
+    Endroutine
+    
+    Mthroutine Name(TraceMessage) Help('Request to trace data received') Options(*redefine)
+    
+    #Com_owner.WriteToFile( #ComponentName #Description #LineNumber #MessageText )
+    
+    Endroutine
+    
+    Mthroutine Name(WriteToFile) Help('Write an entry to the trace file') Access(*private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#ComponentName)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Description)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#LineNumber)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Message)
+    
+    Define_Com Class(#prim_Dat) Name(#Now)
+    
+    #Message := #Now.now.AsLocalizedDateTime.AsDisplayString.Righttrim( "0" ) + #Tab + #ComponentName + #Tab + #LineNumber.asstring + #Tab + #Message
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle #Message) To_Get(#io$sts)
+    
+    Endroutine
+    
+    Mthroutine Name(Terminate) Help('Tracing is ending') Options(*redefine)
+    
+    #Com_owner.CloseTraceFile
+    
+    Endroutine
+    
+    Mthroutine Name(CloseTraceFile) Access(*private)
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#io$sts)
+    
+    Endroutine
+    
+    Mthroutine Name(TracingState) Options(*redefine)
+    
+    #MessageTracingActive := True
+    
+    Endroutine
+    
+    Mthroutine Name(GetNextFile) Help('Get the next available file number') Access(*Private)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    Define_Com Class(#prim_nmbr) Name(#Extension)
+    
+    * Naming is x_UserTrace.nnn where nnn is sequential
+    Begin_Loop Using(#Extension)
+    
+    #Result := *Sys_dir + "x_UserTrace" + "." + #Extension.asstring.rightAdjust( 3 "0" )
+    
+    * Stop looking once we find a filename that doesn't exist
+    Leave If(*Not #Com_owner.FileExists( #Result ))
+    
+    End_Loop
+    
+    Endroutine
+    
+    Mthroutine Name(FileExists) Access(*private)
+    Define_Map For(*input) Class(#prim_alph) Name(#Path)
+    Define_Map For(*result) Class(#prim_boln) Name(#Result)
+    
+    Use Builtin(OV_FILE_SERVICE) With_Args(Check_File #Path) To_Get(#io$sts)
+    
+    #Result := (#io$sts = OK)
+    
+    Endroutine
+    
+    End_Com

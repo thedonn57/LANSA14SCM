@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               W11SET
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Set Number"
+      Label:              "W11SET"
+      Heading1:           "Set"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Set Number"
+      Label:              "W11SET"
+      Heading1:           "Set"
+      Heading2:           "Number"
+      Heading3:           " "

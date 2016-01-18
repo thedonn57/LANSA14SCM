@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               @@RRNO
+  Type:               Packed
+  Length:             15
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Relative record number"
+      Label:              "Relative record"
+      Heading1:           "Relative Record"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Rang d´enregistrement relatif"
+      Label:              "Rang relatif"
+      Heading1:           "Rang"
+      Heading2:           "Relatif"
+      Heading3:           " "

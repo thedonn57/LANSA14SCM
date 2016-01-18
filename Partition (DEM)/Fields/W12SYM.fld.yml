@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12SYM
+  Type:               Alphanumeric
+  Length:             8
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Symbolic Destination Name"
+      Label:              "W12SYM"
+      Heading1:           "Symbolic"
+      Heading2:           "Destination"
+      Heading3:           "Name"
+
+  - FRA:
+      Description:        "Symbolic Destination Name"
+      Label:              "W12SYM"
+      Heading1:           "Symbolic"
+      Heading2:           "Destination"
+      Heading3:           "Name"

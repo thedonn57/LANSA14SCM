@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               LZPR05
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    LZPERD
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "May"
+      Label:              "May............"
+      Heading1:           "May"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mai"
+      Label:              "Mai............"
+      Heading1:           "Mai"
+      Heading2:           " "
+      Heading3:           " "

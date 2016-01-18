@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               xEmployeeImage
+  Type:               BLOB
+  Length:             0
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Image"
+      Label:              "Employee Image"
+      Heading1:           "Employee"
+      Heading2:           "Image"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Image"
+      Label:              "Image"
+      Heading1:           "Image"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    End_Com

@@ -1,0 +1,165 @@
+﻿Reusable Part:
+  Name:               xDemoWebThemePicker
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Theme Picker"
+
+  - FRA:
+      Description:        "Theme Picker"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(649) Left(0) Tabposition(1) Top(0) Layoutmanager(#TableLayout1) Style(#Style1) Width(49)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBlue) Backgroundbrush(#BrushBlue) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushBlue) Color(33:150:243)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleOrange) Backgroundbrush(#BrushOrange) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushOrange) Color(255:152:0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleGreen) Backgroundbrush(#BrushGreen) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushGreen) Color(76:175:80)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleGray) Backgroundbrush(#BrushGray) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushGray) Color(158:158:158)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleRed) Backgroundbrush(#BrushRed) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushRed) Color(244:67:54)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StylePink) Backgroundbrush(#BrushPink) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushPink) Color(233:30:99)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StylePurple) Backgroundbrush(#BrushPurple) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushPurple) Color(156:39:176)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleDeepPurple) Backgroundbrush(#BrushDeepPurple) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushDeepPurple) Color(103:58:183)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLightBlue) Backgroundbrush(#BrushLightBlue) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushLightBlue) Color(3:169:244)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleYellow) Backgroundbrush(#BrushYellow) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushYellow) Color(255:235:59)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleDeepOrange) Backgroundbrush(#BrushDeepOrange) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushDeepOrange) Color(255:87:34)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleIndigo) Backgroundbrush(#BrushIndigo) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushIndigo) Color(63:81:181)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleAmber) Backgroundbrush(#BrushAmber) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushAmber) Color(255:193:7)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBrown) Backgroundbrush(#BrushBrown) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushBrown) Color(121:85:72)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleCyan) Backgroundbrush(#BrushCyan) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushCyan) Color(0:188:212)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleTeal) Backgroundbrush(#BrushTeal) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushTeal) Color(0:150:136)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLightGreen) Backgroundbrush(#BrushLightGreen) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushLightGreen) Color(139:195:74)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleLime) Backgroundbrush(#BrushLime) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushLime) Color(205:220:57)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBlueGray) Backgroundbrush(#BrushBlueGray) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushBlueGray) Color(96:125:139)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand) Backgroundbrush(#Brush2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(255:255:255)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column4) Manage(#LANSA2015Blue) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column4) Manage(#LANSA2015Gray) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column4) Manage(#LANSA2015Red) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Column(#Column4) Manage(#LANSA2015Pink) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Column(#Column4) Manage(#LANSA2015Yellow) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Column(#Column4) Manage(#LANSA2015DeepOrange) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Column(#Column4) Manage(#LANSA2015Indigo) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Column(#Column4) Manage(#LANSA2015LightBlue) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Column(#Column4) Manage(#LANSA2015Green) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Column(#Column4) Manage(#LANSA2015DeepPurple) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopCenter) Column(#Column4) Flow(Down) Manage(#LANSA2015Orange) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopCenter) Column(#Column4) Flow(Down) Manage(#LANSA2015Purple) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopCenter) Column(#Column4) Flow(Down) Manage(#LANSA2015Amber) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopCenter) Column(#Column4) Flow(Down) Manage(#LANSA2015Brown) Parent(#TableLayout1) Row(#Row2) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LANSA2015CyanItem1) Column(#Column4) Manage(#LANSA2015Cyan) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row2) Flow(Down) Alignment(TopCenter) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LANSA2015TealItem1) Column(#Column4) Manage(#LANSA2015Teal) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row2) Flow(Down) Alignment(TopCenter) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LANSA2015LightGreenItem1) Column(#Column4) Manage(#LANSA2015LightGreen) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row2) Flow(Down) Alignment(TopCenter) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LANSA2015LimeItem1) Column(#Column4) Manage(#LANSA2015Lime) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row2) Flow(Down) Alignment(TopCenter) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LANSA2015BlueGrayItem1) Column(#Column4) Manage(#LANSA2015BlueGray) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row2) Flow(Down) Alignment(TopCenter) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Blue) Displayposition(15) Left(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(478) Width(45) Style(#StyleBlue) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015Blue')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Gray) Displayposition(1) Left(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(2) Width(45) Style(#StyleGray) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015Gray')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Red) Displayposition(4) Left(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(104) Width(45) Style(#StyleRed) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015Red')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Pink) Displayposition(19) Left(2) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(614) Width(45) Style(#StylePink) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015Pink')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Yellow) Displayposition(8) Height(30) Left(2) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(240) Width(45) Style(#StyleYellow) Alignment(Center) Verticalalignment(Center) Componenttag('2015Yellow')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015DeepOrange) Displayposition(5) Height(30) Left(2) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(138) Width(45) Style(#StyleDeepOrange) Alignment(Center) Verticalalignment(Center) Componenttag('2015DeepOrange')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Indigo) Displayposition(16) Height(30) Left(2) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(512) Width(45) Style(#StyleIndigo) Alignment(Center) Verticalalignment(Center) Componenttag('2015Indigo')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015LightBlue) Displayposition(14) Height(30) Left(2) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(444) Width(45) Style(#StyleLightBlue) Alignment(Center) Verticalalignment(Center) Componenttag('2015LightBlue')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015Green) Displayposition(11) Left(2) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(342) Width(45) Style(#StyleGreen) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015Green')
+    Define_Com Class(#Prim_labl) Name(#LANSA2015DeepPurple) Displayposition(17) Left(2) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(546) Width(45) Style(#StyleDeepPurple) Alignment(Center) Verticalalignment(Center) Height(30) Componenttag('2015DeepPurple')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Orange) Displayposition(6) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(172) Verticalalignment(Center) Width(45) Style(#StyleOrange) Alignment(Center) Height(30) Componenttag('2015Orange')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Purple) Displayposition(18) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(19) Tabstop(False) Top(580) Verticalalignment(Center) Width(45) Style(#StylePurple) Alignment(Center) Height(30) Componenttag('2015Purple')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Amber) Displayposition(7) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(18) Tabstop(False) Top(206) Verticalalignment(Center) Width(45) Style(#StyleAmber) Alignment(Center) Height(30) Componenttag('2015Amber')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Brown) Displayposition(3) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(70) Verticalalignment(Center) Width(45) Style(#StyleBrown) Alignment(Center) Height(30) Componenttag('2015Brown')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Cyan) Displayposition(13) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(410) Verticalalignment(Center) Width(45) Style(#StyleCyan) Alignment(Center) Height(30) Componenttag('2015Cyan')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Teal) Displayposition(12) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(376) Verticalalignment(Center) Width(45) Style(#StyleTeal) Alignment(Center) Height(30) Componenttag('2015Teal')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015LightGreen) Displayposition(10) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(308) Verticalalignment(Center) Width(45) Style(#StyleLightGreen) Alignment(Center) Height(30) Componenttag('2015LightGreen')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015Lime) Displayposition(9) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(274) Verticalalignment(Center) Width(45) Style(#StyleLime) Alignment(Center) Height(30) Componenttag('2015Lime')
+    Define_Com Class(#PRIM_LABL) Name(#LANSA2015BlueGray) Displayposition(2) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(36) Verticalalignment(Center) Width(45) Style(#StyleBlueGray) Alignment(Center) Height(30) Componenttag('2015BlueGray')
+    
+    Define_Com Class(#Prim_lcol<#prim_labl>) Name(#Labels)
+    
+    Define_Com Class(#prim_boln) Name(#Expanded)
+    
+    Define_Evt Name(ThemeChanged)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    For Each(#Control) In(#Com_owner.ComponentControls)
+    
+    Continue If(#Control *IsNot #prim_labl)
+    
+    #Labels.Insert( (#Control *As #prim_labl) )
+    
+    Endfor
+    
+    #Labels<>.opacity := 50
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.Click) Com_Sender(#Sender)
+    
+    #sys_web.WebPage.Theme <= #Sys_Theme<#Sender.ComponentTag>
+    
+    Signal Event(ThemeChanged) Name(#Sender.ComponentTag)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.MouseEnter) Com_Sender(#Sender)
+    
+    #Sender.opacity := 100
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.MouseLeave) Com_Sender(#Sender)
+    
+    #Sender.opacity := 50
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,18 @@
+﻿External Resource:
+  Name:               xConnectorUtilityFunctions
+  LANSA Folder:       Partition VL-Web
+  File Name:          connectorUtilities_min.js
+  Content Type:       Text
+  Codepage:           1252
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Connector common functions & utilities"
+
+  - FRA:
+      Description:        "Connector common functions & utilities"
+
+  Data: |
+    66756E6374696F6E20436F6C6C6174654572726F724D6573736167652865297B76617220733D652E6D6573736167653B6966
+    286E756C6C213D652E6D6573736167657329666F722876617220613D303B613C652E6D657373616765732E6C656E6774683B
+    612B2B29732B3D22205B222B652E6D657373616765735B615D2E746578742B225D223B72657475726E20737D

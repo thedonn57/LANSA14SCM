@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               STD_TITLE
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Report Title"
+      Label:              "Title.........."
+      Heading1:           "Report"
+      Heading2:           "Title"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Titre d´Etat Standard"
+      Label:              "Titre"
+      Heading1:           "Titre"
+      Heading2:           "Etat"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This is report's title. It would not normally appear on a screen panel.

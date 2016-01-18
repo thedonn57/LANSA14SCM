@@ -1,0 +1,64 @@
+﻿Form:
+  Name:               xDemoSQLNotBetween
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - parameter (NOT) BETWEEN"
+
+  - FRA:
+      Description:        "SELECT_SQL - parameter (NOT) BETWEEN"
+
+  Source: |
+    * META:Form,List,Database,SQL
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(461) Clientwidth(449) Height(500) Layoutmanager(#TableLayout_1) Left(300) Top(200) Width(465)
+    
+    * SQL between processing
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('EXAMPLE 1: Select all employees with a salary between 60,000 and 90,000.') Displayposition(2) Height(26) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(4) Width(441)
+    Define_Com Class(#PRIM_LTVW) Name(#List1) Displayposition(4) Height(192) Left(2) Parent(#COM_OWNER) Tabposition(4) Top(36) Width(445)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List1) Source(#EMPNO) Width(45)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Displayposition(2) Parent(#List1) Source(#SALARY) Widthtype(Remainder)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption('EXAMPLE 2: Select all employees except those with a salary between 60,000 and 90,000.') Displayposition(1) Height(28) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(234) Width(441)
+    Define_Com Class(#PRIM_LTVW) Name(#List2) Displayposition(3) Height(191) Left(2) Parent(#COM_OWNER) Tabposition(3) Top(268) Width(445)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_3) Displayposition(1) Parent(#List2) Source(#EMPNO) Width(46)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_4) Displayposition(2) Parent(#List2) Source(#SALARY) Widthtype(Remainder)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(34) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Height(36) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#LABL_1) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_1) Manage(#LABL_2) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Column(#Column_1) Manage(#List1) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Column(#Column_1) Manage(#List2) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_4)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #Com_Owner.Caption := *component_desc
+    
+    *  Fill ListView example 1
+    Select_Sql Fields(#EMPNO #SALARY) From_Files((PSLMST)) Where('SALARY BETWEEN 60000 AND 90000')
+    
+    Add_Entry To_List(#List1)
+    
+    Endselect
+    
+    *  Fill ListView example 2
+    
+    Select_Sql Fields(#EMPNO #SALARY) From_Files((PSLMST)) Where('SALARY NOT BETWEEN 60000 AND 90000')
+    
+    Add_Entry To_List(#List2)
+    
+    Endselect
+    
+    Endroutine
+    End_Com
+    
+    

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PARTRDMLX
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*PART_RDMLX"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "RDMLX Partition (Y/N)"
+      Label:              "RDMLX Partition"
+      Heading1:           "RDMLX"
+      Heading2:           "Partition"
+      Heading3:           "(Y/N)"
+
+  - FRA:
+      Description:        "Partition RDMLX (Y/N)"
+      Label:              "Partition RDMLX"
+      Heading1:           "Partition"
+      Heading2:           "RDMLX"
+      Heading3:           "(Y/N)"

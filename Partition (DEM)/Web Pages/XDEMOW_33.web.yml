@@ -1,0 +1,284 @@
+﻿Web Page:
+  Name:               xDemoWebChickenChase
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Chicken Chase"
+
+  - FRA:
+      Description:        "Chicken Chase"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Style(#Theme)
+    
+    * Chicken Chase
+    * A simple game to demonstrate the simplicty and power of VL Web client side processing
+    
+    * S T Y L E S
+    Define_Com Class(#PRIM_VS.Style) Name(#Theme) Backgroundbrush(#Brush3) Facename('Lucida Console')
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(247:247:247)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ScoresStyle) Foregroundbrush(#ScoresBrush) Fontsize(14)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ScoresBrush) Color(222:23:255)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Fontsize(72) Foregroundbrush(#Brush2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(255:0:0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Foregroundbrush(#Brush4) Fontsize(16)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush4) Color(255:1:0)
+    
+    * L A Y O U T   D E F I N I T I O N S
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(99) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label_hitsItem1) Alignment(TopRight) Column(#Column1) Manage(#lScore) Parent(#TableLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label_timeItem1) Alignment(TopLeft) Column(#Column) Manage(#lTimeRemaining) Parent(#TableLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label_hitsItem2) Alignment(TopCenter) Column(#Column) Manage(#lHiScore) Parent(#TableLayout) Row(#Row) Sizing(None) Columnspan(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(BottomCenter) Column(#Column) Manage(#ClicktoPlay) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Columnspan(3) Marginbottom(9)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column_2) Flow(Down) Manage(#Countdown) Parent(#TableLayout) Row(#Row_3) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Image1) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Image2) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Image3) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Image4) Parent(#TableLayout) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Image5) Parent(#TableLayout) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Image6) Parent(#TableLayout) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Image7) Parent(#TableLayout) Row(#Row_4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Image8) Parent(#TableLayout) Row(#Row_4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Image9) Parent(#TableLayout) Row(#Row_4)
+    
+    
+    * V I S U A L   C O N T R O L S
+    Define_Com Class(#PRIM_LABL) Name(#lTimeRemaining) Caption('Time - 0') Displayposition(1) Ellipses(Word) Height(40) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(137) Style(#ScoresStyle) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#lScore) Displayposition(4) Ellipses(Word) Height(38) Left(949) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Width(251) Caption('Score - 0') Verticalalignment(Center) Alignment(Right) Marginright(4) Style(#ScoresStyle)
+    Define_Com Class(#PRIM_LABL) Name(#lHiScore) Displayposition(2) Ellipses(Word) Height(38) Left(475) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(251) Caption('Hi - 0') Verticalalignment(Center) Alignment(Center) Marginright(4) Style(#ScoresStyle)
+    Define_Com Class(#PRIM_LABL) Name(#ClicktoPlay) Caption('Click to play') Displayposition(3) Ellipses(Word) Height(43) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(47) Verticalalignment(Center) Width(1200) Alignment(Center) Style(#Style3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Countdown) Caption('3') Displayposition(14) Ellipses(Word) Height(284) Left(417) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(308) Verticalalignment(Center) Width(366) Alignment(Center) Style(#Style2) Visible(False)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(5) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(99) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image2) Displayposition(6) Left(400) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(99) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image3) Displayposition(7) Left(800) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(99) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image4) Displayposition(8) Left(800) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(333) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image5) Displayposition(9) Left(400) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(333) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image6) Displayposition(10) Left(0) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(333) Imagesizing(BestFit) Height(234) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image7) Displayposition(11) Left(0) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(567) Imagesizing(BestFit) Height(233) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image8) Displayposition(12) Left(400) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(567) Imagesizing(BestFit) Height(233) Width(400)
+    Define_Com Class(#PRIM_IMAG) Name(#Image9) Displayposition(13) Left(800) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(567) Imagesizing(BestFit) Height(233) Width(400)
+    
+    
+    * V A R I A B L E S
+    
+    * Collection of all images to simplify handling
+    Define_Com Class(#Prim_acol<#Prim_imag>) Name(#Images)
+    
+    * Timers for the countdown and game play
+    Define_Com Class(#PRIM_TIMR) Name(#GameTimer) Startup(Manual)
+    Define_Com Class(#PRIM_TIMR) Name(#CountdownTimer) Startup(Manual)
+    
+    * Reference to the image currently showing the chicken
+    Define_Com Class(#prim_imag) Name(#ActiveImage) Reference(*Dynamic)
+    
+    Define_Com Class(#Prim_nmbr) Name(#Score)
+    Define_Com Class(#Prim_nmbr) Name(#HiScore)
+    Define_Com Class(#Prim_nmbr) Name(#TimeRemaining)
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    * Collect the images for simpler handling
+    #Images.Insert( #Image1 )
+    #Images.Insert( #Image2 )
+    #Images.Insert( #Image3 )
+    #Images.Insert( #Image4 )
+    #Images.Insert( #Image5 )
+    #Images.Insert( #Image6 )
+    #Images.Insert( #Image7 )
+    #Images.Insert( #Image8 )
+    #Images.Insert( #Image9 )
+    
+    
+    #Images<>.Cursor #ClicktoPlay.Cursor <= #Sys_Appln.Cursors<Hand>
+    
+    * Show the chicken for all bar the center image
+    #Images<>.image <= #xImageChicken128
+    #Image5.image <= *null
+    #Images<>.Enabled := False
+    #Images<>.Opacity := 30
+    
+    #Com_owner.Caption := "Chicken Chase"
+    
+    * Restore the hi score if there is one
+    If (#sys_web.LocalStorage<"ChickenChaseHiScore"> *IsNot *null)
+    
+    #HiScore := #sys_web.LocalStorage<"ChickenChaseHiScore">.value.Asnumber
+    #lHiScore := ("Hi - &1").Substitute( #HiScore.asstring )
+    
+    Endif
+    
+    Endroutine
+    
+    * If any of the images are clicked
+    Evtroutine Handling(#Images<>.Click) Com_Sender(#Sender)
+    
+    * If the button clicked is the one with the chicken in
+    If (#Sender *IsEqualTo #ActiveImage)
+    
+    * Update the score and high score as required
+    #Score += 1
+    
+    If (#Score > #HiScore)
+    
+    #HiScore := #Score
+    
+    Endif
+    
+    #lScore := ("Score - &1").Substitute( #Score.asstring )
+    
+    #Com_owner.SetHiScore
+    
+    #Com_owner.ShowaChicken
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(SetHiScore) Access(*Private)
+    
+    * Update the page to show the new hi score
+    #lHiScore := ("Hi - &1").Substitute( #HiScore.asstring )
+    
+    * Save to local storage
+    If (#sys_web.LocalStorage<"ChickenChaseHiScore"> *Is *null)
+    
+    #sys_web.LocalStorage.Add( "ChickenChaseHiScore" "" )
+    
+    Endif
+    
+    #sys_web.LocalStorage<"ChickenChaseHiScore">.Value := #HiScore.asstring
+    
+    Endroutine
+    
+    Mthroutine Name(ShowaChicken) Access(*Private)
+    
+    * Clear all the images
+    #Images<>.Image <= *null
+    
+    * Show in a different place
+    If (#GameTimer.IsStarted)
+    
+    #ActiveImage <= #Com_owner.GetNextImage
+    #ActiveImage.Image <= #xImageChicken128
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GameStart) Access(*Private)
+    
+    #Images<>.Opacity := 100
+    #Images<>.Enabled := True
+    
+    #ClicktoPlay := "Chase that chicken!"
+    
+    #TimeRemaining := 20
+    #Score := 0
+    
+    #Countdown := "3"
+    #Countdown.visible := True
+    #CountdownTimer.Start
+    
+    Endroutine
+    
+    Evtroutine Handling(#CountdownTimer.Tick)
+    
+    * Counting down to the start of the game
+    Case (#Countdown.Caption.Asnumber)
+    
+    When (= 1)
+    
+    * Hide all visible images
+    #Images<>.fadeout
+    #Countdown.visible := false
+    
+    When (= 0)
+    
+    * Countdown is complete
+    #CountdownTimer.Stop
+    
+    * Start the game
+    #GameTimer.Start
+    #Com_owner.ShowaChicken
+    #Images<>.visible := true
+    #Images<>.opacity := 100
+    
+    Endcase
+    
+    #Countdown := (#Countdown.Caption.Asnumber - 1).asstring
+    
+    Endroutine
+    
+    Mthroutine Name(GameOver) Access(*Private)
+    
+    #GameTimer.Stop
+    
+    #ClicktoPlay := "Click to play"
+    #Countdown.Fadein
+    #Countdown.Caption := "Game Over"
+    
+    #Images<>.Enabled := False
+    #Images<>.Opacity := 30
+    
+    #Images<>.image <= #xImageChicken128
+    #Image5.image <= *null
+    
+    Endroutine
+    
+    Evtroutine Handling(#ClicktoPlay.Click)
+    
+    #Com_owner.GameStart
+    
+    Endroutine
+    
+    Evtroutine Handling(#GameTimer.Tick)
+    
+    #TimeRemaining -= 1
+    
+    If (#TimeRemaining = 0)
+    
+    #Com_owner.GameOver
+    
+    Endif
+    
+    #lTimeRemaining := ("Time - &1").Substitute( #TimeRemaining.asstring )
+    
+    Endroutine
+    
+    * Get the next button, ignoring the currently active button
+    Mthroutine Name(GetNextImage) Access(*Private)
+    Define_Map For(*Result) Class(#Prim_imag) Name(#Result) Pass(*By_reference)
+    
+    Define Field(#NextButton) Type(*dec) Length(3) Decimals(0)
+    
+    Begin_Loop
+    
+    #NextButton := (#xDemoDateTime.now.fractionalSeconds / 1000000)
+    #NextButton := #NextButton.Mod( 9 ) + 1
+    
+    #Result <= #Images<#NextButton>
+    
+    Leave If(#ActiveImage *IsNotEqualTo #Result)
+    
+    End_Loop
+    
+    Endroutine
+    
+    End_Com

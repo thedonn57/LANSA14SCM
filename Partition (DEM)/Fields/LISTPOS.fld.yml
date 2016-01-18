@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               LISTPOS
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List position control field"
+      Label:              "List Position.."
+      Heading1:           "List"
+      Heading2:           "Position"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, champ controlant position ds list"
+      Label:              "Position liste"
+      Heading1:           "Position"
+      Heading2:           "liste"
+      Heading3:           " "

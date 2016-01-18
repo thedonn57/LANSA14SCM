@@ -1,0 +1,119 @@
+﻿Web Page:
+  Name:               xDemoWebLayoutMenuContent
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "2 Column Menu and Content"
+
+  - FRA:
+      Description:        "2 Column Menu and Content"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Gray>)
+    
+    * Using Layouts to control size and position of controls
+    * This example shows a header, footer and central content that updates as items on the left are selected
+    * Header and footer rows are fixed size
+    * Center row will occupy the remaining space
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_3) Backgroundbrush(#Brush_2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_2) Color(255:0:0)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_4) Backgroundbrush(#Brush_3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_3) Color(1:158:0)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_5) Backgroundbrush(#Brush_4)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_4) Color(0:0:255)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_6) Backgroundbrush(#Brush_5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_5) Color(255:255:0)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Fontsize(22)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Cursor(Hand)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(2.2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout) Width(299) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(1.5)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Header Header Header Header Header Header Header') Displayposition(12) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(60) Width(1200) Themedrawstyle('DarkTitle') Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Columnspan(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption('Footer Footer Footer Footer Footer Footer Footer ') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(740) Verticalalignment(Center) Height(60) Width(1200) Alignment(Center) Themedrawstyle('DarkTitle') Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label_2) Parent(#TableLayout) Row(#Row_3) Columnspan(2)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(676) Left(2) Parent(#COM_OWNER) Tabposition(3) Top(62) Width(295) Columnheaderheight(0) Rowheight(23) Columnlines(False) Rowlines(False) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginright(2) Marginleft(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT) Displayposition(1) Parent(#List) Source(#xDemoCaption) Columnwidth(1) Columnunits(Proportion)
+    Define_Com Class(#PRIM_PANL) Name(#RedPanel) Displayposition(11) Height(676) Left(301) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(62) Width(897) Style(#Style_3) Visible(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Column(#Column_2) Manage(#RedPanel) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_PANL) Name(#GreenPanel) Displayposition(3) Height(676) Left(301) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(62) Width(897) Style(#Style_4) Visible(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Column(#Column_2) Manage(#GreenPanel) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_PANL) Name(#BluePanel) Displayposition(4) Height(676) Left(301) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(62) Width(897) Style(#Style_5) Visible(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Column(#Column_2) Manage(#BluePanel) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_PANL) Name(#YellowPanel) Displayposition(5) Height(676) Left(301) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(62) Width(897) Style(#Style_6) Visible(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Column(#Column_2) Manage(#YellowPanel) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Option3) Caption('Option 3') Displayposition(6) Ellipses(Word) Left(1122) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Height(25) Width(74) Themedrawstyle('DarkTitle') Mouseoverstyle(#Style2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#Option3) Parent(#TableLayout) Row(#Row) Sizing(None) Marginright(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_4) Caption('|') Displayposition(7) Ellipses(Word) Left(1109) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Width(13) Height(25)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#Label_4) Parent(#TableLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_LABL) Name(#Option2) Caption('Option 2') Displayposition(8) Ellipses(Word) Left(1035) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Height(25) Width(74) Themedrawstyle('DarkTitle') Mouseoverstyle(#Style2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#Option2) Parent(#TableLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_LABL) Name(#Label_6) Caption('|') Displayposition(9) Ellipses(Word) Left(1022) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Width(13) Height(25)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_11) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#Label_6) Parent(#TableLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_LABL) Name(#Option1) Caption('Option 1') Displayposition(10) Ellipses(Word) Left(948) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Height(25) Width(74) Themedrawstyle('DarkTitle') Mouseoverstyle(#Style2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_12) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#Option1) Parent(#TableLayout) Row(#Row) Sizing(None)
+    
+    Define_Com Class(#prim_panl) Name(#gActivePanel) Reference(*Dynamic)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Add items to the list for the central panels
+    #Com_owner.AddItem( "Red" #RedPanel )
+    #Com_owner.AddItem( "Yellow" #YellowPanel )
+    #Com_owner.AddItem( "Green" #GreenPanel )
+    #Com_owner.AddItem( "Blue" #BluePanel )
+    
+    Endroutine
+    
+    Mthroutine Name(AddItem) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoCaption) Name(#MenuText)
+    Define_Map For(*Input) Class(#Prim_panl) Name(#ContentPanel) Pass(*By_reference)
+    
+    #xDemoCaption := #MenuText
+    Add_Entry To_List(#List)
+    
+    * Store a reference to the panel against the list item
+    #List.currentItem.RelatedReference <= #ContentPanel
+    
+    Endroutine
+    
+    * Show the the correct panel when a list item is clicked
+    Evtroutine Handling(#List.ItemGotFocus)
+    
+    #Com_owner.ActivatePanel( (#List.CurrentItem.RelatedReference *As #Prim_panl) )
+    
+    Endroutine
+    
+    Mthroutine Name(ActivatePanel) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_panl) Name(#Panel) Pass(*by_reference)
+    
+    * If there's an active panel, fade it out. This will make it invisible
+    If (#gActivePanel *IsNot *null)
+    
+    #gActivePanel.FadeOut
+    
+    Endif
+    
+    * Show the selected panel
+    #gActivePanel <= #Panel
+    #gActivePanel.FadeIn
+    
+    Endroutine
+    
+    End_Com

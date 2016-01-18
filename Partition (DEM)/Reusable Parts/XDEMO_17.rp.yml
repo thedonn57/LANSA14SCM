@@ -1,0 +1,334 @@
+﻿Reusable Part:
+  Name:               xDemoWebUtilities
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Utilities - Generic tools for web"
+
+  - FRA:
+      Description:        "Utilities - Generic tools for web"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Define Field(#DateAsNumber) Type(*dec) Length(8) Decimals(0)
+    
+    * =============== L I S T   C H E C K B O X   H A N D L I N G ===============
+    * Manage checkbox state in a list (Prim_list)
+    * When an item is checked/unchecked, all child items will be updated to match the check state
+    * All parent nodes will be updated to reflect their chils states
+    
+    Mthroutine Name(UpdateCheckBoxesList) Help('Something in the tree has changed check state.  Ensure all check boxes are correct')
+    Define_Map For(*input) Class(#prim_list.ListItem) Name(#ListItem) Pass(*by_reference)
+    
+    * Set check for all items below this item
+    #com_owner.UpdateChildItemsList( #ListItem )
+    
+    * Set check for all items above
+    #com_owner.UpdateParentItemsList( #ListItem )
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateChildItemsList) Help('Cascade the check state of the incoming item to all child items') Access(*private)
+    Define_Map For(*input) Class(#prim_list.ListItem) Name(#ListItem) Pass(*by_reference)
+    
+    * Loop through all tree items belonging to the current tree item
+    For Each(#Item) In(#ListItem.items)
+    
+    #Item.Checked := #ListItem.Checked
+    
+    * Continue processing for the next level down
+    #Com_Owner.UpdateChildItemsList( #Item )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateParentItemsList) Help('Set Parent check state to child item check state.  Checked if all children checked; unchecked if all unchecked; Grayed if a combination') Access(*private)
+    Define_Map For(*input) Class(#prim_list.ListItem) Name(#ListItem) Pass(*by_reference)
+    
+    Define_Com Class(#prim_list.ListItem) Name(#PreviousItem) Reference(*dynamic)
+    
+    * If the incoming tree item is not the root of the tree
+    If (#ListItem.parentitem *IsNot *null)
+    
+    For Each(#Item) In(#ListItem.ParentItem.Items)
+    
+    * If the previous item is null, this is the first time
+    * Set the parent to the same state as the first child item
+    If (#PreviousItem *Is *null)
+    
+    #ListItem.parentitem.Checked := #Item.checked
+    
+    Else
+    
+    * If the currentitem is different to the previous item
+    If (#PreviousItem.checked <> #Item.checked)
+    
+    #ListItem.parentitem.Checked := grayed
+    
+    * No need to do any more processing once a difference is found
+    Leave
+    
+    Endif
+    
+    Endif
+    
+    * Store in the previous item
+    #PreviousItem <= #Item
+    
+    Endfor
+    
+    * Now process the next level up
+    #com_owner.UpdateParentItemsList( #ListItem.Parentitem )
+    
+    Endif
+    
+    Endroutine
+    
+    
+    * =============== C O N V E R T   A   S T R I N G   T O   "I T E M S" ===============
+    * Splits a string in to items from a string
+    * Default separator is a space
+    * Returns a collection of individual items
+    
+    Mthroutine Name(SplitString)
+    Define_Map For(*Input) Class(#Prim_dc.UnicodeString) Name(#String)
+    Define_Map For(*Input) Class(#Prim_dc.UnicodeString) Name(#Separator) Mandatory(" ")
+    Define_Map For(*Input) Class(#Prim_boln) Name(#IncludeBlankItems) Mandatory(False)
+    Define_Map For(*Result) Class(#prim_lcol<#Prim_dc.UnicodeString>) Name(#Result) Pass(*by_reference)
+    
+    Define_Com Class(#prim_nmbr) Name(#Break)
+    
+    #Result <= *New #prim_lcol<#Prim_dc.UnicodeString>
+    
+    If (#String <> "")
+    
+    Begin_Loop
+    
+    * Look for the first separator in the string
+    #Break := #String.PositionOf( #Separator )
+    
+    Case (#Break)
+    
+    When (= 0) /* No separator found, so must be a whole word remaining */
+    
+    #Result.Insert( (*New #Prim_dc.unicodeString) )
+    #Result.Last := #String
+    
+    Leave
+    
+    When (= 1) /* Separator is next character, so must be zero length item */
+    
+    If (#IncludeBlankItems)
+    
+    #Result.Insert( (*New #Prim_dc.unicodeString) )
+    
+    Endif
+    
+    Otherwise /* Substring */
+    
+    #Result.Insert( (*New #Prim_dc.unicodeString) )
+    #Result.Last := #String.Substring( 1 (#Break - 1) )
+    
+    Endcase
+    
+    * Remove the item from the string
+    #String := #String.DeleteSubstring( 1 #Break )
+    
+    End_Loop
+    
+    Endif
+    
+    Endroutine
+    
+    
+    
+    * =============== C O N V E R T   A   S T R I N G   T O   P R O P E R   C A S E ===============
+    * Makes the first character of the string uppercase
+    * All other characters lowercase
+    
+    Mthroutine Name(ProperCase)
+    Define_Map For(*input) Class(#prim_alph) Name(#Subject)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    If (#Subject <> "")
+    
+    #Result := #Subject.lowercase.replacesubstring( 1 1 (#Subject.substring( 1 1 ).uppercase) )
+    
+    Endif
+    
+    Endroutine
+    
+    
+    * =============== S T A R T   O F   T H E   M O N T H ===============
+    * Get the last day of the month for the supplied date
+    
+    Mthroutine Name(StartofMonth)
+    Define_Map For(*Input) Class(#Prim_date) Name(#Source)
+    Define_Map For(*Result) Class(#Prim_date) Name(#Result)
+    
+    #Result := (#Source.Asnumber( CCYYMMDD ) - #Source.day + 1).Asdate( CCYYMMDD )
+    
+    Endroutine
+    
+    
+    
+    * =============== E N D   D A Y   O F   T H E   M O N T H ===============
+    * Get the last day of the month for the supplied date
+    
+    Mthroutine Name(EndofMonth)
+    Define_Map For(*Input) Class(#Prim_date) Name(#Source)
+    Define_Map For(*Result) Class(#Prim_date) Name(#Result)
+    
+    If (#Source.Month <> 12)
+    
+    #Result := (#Source.Asnumber( CCYYMMDD ) + 100 - #Source.day + 1).Asdate( CCYYMMDD ).Adjust( -1 )
+    
+    Else
+    
+    #Result := (#Source.Asnumber( CCYYMMDD ) + 8900 - #Source.day + 1).Asdate( CCYYMMDD ).Adjust( -1 )
+    
+    Endif
+    
+    Endroutine
+    
+    * =============== A D J U S T   D A T E   B Y   M O N T H S ===============
+    * Adjust the date by adding/substracting months
+    * If the resulting date is invalid e.g 31/02/2013, the date will be set to the end of the month
+    
+    Mthroutine Name(AdjustDateByMonths)
+    Define_Map For(*Input) Class(#Prim_date) Name(#Source)
+    Define_Map For(*Input) Class(#Prim_nmbr) Name(#Months)
+    Define_Map For(*Result) Class(#Prim_date) Name(#Result)
+    
+    #DateAsNumber := #Source.Asnumber( CCYYMMDD )
+    
+    Case (#Months)
+    
+    When (= 0)
+    
+    #Result := #Source
+    
+    When (> 0)
+    
+    Begin_Loop To(#Months)
+    
+    Case (#DateAsNumber.Asstring.Substring( 5 2 ))
+    
+    When (= "12") /* Increment the "year" and set the month back to 01 */
+    
+    #DateAsNumber += 8900
+    
+    Otherwise /* Increment the month */
+    
+    #DateAsNumber += 100
+    
+    Endcase
+    
+    End_Loop
+    
+    When (< 0)
+    
+    Begin_Loop To(#Months) Step(-1)
+    
+    Case (#DateAsNumber.Asstring.Substring( 5 2 ))
+    
+    When (= "01") /* Increment the "year" and set the month back to 01 */
+    
+    #DateAsNumber -= 8900
+    
+    Otherwise /* Increment the month */
+    
+    #DateAsNumber -= 100
+    
+    Endcase
+    
+    End_Loop
+    
+    Endcase
+    
+    * Once finished, make sure the date is valid
+    * If not valid count backwards to find a valid date
+    Begin_Loop
+    
+    Leave If(#DateAsNumber.IsDate( Ccyymmdd ))
+    
+    #DateAsNumber -= 1
+    
+    End_Loop
+    
+    #Result := #DateAsNumber.asDate( Ccyymmdd )
+    
+    Endroutine
+    
+    
+    * =============== A D J U S T   D A T E   B Y   Y E A R S ===============
+    * Adjust the date by adding/substracting years
+    * If the resulting date is invalid e.g 31/02/2013, the date will be set to the end of the month
+    
+    Mthroutine Name(AdjustDateByYears)
+    Define_Map For(*Input) Class(#Prim_date) Name(#Source)
+    Define_Map For(*Input) Class(#Prim_nmbr) Name(#Years)
+    Define_Map For(*Result) Class(#Prim_date) Name(#Result)
+    
+    #DateAsNumber := #Source.Asnumber( CCYYMMDD )
+    
+    #DateAsNumber += (10000 * #Years)
+    
+    * Once finished, make sure the date is valid
+    * If not valid count backwards to find a valid date
+    Begin_Loop
+    
+    Leave If(#DateAsNumber.IsDate( Ccyymmdd ))
+    
+    #DateAsNumber -= 1
+    
+    End_Loop
+    
+    #Result := #DateAsNumber.asDate( Ccyymmdd )
+    
+    Endroutine
+    
+    * =============== S A V E   A   V A L U E   I N   L O C A L   S T O R A G E ===============
+    * Save the supplied value in the browser local storage
+    
+    Mthroutine Name(SaveValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Value)
+    
+    If (#sys_web.localStorage<#Name> *Is *null)
+    
+    #sys_web.localStorage.Add( #Name #Value )
+    
+    Else
+    
+    #sys_web.localStorage<#Name> := #Value
+    
+    Endif
+    
+    Endroutine
+    
+    * =============== R E S T O R E   A   V A L U E   F R O M   L O C A L   S T O R A G E ===============
+    * Restore a value from the browser local storage
+    
+    Mthroutine Name(RestoreValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#sys_web.localStorage<#Name> *IsNot *null)
+    
+    #Result := #sys_web.localStorage<#Name>
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

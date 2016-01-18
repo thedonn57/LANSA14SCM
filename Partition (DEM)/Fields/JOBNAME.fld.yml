@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               JOBNAME
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*JOBNAME"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current AS/400 or S/38 job name"
+      Label:              "Job name ......"
+      Heading1:           "Job name"
+      Heading2:           "--------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom du travail AS/400 ou S/38 en cours"
+      Label:              "Nom du travail"
+      Heading1:           "Nom du"
+      Heading2:           "Travail"
+      Heading3:           " "

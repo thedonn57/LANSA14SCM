@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W08NAM
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "User ID"
+      Label:              "W08NAM"
+      Heading1:           "User ID"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "User ID"
+      Label:              "W08NAM"
+      Heading1:           "User ID"
+      Heading2:           " "
+      Heading3:           " "

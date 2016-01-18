@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               FUNCDESC
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*FUNCTION_DESC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Function Description"
+      Label:              "Function......."
+      Heading1:           "Function"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description de la fonction en cours"
+      Label:              "Fonction  . . ."
+      Heading1:           "Fonction"
+      Heading2:           " "
+      Heading3:           " "

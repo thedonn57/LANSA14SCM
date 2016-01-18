@@ -1,0 +1,49 @@
+﻿Web Page:
+  Name:               xDemoWebPopupDetailer
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Popup Detailer"
+
+  - FRA:
+      Description:        "Popup Editor"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Height(608) Width(849) Theme(#xDemoTheme)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(57) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.83)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row2) Columnspan(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Employees') Displayposition(1) Ellipses(Word) Height(57) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(849) Themedrawstyle('Title+DarkTitle')
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(3) Height(551) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(57) Width(849) Columnlines(False) Rowlines(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(2) Parent(#List) Source(#EMPNO) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(3) Parent(#List) Source(#SURNAME) Columnwidth(185) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(4) Parent(#List) Source(#GIVENAME) Columnwidth(193) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage1) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2) Source(#EMPTHM)
+    
+    Define_Com Class(#xDemoWebPopupEmployeeDetailer) Name(#EmployeeDetailer) Parent(#COM_OWNER) Left(200) Top(104)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #List )
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemDoubleClick)
+    
+    #EmployeeDetailer.Show( #Empno )
+    
+    Endroutine
+    
+    End_Com

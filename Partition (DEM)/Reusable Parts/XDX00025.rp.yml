@@ -1,0 +1,141 @@
+﻿Reusable Part:
+  Name:               XDXTableLayoutAndFontRotation
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Table Layout And Font Rotation"
+
+  - FRA:
+      Description:        "Présentation table et rotation polices"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(305) Layoutmanager(#TableLayout) Width(663)
+    
+    * Table layout and used to control the size and position of panels
+    * Panels overlay each other
+    * Click brings to the front
+    * DoubleClick toggles opactiy from 50 to 100
+    
+    Define_Com Class(#prim_tblo) Name(#TableLayout) Dividerstyle(Gap) Marginbottom(6) Marginleft(6) Marginright(6) Margintop(6)
+    
+    Define_Com Class(#Prim_tblo.Column) Name(#TColumn1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Column) Name(#TColumn2) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Column) Name(#TColumn3) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Column) Name(#TColumn4) Displayposition(7) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Column) Name(#TColumn5) Displayposition(9) Parent(#TableLayout)
+    
+    Define_Com Class(#Prim_tblo.ColumnDivider) Name(#TColumn6) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.ColumnDivider) Name(#TColumn7) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.ColumnDivider) Name(#TColumn8) Displayposition(6) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.ColumnDivider) Name(#TColumn9) Displayposition(8) Parent(#TableLayout)
+    
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow2) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow3) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow4) Displayposition(7) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow5) Displayposition(9) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.Row) Name(#TRow6) Displayposition(10) Height(70) Parent(#TableLayout) Units(Pixels)
+    
+    Define_Com Class(#Prim_tblo.RowDivider) Name(#TRow7) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.RowDivider) Name(#TRow8) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.RowDivider) Name(#TRow9) Displayposition(6) Parent(#TableLayout)
+    Define_Com Class(#Prim_tblo.RowDivider) Name(#TRow10) Displayposition(8) Parent(#TableLayout)
+    
+    Define_Com Class(#Prim_tblo.Item) Name(#TableItem1) Column(#TColumn1) Columnspan(9) Manage(#PanelRed) Parent(#TableLayout) Row(#TRow1)
+    Define_Com Class(#Prim_tblo.Item) Name(#TableItem2) Column(#TColumn2) Columnspan(4) Manage(#PanelYellow) Parent(#TableLayout) Row(#TRow1) Rowspan(9)
+    Define_Com Class(#Prim_tblo.Item) Name(#TableItem3) Column(#TColumn1) Columnspan(8) Manage(#PanelBlue) Parent(#TableLayout) Row(#TRow3) Rowspan(3)
+    Define_Com Class(#Prim_tblo.Item) Name(#TableItem4) Column(#TColumn3) Columnspan(6) Manage(#PanelGreen) Parent(#TableLayout) Row(#TRow4) Rowspan(3)
+    Define_Com Class(#Prim_tblo.Item) Name(#TableItem5) Column(#TColumn1) Columnspan(9) Manage(#PanelBlack) Parent(#TableLayout) Row(#TRow5)
+    
+    Define_Com Class(#prim_atlm) Name(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#LabelBlue) Parent(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Center) Manage(#LabelBlack) Parent(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Center) Manage(#LabelGreen) Parent(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Center) Manage(#LabelRed) Parent(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Center) Manage(#LabelYellow) Parent(#AttachLayout)
+    
+    Define_Com Class(#PRIM_Panl) Name(#PanelRed) Displayposition(1) Height(44) Layoutmanager(#AttachLayout) Left(6) Opacity(50) Parent(#COM_OWNER) Style(#Red) Tabposition(1) Tabstop(False) Top(6) Width(651)
+    Define_Com Class(#PRIM_Panl) Name(#PanelBlue) Displayposition(3) Height(89) Layoutmanager(#AttachLayout) Left(6) Opacity(50) Parent(#COM_OWNER) Style(#Blue) Tabposition(3) Tabstop(False) Top(96) Width(522)
+    Define_Com Class(#PRIM_Panl) Name(#PanelGreen) Displayposition(5) Height(88) Layoutmanager(#AttachLayout) Left(268) Opacity(50) Parent(#COM_OWNER) Style(#Green) Tabposition(5) Tabstop(False) Top(141) Width(389)
+    Define_Com Class(#PRIM_Panl) Name(#PanelBlack) Displayposition(4) Height(43) Layoutmanager(#AttachLayout) Left(6) Opacity(50) Parent(#COM_OWNER) Style(#Black) Tabposition(4) Tabstop(False) Top(186) Width(651)
+    Define_Com Class(#PRIM_Panl) Name(#PanelYellow) Displayposition(2) Height(223) Layoutmanager(#AttachLayout) Left(137) Opacity(50) Parent(#COM_OWNER) Style(#Yellow) Tabposition(2) Tabstop(False) Top(6) Width(261)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LabelRed) Alignment(Center) Caption(*MTXTXDX048) Displayposition(1) Ellipses(Word) Height(44) Left(0) Parent(#PanelRed) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(651)
+    Define_Com Class(#PRIM_LABL) Name(#LabelYellow) Alignment(Center) Caption(*MTXTXDX052) Displayposition(1) Ellipses(Word) Height(223) Left(0) Parent(#PanelYellow) Rotation(90) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(261)
+    Define_Com Class(#PRIM_LABL) Name(#LabelBlue) Alignment(Center) Caption(*MTXTXDX050) Displayposition(1) Ellipses(Word) Height(89) Left(0) Parent(#PanelBlue) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(522)
+    Define_Com Class(#PRIM_LABL) Name(#LabelGreen) Alignment(Center) Caption(*MTXTXDX049) Displayposition(1) Ellipses(Word) Height(88) Left(0) Parent(#PanelGreen) Rotation(45) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(389)
+    Define_Com Class(#PRIM_LABL) Name(#LabelBlack) Alignment(Center) Caption(*MTXTXDX051) Displayposition(1) Ellipses(Word) Height(43) Left(0) Parent(#PanelBlack) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(651)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Red) Backgroundbrush(#RedBrush) Fontsize(20)
+    Define_Com Class(#Prim_vs.LinearBrush) Name(#RedBrush) Colors(#RedColors)
+    Define_Com Class(#Prim_vs.BrushColors) Name(#RedColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#RedColor1) Color(255:255:255) Parent(#RedColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#RedColor2) At(100) Color(Red) Parent(#RedColors)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Blue) Backgroundbrush(#BlueBrush) Fontsize(20) Textcolor(White)
+    Define_Com Class(#Prim_vs.LinearBrush) Name(#BlueBrush) Colors(#BlueColors)
+    Define_Com Class(#Prim_vs.BrushColors) Name(#BlueColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BlueColor1) Color(255:255:255) Parent(#BlueColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BlueColor2) At(100) Color(Blue) Parent(#BlueColors)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Green) Backgroundbrush(#GreenBrush) Fontsize(20)
+    Define_Com Class(#Prim_vs.LinearBrush) Name(#GreenBrush) Colors(#GreenColors)
+    Define_Com Class(#Prim_vs.BrushColors) Name(#GreenColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#GreenColor1) Color(255:255:255) Parent(#GreenColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#GreenColor2) At(100) Color(Green) Parent(#GreenColors)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Black) Backgroundbrush(#BlackBrush) Fontsize(20) Textcolor(White)
+    Define_Com Class(#Prim_vs.LinearBrush) Name(#BlackBrush) Colors(#BlackColors)
+    Define_Com Class(#Prim_vs.BrushColors) Name(#BlackColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BlackColor1) Color(255:255:255) Parent(#BlackColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BlackColor2) At(100) Color(Black) Parent(#BlackColors)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Yellow) Backgroundbrush(#YellowBrush) Fontsize(20)
+    Define_Com Class(#Prim_vs.LinearBrush) Name(#YellowBrush) Colors(#YellowColors)
+    Define_Com Class(#Prim_vs.BrushColors) Name(#YellowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#YellowColor1) Color(255:255:255) Parent(#YellowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#YellowColor2) At(100) Color(Yellow) Parent(#YellowColors)
+    
+    * Collection for easier handling
+    Define_Com Class(#prim_lcol<#Prim_panl>) Name(#Panels)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Panels.Insert( #PanelBlack )
+    #Panels.Insert( #PanelBlue )
+    #Panels.Insert( #PanelGreen )
+    #Panels.Insert( #PanelRed )
+    #Panels.Insert( #PanelYellow )
+    
+    #Panels<>.Cursor <= #sys_Appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#Panels<>.DoubleClick) Com_Sender(#Sender)
+    
+    If (#Sender.opacity = 50)
+    
+    #Sender.opacity := 100
+    
+    Else
+    
+    #Sender.opacity := 50
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Panels<>.Click) Com_Sender(#Sender)
+    
+    #Sender.DisplayPosition := 1
+    
+    Endroutine
+    
+    End_Com

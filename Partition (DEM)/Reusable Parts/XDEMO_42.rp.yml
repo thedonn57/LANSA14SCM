@@ -1,0 +1,43 @@
+﻿Reusable Part:
+  Name:               xDemoWebCarouselDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Carousel Design"
+
+  - FRA:
+      Description:        "Carousel Design"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Caro.iCarouselDesign) Displayposition(1) Height(400) Left(0) Tabposition(1) Top(0) Width(300) Layoutmanager(#TableLayout1) Themedrawstyle('ListItem')
+    
+    Define_Com Class(#xDemoWebDataEmployee) Name(#gEmployee) Reference(*Dynamic)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Units(Pixels) Height(64)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#Image) Parent(#TableLayout1) Row(#Row2) Margintop(10) Marginbottom(10) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#lEmployeeItem1) Column(#Column1) Manage(#lEmployee) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lEmployee) Displayposition(1) Ellipses(Word) Height(64) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(300) Themedrawstyle('Heading1+MediumTitle') Alignment(Center) Wordwrap(False) Caption('Employee Name (A1234)')
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(2) Left(5) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(74) Height(316) Width(290) Imagesizing(BestFit)
+    
+    Mthroutine Name(OnItemGotReference) Options(*Redefine)
+    
+    #gEmployee <= #CarouselItem.RelatedReference *As #xDemoWebDataEmployee
+    
+    #lEmployee := ("&1 &2 (&3)").Substitute( #gEmployee.GivenName #gEmployee.Surname #gEmployee.ID )
+    
+    #Image.Image <= #gEmployee.Thumbnail
+    
+    Endroutine
+    
+    End_Com

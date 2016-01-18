@@ -1,0 +1,61 @@
+﻿Field:
+  Name:               STD_QSEL
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Query Selection Expression"
+      Label:              "Selection Made"
+      Heading1:           "Selection Expression"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Expression de Sélection Query"
+      Label:              "Sélection"
+      Heading1:           "Expression"
+      Heading2:           "Sélection"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This is the standard field used to input a selection (before grouping)
+      expression that will ultimately be passed to the IBM supplied OPNQRYF
+      (Open Query File) command.
+      
+      To select all information specify *ALL (in UPPERCASE) as the selection
+      expression you wish to use. Use this option with some care because it
+      may cause very large amounts of output and/or computer resource to be
+      used to process all the information.
+      
+      Otherwise an expression can be input using the names of fields from
+      the data base. Some examples of expressions involving alphanumeric and
+      straight numeric fields follow :
+      
+         CUSTNO = 12345  <numeric customer number>
+         CUSTNO = "12345" <alphanumeric customer number>
+         CUSNAME *CT "BL" <customer name contains string "BL">
+         (DATE *GE 911001) *AND (DATE *LE 911031) <date is in October, 1991)
+         (PMONTH = 10) *AND (PYEAR = 1991) <the month of October, 1991)
+      
+      where CUSTNO, CUSNAME, DATE, PMONTH and PYEAR are the names assigned
+      to the elements in some example data base file. They are unlikely to
+      represent names that you should actually use in your expressions.
+      
+      An expression up to 256 characters long may be specified.
+      
+      For more information about this facility you should refer to the
+      QRYSLT (Query Selection Expression) parameter of the IBM supplied
+      OPNQRYF (Open Query File) command.
+      $$NOAUTO

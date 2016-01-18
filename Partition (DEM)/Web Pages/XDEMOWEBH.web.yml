@@ -1,0 +1,134 @@
+﻿Web Page:
+  Name:               xDemoWebHighlightListData
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Highlighting List Data"
+
+  - FRA:
+      Description:        "Highlighting List Data"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#Layout) Theme(#xDemoTheme)
+    
+    * Example of highlighting list items based on data input
+    * Enter a value in the search. Items matching the criteria have a style applied to highlight them
+    * This executes on the client only, rather than reloading the data each time
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout) Height(31) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#Layout) Height(1.79)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#SURNAME.Visual) Name(#Filter) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Width(344) Labeltype(Caption) Top(2) Left(856) Height(27) Caption('Find ') Marginleft(0) Placeholder('Search') Promptertabstop(False) Prompterimage(#xImageSearch22) Showprompter(True) Labelselectable(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(CenterRight) Column(#Column_1) Manage(#Filter) Parent(#Layout) Row(#Row_1) Margintop(2) Marginbottom(2) Marginleft(2) Sizing(FitToHeight) Marginright(2)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(769) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(31) Width(1200)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column_1) Manage(#List) Parent(#Layout) Row(#Row_2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columnwidth(117) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME) Columnwidth(173) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Columnwidth(175) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmarginbottom(2) Cellmargintop(2) Source(#EMPTHM)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS1) Displayposition(5) Parent(#List) Source(#ADDRESS1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS2) Displayposition(6) Parent(#List) Source(#ADDRESS2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS3) Displayposition(7) Parent(#List) Source(#ADDRESS3)
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnPOSTCODE) Displayposition(8) Increment(1) Parent(#List) Source(#POSTCODE) Wrap(False) Columnwidth(81)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Highlight) Normbackcolor(Theme300) Textcolor(White)
+    
+    Define_Com Class(#xDemoEditTimer) Name(#Timer)
+    
+    * List of employees so store data returned from the server
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working)
+    
+    Evtroutine Handling(#com_owner.Createinstance)
+    
+    #Com_owner.Load
+    
+    #com_owner.caption := 'Filter data in a list'
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    * Define the service instance and execute asynchornously
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #Employees )
+    
+    * When the server returns
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    * Load the list data
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#Filter.Changed)
+    
+    * Stop and start the delay timer every key press
+    * This allow keyboard entry without updating the list every time
+    #Timer.Restart
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Ticked)
+    
+    Define_Com Class(#xDemoUnicode128) Name(#Cell)
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#List)
+    
+    * Remove any styles already added
+    #List.currentItem.Styles.remove( #Highlight )
+    
+    * Loop through the columns inspecting each cell
+    For Each(#Column) In(#List.Columns)
+    
+    #Cell := #Com_owner.GetCellValue( #Column )
+    
+    * If the cell contains the value required, apply the highlight style
+    Continue If(#Filter = "")
+    Continue If(*Not #Cell.lowercase.contains( #Filter.lowercase ))
+    
+    #List.currentItem.Styles.Add( #Highlight )
+    
+    Leave
+    
+    Endfor
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(GetCellValue) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_list.Column) Name(#Column) Pass(*By_Reference)
+    Define_Map For(*Result) Class(#xDemoUnicode128) Name(#Result)
+    
+    * processing depends on column type
+    If (#Column *Is #Prim_list.String)
+    
+    #Result := (#Column *As #Prim_list.String).CurrentItem.Value
+    
+    Endif
+    
+    If (#Column *Is #Prim_list.Number)
+    
+    #Result := (#Column *As #Prim_list.Number).CurrentItem.Value.Asstring
+    
+    Endif
+    
+    
+    Endroutine
+    
+    End_Com

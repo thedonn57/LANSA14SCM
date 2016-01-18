@@ -1,0 +1,35 @@
+﻿Field:
+  Name:               STD_INSTR
+  Type:               Alphanumeric
+  Length:             78
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - PBIN
+
+  Output Attributes:
+  - PBIN
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Panel Instruction Line"
+      Label:              "Instruction"
+      Heading1:           "Panel"
+      Heading2:           "Instruction"
+      Heading3:           "Line"
+
+  - FRA:
+      Description:        "Ligne d´instruction d´écran"
+      Label:              "Instruction"
+      Heading1:           "Ligne"
+      Heading2:           "Instruction"
+      Heading3:           "Ecran"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+       This is a standard panel instruction line. Normally it contains some
+       brief instructions as to how the current panel should be used.

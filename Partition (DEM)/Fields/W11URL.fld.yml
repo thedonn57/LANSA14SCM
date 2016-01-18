@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W11URL
+  Type:               Alphanumeric
+  Length:             255
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "URL Identifier"
+      Label:              "W11URL"
+      Heading1:           "URL"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "URL Identifier"
+      Label:              "W11URL"
+      Heading1:           "URL"
+      Heading2:           " "
+      Heading3:           " "

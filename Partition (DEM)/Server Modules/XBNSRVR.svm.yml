@@ -1,0 +1,170 @@
+﻿ServerModule:
+  Name:               XBNServer
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Server Module - The Bank of North Sydney"
+
+  - FRA:
+      Description:        "Server Module - The Bank of North Sydney"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Define Field(#PersistedClientNumber) Type(*STRING)
+    Def_List Name(#AccountList) Fields(#XBNAccountName #XBNAccountDescription #XBNAccountBalance) Type(*Working)
+    
+    * During a session, we persist the client number and the account list
+    Persist Fields(#PersistedClientNumber) Lists(#AccountList)
+    
+    * **************************************************
+    *
+    *  Srvroutine - Login
+    *
+    *  Input:
+    *  -  Client Number
+    *  -  Access Code
+    *
+    *  Output:
+    *  -  Client Name
+    *  -  Login Result
+    *
+    * **************************************************
+    
+    Define Field(#ClientNumber) Type(*STRING)
+    Define Field(#AccessCode) Type(*STRING)
+    Define Field(#ClientName) Type(*STRING)
+    Define Field(#LoginResult) Type(*STRING)
+    
+    Srvroutine Name(Login)
+    Field_Map For(*INPUT) Field(#ClientNumber)
+    Field_Map For(*INPUT) Field(#AccessCode)
+    Field_Map For(*OUTPUT) Field(#LoginResult)
+    Field_Map For(*OUTPUT) Field(#ClientName)
+    
+    * TODO: Perform proper authorization
+    
+    * If we log in succesfully, activate the session
+    #COM_OWNER.StartSession
+    
+    * In this sample we always return OK
+    #LoginResult := OK
+    
+    * and we always return Miss Brown
+    #ClientName := "Veronica Brown"
+    
+    * For the secure follow up requests, we persist the client number
+    #PersistedClientNumber := #ClientNumber
+    
+    Endroutine
+    
+    * **************************************************
+    *
+    *  Srvroutine - GetAccounts
+    *
+    *  Input:
+    *  -  there is NO input, this routine is only ever executed as part of a session,
+    *     as part of which we'll have persisted Client Number
+    *
+    *  Output:
+    *  -  Accounts List
+    *
+    * **************************************************
+    
+    Srvroutine Name(GetAccounts) Session(*REQUIRED)
+    List_Map For(*OUTPUT) List(#AccountList)
+    
+    * TODO: Retrieve the accounts for the stored Client Number
+    
+    * In the sample we create some dummy accounts
+    #XBNAccountDescription := "55 Day Platinum Visa Card"
+    #XBNAccountName := "xxxx xxxx xx06 2827"
+    #XBNAccountBalance := -375.54
+    Add_Entry To_List(#AccountList)
+    
+    #XBNAccountDescription := "Main Account"
+    #XBNAccountName := "762-009 642876"
+    #XBNAccountBalance := 495.87
+    Add_Entry To_List(#AccountList)
+    
+    #XBNAccountDescription := "Expense Account"
+    #XBNAccountName := "762-887 162843"
+    #XBNAccountBalance := 1616.92
+    Add_Entry To_List(#AccountList)
+    
+    #XBNAccountDescription := "Savings Account 1"
+    #XBNAccountName := "032-008 2844518"
+    #XBNAccountBalance := 759.92
+    Add_Entry To_List(#AccountList)
+    
+    #XBNAccountDescription := "Savings Account 2"
+    #XBNAccountName := "032-142 160728"
+    #XBNAccountBalance := 0.85
+    Add_Entry To_List(#AccountList)
+    
+    Endroutine
+    
+    * **************************************************
+    *
+    *  Srvroutine - GetTransactions
+    *
+    *  Input:
+    *  -  Account Name
+    *
+    *  Output:
+    *  -  Transaction List
+    *
+    * **************************************************
+    
+    Define Field(#AccountName) Reffld(#XBNAccountName)
+    
+    Def_List Name(#TransactionList) Fields(#XBNTransactionDate #XBNTransactionDescription #XBNTransactionAmount #XBNAccountBalance) Type(*Working)
+    
+    Srvroutine Name(GetTransactions) Session(*REQUIRED)
+    Field_Map For(*INPUT) Field(#AccountName)
+    List_Map For(*OUTPUT) List(#TransactionList)
+    
+    * TODO: Load the transactions for this account using the stored client number
+    
+    * For now, we create some dummy transactions...
+    
+    Loc_Entry In_List(#AccountList) Where(#XBNAccountName = #AccountName)
+    
+    If_Status Is(*OKAY)
+    * Use the current balance for this account
+    Else
+    #XBNAccountBalance := 1234.56
+    Endif
+    
+    * We create 20 transactions
+    
+    * STD_AMNT is our transaction amount, we'll just do multiples of 7 for the sample
+    #XBNTransactionAmount := 0
+    
+    Begin_Loop Using(#STD_INT) To(20)
+    
+    * One for each day prior to today
+    #XBNTransactionDate := #XBNTransactionDate.Now.Adjust( (-1 * #STD_INT) )
+    
+    * For different amounts ( keep subtracting 7 just to make it look different)
+    #XBNTransactionAmount -= 7
+    
+    * Make up a description
+    #XBNTransactionDescription := "Description for Transaction " + #STD_INT.AsString
+    
+    * And add the transation to the output list
+    Add_Entry To_List(#TransactionList)
+    
+    * Adjust the balance
+    #XBNAccountBalance -= #XBNTransactionAmount
+    
+    End_Loop
+    
+    Endroutine
+    
+    End_Com

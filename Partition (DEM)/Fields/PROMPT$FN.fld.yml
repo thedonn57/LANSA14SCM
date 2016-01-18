@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PROMPT$FN
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Prompt Field Name"
+      Label:              "Prompt Field"
+      Heading1:           "Prompt"
+      Heading2:           "Field"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom de la zone en Invite"
+      Label:              "Zone Invite"
+      Heading1:           " Zone"
+      Heading2:           "Invite"
+      Heading3:           " "

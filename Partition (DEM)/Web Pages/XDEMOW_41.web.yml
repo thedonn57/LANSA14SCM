@@ -1,0 +1,266 @@
+﻿Web Page:
+  Name:               xDemoWebTransitions
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Transition Animations"
+
+  - FRA:
+      Description:        "Transition Animations"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Style(#StyleNormal)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleNormal) Backgroundbrush(#Brush1) Foregroundbrush(#Brush2) Fontsize(16) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(242:242:242)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Transparent)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleMouse) Backgroundbrush(#Brush4) Foregroundbrush(#Brush3) Cursor(Hand) Underline(True)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(Theme100)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush4) Color(Theme500) Opacity(20)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image1Item1) Column(#Column6) Manage(#Image1) Parent(#TableLayout2) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image2Item1) Column(#Column6) Manage(#Image2) Parent(#TableLayout2) Row(#Row2)
+    
+    Define_Com Class(#Prim_panl) Name(#Body) Parent(#COM_OWNER) Displayposition(4) Tabposition(4) Height(800) Width(1200) Left(0) Top(0) Layoutmanager(#TableLayout2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(400) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(400) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(4) Parent(#TableLayout1) Width(400) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(5) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#List2Item1) Column(#Column3) Manage(#List2) Parent(#TableLayout1) Row(#Row1) Margintop(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#List3Item1) Column(#Column4) Manage(#List3) Parent(#TableLayout1) Row(#Row1) Margintop(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ListItem1) Column(#Column2) Manage(#List) Parent(#TableLayout1) Row(#Row1) Margintop(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#BodyItem1) Column(#Column1) Manage(#Body) Parent(#TableLayout1) Row(#Row1) Columnspan(5)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Parent(#COM_OWNER) Tabposition(3) Top(20) Height(780) Width(400) Columnlines(False) Rowlines(False) Columnheaderheight(0) Left(0) Rowheight(25) Style(#StyleNormal)
+    Define_Com Class(#PRIM_LIST.String) Name(#ListCaptionColumn) Displayposition(1) Parent(#List) Source(#xDemoAlpha256) Columnunits(Proportion) Displayalignment(Center)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOAL_21) Displayposition(2) Parent(#List) Source(#xDemoAlpha256_2) Columnvisible(False) Displayalignment(Center)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List2) Displayposition(2) Parent(#COM_OWNER) Tabposition(2) Top(20) Height(780) Width(400) Columnlines(False) Rowlines(False) Columnheaderheight(0) Left(400) Style(#StyleNormal) Rowheight(25)
+    Define_Com Class(#PRIM_LIST.String) Name(#List2CaptionColumn) Displayposition(1) Parent(#List2) Source(#xDemoAlpha256) Columnunits(Proportion) Displayalignment(Center)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOAL_22) Displayposition(2) Parent(#List2) Source(#xDemoAlpha256_2) Columnvisible(False) Displayalignment(Center)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List3) Displayposition(3) Parent(#COM_OWNER) Tabposition(1) Top(20) Height(780) Width(400) Columnlines(False) Rowlines(False) Columnheaderheight(0) Left(800) Rowheight(25) Style(#StyleNormal)
+    Define_Com Class(#PRIM_LIST.String) Name(#List3CaptionColumn) Displayposition(1) Parent(#List3) Source(#xDemoAlpha256) Columnunits(Proportion) Displayalignment(Center)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOAL_23) Displayposition(2) Parent(#List3) Source(#xDemoAlpha256_2) Columnvisible(False) Displayalignment(Center)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(1) Left(0) Parent(#Body) Tabposition(1) Tabstop(False) Top(0) Height(800) Width(1200) Image(#xImageSydney1) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_IMAG) Name(#Image2) Displayposition(2) Left(0) Parent(#Body) Tabposition(2) Tabstop(False) Top(0) Height(800) Width(1200) Imagesizing(BestFit) Image(#xImageSydney2)
+    
+    Mthroutine Name(Animate)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Transition)
+    
+    If (#Image1.DisplayPosition = 1)
+    
+    #Body.Transition( #Image1 #Image2 #Transition )
+    
+    Else
+    
+    #Body.Transition( #Image2 #Image1 #Transition )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemClick #List2.ItemClick #List3.ItemClick)
+    
+    #Com_Owner.Animate( #xDemoAlpha256_2 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.Initialize)
+    
+    #Com_owner.AddToList( "Move to left from right" MOVETOLEFTFROMRIGHT )
+    
+    #Com_owner.AddToList( "Move to right from left" MOVETORIGHTFROMLEFT )
+    
+    #Com_owner.AddToList( "Move to top from bottom" MOVETOTOPFROMBOTTOM )
+    
+    #Com_owner.AddToList( "Move to bottom from top" MOVETOBOTTOMFROMTOP )
+    
+    #Com_owner.AddToList( "Fade from right" FADEFROMRIGHT )
+    
+    #Com_owner.AddToList( "Fade from left" FADEFROMLEFT )
+    
+    #Com_owner.AddToList( "Fade from bottom" FADEFROMBOTTOM )
+    
+    #Com_owner.AddToList( "Fade from top" FADEFROMTOP )
+    
+    #Com_owner.AddToList( "Fade left fade right" FADELEFTFADERIGHT )
+    
+    #Com_owner.AddToList( "Fade right fade left" FADERIGHTFADELEFT )
+    
+    #Com_owner.AddToList( "Fade top fade bottom" FADETOPFADEBOTTOM )
+    
+    #Com_owner.AddToList( "Fade bottom fade top" FADEBOTTOMFADETOP )
+    
+    #Com_owner.AddToList( "Different easing from right" DIFFERENTEASINGFROMRIGHT )
+    
+    #Com_owner.AddToList( "Different easing from left" DIFFERENTEASINGFROMLEFT )
+    
+    #Com_owner.AddToList( "Different easing from bottom" DIFFERENTEASINGFROMBOTTOM )
+    
+    #Com_owner.AddToList( "Different easing from top" DIFFERENTEASINGFROMTOP )
+    
+    #Com_owner.AddToList( "Scale down from right" SCALEDOWNFROMRIGHT )
+    
+    #Com_owner.AddToList( "Scale down from left" SCALEDOWNFROMLEFT )
+    
+    #Com_owner.AddToList( "Scale down from bottom" SCALEDOWNFROMBOTTOM )
+    
+    #Com_owner.AddToList( "Scale down from top" SCALEDOWNFROMTOP )
+    
+    #Com_owner.AddToList( "Scale down scale up" SCALEDOWNSCALEDOWN )
+    
+    #Com_owner.AddToList( "Scale up scale down" SCALEUPSCALEUP )
+    
+    
+    #Com_owner.AddToList2( "Move to left scale up" MOVETOLEFTSCALEUP )
+    
+    #Com_owner.AddToList2( "Move to right scale up" MOVETORIGHTSCALEUP )
+    
+    #Com_owner.AddToList2( "Move to top scale up" MOVETOTOPSCALEUP )
+    
+    #Com_owner.AddToList2( "Move to bottom scale up" MOVETOBOTTOMSCALEUP )
+    
+    #Com_owner.AddToList2( "Scale down scale up" SCALEDOWNSCALEUP )
+    
+    #Com_owner.AddToList2( "Glue left from right" GLUELEFTFROMRIGHT )
+    
+    #Com_owner.AddToList2( "Glue right from left" GLUERIGHTFROMLEFT )
+    
+    #Com_owner.AddToList2( "Glue bottom from top" GLUEBOTTOMFROMTOP )
+    
+    #Com_owner.AddToList2( "Glue top from bottom" GLUETOPFROMBOTTOM )
+    
+    #Com_owner.AddToList2( "Flip right" FLIPRIGHT )
+    
+    #Com_owner.AddToList2( "Flip left" FLIPLEFT )
+    
+    #Com_owner.AddToList2( "Flip Top" FLIPTOP )
+    
+    #Com_owner.AddToList2( "Flip Bottom" FLIPBOTTOM )
+    
+    #Com_owner.AddToList2( "Fall" FALL )
+    
+    #Com_owner.AddToList2( "Newspaper" NEWSPAPER )
+    
+    #Com_owner.AddToList2( "Push left from right" PUSHLEFTFROMRIGHT )
+    
+    #Com_owner.AddToList2( "Push right from left" PUSHRIGHTFROMLEFT )
+    
+    #Com_owner.AddToList2( "Push top from bottom" PUSHTOPFROMBOTTOM )
+    
+    #Com_owner.AddToList2( "Push bottom from top" PUSHBOTTOMFROMTOP )
+    
+    #Com_owner.AddToList2( "Push left pull right" PUSHLEFTPULLRIGHT )
+    
+    #Com_owner.AddToList2( "Push right pull left" PUSHRIGHTPULLLEFT )
+    
+    #Com_owner.AddToList2( "Push top pull bottom" PUSHTOPPULLBOTTOM )
+    
+    #Com_owner.AddToList2( "Push bottom pull top" PUSHBOTTOMPULLTOP )
+    
+    
+    #Com_owner.AddToList3( "Fold left from right" FOLDLEFTFROMRIGHT )
+    
+    #Com_owner.AddToList3( "Fold right from left" FOLDRIGHTFROMLEFT )
+    
+    #Com_owner.AddToList3( "Fold top from bottom" FOLDTOPFROMBOTTOM )
+    
+    #Com_owner.AddToList3( "Fold bottom from top" FOLDBOTTOMFROMTOP )
+    
+    #Com_owner.AddToList3( "Move to right unfold left" MOVETORIGHTUNFOLDLEFT )
+    
+    #Com_owner.AddToList3( "Move to left unfold right" MOVETOLEFTUNFOLDRIGHT )
+    
+    #Com_owner.AddToList3( "Move to bottom unfold top" MOVETOBOTTOMUNFOLDTOP )
+    
+    #Com_owner.AddToList3( "Move to top unfold bottom" MOVETOTOPUNFOLDBOTTOM )
+    
+    #Com_owner.AddToList3( "Room to left" ROOMTOLEFT )
+    
+    #Com_owner.AddToList3( "Room to right" ROOMTORIGHT )
+    
+    #Com_owner.AddToList3( "Room to top" ROOMTOTOP )
+    
+    #Com_owner.AddToList3( "Room to bottom" ROOMTOBOTTOM )
+    
+    #Com_owner.AddToList3( "Cube to left" CUBETOLEFT )
+    
+    #Com_owner.AddToList3( "Cube to right" CUBETORIGHT )
+    
+    #Com_owner.AddToList3( "Cube to top" CUBETOTOP )
+    
+    #Com_owner.AddToList3( "Cube to bottom" CUBETOBOTTOM )
+    
+    #Com_owner.AddToList3( "Carousel to left" CAROUSELTOLEFT )
+    
+    #Com_owner.AddToList3( "Carousel to right" CAROUSELTORIGHT )
+    
+    #Com_owner.AddToList3( "Carousel to top" CAROUSELTOTOP )
+    
+    #Com_owner.AddToList3( "Carousel to bottom" CAROUSELTOBOTTOM )
+    
+    #Com_owner.AddToList3( "Sides" SIDES )
+    
+    #Com_owner.AddToList3( "Slide" SLIDE )
+    
+    Endroutine
+    
+    Mthroutine Name(AddToList)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Caption)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Identifier)
+    
+    #xDemoAlpha256 := #Caption
+    #xDemoAlpha256_2 := #Identifier
+    
+    Add_Entry To_List(#List)
+    
+    #List.CurrentItem.FocusedStyle #List.CurrentItem.FocusedInactiveStyle <= #StyleNormal
+    #List.CurrentItem.MouseOverStyle <= #StyleMouse
+    
+    Endroutine
+    
+    Mthroutine Name(AddToList2)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Caption)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Identifier)
+    
+    #xDemoAlpha256 := #Caption
+    #xDemoAlpha256_2 := #Identifier
+    
+    Add_Entry To_List(#List2)
+    
+    #List2.CurrentItem.FocusedStyle #List2.CurrentItem.FocusedInactiveStyle <= #StyleNormal
+    #List2.CurrentItem.MouseOverStyle <= #StyleMouse
+    
+    Endroutine
+    
+    Mthroutine Name(AddToList3)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Caption)
+    Define_Map For(*Input) Class(#xDemoAlpha256) Name(#Identifier)
+    
+    #xDemoAlpha256 := #Caption
+    #xDemoAlpha256_2 := #Identifier
+    
+    Add_Entry To_List(#List3)
+    
+    #List3.CurrentItem.FocusedStyle #List3.CurrentItem.FocusedInactiveStyle <= #StyleNormal
+    #List3.CurrentItem.MouseOverStyle <= #StyleMouse
+    
+    Endroutine
+    
+    End_Com

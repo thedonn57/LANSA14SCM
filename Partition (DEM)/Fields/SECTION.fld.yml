@@ -1,0 +1,99 @@
+﻿Field:
+  Name:               SECTION
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    SSECTAB
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Section Code"
+      Label:              "Section........"
+      Heading1:           "    Section"
+      Heading2:           "     Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code section"
+      Label:              "Section . . . ."
+      Heading1:           "Section"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Section cannot be blank"
+      Condition:          "#section *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0013
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(201)
+    
+    End_Com
+    
+    Begin_Com Role(*Dynamic_Picklist #xDemoFieldVisSectionPicklist) Name(#DynamicPicklist) Nomatchaction(Blanks)
+    
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#Dropdown) Appearance(DropDownList) Height(19) Componentversion(1) Width(251)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the section{within a department}to
+            which the employee is assigned for work. Generally employees
+            only work for one section of the company at a time. However,
+            some employees actually have a "roving brief" and perform work
+            for more than one section or department.
+      
+            In such cases, the section which pays the employee's salary
+            should be indicated as the section to which the employee
+            belongs. If an employee indicates that they are being paid
+            by more than one section, contact the section supervisor for
+            further advice.
+      
+            Generally, whenever you are asked to specify a section code,
+            you can use the prompt key on section code. This will cause a
+            list of all departments and their associated sections to be
+            displayed in a pop-up window. You can then select the one you
+            require from the list.  $$NOAUTO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+            Il s'agit de la section {à l'intérieur du département} à
+            laquelle l'employé est rattaché. Généralement un employé
+            n'est rattaché qu'à une seule section à la fois. Toutefois,
+            certains employés travaillent pour plus d'une section à la
+            fois.
+      
+            Dans ce cas, c'est à la section qui paye son salaire que
+            l'employé doit être rattaché. Si un employé déclare être
+            payé par plusieurs sections, contactez les responsables de
+            ces sections pour plus de renseignements.
+      
+            En général, lorsqu'on vous demande un code section, vous
+            pouvez utiliser la touche d'invite de saisie. Vous pourrez
+            ainsi afficher la liste de tous les départements et de leurs
+            sections associées dans une fenêtre. Il ne vous restera
+            qu'à choisir dans cette liste avec le curseur.

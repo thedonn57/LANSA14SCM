@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12SP1
+  Type:               Alphanumeric
+  Length:             50
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Reserverd"
+      Label:              "W12SP1"
+      Heading1:           "Reserved"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Reserverd"
+      Label:              "W12SP1"
+      Heading1:           "Reserved"
+      Heading2:           " "
+      Heading3:           " "

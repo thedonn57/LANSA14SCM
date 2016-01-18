@@ -1,0 +1,41 @@
+﻿Field:
+  Name:               xEmployeeSurname
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Surname"
+      Label:              "Surname"
+      Heading1:           "Employee"
+      Heading2:           "Surname"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Surname"
+      Label:              "Surname"
+      Heading1:           "Employee"
+      Heading2:           "Surname"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(555) Componentversion(1)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_varchar.std_varchar') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

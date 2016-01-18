@@ -1,0 +1,43 @@
+﻿Reusable Part:
+  Name:               XDXTreeDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Design"
+
+  - FRA:
+      Description:        "Arborescence"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #Prim_tree.iTreeDesign *ListFields #Fields) Height(60) Layoutmanager(#Layout) Mouseoverstyle(#XDXStyles<MouseOver>) Style(#XDXStyles<Item>) Width(477)
+    
+    * Fields received as on Add_Entry in the tree
+    Group_By Name(#Fields) Fields(#XDXExample #XDXDescription #XDXCaption)
+    
+    Define_Com Class(#Prim_atlm) Name(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItem) Attachment(Top) Manage(#Caption) Parent(#Layout)
+    Define_Com Class(#Prim_atli) Name(#LayoutItem2) Attachment(Top) Manage(#Description) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Caption) Displayposition(1) Ellipses(Word) Height(20) Left(0) Marginleft(5) Parent(#COM_OWNER) Style(#XDXStyles<ItemHeading>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(477)
+    Define_Com Class(#PRIM_LABL) Name(#Description) Displayposition(2) Ellipses(Word) Height(40) Left(0) Marginleft(5) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(20) Width(477) Wrapstyle(Continuous)
+    
+    Mthroutine Name(OnAdd) Options(*redefine)
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    #TreeItem.MarginBottom := 6
+    
+    #Caption := #XDXCaption
+    #Description := #XDXDescription
+    
+    Endroutine
+    
+    End_Com
+    

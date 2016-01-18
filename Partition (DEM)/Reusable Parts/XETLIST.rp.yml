@@ -1,0 +1,249 @@
+﻿Reusable Part:
+  Name:               XETList
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee List"
+
+  - FRA:
+      Description:        "Employee List"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(270) Left(0) Tabposition(1) Top(0) Width(500) Layoutmanager(#TableLayoutMain) Style(#Style_WhiteBackground)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_WhiteBackground) Normbackcolor(White)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleToolbarSearch) Backgroundbrush(#Brush2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(Theme500)
+    
+    * Main Layout
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayoutMain) Height(48) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#ToolbarMain) Parent(#TableLayoutMain) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#EmployeeListControl) Parent(#TableLayoutMain) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#ToolbarSearch) Parent(#TableLayoutMain) Row(#Row1)
+    
+    * Main Toolbar Layout
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayoutMainToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem1) Attachment(Right) Manage(#ImageSearch) Parent(#AttachLayoutMainToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem2) Attachment(Right) Manage(#ImageAdd) Parent(#AttachLayoutMainToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem3) Attachment(Center) Manage(#LabelEmployees) Parent(#AttachLayoutMainToolbar)
+    
+    * Search Toolbar Layout
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayoutSearchToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem4) Attachment(Left) Manage(#ImageSearch) Parent(#AttachLayoutMainToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem5) Attachment(Left) Manage(#ImageBack) Parent(#AttachLayoutSearchToolbar)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem6) Attachment(Center) Manage(#EditSearch) Parent(#AttachLayoutSearchToolbar) Margintop(9) Marginbottom(9)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem7) Attachment(Right) Manage(#ImageClear) Parent(#AttachLayoutSearchToolbar)
+    
+    * Main Toolbar
+    Define_Com Class(#PRIM_PANL) Name(#ToolbarMain) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(500) Themedrawstyle('MediumTitle') Layoutmanager(#AttachLayoutMainToolbar) Height(48)
+    Define_Com Class(#PRIM_IMAG) Name(#ImageSearch) Displayposition(1) Image(#XETBM001) Left(404) Parent(#ToolbarMain) Tabposition(1) Tabstop(False) Top(0) Width(48) Height(48) Hint('Search Employees')
+    Define_Com Class(#PRIM_IMAG) Name(#ImageAdd) Displayposition(2) Image(#XETBM002) Left(452) Parent(#ToolbarMain) Tabposition(2) Tabstop(False) Top(0) Width(48) Height(48) Hint('Add Employee')
+    Define_Com Class(#PRIM_LABL) Name(#LabelEmployees) Caption('Employees') Displayposition(3) Ellipses(Word) Height(48) Left(0) Parent(#ToolbarMain) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(404) Marginleft(10) Themedrawstyle('Heading1+MediumTitle')
+    
+    * Search Toolbar
+    Define_Com Class(#PRIM_PANL) Name(#ToolbarSearch) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(500) Height(48) Layoutmanager(#AttachLayoutSearchToolbar) Visible(False) Style(#StyleToolbarSearch)
+    Define_Com Class(#PRIM_IMAG) Name(#ImageBack) Displayposition(1) Image(#XETBM004) Left(0) Parent(#ToolbarSearch) Tabposition(2) Tabstop(False) Top(0) Width(48) Height(48) Hint('Back')
+    Define_Com Class(#PRIM_EDIT) Name(#EditSearch) Displayposition(2) Height(30) Left(48) Parent(#ToolbarSearch) Showselection(False) Showselectionhilight(False) Tabposition(3) Top(9) Width(404) Placeholder('Search Employees')
+    Define_Com Class(#PRIM_IMAG) Name(#ImageClear) Displayposition(3) Image(#XETBM008) Left(452) Parent(#ToolbarSearch) Tabposition(1) Tabstop(False) Top(0) Width(48) Height(48) Hint('Clear Search')
+    
+    * List
+    Define_Com Class(#PRIM_LIST) Name(#EmployeeListControl) Displayposition(3) Height(222) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(48) Width(500) Rowheight(60) Columnheaderheight(0) Columnlines(False)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#EmployeeListControl) Imagesizing(BestFit) Cellmarginbottom(3) Cellmarginleft(3) Cellmarginright(3) Cellmargintop(3) Image(#XETBM003)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDisplayName) Columnwidth(1) Displayposition(2) Parent(#EmployeeListControl) Columnunits(Proportion) Sortposition(1) Sortonclick(True)
+    
+    * ****** *
+    * Events *
+    * ****** *
+    
+    Define_Evt Name(AddClicked)
+    
+    Define_Evt Name(EmployeeGotFocus)
+    Define_Map For(*INPUT) Class(#XETData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    Define_Evt Name(EmployeeClicked)
+    Define_Map For(*INPUT) Class(#XETData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    * ************** *
+    * Event Handlers *
+    * ************** *
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #COM_OWNER.LoadEmployeesFromServer
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeListControl.ItemGotFocus)
+    
+    Signal Event(EmployeeGotFocus) Employee(#EmployeeListControl.CurrentItem.RelatedReference *As #XETData)
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeListControl.ItemClick)
+    
+    Signal Event(EmployeeClicked) Employee(#EmployeeListControl.CurrentItem.RelatedReference *As #XETData)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageAdd.Click)
+    
+    Signal Event(AddClicked)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageSearch.Click)
+    
+    #COM_OWNER.Transition From(#ToolbarMain) To(#ToolbarSearch) Transitiontype(FadeRightFadeLeft) Duration(600)
+    
+    #EditSearch.SetFocus
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageBack.Click)
+    
+    #EditSearch := *BLANKS
+    
+    #COM_OWNER.Transition From(#ToolbarSearch) To(#ToolbarMain) Transitiontype(FadeLeftFadeRight) Duration(600)
+    
+    #COM_OWNER.UpdateFilter
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageClear.Click)
+    
+    #EditSearch := *BLANKS
+    
+    #COM_OWNER.UpdateFilter
+    
+    #EditSearch.SetFocus
+    
+    Endroutine
+    
+    Evtroutine Handling(#EditSearch.Changed)
+    
+    #COM_OWNER.UpdateFilter
+    
+    Endroutine
+    
+    * **************
+    * Public Methods
+    * **************
+    
+    Mthroutine Name(UpdateEmployee)
+    Define_Map For(*INPUT) Class(#XETData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    Define_Com Class(#PRIM_LIST.ListItem) Name(#ListItem) Reference(*DYNAMIC)
+    
+    #ListItem <= #EmployeeListControl.FindReference( #Employee )
+    
+    If (#ListItem *Is *null)
+    
+    Add_Entry To_List(#EmployeeListControl)
+    
+    #ListItem <= #EmployeeListControl.CurrentItem
+    
+    #ListItem.RelatedReference <= #Employee
+    
+    Endif
+    
+    Get_Entry Number(#ListItem.Entry) From_List(#EmployeeListControl)
+    
+    #ColumnImage.CurrentItem.Image <= #Employee.ThumbnailImage
+    #ColumnDisplayName.CurrentItem.Value := #Employee.DisplayName
+    
+    #ListItem.Selected := True
+    
+    Endroutine
+    
+    Mthroutine Name(DeleteEmployee)
+    Define_Map For(*INPUT) Class(#XETData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    Define_Com Class(#PRIM_LIST.ListItem) Name(#ListItem) Reference(*DYNAMIC)
+    
+    * Delete from the list
+    #ListItem <= #EmployeeListControl.FindReference( #Employee )
+    
+    If (#ListItem *IsNot *null)
+    
+    #ListItem.Delete
+    
+    Endif
+    
+    * Delete from the server
+    #COM_OWNER.DeleteEmployeeFromServer( #Employee )
+    
+    Endroutine
+    
+    * ***********************************************
+    * Private Methods - Communicating with the Server
+    * ***********************************************
+    
+    Mthroutine Name(LoadEmployeesFromServer) Access(*PRIVATE)
+    Define_Com Class(#XETServer.GetEmployees) Name(#GetEmployeesFromServer)
+    Define_Com Class(#PRIM_LCOL<#XETData>) Name(#EmployeeList)
+    
+    * Execute the server request, map the result into an Employee Object list
+    #GetEmployeesFromServer.ExecuteAsync Employeelist(#EmployeeList)
+    
+    Evtroutine Handling(#GetEmployeesFromServer.Completed)
+    
+    * Populate the list-control
+    For Each(#Employee) In(#EmployeeList)
+    
+    Add_Entry To_List(#EmployeeListControl)
+    
+    #EmployeeListControl.CurrentItem.RelatedReference <= #Employee
+    
+    #ColumnImage.CurrentItem.Image <= #Employee.ThumbnailImage
+    
+    #ColumnDisplayName.CurrentItem.Value := #Employee.DisplayName
+    
+    Endfor
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(DeleteEmployeeFromServer) Access(*PRIVATE)
+    Define_Map For(*INPUT) Class(#XETData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    Define_Com Class(#XETServer.DeleteEmployee) Name(#DeleteEmployeeOnServer)
+    
+    #DeleteEmployeeOnServer.ExecuteAsync Identifier(#Employee.Identifier)
+    
+    Endroutine
+    
+    * ********************************
+    * Private Methods - HELPER METHODS
+    * ********************************
+    
+    Mthroutine Name(UpdateFilter) Access(*PRIVATE)
+    
+    Selectlist Named(#EmployeeListControl)
+    
+    If ((#EditSearch.Value = *BLANKS) *OrIf (#ColumnDisplayName.CurrentItem.Value.UpperCase.Contains( #EditSearch.Value.UpperCase )))
+    
+    #EmployeeListControl.CurrentItem.Visible := True
+    
+    Else
+    
+    #EmployeeListControl.CurrentItem.Visible := False
+    
+    Endif
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

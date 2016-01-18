@@ -1,0 +1,102 @@
+﻿Reusable Part:
+  Name:               xDemoWebDataEmployee
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Data Object"
+
+  - FRA:
+      Description:        "Employee Data Object"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_objt *Listfields #Employee)
+    
+    * Field values to be mapped in when the instance is created
+    Def_List Name(#Employee) Fields(#Empno #givename #surname #deptment #Section #Address1 #Address2 #Address3 #postcode #phonehme #phonebus #startdte #termdate #salary #empthm) Counter(#listcount) Type(*working) Entrys(1)
+    
+    * Global scoped reference to the Data Model Object
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    * Published properties of the Employee
+    Define_Pty Name(ID) Get(*auto #Empno)
+    Define_Pty Name(GivenName) Get(*auto #Givename)
+    Define_Pty Name(Surname) Get(*auto #Surname)
+    Define_Pty Name(DepartmentCode) Get(*auto #Deptment)
+    Define_Pty Name(Department) Get(GetDepartment)
+    Define_Pty Name(SectionCode) Get(*auto #section)
+    Define_Pty Name(Section) Get(GetSection)
+    Define_Pty Name(AddressLine1) Get(*Auto #Address1)
+    Define_Pty Name(AddressLine2) Get(*Auto #Address2)
+    Define_Pty Name(AddressLine3) Get(*Auto #Address3)
+    Define_Pty Name(PhoneHome) Get(*Auto #Phonehme)
+    Define_Pty Name(PhoneWork) Get(*Auto #Phonebus)
+    Define_Pty Name(PostCode) Get(*Auto #PostCode)
+    Define_Pty Name(Salary) Get(*Auto #Salary)
+    Define_Pty Name(StartDate) Get(GetStartDate)
+    Define_Pty Name(TerminationDate) Get(GetTerminationDate)
+    Define_Pty Name(Thumbnail) Get(GetThumbnail)
+    
+    * Return the signed 6,0 StartDte as a Date variable
+    Ptyroutine Name(GetStartDate)
+    Define_Map For(*output) Class(#XDXDate) Name(#Property)
+    
+    * Default to SQLNull
+    #Property := *SQLNull
+    
+    * If a valid date, convert to a date variable
+    If ((#startdte <> 0) *AndIf (#startdte.isdate( SysFmt6 )))
+    
+    #Property := #startdte.asdate( SysFmt6 )
+    
+    Endif
+    
+    Endroutine
+    
+    * Return the signed 6,0 TermDate as a Date variable
+    Ptyroutine Name(GetTerminationDate)
+    Define_Map For(*output) Class(#XDXDate) Name(#Property)
+    
+    * Default to SQLNull
+    #Property := *SQLNull
+    
+    * If a valid date, convert to a date variable
+    If ((#termdate <> 0) *AndIf (#termdate.isdate( SysFmt6 )))
+    
+    #Property := #termdate.asdate( SysFmt6 )
+    
+    Endif
+    
+    Endroutine
+    
+    * Return the blob EmpThm as a bitmap instance
+    Ptyroutine Name(GetThumbnail)
+    Define_Map For(*output) Class(#prim_bmp) Name(#Property) Pass(*By_reference)
+    
+    #Property <= #sys_appln.CreateBitmap( #empthm )
+    
+    Endroutine
+    
+    * Return the Department instance
+    Ptyroutine Name(GetDepartment)
+    Define_Map For(*output) Class(#xDemoWebDataDepartment) Name(#Property) Pass(*By_reference)
+    
+    #Property <= #gData.FindDepartment( #deptment )
+    
+    Endroutine
+    
+    * Return the Section instance
+    Ptyroutine Name(GetSection)
+    Define_Map For(*output) Class(#xDemoWebDataSection) Name(#Property) Pass(*By_reference)
+    
+    #Property <= #gData.FindSection( #Deptment #Section )
+    
+    Endroutine
+    
+    End_Com

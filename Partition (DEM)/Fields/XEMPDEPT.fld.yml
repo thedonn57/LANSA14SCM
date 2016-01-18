@@ -1,0 +1,54 @@
+﻿Field:
+  Name:               xEmployeeDepartment
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Description"
+      Label:              "Department Desc"
+      Heading1:           "Department"
+      Heading2:           "Description"
+      Heading3:           "Description"
+
+  - FRA:
+      Description:        "Department Description"
+      Label:              "Department Desc"
+      Heading1:           "Employee"
+      Heading2:           "Department"
+      Heading3:           "Description"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(324) Componentversion(1)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          Employee department is a virtual field derived from the
+          department file to show the name of the department in which
+          the employee works.
+      
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Il s'agit de la description complète du département. Elle peut
+          comporter de 1 à 40 caractères, et doit être la description
+          officielle du département dans l'entreprise.

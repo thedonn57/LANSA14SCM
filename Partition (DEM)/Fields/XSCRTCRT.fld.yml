@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               XSCartCreated
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Cart Created Date"
+      Label:              "Cart Created Da"
+      Heading1:           "Cart"
+      Heading2:           "Created"
+      Heading3:           "Date"
+
+  - FRA:
+      Description:        "Cart Created Date"
+      Label:              "Cart Created Da"
+      Heading1:           "Cart"
+      Heading2:           "Created"
+      Heading3:           "Date"

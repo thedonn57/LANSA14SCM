@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               IO$KEY
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Last workstation key used"
+      Label:              "Last key ......"
+      Heading1:           "Last"
+      Heading2:           "Key"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Dernière touche utilisée"
+      Label:              "Dern. touche  ."
+      Heading1:           "Dern."
+      Heading2:           "Touche"
+      Heading3:           " "

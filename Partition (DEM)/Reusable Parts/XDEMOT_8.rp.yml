@@ -1,0 +1,87 @@
+﻿Reusable Part:
+  Name:               xDemoTreeSimpleListDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Simple List Design"
+
+  - FRA:
+      Description:        "Tree Simple List Design"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_panl *implements #prim_tree.iTreeDesign *ListFields #ListFields) Height(140) Layoutmanager(#Layout) Width(643) Displayposition(1) Tabposition(1) Left(0) Top(0) Themedrawstyle('ListItem')
+    
+    * Fields mapped in when the entry is added to the Tree
+    Group_By Name(#ListFields) Fields(#EMPNO #SURNAME #GIVENAME #ADDRESS1 #ADDRESS2 #ADDRESS3 #POSTCODE #PHONEHME #PHONEBUS #EMPTHM)
+    
+    Define_Com Class(#prim_tblo) Name(#Layout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row1) Displayposition(1) Parent(#Layout) Height(1.01)
+    Define_Com Class(#prim_tblo.Row) Name(#Row2) Displayposition(2) Parent(#Layout) Height(1.01)
+    Define_Com Class(#prim_tblo.Row) Name(#Row3) Displayposition(3) Parent(#Layout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row4) Displayposition(4) Parent(#Layout)
+    
+    Define_Com Class(#prim_tblo.Column) Name(#Column_1) Displayposition(1) Parent(#Layout) Units(Pixels) Width(52)
+    Define_Com Class(#prim_tblo.Column) Name(#Column_2) Displayposition(2) Parent(#Layout) Units(Pixels) Width(86)
+    Define_Com Class(#prim_tblo.Column) Name(#Column_3) Displayposition(3) Parent(#Layout) Width(116) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#Layout) Width(1.63)
+    
+    Define_Com Class(#Prim_tblo.Item) Name(#Item3) Column(#Column_3) Manage(#lFullName) Parent(#Layout) Row(#Row1) Columnspan(2)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item4) Column(#Column_3) Manage(#lAddress1) Parent(#Layout) Row(#Row_1) Columnspan(2)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item5) Column(#Column_3) Manage(#lAddress2) Parent(#Layout) Row(#Row_2) Columnspan(2)
+    Define_Com Class(#Prim_tblo.Item) Name(#Item6) Column(#Column_3) Manage(#lAddress3) Parent(#Layout) Row(#Row_3) Columnspan(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lFullName) Caption('Firstname, Surname') Displayposition(1) Ellipses(Word) Height(21) Left(138) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Verticalalignment(Center) Width(505) Dragstyle(Aggregated) Themedrawstyle('Strong')
+    Define_Com Class(#PRIM_LABL) Name(#lAddress1) Caption('Address 1') Displayposition(2) Ellipses(Word) Height(20) Left(138) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(82) Verticalalignment(Center) Width(505) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress2) Caption('Address 2') Displayposition(3) Ellipses(Word) Height(19) Left(138) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(102) Verticalalignment(Center) Width(505) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress3) Caption('Address 3 & PostCode') Displayposition(4) Ellipses(Word) Height(19) Left(138) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(121) Verticalalignment(Center) Width(505) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#lName) Caption('Name') Displayposition(5) Ellipses(Word) Left(52) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(0) Verticalalignment(Center) Height(21) Width(86) Dragstyle(Aggregated) Themedrawstyle('Strong')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_2) Manage(#lName) Parent(#Layout) Row(#Row1)
+    Define_Com Class(#PRIM_LABL) Name(#lAddress) Caption('Address') Displayposition(6) Ellipses(Word) Left(52) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(82) Verticalalignment(Center) Height(20) Width(86) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#lAddress) Parent(#Layout) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(5) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(6) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lContact) Caption('Contact') Displayposition(7) Ellipses(Word) Left(52) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Verticalalignment(Center) Height(21) Width(86) Dragstyle(Aggregated) Top(21)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#lContact) Parent(#Layout) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(7) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lWork) Caption('Work') Displayposition(8) Ellipses(Word) Left(138) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Verticalalignment(Center) Height(21) Width(116) Dragstyle(Aggregated) Top(21)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_4) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lWork) Parent(#Layout) Row(#Row2)
+    Define_Com Class(#PRIM_LABL) Name(#lHome) Caption('Home') Displayposition(9) Ellipses(Word) Left(138) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(42) Verticalalignment(Center) Height(20) Width(116) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_5) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lHome) Parent(#Layout) Row(#Row3)
+    Define_Com Class(#PRIM_LABL) Name(#lEmail) Caption('Email') Displayposition(10) Ellipses(Word) Left(138) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(62) Verticalalignment(Center) Height(20) Width(116) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_6) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lEmail) Parent(#Layout) Row(#Row4)
+    Define_Com Class(#PRIM_LABL) Name(#lPhoneWork) Caption('Work Phone') Displayposition(11) Ellipses(Word) Left(254) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Verticalalignment(Center) Height(21) Width(389) Dragstyle(Aggregated) Top(21)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_7) Alignment(TopLeft) Column(#Column_4) Flow(Down) Manage(#lPhoneWork) Parent(#Layout) Row(#Row2)
+    Define_Com Class(#PRIM_LABL) Name(#lPhoneHome) Caption('Home Phone') Displayposition(12) Ellipses(Word) Left(254) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(42) Verticalalignment(Center) Height(20) Width(389) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_8) Alignment(TopLeft) Column(#Column_4) Flow(Down) Manage(#lPhoneHome) Parent(#Layout) Row(#Row3)
+    Define_Com Class(#PRIM_LABL) Name(#lEmailAddress) Caption('Email') Displayposition(13) Ellipses(Word) Left(254) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(62) Verticalalignment(Center) Height(20) Width(389) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_9) Alignment(TopLeft) Column(#Column_4) Flow(Down) Manage(#lEmailAddress) Parent(#Layout) Row(#Row4)
+    Define_Com Class(#Prim_imag) Name(#EmployeeImage) Displayposition(14) Parent(#COM_OWNER) Tabposition(14) Top(2) Dragstyle(Aggregated) Left(2) Width(48) Height(48) Imagesizing(ShrinkToFit)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #lFullName := ("&1 &2 (&3)").Substitute( #Givename #Surname #empno )
+    
+    #lAddress1 := #Address1
+    #lAddress2 := #Address2
+    #lAddress3 := ("&1, &2").Substitute( #Address3 #PostCode.Asstring )
+    #lPhoneHome := #PhoneHme
+    #lPhoneWork := #PhoneBus
+    #lEmailAddress := ("&1.&2@acompany.com").Substitute( #Givename #Surname ).lowercase
+    
+    If (#Empthm.isnotSqlNull)
+    
+    #EmployeeImage.FileName := #empthm
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

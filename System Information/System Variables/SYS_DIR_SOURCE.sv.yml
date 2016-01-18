@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*SYS_DIR_SOURCE"
+  Description:        "System SOURCE Directory"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             256
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

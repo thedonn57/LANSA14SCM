@@ -1,0 +1,52 @@
+﻿Field:
+  Name:               KEYCOUNT
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Number of keys in file key list"
+      Label:              "No. of keys ..."
+      Heading1:           "Number"
+      Heading2:           "of Keys"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nombre de clés dans liste clés fichier"
+      Label:              "Nbre de clés  ."
+      Heading1:           "Nombre"
+      Heading2:           "de clés"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      %{Description\:  Field KEYCOUNT is a standard LANSA field. It is used
+          as a reference field in many automatically written LANSA programs
+          to define the attributes of field(s) that are used to specify the
+          number of keys in a key list passed to the SELECT command.
+      
+      %{Warning\:  KEYCOUNT is a standard LANSA field. The type and length of
+          KEYCOUNT field should@NEVER\be modified in any way.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      %{Description}:  Le champ KEYCOUNT est un champ standard de LANSA. Il
+          est utilisé comme champ de référence dans beaucoup de programmes
+          LANSA écrits automatiquement, pour définir les attributs des champs
+          destinés à préciser le nombre de clés dans une liste de clés passée
+          dans la commande SELECT.
+      
+      %{Attention}:  KEYCOUNT est un champ LANSA standard. Le type et la
+          longueur du champ KEYCOUNT ne doivent@JAMAIS}être modifiés.

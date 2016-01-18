@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               SEL_ENTRY
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Entry number of selected browse entry"
+      Label:              "Selected......."
+      Heading1:           "Selected"
+      Heading2:           "Entry No"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro entrée selectionnée \"browse list\""
+      Label:              "Sélection . . ."
+      Heading1:           "Entrée"
+      Heading2:           "Sélect."
+      Heading3:           " "

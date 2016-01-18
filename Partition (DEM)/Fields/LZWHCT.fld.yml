@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               LZWHCT
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_TEXTS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "City"
+      Label:              "City"
+      Heading1:           "City"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Ville"
+      Label:              "Ville"
+      Heading1:           "Ville"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field is intended  for the Name of the City where the }
+        %Warehouse is located.}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable est utilise pour le nom de la ville ou l'entrepot}
+        %est situe.}
+      $$NOAUTO

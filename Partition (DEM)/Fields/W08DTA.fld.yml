@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W08DTA
+  Type:               Alphanumeric
+  Length:             50
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "User information"
+      Label:              "W08DTA"
+      Heading1:           "User"
+      Heading2:           "Information"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "User information"
+      Label:              "W08DTA"
+      Heading1:           "User"
+      Heading2:           "Information"
+      Heading3:           " "

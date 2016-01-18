@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60DBC
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DBCS support required"
+      Label:              "F60DBC"
+      Heading1:           "F60DBC"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "DBCS support required"
+      Label:              "F60DBC"
+      Heading1:           "F60DBC"
+      Heading2:           " "
+      Heading3:           " "

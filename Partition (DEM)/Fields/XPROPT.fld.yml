@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XPROPT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Optional (Y/N)?"
+      Label:              "XPROPT"
+      Heading1:           "Optional"
+      Heading2:           "(Y/N)?"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Optional (Y/N)?"
+      Label:              "XPROPT"
+      Heading1:           "Optional"
+      Heading2:           "(Y/N)?"
+      Heading3:           " "

@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DAY"
+  Description:        "Current day (numeric)"
+  Derivation:         Static
+  Data Type:          Numeric
+  Length:             2
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

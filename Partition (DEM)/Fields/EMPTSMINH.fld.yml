@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSMINH
+  Type:               Packed
+  Length:             15
+  Decimals:           1
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Minimum daily hours worked"
+      Label:              "Minimum daily h"
+      Heading1:           "Minimum"
+      Heading2:           "daily"
+      Heading3:           "hours"
+
+  - FRA:
+      Description:        "Min heures travaillées par jour"
+      Label:              "Min par jour"
+      Heading1:           "Min"
+      Heading2:           "heures"
+      Heading3:           "jour"

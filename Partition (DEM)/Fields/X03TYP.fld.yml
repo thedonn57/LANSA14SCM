@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03TYP
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Component type"
+      Label:              "X03TYP"
+      Heading1:           "Component"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Component type"
+      Label:              "X03TYP"
+      Heading1:           "Component"
+      Heading2:           "Type"
+      Heading3:           " "

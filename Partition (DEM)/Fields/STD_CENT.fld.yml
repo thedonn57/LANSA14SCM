@@ -1,0 +1,58 @@
+﻿Field:
+  Name:               STD_CENT
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard CENTURY"
+      Label:              "Century"
+      Heading1:           "Cen-"
+      Heading2:           "tury"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Siècle Standard"
+      Label:              "Siècle"
+      Heading1:           "Siècle"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Must be between 19 and 21"
+      Ranges:
+      - From:               +19
+        To:                 +21
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1081
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        Enter the Century into this field.
+      
+      
+        Validation Rules :  Must be 19, 20, or 21.
+      
+        Maximum Length   :    2 numerics
+      
+      
+      
+      $$NOAUTO

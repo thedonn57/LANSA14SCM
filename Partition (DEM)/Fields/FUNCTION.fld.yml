@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               FUNCTION
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*FUNCTION"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current function name"
+      Label:              "Function ......"
+      Heading1:           "Function"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom de la fonction en cours"
+      Label:              "Fonction  . . ."
+      Heading1:           "Fonction"
+      Heading2:           " "
+      Heading3:           " "

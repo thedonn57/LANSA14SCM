@@ -1,0 +1,125 @@
+﻿File:
+  Name:                           XSShoppingCart
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             XSSHPCRT
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart"
+
+  - FRA:
+      Description:        "Shopping Cart"
+
+  Real Fields:
+  - XSCRTID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSCRTCRT:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XSCRTLST:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XSCRTEXP:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XSCRTSTS:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSACCID:
+      Type:               Integer
+      Length:             4
+      Decimals:           0
+
+  - XSCRTPRC:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSCRTTAX:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSCRTSHP:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSCRTQTY:
+      Type:               Signed
+      Length:             7
+      Decimals:           0
+
+  Primary Keys:
+  - XSCRTID
+
+  Virtual Fields:
+  - XSCRTTTL:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+      Virtual Field Type: Calculation
+      Derive On Input:    Yes
+      Operations:
+      - Factor 1:           XSCRTPRC
+        Operator:           Add
+        Factor 2:           XSCRTTAX
+        Result:             XSCRTTTL
+      - Factor 1:           XSCRTTTL
+        Operator:           Add
+        Factor 2:           XSCRTSHP
+        Result:             XSCRTTTL
+
+  Logical Views:
+  - XSShoppingCartV1:
+      Identifier:         XSCRTSHPV1
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      XSCRTSHPV1
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "By XSAccountID"
+
+      - FRA:
+          Description:        "By XSAccountID"
+
+      Keys:
+      - XSACCID:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed

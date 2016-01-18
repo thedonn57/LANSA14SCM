@@ -1,0 +1,76 @@
+﻿Field:
+  Name:               TYPE_VAR
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    LZ2WPVC
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Warehouse Type"
+      Label:              "Warehouse Type."
+      Heading1:           "Warehouse"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Type Entrepot"
+      Label:              "Type Entrepot"
+      Heading1:           "Entrepot"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "RUO Must be a valid type code"
+      Values:
+      - "'DISTR'"
+      - "'MANUF'"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     LUO3130
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      %The Warehouse Variation code, indicates the type of Warehouse.}       GE
+      %Valid Warehouse Types are: }
+           %MANUF}: Manufacturing Type Warehouse
+           %DISTR}: Distribution Type of Warehouse
+      
+        A "Variation" is one of the relationships which can be defined
+        between RUOM objects.
+      
+        RUOM will generate one file for the Generalisation (e.g Warehouse)
+        and one file for each variation (e.g. Distribution Centre, and
+                                        (     Manufacturing Plant)
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+      %Le code variation de l'entrepot indique le type de l'entrepot.}       GE
+      %Les types d'entrepot valides sont :}
+           %MANUF}: Entrepot de type fabrication
+           %DISTR}: Entrepot de type distribution
+      
+        Une variation est une des relations qui peut etre definie entre
+        des objects de RUOM.
+      
+        RUOM va generer un fichier pour la generalisation (entrepot) et un
+        fichier pour chaque variation  ( Centre de distribution et
+                                        ( Usine de fabrication)
+      
+      $$NOAUTO

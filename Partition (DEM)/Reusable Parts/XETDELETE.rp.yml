@@ -1,0 +1,71 @@
+﻿Reusable Part:
+  Name:               XETDelete
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Delete Confirmation Popup"
+
+  - FRA:
+      Description:        "Employee Delete Confirmation Popup"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Left(0) Height(170) Top(0) Width(312) Layoutmanager(#TableLayout) Shroudstyle(#StyleShroud) Autoclose(False)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleShroud) Backgroundbrush(#BrushShroud)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushShroud) Color(Theme200) Opacity(5)
+    
+    * Layout
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(3) Parent(#TableLayout) Height(56) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout) Height(48) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#ButtonCancel) Parent(#TableLayout) Row(#Row2) Margintop(3) Marginbottom(3) Marginleft(3) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#ButtonOk) Parent(#TableLayout) Row(#Row2) Margintop(3) Marginbottom(3) Marginleft(2) Marginright(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row1) Columnspan(2) Marginleft(20) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout) Row(#Row3) Columnspan(3)
+    
+    * Controls
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Are you sure you want to delete this Employee?') Displayposition(3) Ellipses(Word) Height(64) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(48) Width(270) Left(20) Verticalalignment(Center)
+    Define_Com Class(#PRIM_PHBN) Name(#ButtonCancel) Caption('CANCEL') Displayposition(1) Left(3) Parent(#COM_OWNER) Tabposition(2) Top(115) Height(50) Width(150) Buttoncancel(True)
+    Define_Com Class(#PRIM_PHBN) Name(#ButtonOk) Caption('OK') Displayposition(2) Left(157) Parent(#COM_OWNER) Tabposition(1) Top(115) Height(50) Width(150)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Delete Employee') Displayposition(4) Ellipses(Word) Height(48) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Verticalalignment(Center) Width(310) Themedrawstyle('MediumTitle') Marginleft(20)
+    
+    * ******
+    * Events
+    * ******
+    
+    Define_Evt Name(OkClicked)
+    
+    Define_Evt Name(CancelClicked)
+    
+    * **************
+    * Event Handlers
+    * **************
+    
+    Evtroutine Handling(#ButtonCancel.Click)
+    
+    #COM_OWNER.ClosePopup
+    
+    Signal Event(CancelClicked)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ButtonOk.Click)
+    
+    #COM_OWNER.ClosePopup
+    
+    Signal Event(OkClicked)
+    
+    Endroutine
+    
+    End_Com

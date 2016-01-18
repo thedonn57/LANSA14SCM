@@ -1,0 +1,76 @@
+﻿Field:
+  Name:               GIVENAME
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Given Name(s)"
+      Label:              "Given names...."
+      Heading1:           "Given name(s)"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Prénoms de l´employé"
+      Label:              "Prénom(s) . . ."
+      Heading1:           "Prénom(s)"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Given name(s) cannot be blank"
+      Condition:          "#givename *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0006
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual_Host #xDemoFieldVisGivenameAutoComplete) Name(#AutoComplete) Height(21) Width(251)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This field represents the employee's given (sometimes called
+          first or christian name). It is up to 20 characters in length.
+      
+          The name given by the employee should always be used in the field,
+          even if it is not the employee's actual name in a legal sense.
+          This name is only used for internal office procedures and is never
+          disclosed to anyone ouside the company.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Cette zone contient le ou les prénoms d'un employé. Elle comporte
+          de 1 à 20 caractères.
+      
+          Le(s) prénom(s) donnés par l'employé doivent être saisis dans
+          cette zone, même s'il ne s'agit pas du prénom légal. Ces prénoms
+          ne seront utilisés que pour les procédures internes à l'entreprise,
+          et ne seront jamais diffusés à l'extérieur.

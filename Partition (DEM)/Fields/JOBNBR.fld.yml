@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               JOBNBR
+  Type:               Alphanumeric
+  Length:             6
+  Decimals:           0
+  Default Value:      "*JOBNBR"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current AS/400 or S/38 job number"
+      Label:              "Job number ...."
+      Heading1:           "Job"
+      Heading2:           "Number"
+      Heading3:           "------"
+
+  - FRA:
+      Description:        "Numéro de travail AS/400 / S/38 en cours"
+      Label:              "No travail  . ."
+      Heading1:           "Numéro"
+      Heading2:           "travail"
+      Heading3:           " "

@@ -1,0 +1,139 @@
+﻿Reusable Part:
+  Name:               XSShoppingCartView4
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart Total"
+
+  - FRA:
+      Description:        "Shopping Cart Total"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(355) Left(0) Tabposition(1) Top(0) Width(400) Layoutmanager(#TableLayout1) Style(#XSTheme01<PanelBorders1>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(25) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(4) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(5) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(6) Parent(#TableLayout1) Units(Pixels) Height(100)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(7) Parent(#TableLayout1) Height(70) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LCartTotalItem1) Alignment(TopLeft) Column(#Column1) Manage(#LCartSummary) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Flow(Down) Manage(#LProductTotal) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(CenterLeft) Column(#Column1) Flow(Down) Manage(#LTaxes) Parent(#TableLayout1) Row(#Row3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(CenterLeft) Column(#Column1) Flow(Down) Manage(#LShipping) Parent(#TableLayout1) Row(#Row4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(CenterLeft) Column(#Column1) Flow(Down) Manage(#LCartTotal) Parent(#TableLayout1) Row(#Row5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(CenterLeft) Column(#Column2) Flow(Down) Manage(#XSCartTotalTax) Parent(#TableLayout1) Row(#Row3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(CenterLeft) Column(#Column2) Flow(Down) Manage(#XSCartTotalPrice) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(CenterLeft) Column(#Column2) Flow(Down) Manage(#XSCartTotal) Parent(#TableLayout1) Row(#Row5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button1Item1) Column(#Column1) Manage(#ContinueShoppingButton) Parent(#TableLayout1) Row(#Row6) Sizing(None) Columnspan(2) Alignment(BottomRight) Marginright(10) Marginbottom(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Button2Item1) Column(#Column1) Manage(#CheckoutButton) Parent(#TableLayout1) Row(#Row7) Sizing(None) Alignment(BottomRight) Marginright(10) Columnspan(2) Marginbottom(5)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LCartSummary) Caption('Summary') Displayposition(1) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Marginleft(20) Width(398) Themedrawstyle('PanelHeader1')
+    Define_Com Class(#PRIM_LABL) Name(#LProductTotal) Caption('Products Total') Displayposition(2) Ellipses(Word) Height(40) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(25) Verticalalignment(Center) Width(266) Left(0) Marginleft(20) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#LTaxes) Caption('Taxes') Displayposition(3) Ellipses(Word) Height(40) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(65) Verticalalignment(Center) Width(266) Left(0) Marginleft(20) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#LShipping) Caption('Shipping not included') Displayposition(4) Ellipses(Word) Height(40) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(105) Verticalalignment(Center) Width(266) Left(0) Marginleft(20) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#LCartTotal) Caption('Cart Total') Displayposition(5) Ellipses(Word) Height(40) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(145) Verticalalignment(Center) Width(266) Left(0) Marginleft(20) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    
+    Define_Com Class(#XSCartTotalTax.Visual) Name(#XSCartTotalTax) Displayposition(6) Left(266) Parent(#COM_OWNER) Tabposition(6) Top(65) Marginleft(10) Width(132) Height(40) Readonly(True) Editstyle(#XSTheme01<Text10AlmostBlack>) Style(#XSTheme01<Text10AlmostBlack>) Caption('$') Labeltype(Caption) Labelposition(None)
+    Define_Com Class(#XSCartTotalPrice.Visual) Name(#XSCartTotalPrice) Displayposition(7) Left(266) Parent(#COM_OWNER) Tabposition(7) Top(25) Marginleft(10) Width(132) Height(40) Readonly(True) Editstyle(#XSTheme01<Text10BoldAlmostBlack>) Caption('$') Labeltype(Caption)
+    Define_Com Class(#XSCartTotal.Visual) Name(#XSCartTotal) Displayposition(8) Left(266) Parent(#COM_OWNER) Tabposition(8) Top(145) Marginleft(10) Width(132) Height(40) Readonly(True) Editstyle(#XSTheme01<Text10BoldAlmostBlack>) Caption('$') Labeltype(Caption)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#ContinueShoppingButton) Caption('Continue Shopping') Displayposition(9) Left(208) Parent(#COM_OWNER) Tabposition(9) Top(230) Width(180) Themedrawstyle('ButtonLook1') Height(50)
+    Define_Com Class(#PRIM_PHBN) Name(#CheckoutButton) Caption('Checkout') Displayposition(10) Left(208) Parent(#COM_OWNER) Tabposition(10) Top(300) Width(180) Themedrawstyle('ButtonLook1') Height(50)
+    Define_Com Class(#Prim_boln) Name(#IncludeTax)
+    Define_Com Class(#Prim_boln) Name(#IncludeShipping)
+    
+    Define_Com Class(#XSServer.GotoProducts) Name(#Products)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #Com_owner.UpdateSummary
+    
+    #Com_owner.IncludeTaxes
+    
+    * No shipping included at this stage
+    #IncludeShipping := false
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.CartPriceUpdated)
+    
+    #Com_owner.UpdateSummary
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.EmailUpdated)
+    
+    #Com_owner.IncludeTaxes
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateSummary)
+    
+    #XSCartTotalPrice := #MySession.pCartPrice
+    #XSCartTotalTax := #MySession.pCartTax
+    #XSCartTotalShipping := #MySession.pCartShipping
+    #XSCartTotal := #XSCartTotalPrice
+    
+    If (#IncludeShipping)
+    
+    #XSCartTotal := #XSCartTotal + #XSCartTotalShipping
+    
+    Endif
+    
+    If (#IncludeTax)
+    
+    #XSCartTotal := #XSCartTotal + #XSCartTotalTax
+    
+    Endif
+    
+    Endroutine
+    
+    
+    Evtroutine Handling(#ContinueShoppingButton.Click)
+    
+    * by default go to Power Tools
+    #Products.execute( '3' )
+    
+    Endroutine
+    
+    Evtroutine Handling(#CheckoutButton.Click)
+    
+    #sys_web.alert( 'Checkout not available' )
+    
+    Endroutine
+    
+    Mthroutine Name(IncludeTaxes)
+    
+    If (#MySession.pEmail = *blank)
+    
+    #XSCartTotalTax.visible := false
+    #LTaxes := 'Taxes are not included'
+    #IncludeTax := false
+    
+    Return
+    
+    Endif
+    
+    #XSCartTotalTax.visible := true
+    #IncludeTax := true
+    
+    #LTaxes := 'Taxes'
+    
+    Endroutine
+    
+    End_Com

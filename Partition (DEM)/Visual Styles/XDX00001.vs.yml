@@ -1,0 +1,135 @@
+﻿Visual Style:
+  Name:               XDXStyles
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DirectX Styles"
+
+  - FRA:
+      Description:        "Styles DirectX"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VS)
+    
+    * A P P L I C A T I O N   S T Y L E S
+    
+    * Edits - Applied at startup to SYS_APPLN and used by all edit instances
+    Define_Com Class(#prim_vs.Style) Name(#Edit) Backgroundbrush(#EditBrush) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#EditBrush) Opacity(80)
+    
+    * Combo - Applied at startup to SYS_APPLN and used by all combo instances
+    Define_Com Class(#prim_vs.Style) Name(#Combo) Backgroundbrush(#ComboBrush) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#ComboBrush) Opacity(80)
+    
+    * Labels - Applied at startup to SYS_APPLN and used by all label instances
+    Define_Com Class(#prim_vs.Style) Name(#Label) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3)
+    
+    * Tree - Applied at startup to SYS_APPLN and used by all label instances
+    Define_Com Class(#prim_vs.Style) Name(#Tree) Backgroundbrush(#TreeBrush) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#TreeBrush) Color(Transparent)
+    
+    * SpinEdit - Applied at startup to SYS_APPLN and used by all spinedit instances
+    Define_Com Class(#prim_vs.Style) Name(#SpinEdit) Backgroundbrush(#SpinEditBrush) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#SpinEditBrush) Opacity(80)
+    
+    
+    * C O L O R S - Reused by multiple styles
+    
+    * Standard Item Colors
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#ItemColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ItemColor1) Color(225:225:225) Parent(#ItemColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ItemColor2) At(100) Color(180:180:180) Parent(#ItemColors)
+    
+    * MouseOver Colors
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#MouseOverColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#MouseOverBorderColr1) Color(255:83:0) Parent(#MouseOverColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#MouseOverBorderColr2) At(100) Color(255:145:91) Parent(#MouseOverColors)
+    
+    * S T Y L E S - Specific styles applied as required
+    
+    * Item
+    Define_Com Class(#prim_vs.Style) Name(#Item) Backgroundbrush(#ItemBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#ItemBrush) Colors(#ItemColors) Opacity(60)
+    
+    * Item Heading
+    Define_Com Class(#prim_vs.Style) Name(#ItemHeading) Bold(True)
+    
+    * Item Heading
+    Define_Com Class(#prim_vs.Style) Name(#LargeHeading) Fontsize(16)
+    
+    * Item Heading
+    Define_Com Class(#prim_vs.Style) Name(#LargeFonts) Bold(True) Fontsize(72)
+    
+    * Heading
+    Define_Com Class(#prim_vs.Style) Name(#Heading) Backgroundbrush(#HeadingBrush) Cornerbottomleft(6) Cornerbottomright(6) Cornertopleft(6) Cornertopright(6)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#HeadingBrush) Colors(#ItemColors) Opacity(60)
+    
+    * Hint/Popup
+    Define_Com Class(#prim_vs.Style) Name(#Hint) Backgroundbrush(#HintBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#HintBrush) Colors(#ItemColors) Opacity(80)
+    
+    * Popup
+    Define_Com Class(#prim_vs.Style) Name(#Popup) Effect(#DropShadow) Normbackcolor(Transparent)
+    Define_Com Class(#Prim_Vs.DropShadow) Name(#DropShadow)
+    
+    * Found
+    Define_Com Class(#prim_vs.Style) Name(#Found) Bold(True) Italic(True) Textcolor(255:83:0)
+    
+    * Image Brush Centered
+    Define_Com Class(#prim_vs.Style) Name(#Centered) Backgroundbrush(#CenteredImageBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#CenteredImageBrush) Image(#XDX00010) Sizing(BestFit)
+    
+    * Solid Brush Transparent
+    Define_Com Class(#prim_vs.Style) Name(#Transparent)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#TransparentBrush) Color(Transparent)
+    
+    * Solid Brush White
+    Define_Com Class(#prim_vs.Style) Name(#White) Foregroundbrush(#WhiteBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#WhiteBrush) Color(White)
+    
+    * Mouseover
+    Define_Com Class(#prim_vs.Style) Name(#MouseOver) Backgroundbrush(#MouseOverBrush) Textcolor(White)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#MouseOverBrush) Colors(#MouseOverColors)
+    
+    * Mouseover Border
+    Define_Com Class(#prim_vs.Style) Name(#MouseOverBorder) Borderbottom(3) Borderbrush(#MouseOverBorderBrush) Borderleft(3) Borderright(3) Bordertop(3) Cornerbottomleft(6) Cornerbottomright(6) Cornertopleft(6) Cornertopright(6)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#MouseOverBorderBrush) Colors(#MouseOverColors)
+    
+    * Focus List Item
+    Define_Com Class(#prim_vs.Style) Name(#Focus) Backgroundbrush(#FocusBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#FocusBrush) Colors(#ItemColors)
+    
+    * Background
+    Define_Com Class(#prim_vs.Style) Name(#Background) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#Prim_Vs.solidBrush) Name(#BackgroundBrush) Color(White)
+    
+    * Content Background
+    Define_Com Class(#prim_vs.Style) Name(#ContentBackground) Backgroundbrush(#ContentBackgroundBsh)
+    Define_Com Class(#Prim_Vs.solidBrush) Name(#ContentBackgroundBsh) Color(234:234:234) Opacity(60)
+    
+    * Active Carousel Item Background
+    Define_Com Class(#prim_vs.Style) Name(#CaroActiveItemBG) Backgroundbrush(#CaroActiveItemBGBsh)
+    Define_Com Class(#Prim_Vs.solidBrush) Name(#CaroActiveItemBGBsh) Color(234:234:234)
+    
+    Define_Com Class(#prim_vs.Style) Name(#PopupButton) Borderbottom(1) Bordercolor(Silver) Borderleft(1) Borderright(1) Bordertop(1) Normbackcolor(White)
+    
+    * Mouseover
+    Define_Com Class(#prim_vs.Style) Name(#HintArrow) Backgroundbrush(#HintArrowBrush) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0) Textcolor(White)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#HintArrowBrush) Color(255:83:0)
+    
+    * DragOver
+    Define_Com Class(#prim_vs.Style) Name(#DragOver) Backgroundbrush(#DragoverBrush)
+    Define_Com Class(#prim_vs.linearBrush) Name(#DragoverBrush) Colors(#ItemColors) Opacity(40)
+    
+    * Large Font
+    Define_Com Class(#prim_vs.Style) Name(#LargeFont) Fontsize(32)
+    
+    * Error
+    Define_Com Class(#prim_vs.Style) Name(#Error) Textcolor(Red)
+    
+    End_Com

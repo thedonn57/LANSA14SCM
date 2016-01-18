@@ -1,0 +1,116 @@
+﻿Reusable Part:
+  Name:               XSProductTile2
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Tile2"
+
+  - FRA:
+      Description:        "Product Tile2"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_panl *implements #Prim_tile.iTileDesign) Height(360) Width(260) Displayposition(1) Tabposition(1) Left(0) Top(0) Layoutmanager(#TableLayout1) Style(#XSTheme01<PanelBorders1>) Mouseoverstyle(#XSTheme01<PanelBorders2>)
+    
+    * LAYOUT: 1 Column, 5 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Units(Pixels) Height(140)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(4) Parent(#TableLayout1) Height(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(5) Parent(#TableLayout1) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ProductImageItem1) Manage(#ProductImage) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#lProductDescriptionItem1) Manage(#lProductDescription) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#AddtoCartItem1) Manage(#AddToCart) Parent(#TableLayout1) Row(#Row5) Column(#Column1) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSProductPriceItem1) Manage(#XSProductPrice) Parent(#TableLayout1) Row(#Row4) Sizing(None) Column(#Column1) Alignment(CenterLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#lProductDetailItem1) Manage(#lProductDetail) Parent(#TableLayout1) Row(#Row3) Column(#Column1) Flow(Down) Sizing(FitToWidth) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#lStockStatusItem1) Manage(#lStockStatus) Parent(#TableLayout1) Row(#Row4) Sizing(None) Flow(Right) Column(#Column1) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row5) Sizing(FitToWidth) Alignment(BottomLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#lModel) Parent(#TableLayout1) Row(#Row3) Sizing(FitToWidth) Flow(Down) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout2) Width(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(2) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label1Item1) Column(#Column3) Manage(#AddToCart) Parent(#TableLayout2) Row(#Row6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#AddToCart1) Parent(#TableLayout2) Row(#Row6)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lProductDescription) Displayposition(7) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(140) Width(258) Style(#XSTheme01<Text11BoldBl3>) Caption('<description>') Marginleft(10) Height(77) Marginright(5)
+    Define_Com Class(#PRIM_LABL) Name(#lStockStatus) Caption('Stock Status') Displayposition(5) Ellipses(Word) Left(142) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(295) Verticalalignment(Center) Width(142) Height(30) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#lModel) Caption('Model :') Displayposition(2) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(217) Verticalalignment(Center) Width(258) Marginleft(10) Marginright(10) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#lProductDetail) Caption('<product detail>') Displayposition(3) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(242) Width(258) Style(#XSTheme01<Text10AlmostBlack>) Height(54) Marginleft(10) Marginright(10)
+    Define_Com Class(#XSProductPrice.Visual) Name(#XSProductPrice) Displayposition(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(295) Height(30) Width(142) Readonly(True) Editstyle(#XSTheme01<Text10BoldAlmostBlack>) Marginleft(20) Caption('$') Labeltype(Caption) Ellipses(Word) Labelhoralignment(Right) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(329) Width(258) Height(29) Layoutmanager(#TableLayout2) Themedrawstyle('ButtonLook1')
+    Define_Com Class(#PRIM_LABL) Name(#AddToCart) Caption('Add to Cart   ') Displayposition(1) Ellipses(Word) Height(29) Left(35) Parent(#Panel1) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(223) Alignment(Center) Style(#XSTheme01<Text12Wh>)
+    Define_Com Class(#PRIM_IMAG) Name(#AddToCart1) Displayposition(2) Height(29) Image(#XSShoppingCartIconLight) Left(0) Parent(#Panel1) Tabposition(2) Tabstop(False) Top(0) Width(35) Style(#XSTheme01<RightWhBorder>)
+    
+    Define_Com Class(#prim_imag) Name(#ProductImage) Displayposition(6) Parent(#COM_OWNER) Tabposition(5) Imagesizing(BestFit) Left(69) Width(120) Height(120)
+    
+    Define_Com Class(#XSProductData) Name(#gProduct) Reference(*Dynamic)
+    Define_Com Class(#Prim_tile.TileItem) Name(#gTileItem) Reference(*dynamic)
+    
+    Define_Com Class(#XSShoppingCartSummary) Name(#Popup)
+    
+    Define_Pty Name(pCurrentTile) Get(*REFERENCE #gProduct) Set(*REFERENCE #gProduct)
+    Define_Pty Name(pProductID) Get(*auto #XSProductID) Set(*auto #XSProductID)
+    
+    Mthroutine Name(OnItemGotReference) Options(*redefine)
+    
+    #com_owner.pCurrentTile #gProduct <= #TileItem.RelatedReference *As #XSProductData
+    
+    #lProductDescription := #gProduct.ProductDesc
+    
+    Case (#gProduct.StockStatus)
+    
+    When ('= INSTOCK')
+    
+    #lStockStatus := 'In Stock'
+    
+    When ('= BACKORDER')
+    
+    #lStockStatus := 'On Order'
+    
+    Otherwise
+    
+    #lStockStatus := 'No longer available'
+    
+    Endcase
+    
+    #lModel := 'Model : ' + #gProduct.ProductModel
+    #lProductDetail := #gProduct.ProductDetail
+    #XSProductPrice := #gProduct.UnitPrice
+    
+    #com_owner.pProductID := #gProduct.ID
+    
+    * Only details of the location of the image are stored in the DB
+    #ProductImage.filename := #gProduct.ImageLink
+    
+    Endroutine
+    
+    Evtroutine Handling(#AddToCart.Click #AddToCart1.Click)
+    
+    #Popup.AddItemtoCart( #gProduct.ID )
+    
+    #Popup.ShowPopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#Popup.continue)
+    
+    #Popup.ClosePopup
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    
+    

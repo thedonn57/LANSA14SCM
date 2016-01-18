@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$NM
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Name of Field to be validated"
+      Label:              "Field to Val"
+      Heading1:           "Name of"
+      Heading2:           "Field to"
+      Heading3:           "Validate"
+
+  - FRA:
+      Description:        "Nom de la zone à valider"
+      Label:              "Zone à valider"
+      Heading1:           "Nom de la zone"
+      Heading2:           "à valider"
+      Heading3:           " "

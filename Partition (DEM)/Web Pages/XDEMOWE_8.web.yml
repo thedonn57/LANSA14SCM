@@ -1,0 +1,107 @@
+﻿Web Page:
+  Name:               xDemoWebTree
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List Control (Prim_List) as a Tree"
+
+  - FRA:
+      Description:        "List Control (Prim_List) as a Tree"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200) Selectionstyle(All) Rowheight(22) Rowlines(False) Columnlines(False) Checkboxes(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_LIST.String) Name(#gColumn1) Displayposition(1) Parent(#List) Source(#xDemoUnicode128) Columnwidth(175) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#gColumn2) Displayposition(2) Parent(#List) Source(#xDemoUnicode128_2) Columnwidth(215) Columncaptiontype(Caption) Columnreadonly(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#gColumn3) Displayposition(3) Parent(#List) Source(#xDemoUnicode128_3) Columnwidth(363) Columncaptiontype(Caption) Columnreadonly(False)
+    
+    Define_Com Class(#xDemoWebUtilities) Name(#Utilities)
+    
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    #com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    For Each(#Department) In(#gData.Departments)
+    
+    #Com_owner.AddEntry( #Department.ID #Department.Description "" #xImageDepartment32 )
+    
+    #Com_Owner.AddSections( #Department #List.Currentitem )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections) Access(*private)
+    Define_Map For(*Input) Class(#xDemoWebDataDepartment) Name(#Department) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    For Each(#Section) In(#Department.Sections)
+    
+    #Com_owner.AddEntry( #Section.ID #Section.Description "" #xImageSection32 #ParentItem )
+    
+    #Com_Owner.AddEmployees( #Section #List.Currentitem )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees) Access(*private)
+    Define_Map For(*Input) Class(#xDemoWebDataSection) Name(#Section) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    For Each(#Employee) In(#Section.Employees)
+    
+    #Com_owner.AddEntry( #Employee.ID #Employee.GivenName #Employee.Surname #xImageEmployee32 #ParentItem )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Column1)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column2) Mandatory("")
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column3) Mandatory("")
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Image) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_list.ListItem) Name(#Result) Mandatory(*null) Pass(*by_reference)
+    
+    #xDemoUnicode128 := #Column1
+    #xDemoUnicode128_2 := #Column2
+    #xDemoUnicode128_3 := #Column3
+    
+    Add_Entry To_List(#List)
+    
+    #List.Currentitem.ParentItem <= #ParentItem
+    
+    #List.Currentitem.image <= #Image
+    
+    #Result <= #List.Currentitem
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemChanged)
+    
+    #Utilities.UpdateCheckBoxesList( #List.Currentitem )
+    
+    Endroutine
+    
+    End_Com
+    

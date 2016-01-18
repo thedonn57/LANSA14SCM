@@ -1,0 +1,68 @@
+﻿Web Page:
+  Name:               xDemoWebResponsiveDesign
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Responsive Design"
+
+  - FRA:
+      Description:        "Responsive Design"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#LayoutDesktop) Theme(#SYS_THEME<2015Orange>) Designmanager(#Design1)
+    Define_Com Class(#PRIM_DESN) Name(#Design1)
+    Define_Com Class(#PRIM_DESN.Design) Name(#Mobile) Designmanager(#Design1) Width(480)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Left) Displayposition(1) Height(640) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(160) Width(480) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_PANL) Name(#Top) Displayposition(2) Height(160) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(1200) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_PANL) Name(#Center) Displayposition(3) Height(640) Left(480) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(160) Width(720) Themedrawstyle('LightTitle')
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(5) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#LayoutDesktop)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(5) Parent(#LayoutDesktop)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutLeft) Column(#Column) Manage(#Left) Parent(#LayoutDesktop) Row(#Row_2) Columnspan(2) Rowspan(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutCenter) Column(#Column_3) Manage(#Center) Parent(#LayoutDesktop) Row(#Row_2) Columnspan(3) Rowspan(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutTop) Column(#Column) Manage(#Top) Parent(#LayoutDesktop) Row(#Row) Columnspan(5)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_6) Displayposition(1) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_7) Displayposition(2) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_8) Displayposition(3) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_9) Displayposition(4) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_10) Displayposition(5) Parent(#LayoutMobile)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_6) Displayposition(1) Parent(#LayoutMobile)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column_6) Manage(#Left) Parent(#LayoutMobile) Row(#Row_7) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_6) Manage(#Center) Parent(#LayoutMobile) Row(#Row_9) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Column(#Column_6) Manage(#Top) Parent(#LayoutMobile) Row(#Row_6)
+    
+    Evtroutine Handling(#com_owner.DesignChanged) Design(#Design)
+    
+    If (#Design *IsEqualTo #Mobile)
+    
+    #Com_owner.Layoutmanager <= #LayoutMobile
+    
+    Else
+    
+    #Com_owner.Layoutmanager <= #LayoutDesktop
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

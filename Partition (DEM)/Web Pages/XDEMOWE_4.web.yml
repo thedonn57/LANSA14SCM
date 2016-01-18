@@ -1,0 +1,73 @@
+﻿Web Page:
+  Name:               xDemoWebList
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List Control (Prim_List)"
+
+  - FRA:
+      Description:        "Web List Basics"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    * Using the web list control
+    * Simple listing of all employees using different column types
+    * Address column uses a reusable part to display more than one field in the column
+    * An instance will be created for each item added to the list
+    
+    * Sample data object. Scope(*Application) is used to enure that a single instance is shared between all the referrers
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200) Rowheight(42) Rowresize(True) Selectionstyle(All) Checkboxes(True)
+    Define_Com Class(#PRIM_LIST.Button) Name(#ColumnButton1) Columnwidth(94) Displayposition(10) Parent(#List) Cellsizing(None) Cellwidth(80) Caption('Button')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(69) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmarginbottom(2) Cellmarginleft(2) Cellmarginright(2) Cellmargintop(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columncaption('Emp #') Columnwidth(78) Sortonclick(True) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Sortonclick(True) Columnwidth(161)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTdesc) Displayposition(5) Parent(#List) Source(#DEPTDESC) Columnwidth(166) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnAddress) Displayposition(6) Parent(#List) Design(#xDemoWebListAddress) Columnwidth(157) Columncaption('Address')
+    Define_Com Class(#PRIM_LIST.CheckBox) Name(#ColumnCheckBox) Columnwidth(22) Displayposition(8) Parent(#List) Columnreadonly(True)
+    Define_Com Class(#PRIM_LIST.CheckBox) Name(#ColumnCheckBox2) Columnwidth(22) Displayposition(7) Parent(#List) Columnreadonly(True)
+    Define_Com Class(#PRIM_LIST.CheckBox) Name(#ColumnCheckBox3) Columnwidth(22) Displayposition(9) Parent(#List) Columnreadonly(True)
+    
+    * Data has been loaded
+    Evtroutine Handling(#gData.Prepared)
+    
+    * Loop through the employee instances
+    For Each(#Employee) In(#gData.Employees)
+    
+    * Populate column values and add an entry
+    #Empno := #Employee.ID
+    #Surname := #Employee.Surname
+    #Givename := #Employee.GivenName
+    #deptdesc := #Employee.Department.Description
+    
+    Add_Entry To_List(#List)
+    
+    * Show the employee thumbnail
+    #ColumnImage.currentitem.image <= #Employee.Thumbnail
+    
+    * hook up a hint to the image
+    #ColumnImage.currentitem.Hint := #Surname
+    #ColumnImage.currentitem.HintTitle := #Givename
+    
+    * Store the employee data object against the item
+    * The resuable part for the address will detect the RelatedReference being set and will show the Employee address data
+    #List.CurrentItem.RelatedReference <= #Employee
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

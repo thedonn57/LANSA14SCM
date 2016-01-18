@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               LISTPAGE
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List page control field"
+      Label:              "List Page......"
+      Heading1:           "List"
+      Heading2:           "Page"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, Zone de contrôle de pagination"
+      Label:              "Liste Page  . ."
+      Heading1:           "Liste"
+      Heading2:           "Page"
+      Heading3:           " "

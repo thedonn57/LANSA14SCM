@@ -1,0 +1,56 @@
+﻿Field:
+  Name:               LZWHDS
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_DESCS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Whs Description"
+      Label:              "Whs Description"
+      Heading1:           "Whs Description"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description"
+      Label:              "Entrepot"
+      Heading1:           "Description"
+      Heading2:           "Entrepot"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains a descriptive text which describes}
+        %the Warehouse.}
+      
+        On top of the Warehouse Description, Distribution Centre
+        and Plant names are available as well.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient un texte descriptif qui decrit}
+        %l'entrepot.}
+      $$NOAUTO

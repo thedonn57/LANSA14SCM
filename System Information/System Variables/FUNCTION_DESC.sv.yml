@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*FUNCTION_DESC"
+  Description:        "Function description (Function use only)"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             40
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       F@SYSVAR

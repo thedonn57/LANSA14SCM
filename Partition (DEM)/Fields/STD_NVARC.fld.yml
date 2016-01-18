@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_NVARC
+  Type:               NVarChar
+  Length:             512
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard unicode varchar"
+      Label:              "Std NVarChar"
+      Heading1:           "Standard"
+      Heading2:           "unicode"
+      Heading3:           "varchar"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(19) Width(782)
+    
+    End_Com
+    
+    End_Com

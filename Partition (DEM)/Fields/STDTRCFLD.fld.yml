@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STDTRCFLD
+  Type:               Alphanumeric
+  Length:             100
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Web Trace Fields"
+      Label:              "Web Trace"
+      Heading1:           "Web"
+      Heading2:           "Trace"
+      Heading3:           "Fields"
+
+  - FRA:
+      Description:        "Zone standard de template *WEBEVENT"
+      Label:              "Zone"
+      Heading1:           "Zone"
+      Heading2:           " "
+      Heading3:           " "

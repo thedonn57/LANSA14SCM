@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F18NRA
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "ACTION TO TAKE IF NO RECORDS"
+      Label:              "F18NRA"
+      Heading1:           "ACTION IF"
+      Heading2:           "NO RECORDS"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

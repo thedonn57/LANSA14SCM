@@ -1,0 +1,233 @@
+﻿Reusable Part:
+  Name:               XDXScaleAndAnimations
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Scale and Animations"
+
+  - FRA:
+      Description:        "Mise à l'échelle et animations"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(514) Layoutmanager(#Layout) Width(728)
+    
+    Define_Com Class(#PRIM_PANL) Name(#SmallImagePanel) Displayposition(1) Height(213) Layoutmanager(#FWLM_1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(291) Width(728)
+    
+    * Large Image Panel
+    Define_Com Class(#PRIM_PANL) Name(#LargeImagePanel) Displayposition(2) Height(274) Layoutmanager(#ATLM_1) Left(139) Parent(#COM_OWNER) Tabposition(2) Top(20) Width(450)
+    Define_Com Class(#Prim_Imge) Name(#LargeImage1) Displayposition(3) Height(274) Imagealignment(Stretch) Left(0) Parent(#LargeImagePanel) Tabposition(1) Top(0) Width(450)
+    Define_Com Class(#Prim_Imge) Name(#LargeImage2) Displayposition(4) Height(274) Imagealignment(Stretch) Left(0) Parent(#LargeImagePanel) Tabposition(2) Top(0) Width(450)
+    Define_Com Class(#Prim_Imge) Name(#LargeImage3) Displayposition(5) Height(274) Imagealignment(Stretch) Left(0) Parent(#LargeImagePanel) Tabposition(3) Top(0) Width(450)
+    Define_Com Class(#Prim_Imge) Name(#PreviousImage) Autosize(False) Displayposition(2) Height(65) Image(#XDXImageLeftArrow16) Imagealignment(Center) Imageheight(12) Imagewidth(13) Left(-1) Opacity(75) Parent(#LargeImagePanel) Style(#XDXStyles<PopupButton>) Tabposition(4) Top(110) Visible(False) Width(25)
+    Define_Com Class(#Prim_Imge) Name(#NextImage) Autosize(False) Displayposition(1) Height(65) Image(#XDXImageRightArrow16) Imagealignment(Center) Imageheight(12) Imagewidth(13) Left(425) Opacity(75) Parent(#LargeImagePanel) Style(#XDXStyles<PopupButton>) Tabposition(5) Top(110) Visible(False) Width(25)
+    
+    * Layout Managers
+    Define_Com Class(#PRIM_ATLM) Name(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#Atli_1) Attachment(Center) Manage(#LargeImage1) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#Atli_2) Attachment(Center) Manage(#LargeImage2) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#Atli_3) Attachment(Center) Manage(#LargeImage3) Parent(#ATLM_1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Height(20) Parent(#Layout) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Height(100) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Height(210) Parent(#Layout) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Height(10) Parent(#Layout) Units(Pixels)
+    
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Col1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Col2) Parent(#Layout) Units(Pixels) Width(450)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Col3) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item1) Column(#Col1) Columnspan(4) Manage(#SmallImagePanel) Parent(#Layout) Row(#Row3) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item2) Column(#Col2) Manage(#LargeImagePanel) Parent(#Layout) Row(#Row2) Rowspan(2)
+    
+    Define_Com Class(#PRIM_FWLM) Name(#FWLM_1) Flowoperationhor(Center) Marginleft(5) Marginright(5) Margintop(40) Maxrows(5) Spacingitems(50)
+    Define_Com Class(#PRIM_FWLM) Name(#FWLM_2) Flowoperationhor(Center) Marginleft(5) Marginright(5) Maxrows(5) Spacingitems(50)
+    
+    * Small Images
+    Define_Com Class(#XDXReflectingImage) Name(#Image1) Height(160) Left(64) Parent(#SmallImagePanel) Top(40) Width(80)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_1) Manage(#Image1) Parent(#FWLM_1)
+    Define_Com Class(#XDXReflectingImage) Name(#Image2) Displayposition(2) Height(160) Left(194) Parent(#SmallImagePanel) Tabposition(2) Top(40) Width(80)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_2) Manage(#Image2) Parent(#FWLM_1)
+    Define_Com Class(#XDXReflectingImage) Name(#Image3) Displayposition(3) Height(160) Left(324) Parent(#SmallImagePanel) Tabposition(3) Top(40) Width(80)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_3) Manage(#Image3) Parent(#FWLM_1)
+    Define_Com Class(#XDXReflectingImage) Name(#Image4) Displayposition(4) Height(160) Left(454) Parent(#SmallImagePanel) Tabposition(4) Top(40) Width(80)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_4) Manage(#Image4) Parent(#FWLM_1)
+    Define_Com Class(#XDXReflectingImage) Name(#Image5) Displayposition(5) Height(160) Left(584) Parent(#SmallImagePanel) Tabposition(5) Top(40) Width(80)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_5) Manage(#Image5) Parent(#FWLM_1)
+    
+    Define_Com Class(#Prim_imge) Name(#ActiveImage) Reference(*dynamic)
+    
+    * Collections to mkae handling the images simpler
+    Define_Com Class(#Prim_lcol<#XDXReflectingImage>) Name(#Images)
+    Define_Com Class(#Prim_lcol<#Prim_imge>) Name(#LargeImages)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #Images.insert( #Image1 )
+    #Images.insert( #Image2 )
+    #Images.insert( #Image3 )
+    #Images.insert( #Image4 )
+    #Images.insert( #Image5 )
+    
+    #Image1.Graphic <= #XDXImageDonkeyKong1
+    #Image2.Graphic <= #XDXImageMarioGalaxy1
+    #Image3.Graphic <= #XDXImageMarioParty1
+    #Image4.Graphic <= #XDXImageMarioSmash1
+    #Image5.Graphic <= #XDXImageSummerSport1
+    
+    #Images<>.Cursor #NextImage.cursor #PreviousImage.cursor <= #sys_Appln.Cursors<Hand>
+    
+    #LargeImages.insert( #LargeImage1 )
+    #LargeImages.insert( #LargeImage2 )
+    #LargeImages.insert( #LargeImage3 )
+    
+    #ActiveImage <= #LargeImage1
+    
+    Endroutine
+    
+    Evtroutine Handling(#Images<>.MouseEnter) Com_Sender(#Sender)
+    
+    * Scale up the Image that got MouseEnter
+    #Sender.Scale( 125 125 )
+    
+    * Scale down all the others
+    For Each(#Image) In(#Images)
+    
+    Continue If(#Image *IsEqualTo #Sender)
+    
+    #Image.Scale( 100 100 )
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#LargeImagePanel.MouseEnter #LargeImagePanel.MouseLeave)
+    
+    * Only if there's an image loaded
+    If (#LargeImage1.Image *IsNot *null)
+    
+    #NextImage.Visible #PreviousImage.Visible := #LargeImagePanel.MouseOver *Or #LargeImagePanel.MouseOverPart
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#PreviousImage.Click)
+    
+    If (*Not #ActiveImage.IsAnimating)
+    
+    #Com_owner.ActivateImage( #Com_owner.GetPreviousImage )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#NextImage.Click)
+    
+    If (*Not #ActiveImage.IsAnimating)
+    
+    #Com_owner.ActivateImage( #Com_owner.GetNextImage )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ActivateImage) Access(*private)
+    Define_Map For(*Input) Class(#prim_imge) Name(#Image) Pass(*By_Reference)
+    
+    #ActiveImage.FadeOut( 1000 )
+    #Image.FadeIn( 1000 )
+    
+    #ActiveImage <= #Image
+    
+    Endroutine
+    
+    Mthroutine Name(GetNextImage) Access(*Private)
+    Define_Map For(*Result) Class(#prim_imge) Name(#Result) Pass(*By_Reference)
+    
+    If (#LargeImages.IndexOf<#ActiveImage> = #LargeImages.Itemcount)
+    
+    #Result <= #LargeImages.First
+    
+    Else
+    
+    #Result <= #LargeImages<(#LargeImages.IndexOf<#ActiveImage> + 1)>
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GetPreviousImage) Access(*Private)
+    Define_Map For(*Result) Class(#prim_imge) Name(#Result) Pass(*By_Reference)
+    
+    If (#LargeImages.IndexOf<#ActiveImage> = 1)
+    
+    #Result <= #LargeImages.Last
+    
+    Else
+    
+    #Result <= #LargeImages<(#LargeImages.IndexOf<#ActiveImage> - 1)>
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ShowLargeImages)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Sample1) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Sample2) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Sample3) Pass(*by_reference)
+    
+    If (#LargeImage1.image *Is *null)
+    
+    #LargeImagePanel.Fadein( 1000 )
+    
+    Endif
+    
+    #LargeImage1.Image <= #Sample1
+    #LargeImage2.Image <= #Sample2
+    #LargeImage3.Image <= #Sample3
+    
+    Endroutine
+    
+    * Hovering on a small image activates the large images
+    
+    Evtroutine Handling(#Image1.MouseHover)
+    
+    #Com_Owner.ShowLargeImages( #XDXImageDonkeyKong1 #XDXImageDonkeyKong2 #XDXImageDonkeyKong3 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image2.MouseHover)
+    
+    #Com_Owner.ShowLargeImages( #XDXImageMarioGalaxy1 #XDXImageMarioGalaxy2 #XDXImageMarioGalaxy3 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image3.MouseHover)
+    
+    #Com_Owner.ShowLargeImages( #XDXImageMarioParty1 #XDXImageMarioParty2 #XDXImageMarioParty3 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image4.MouseHover)
+    
+    #Com_Owner.ShowLargeImages( #XDXImageMarioSmash1 #XDXImageMarioSmash2 #XDXImageMarioSmash3 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image5.MouseHover)
+    
+    #Com_Owner.ShowLargeImages( #XDXImageSummerSport1 #XDXImageSummerSport2 #XDXImageSummerSport3 )
+    
+    Endroutine
+    
+    
+    End_Com

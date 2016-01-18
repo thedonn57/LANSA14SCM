@@ -1,0 +1,47 @@
+﻿Form:
+  Name:               xDemoSQLCalculation
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - Calculation"
+
+  - FRA:
+      Description:        "SELECT_SQL - Calculation"
+
+  Source: |
+    * META:Form,List,Database,SQL
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(410) Clientwidth(529) Height(449) Layoutmanager(#TableLayout_1) Left(147) Top(196) Width(545)
+    
+    * SQL performing a calculation
+    
+    Define_Com Class(#PRIM_LTVW) Name(#List) Displayposition(1) Height(364) Left(2) Parent(#COM_OWNER) Tabposition(1) Top(44) Width(525)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List) Source(#SURNAME) Width(44)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Displayposition(2) Parent(#List) Source(#SALARY) Width(28)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_3) Caption('Salary + 10%') Captiontype(Caption) Displayposition(3) Parent(#List) Source(#STD_AMNT) Width(23) Widthtype(Remainder)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('This example shows in a list the employee surname with its salary. In the list we want to show the salary amount is increased by 10%. This can be done with one SELECT_SQL statement.') Displayposition(2) Height(34) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(4) Width(521)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(42) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#LABL_1) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_1) Manage(#List) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_2)
+    
+    Evtroutine Handling(#com_owner.Createinstance)
+    
+    #Com_Owner.Caption := *Component_Desc
+    
+    Select_Sql Fields(#SURNAME #SALARY (#STD_AMNT 'SALARY * 1.10')) From_Files((PSLMST))
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

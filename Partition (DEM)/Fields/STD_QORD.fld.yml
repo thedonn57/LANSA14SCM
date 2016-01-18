@@ -1,0 +1,39 @@
+﻿Field:
+  Name:               STD_QORD
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Query Sort Order Requested"
+      Label:              "Order Requested"
+      Heading1:           "Order Requested"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Ordre de tri demandé Query"
+      Label:              "Ordre de tri"
+      Heading1:           "Ordre de tri"
+      Heading2:           "Demandé"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This is the standard field used to assemble a sort request before it
+      is passed to the IBM supplied OPNQRYF command. For more information
+      about the sort order facility refer to the KEYFLD parameter of the
+      IBM supplied OPNQRYF (Open Query File) command.
+      
+      One of the easiest ways to do this is to "prompt" an OPNQRYF command
+      in the normal way, and then use the HELP function key when the screen
+      cursor is positioned within the KEYFLD parameter.

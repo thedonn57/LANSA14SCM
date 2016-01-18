@@ -1,0 +1,88 @@
+﻿Reusable Part:
+  Name:               XDXPersonnelTreeDepartment
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Department Design"
+
+  - FRA:
+      Description:        "Arborescence dépts"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXPersonnelTreeDesign) Height(36) Layoutmanager(#Layout) Width(388)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    Define_Com Class(#PRIM_IMGE) Name(#ExpandCollapse) Autosize(False) Displayposition(1) Height(36) Imagealignment(Center) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(16)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Left) Manage(#ExpandCollapse) Parent(#Layout)
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(2) Height(36) Image(#XDXImageDepartment32) Left(16) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(36)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Left) Manage(#Image) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#lDepartment) Caption('Department Details') Displayposition(3) Ellipses(Word) Height(36) Left(52) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(336)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Center) Manage(#lDepartment) Parent(#Layout)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #ExpandCollapse.Cursor <= #sys_appln.Cursors<Hand>
+    
+    #ExpandCollapse.image <= #sys_appln.Images<ExplorerCollapsed>
+    
+    Endroutine
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Deptment) Name(#DepartmentCode)
+    Define_Map For(*Input) Class(#Deptdesc) Name(#DepartmentDesc)
+    
+    #lDepartment := ("&1 (&2)").Substitute( #DepartmentDesc #DepartmentCode )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ExpandCollapse.Click #Com_owner.DoubleClick)
+    
+    #Com_owner.ExpandCollapse
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemExpanding) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #sys_appln.Images<ExplorerExpanded>
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemCollapsed) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #sys_appln.Images<ExplorerCollapsed>
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.DragOver) Dragstate(#DragState)
+    
+    Case (#DragState)
+    
+    When (= Enter)
+    
+    #Com_owner.styles.Add( #XDXStyles<DragOver> )
+    
+    When (= Hover)
+    
+    If (*Not #gTreeItem.Expanded)
+    
+    #gTreeItem.Expand
+    
+    Endif
+    
+    When (= Exit)
+    
+    #Com_owner.styles.Remove( #XDXStyles<DragOver> )
+    
+    Endcase
+    
+    Endroutine
+    
+    End_Com
+    

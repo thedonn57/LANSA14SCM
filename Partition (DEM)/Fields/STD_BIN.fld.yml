@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               STD_BIN
+  Type:               Binary
+  Length:             256
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Binary field"
+      Label:              "Standard Binary"
+      Heading1:           "Standard"
+      Heading2:           "Binary"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

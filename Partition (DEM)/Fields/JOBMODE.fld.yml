@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               JOBMODE
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*JOBMODE"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current job mode (batch or interactive)"
+      Label:              "Job mode ......"
+      Heading1:           "Job"
+      Heading2:           "Mode"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mode travail en cours (batch ou inter.)"
+      Label:              "Mode travail  ."
+      Heading1:           "Mode"
+      Heading2:           "Travail"
+      Heading3:           " "

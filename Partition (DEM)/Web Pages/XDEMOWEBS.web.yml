@@ -1,0 +1,77 @@
+﻿Web Page:
+  Name:               xDemoWebSplashScreen
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Splash Screen"
+
+  - FRA:
+      Description:        "Splash Screen"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    * Example of a simple splash screen displayed while application data is loading
+    
+    * Global generic data object
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    
+    * List definition to show returned data
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SplashItem1) Column(#Column) Manage(#Splash) Parent(#TableLayout) Row(#Row) Sizing(None)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(0) Width(1200) Rowheight(41) Rowresize(True) Selectionstyle(All)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmarginbottom(2) Cellmarginleft(2) Cellmarginright(2) Cellmargintop(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columncaption('Emp #') Columnwidth(78) Sortonclick(True) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Sortonclick(True) Columnwidth(161)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTdesc) Displayposition(5) Parent(#List) Source(#DEPTDESC) Columnwidth(166)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnAddress) Displayposition(6) Parent(#List) Design(#xDemoWebListAddress) Columnwidth(157) Columncaption('Address')
+    
+    Define_Com Class(#xDemoWebSplashScreenPopup) Name(#Splash) Parent(#COM_OWNER) Left(428) Top(304) Visible(False)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    * As soon as the page appears, disable to prevent access during load
+    #Com_owner.enabled := False
+    
+    #Splash.ShowPopup
+    #Splash.Fadein( 500 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    #Splash.FadeOut( 500 )
+    
+    * Data has been loaded. Load the list
+    For Each(#Employee) In(#gData.Employees)
+    
+    #Empno := #Employee.ID
+    #Surname := #Employee.Surname
+    #Givename := #Employee.GivenName
+    #deptdesc := #Employee.Department.Description
+    
+    Add_Entry To_List(#List)
+    
+    #ColumnImage.currentitem.image <= #Employee.Thumbnail
+    
+    #List.CurrentItem.RelatedReference <= #Employee
+    
+    Endfor
+    
+    #Com_owner.enabled := true
+    
+    Endroutine
+    
+    End_Com

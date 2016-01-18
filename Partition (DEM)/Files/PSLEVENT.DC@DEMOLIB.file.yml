@@ -1,0 +1,212 @@
+﻿File:
+  Name:                           PSLEVENT
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             PSLEVENT
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         Yes
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 100000 10000 10) LVLCHK(*NO)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel Event Log"
+
+  - FRA:
+      Description:        "Journal des évènements du personnel"
+
+  Real Fields:
+  - EMPNO:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - EMPEVTNUM:
+      Type:               Packed
+      Length:             15
+      Decimals:           0
+
+  - EMPEVTDAT:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - EMPEVTTIM:
+      Type:               Time
+      Length:             8
+      Decimals:           0
+
+  - EMPEVTTYP:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - EMPEVTNTE:
+      Type:               String
+      Length:             500
+      Decimals:           0
+
+  - EMPEVTUPD:
+      Type:               Packed
+      Length:             30
+      Decimals:           0
+
+  - EMPEVTUDT:
+      Type:               Date Time
+      Length:             26
+      Decimals:           0
+
+  - EMPEVTDOC:
+      Type:               BLOB
+      Length:             -1
+      Decimals:           0
+
+  Primary Keys:
+  - EMPNO
+  - EMPEVTNUM
+
+  Virtual Fields:
+  - EMPEVTDSC:
+      Type:               String
+      Length:             50
+      Decimals:           0
+      Virtual Field Type: Undefined
+
+  - EMPEVTNUP:
+      Type:               String
+      Length:             50
+      Decimals:           0
+      Virtual Field Type: Undefined
+
+  Logical Views:
+  - PSLEVENTA:
+      Identifier:         PSLEVENTA
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      PSLEVENTA
+      Dynamic Select:     No
+      Parameters:         " LVLCHK(*NO)"
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLEVENT by event date and time"
+
+      - FRA:
+          Description:        "PSLEVENT par date & heure des évènements"
+
+      Keys:
+      - EMPEVTDAT:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPEVTTIM:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPNO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPEVTNUM:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PSLEVENTB:
+      Identifier:         PSLEVENTB
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      PSLEVENTB
+      Dynamic Select:     No
+      Parameters:         " LVLCHK(*NO)"
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLEVENT by type, date, time, empno"
+
+      - FRA:
+          Description:        "PSLEVENT par type, date, heure, no emp"
+
+      Keys:
+      - EMPEVTTYP:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPEVTDAT:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPEVTTIM:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPNO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPEVTNUM:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - EMPNO:
+    - Lookup Check:
+        Description:        "Must exist on PSLMST"
+        File:               PSLMST
+        Keys:
+        - EMPNO
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     DEM0047
+
+  File Level Triggers:
+  - EMPNO:
+    - Trigger for all events:
+        Function:           PSLTRG1
+        Trigger Points:
+        - Before Update
+        - After Read
+
+  Access Routes:
+  - PSLMST01:
+      Description:        PSLMST
+      File:               PSLMST
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          1
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - EMPNO
+
+      PJFs:
+      - PJFGIVEN:
+          PJF Type:           Lookup
+          Source Field:       GIVENAME
+      - PJFSURNAM:
+          PJF Type:           Lookup
+          Source Field:       SURNAME

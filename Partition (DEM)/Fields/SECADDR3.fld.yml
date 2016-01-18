@@ -1,0 +1,62 @@
+﻿Field:
+  Name:               SECADDR3
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "State and Country of Section"
+      Label:              "Address 3......"
+      Heading1:           "Address line 3"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Section adresse ligne 3"
+      Label:              "Adresse 3 . . ."
+      Heading1:           "Adresse ligne 3"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      
+            This field represents the section's address line 3. This
+            line specifies the state in which the respective section
+            is.
+      
+      
+                For eg:
+                       NSW.
+                       QUEENSLAND.
+      
+      
+            Normally upper case characters is preferred in this address
+            line.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      
+            C'est la troisième ligne de l'adresse complète de la section.
+            Elle permet de préciser l'état de la section concernée.
+      
+      
+                Par exemple:
+                       NSW.
+                       QUEENSLAND.
+      
+      
+            Il est préférable de n'utiliser que des majuscules dans cette
+            ligne d'adresse.

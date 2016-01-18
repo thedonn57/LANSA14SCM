@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*JULIANC"
+  Description:        "Character date in Julian format"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             5
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

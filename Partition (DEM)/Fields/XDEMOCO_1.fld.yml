@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               xDemoColorAt
+  Type:               Packed
+  Length:             5
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Color At"
+      Label:              "Color At"
+      Heading1:           "Color"
+      Heading2:           "At"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Color At"
+      Label:              "Color At"
+      Heading1:           "Color"
+      Heading2:           "At"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(237)
+    
+    End_Com
+    
+    End_Com

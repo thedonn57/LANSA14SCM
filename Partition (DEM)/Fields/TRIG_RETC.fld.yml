@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               TRIG_RETC
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Trigger Return Code"
+      Label:              "Trigger Ret Cde"
+      Heading1:           "Trigger"
+      Heading2:           "Return"
+      Heading3:           "Code"
+
+  - FRA:
+      Description:        "Code retour déclencheur"
+      Label:              "Code ret. décl."
+      Heading1:           "Code"
+      Heading2:           "Retour"
+      Heading3:           "Déclencheur"

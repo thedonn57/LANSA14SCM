@@ -1,0 +1,52 @@
+﻿Web Page:
+  Name:               xDemoWebTracing
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tracing"
+
+  - FRA:
+      Description:        "Tracing"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Theme(#xDemoTheme) Height(640) Width(816)
+    
+    Define_Com Class(#xDemoWebTraceHandler) Name(#TraceHandler)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Start the Console and click the button to see user tracing') Displayposition(1) Ellipses(Word) Height(33) Left(16) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(16) Verticalalignment(Center) Width(793) Themedrawstyle('Heading1')
+    Define_Com Class(#PRIM_PHBN) Name(#Trace) Caption('Add tracing statements') Displayposition(2) Left(16) Parent(#COM_OWNER) Tabposition(2) Top(56) Width(233)
+    
+    Evtroutine Handling(#sys_web.URLChanged)
+    
+    #Trace.visible := true
+    If (*Not #sys_web.URL.lowercase.Contains( "&trace=true" ))
+    
+    #Label := "Tracing not active. Click to re-execute with tracing (&trace=true)"
+    #Trace.visible := false
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label.click)
+    
+    #sys_web.navigate( (#sys_web.urL + "&trace=true") Current )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Trace.Click)
+    
+    #sys_appln.TraceMessageText( ("Last trace was &1").Substitute( #xDemoNumber.Asstring ) )
+    
+    #xDemoNumber += 1
+    
+    #sys_appln.TraceMessageText( ("Trace value now").Substitute( #xDemoNumber.Asstring ) )
+    
+    Endroutine
+    
+    End_Com

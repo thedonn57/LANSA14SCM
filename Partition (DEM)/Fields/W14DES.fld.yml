@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W14DES
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Link Button Description"
+      Label:              "W14DES"
+      Heading1:           "Link"
+      Heading2:           "Button"
+      Heading3:           "Description"
+
+  - FRA:
+      Description:        "Link Button Description"
+      Label:              "W14DES"
+      Heading1:           "Link"
+      Heading2:           "Button"
+      Heading3:           "Description"

@@ -1,0 +1,119 @@
+﻿Reusable Part:
+  Name:               xDemoWebImageViewer
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Image Viewer"
+
+  - FRA:
+      Description:        "Image Viewer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(270) Left(0) Tabposition(1) Top(0) Width(500) Layoutmanager(#TableLayout)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1) Cornertopleft(3) Cornerbottomleft(3) Cornertopright(3) Cornerbottomright(3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:255:255)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Flow(Down) Manage(#gPrevious) Parent(#TableLayout) Row(#Row1) Sizing(None) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(CenterRight) Column(#Column1) Flow(Down) Manage(#gNext) Parent(#TableLayout) Row(#Row1) Sizing(None) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Flow(Down) Manage(#gImage) Parent(#TableLayout) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Flow(Down) Manage(#gImageNext) Parent(#TableLayout) Row(#Row1)
+    
+    Define_Com Class(#PRIM_PANL) Name(#gPrevious) Displayposition(1) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(110) Image(#xImagePrevious16) Width(24) Style(#Style1)
+    Define_Com Class(#PRIM_PANL) Name(#gNext) Displayposition(2) Left(472) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(110) Image(#xImageNext16) Width(24) Style(#Style1)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#gImage) Displayposition(3) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Height(270) Width(500)
+    Define_Com Class(#PRIM_IMAG) Name(#gImageNext) Displayposition(4) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(270) Height(270) Width(500)
+    
+    Define_Com Class(#prim_acol<#Prim_bmp>) Name(#gImages)
+    
+    Define_Com Class(#Prim_nmbr) Name(#gActiveImage)
+    
+    Mthroutine Name(Add)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Image) Pass(*By_reference)
+    
+    #gImages.Insert( #Image )
+    
+    Endroutine
+    
+    Mthroutine Name(Remove)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Image) Pass(*By_reference)
+    
+    #gImages.Remove( #Image )
+    
+    Endroutine
+    
+    Mthroutine Name(ActivateImage)
+    Define_Map For(*Input) Class(#Prim_nmbr) Name(#ImageNumber)
+    
+    #gActiveImage := #ImageNumber
+    
+    If (#gImage.Visible)
+    
+    #gImageNext.Image <= #gImages<#ImageNumber>
+    #gImage.Fadeout( 250 )
+    #gImageNext.Fadein( 250 )
+    
+    Else
+    
+    #gImage.image <= #gImages<#ImageNumber>
+    #gImage.Fadein( 250 )
+    #gImageNext.Fadeout( 250 )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#gNext.Click)
+    
+    If (#gActiveImage = #gImages.Itemcount)
+    
+    #Com_owner.ActivateImage( 1 )
+    
+    Else
+    
+    #Com_owner.ActivateImage( (#gActiveImage + 1) )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#gPrevious.Click)
+    
+    If (#gActiveImage = 1)
+    
+    #Com_owner.ActivateImage( #gImages.Itemcount )
+    
+    Else
+    
+    #Com_owner.ActivateImage( (#gActiveImage - 1) )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.MouseEnter)
+    
+    #gNext.Fadein
+    #gPrevious.Fadein
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.MouseLeave)
+    
+    #gNext.Fadeout
+    #gPrevious.Fadeout
+    
+    Endroutine
+    
+    End_Com

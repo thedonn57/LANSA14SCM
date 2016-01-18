@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               STD_TOKEN
+  Type:               Packed
+  Length:             15
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Z
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - RB
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Token"
+      Label:              "Token"
+      Heading1:           "Token"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Token Standard"
+      Label:              "Token"
+      Heading1:           "Token"
+      Heading2:           " "
+      Heading3:           " "

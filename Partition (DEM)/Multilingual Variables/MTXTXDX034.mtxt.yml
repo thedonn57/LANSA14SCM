@@ -1,0 +1,10 @@
+﻿Multilingual Variable:
+  Name:               "*MTXTXDX034"
+  Maximum Length:     78
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grid style layout allowing components to occupy the same space"
+
+  - FRA:
+      Description:        "Présentation de grille permettant aux composants d'occuper le même espace"

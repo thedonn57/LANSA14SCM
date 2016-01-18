@@ -1,0 +1,195 @@
+﻿Template:
+  Name:                    FRWEBENQ01
+  Description:             Page at a time with detail display
+  Extended Description 1:  Use selection criteria to view data page
+  Extended Description 2:  at a time and allow detail display of
+  Extended Description 3:  data by selection from the list.
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1999 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF FILE TO BE SEARCHED AND DISPLAYED.          */
+    /* ********** ======================================================= */
+    @@GET_FILS FROM(1) TO(1) PHY_ONLY(*NO) PROMPT('Enter the name of the file to be used') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' 'Use the Help key for more details about this template.') HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** GET FIELDS IN SELECTED FILE.                            */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** GET KEY FIELDS OF SELECTED FILE & ASK FOR SEARCH KEYS   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    @@CLR_LST  NUMBER(5)
+    @@MAK_LSTS FROM_LSTS(2) INTO_LSTS((5 'Select keys' 'to use' 'for search')) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR FIELDS TO BE DISPLAYED IN BROWSE LIST.          */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(2) INTO_LSTS((3 'Fields to' 'appear in' 'browse list' *SEQUENCE *FORCE)) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR NUMBER OF ENTRIES PER PAGE IN BROWSE LIST.      */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('How many entries per page') ANSWER(@@NANS001) EXTEND('Enter the number of entries to be displayed in each page of the browse ' 'list. The browse list will be scrolled backward and forward this' 'number of entries.' 'The value must be a numeric value.') HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR FIELDS TO BE DISPLAYED IN DETAIL DISPLAY.       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(2) INTO_LSTS((4 'Fields to' 'appear in' 'detail' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR UNIQUE PREFIX FOR WORK FIELDS.                  */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('What is the 2 character unique prefix') ANSWER(@@CANS002) EXTEND('Enter a TWO character prefix that will be used for working fields in the' 'generated function.') LOWER(*NO) HELPIDS(HELP010 HELP020)
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  'Function control options'
+    FUNCTION   OPTIONS(*WEBEVENT *DIRECT)
+    @@COMMENT  ' '
+    @@COMMENT  'Group and field definitions'
+    GROUP_BY   NAME(#@@FNAME01) FIELDS(@@LST04)
+    DEFINE     FIELD(#@@CANS002COUNT) REFFLD(#LISTCOUNT)
+    DEFINE     FIELD(#@@CANS002TCOUNT) REFFLD(#LISTCOUNT)
+    DEFINE     FIELD(#@@CANS002ENTRY) REFFLD(#LISTCOUNT)
+    DEFINE     FIELD(#@@CANS002EEND) REFFLD(#LISTCOUNT)
+    DEFINE     FIELD(#@@CANS002PAGE) REFFLD(#LISTCOUNT) DEFAULT(@@NANS001)
+    DEF_LIST   NAME(#@@CANS002LIST) FIELDS(@@LST03 (#PRIFILRRN *HIDDEN)) COUNTER(#@@CANS002COUNT)
+    DEF_LIST   NAME(#@@CANS002LIST2) FIELDS((#STDSELECT *HIDDEN)      @@LST03 (#PRIFILRRN *HIDDEN))
+    @@COMMENT  ' '
+    @@COMMENT  'Determine action to take according to STDRENTRY flag'
+    CASE       OF_FIELD(#STDRENTRY)
+    @@COMMENT  ' '
+    @@COMMENT  'Request selection criteria'
+    WHEN       VALUE_IS('= *blank')
+    L1 : REQUEST    FIELDS((#STDNEXT *HIDDEN) (#STDRENTRY *HIDDEN) @@LST05) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    @@COMMENT  ' '
+    @@COMMENT  'Display detailed information'
+    WHEN       VALUE_IS('= D')
+    GET_ENTRY  NUMBER(#STDROWNUM) FROM_LIST(#@@CANS002LIST2)
+    @@IF       COND((*IF @@FTYPE01 *EQ L)) GOTO(J01)
+    FETCH      FIELDS((#@@FNAME01)) FROM_FILE(@@FNAME01) WITH_RRN(#PRIFILRRN)
+    @@GOTO     LABEL(J02)
+    J01: @@LABEL
+    FETCH      FIELDS((#@@FNAME01)) FROM_FILE(@@FBASP01) WITH_RRN(#PRIFILRRN)
+    J02: @@LABEL
+    DISPLAY    FIELDS(#@@FNAME01) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    @@COMMENT  ' '
+    @@COMMENT  'Build list according to selection criteria and'
+    @@COMMENT  'build the first page for display'
+    WHEN       VALUE_IS('= N')
+    CHANGE     FIELD(#STDRENTRY) TO(M)
+    CLR_LIST   NAMED(#@@CANS002LIST)
+    CLR_LIST   NAMED(#@@CANS002LIST2)
+    SELECT     FIELDS((#@@CANS002LIST)) FROM_FILE(@@FNAME01) WITH_KEY(@@LST05) GENERIC(*YES) RETURN_RRN(#PRIFILRRN)
+    ADD_ENTRY  TO_LIST(#@@CANS002LIST)
+    IF         COND('#@@CANS002COUNT <= #@@CANS002PAGE')
+    ADD_ENTRY  TO_LIST(#@@CANS002LIST2)
+    ENDIF
+    ENDSELECT
+    IF         COND('#@@CANS002COUNT > 0')
+    CHANGE     FIELD(#@@CANS002TCOUNT) TO(1)
+    ELSE
+    CHANGE     FIELD(#@@CANS002TCOUNT) TO(0)
+    MESSAGE    MSGID(DEM0046) MSGF(DC@M01)
+    GOTO       LABEL(L1)
+    ENDIF
+    @@COMMENT  ' '
+    @@COMMENT  'Build the next page for display.'
+    WHEN       VALUE_IS('= M')
+    CLR_LIST   NAMED(#@@CANS002LIST2)
+    CHANGE     FIELD(#@@CANS002TCOUNT) TO('#@@CANS002TCOUNT + #@@CANS002PAGE')
+    CHANGE     FIELD(#@@CANS002EEND) TO('(#@@CANS002TCOUNT + #@@CANS002PAGE) - 1')
+    IF         COND('#@@CANS002EEND > #@@CANS002COUNT')
+    CHANGE     FIELD(#@@CANS002EEND) TO(#@@CANS002COUNT)
+    ENDIF
+    BEGIN_LOOP USING(#@@CANS002ENTRY) FROM(#@@CANS002TCOUNT) TO(#@@CANS002EEND)
+    GET_ENTRY  NUMBER(#@@CANS002ENTRY) FROM_LIST(#@@CANS002LIST)
+    ADD_ENTRY  TO_LIST(#@@CANS002LIST2)
+    END_LOOP
+    @@COMMENT  ' '
+    @@COMMENT  'Build the previous page for display.'
+    WHEN       VALUE_IS('= P')
+    CLR_LIST   NAMED(#@@CANS002LIST2)
+    CHANGE     FIELD(#@@CANS002TCOUNT) TO('#@@CANS002TCOUNT - #@@CANS002PAGE')
+    CHANGE     FIELD(#@@CANS002EEND) TO('(#@@CANS002TCOUNT + #@@CANS002PAGE) - 1')
+    BEGIN_LOOP USING(#@@CANS002ENTRY) FROM(#@@CANS002TCOUNT) TO(#@@CANS002EEND)
+    GET_ENTRY  NUMBER(#@@CANS002ENTRY) FROM_LIST(#@@CANS002LIST)
+    ADD_ENTRY  TO_LIST(#@@CANS002LIST2)
+    END_LOOP
+    @@COMMENT  ' '
+    ENDCASE
+    @@COMMENT  ' '
+    @@COMMENT  'Enable the next and previous page buttons.'
+    CHANGE     FIELD(#STDMORE #STDPREV) TO(*BLANK)
+    IF         COND('(#@@CANS002TCOUNT + #@@CANS002PAGE) *LE #@@CANS002COUNT')
+    CHANGE     FIELD(#STDMORE) TO(Y)
+    ENDIF
+    IF         COND('(#@@CANS002TCOUNT - #@@CANS002PAGE) *GT 0')
+    CHANGE     FIELD(#STDPREV) TO(Y)
+    ENDIF
+    @@COMMENT  ' '
+    @@COMMENT  'Display page of data for selection.'
+    REQUEST    FIELDS((#@@CANS002PAGE *HIDDEN) (#@@CANS002TCOUNT *HIDDEN) (#STDRENTRY *HIDDEN) (#STDPREV *HIDDEN) (#STDMORE *HIDDEN) (#STDSEARCH *HIDDEN) (#STDROWNUM *HIDDEN)) BROWSELIST(#@@CANS002LIST2) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    @@COMMENT  ' '
+    @@COMMENT  'Dummy display for additional browse list.'
+    DISPLAY    BROWSELIST(#@@CANS002LIST) EXIT_KEY(*NO) MENU_KEY(*NO) PROMPT_KEY(*NO)
+    @@CLR_LST  NUMBER(01)
+    @@CLR_LST  NUMBER(02)
+    @@CLR_LST  NUMBER(03)
+    @@CLR_LST  NUMBER(04)
+    @@CLR_LST  NUMBER(05)
+
+  Help Panels:
+  - HELP010:
+      Description:        Page at a time *WEBEVENT
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a LANSA for the WEB *WEBEVENT style program
+         to select data to be displayed in a page at a time browse list which allows    
+         clickable selection of entries for detailed display.                           
+                                                                                        
+         You can use the resulting program as is, or modify the resulting program       
+         yourself so that it exactly matches your requirements. When you elect to use   
+         this template you will be asked the following questions .....                  
+                                                                                        
+        1. To nominate the file that is to be searched and displayed. You can enter the 
+           full file name, a partial file name (to get a partial list of available      
+           files), or leave the name blank (to get a full list of available files).     
+           When a list of files is displayed the one required may be chosen from the    
+           list.                                                                        
+                                                                                        
+        2. To select the keys that are to be used for the searching the selected file.  
+           The search will be generic i.e. all keys need not have values entered on the 
+           search screen. The browse list will be built as a result of the search.
+
+  - HELP020:
+      Description:        Page at a time *WEBEVENT
+
+      Text: |
+        <-
+                                                                                        
+        3. Next you will be asked to select the fields from the file to be displayed    
+           in the browse list. A selection image will appear in the first column of     
+           the browse list followed by the selected fields in the sequence that you     
+           have selected.                                                               
+                                                                                        
+        4. The following question asks how many entries to be displayed in each page    
+           of the browse list. The browse list will be scrolled backward and forward    
+           this number of entries.                                                      
+                                                                                        
+        5. Next you will be asked to select the fields from the file to be displayed    
+           in the detail display. All fields are pre-selected and can be sequenced in   
+           the required order.                                                          
+                                                                                        
+        6. The final question asks for a unique 2 character prefix to be used for all   
+           working fields in the generated function.

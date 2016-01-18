@@ -1,0 +1,68 @@
+﻿Reusable Part:
+  Name:               xDemoWebDataDepartment
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Data Object"
+
+  - FRA:
+      Description:        "Department Data Object"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_objt *ListFields #listFields)
+    
+    * Field values to be mapped in when the instance is created
+    Group_By Name(#listFields) Fields(#Deptment #deptdesc)
+    
+    * Global scoped reference to the Data Model Object
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    * Published properties of the Department
+    Define_Pty Name(ID) Get(*auto #Deptment)
+    Define_Pty Name(Description) Get(*auto #deptdesc)
+    Define_Pty Name(Sections) Get(GetSections)
+    Define_Pty Name(Employees) Get(GetEmployees)
+    
+    * Return a collection of sections for this Department
+    Ptyroutine Name(GetSections)
+    Define_Map For(*output) Class(#prim_acol<#xDemoWebDataSection>) Name(#Property) Pass(*by_reference)
+    
+    * Create the collection instance
+    #Property <= *New #prim_acol<#xDemoWebDataSection>
+    
+    * Look through the Sections in the Data Model
+    For Each(#Section) In(#gData.Sections)
+    
+    Continue If(#Section.DepartmentCode <> #deptment)
+    
+    #Property.insert( #Section )
+    
+    Endfor
+    
+    Endroutine
+    
+    * Return a collection of Employees for this Department
+    Ptyroutine Name(GetEmployees)
+    Define_Map For(*output) Class(#prim_acol<#xDemoWebDataEmployee>) Name(#Property) Pass(*by_reference)
+    
+    * Create the collection instance
+    #Property <= *New #prim_acol<#xDemoWebDataEmployee>
+    
+    * Look through the Employees in the Data Model
+    For Each(#Employee) In(#gData.Employees)
+    Continue If(#Employee.DepartmentCode <> #deptment)
+    
+    #Property.insert( #Employee )
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

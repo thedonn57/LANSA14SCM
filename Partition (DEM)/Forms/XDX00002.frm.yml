@@ -1,0 +1,239 @@
+﻿Form:
+  Name:               XDXExamples
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DirectX Examples"
+
+  - FRA:
+      Description:        "Exemples DirectX"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBaseForm) Caption(*MTXTXDX002) Clientheight(828) Clientwidth(1533) Formposition(ScreenCenter) Glass(#Glass) Height(828) Layoutmanager(#TableLayout) Left(194) Top(166) Width(1533)
+    
+    Define_Com Class(#Prim_form.Glass) Name(#Glass)
+    
+    
+    * Table Layout - Divides the main form in to a grid
+    Define_Com Class(#prim_tblo) Name(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row1) Displayposition(1) Height(25) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#prim_tblo.Row) Name(#Row2) Displayposition(2) Height(40) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#prim_tblo.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Col1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Col2) Displayposition(2) Parent(#TableLayout) Units(Pixels) Width(40)
+    
+    * Items to manage to the size and position of the background and settings
+    Define_Com Class(#prim_tblo.Item) Name(#Item1) Column(#Col1) Columnspan(2) Manage(#Background) Parent(#TableLayout) Row(#Row2) Rowspan(2)
+    Define_Com Class(#prim_tblo.Item) Name(#Item2) Column(#Col2) Manage(#Settings) Parent(#TableLayout) Row(#Row2)
+    
+    * Content Layout
+    Define_Com Class(#PRIM_ATLM) Name(#ContentLayout) Processingorder(DisplayPosition)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Left) Manage(#Tree) Marginbottom(6) Marginleft(6) Marginright(3) Margintop(6) Parent(#ContentLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Center) Manage(#Content) Marginbottom(6) Marginleft(3) Marginright(6) Margintop(6) Parent(#ContentLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Center) Manage(#Background) Margintop(25) Parent(#ContentLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Center) Manage(#ContentBackground) Marginbottom(20) Marginleft(20) Marginright(20) Margintop(80) Parent(#ContentLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Center) Manage(#ContentDescription) Parent(#ContentLayout)
+    
+    * User designed tree showing list of available examples
+    Define_Com Class(#XDXExamplesTree) Name(#Tree) Height(675) Left(6) Parent(#ContentBackground) Top(6) Width(300)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Content) Displayposition(2) Height(675) Layoutmanager(#ContentLayout) Left(312) Parent(#ContentBackground) Style(#XDXStyles<ContentBackground>) Tabposition(2) Tabstop(False) Top(6) Width(1159)
+    
+    * As the form is Glass a background panel is required
+    Define_Com Class(#prim_panl) Name(#Background) Displayposition(2) Height(787) Layoutmanager(#ContentLayout) Left(8) Parent(#COM_OWNER) Tabposition(2) Top(33) Width(1517)
+    
+    Define_Com Class(#prim_panl) Name(#ContentBackground) Displayposition(1) Height(687) Layoutmanager(#ContentLayout) Left(20) Parent(#Background) Tabposition(1) Top(80) Width(1477)
+    
+    
+    Define_Com Class(#XDXBanner) Name(#Banner) Displayposition(2) Left(50) Opacity(25) Parent(#Background) Tabposition(2) Tabstop(False) Top(24)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Settings) Displayposition(1) Height(40) Hintpopup(#Popup) Image(#XDXImageSettings32) Left(1485) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(33) Width(40)
+    
+    Define_Com Class(#Prim_labl) Name(#ContentDescription) Alignment(Right) Displayposition(3) Height(687) Left(309) Marginbottom(12) Marginright(20) Opacity(30) Parent(#ContentBackground) Style(#XDXStyles<LargeFonts>) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Bottom) Width(1168)
+    
+    * Exmaple Panels as displayed in the content and collection of layout items to manage the panels
+    Define_Com Class(#prim_dcol<#XDXBasePanel #Prim_tree.TreeItem>) Name(#ExamplePanels)
+    Define_Com Class(#prim_Lcol<#Prim_atli>) Name(#LayoutItems)
+    
+    * Settings hint
+    Define_Com Class(#prim_ppnl) Name(#Popup) Content(#Hint)
+    Define_Com Class(#XDXHint) Name(#Hint)
+    
+    * Transition animation between the selected example and the active panel
+    Define_Com Class(#prim_anim) Name(#AnimationActivate)
+    Define_Com Class(#prim_anim.Transition) Name(#Transition) Parent(#AnimationActivate)
+    
+    Define_Com Class(#XDXBasePanel) Name(#ActivePanel) Reference(*dynamic)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Settings.cursor <= #sys_appln.Cursors<Hand>
+    
+    #Background.Style <= #Application.BackGround
+    
+    #Com_owner.Taskbar <= #Application.TaskBar
+    
+    #Com_owner.Load
+    
+    #Com_owner.MaximizeForm
+    
+    Endroutine
+    
+    Mthroutine Name(Load) Help('Create the example panels and related labels')
+    
+    #Com_owner.AddEntry( *MTXTXDX067 *MTXTXDX068 XDX00030 ) /* Layered Styles */
+    
+    #Com_owner.AddEntry( *MTXTXDX018 *MTXTXDX029 XDX00003 ) /* Brushes */
+    
+    #Com_owner.AddEntry( *MTXTXDX020 *MTXTXDX031 XDX00006 ) /* Tile */
+    
+    #Com_owner.AddEntry( *MTXTXDX094 *MTXTXDX095 XDX00029 ) /* UDC On Demand */
+    
+    #Com_owner.AddEntry( *MTXTXDX021 *MTXTXDX032 XDX00014 ) /* Tree and Drag & Drop */
+    
+    #Com_owner.AddEntry( *MTXTXDX023 *MTXTXDX034 XDX00025 ) /* Table Layout */
+    
+    #Com_owner.AddEntry( *MTXTXDX024 *MTXTXDX035 XDX00069 ) /* Popup Panels */
+    
+    #Com_owner.AddEntry( *MTXTXDX097 *MTXTXDX098 XDX00085 ) /* Touch Gestures */
+    
+    #Com_owner.AddEntry( *MTXTXDX028 *MTXTXDX039 XDX00027 ) /* Scaling */
+    
+    #Com_owner.AddEntry( *MTXTXDX086 *MTXTXDX087 XDX00063 ) /* Taskbar Integration */
+    
+    #Com_owner.AddEntry( *MTXTXDX019 *MTXTXDX030 XDX00008 ) /* Carousel */
+    
+    #Com_owner.AddEntry( *MTXTXDX022 *MTXTXDX033 XDX00032 ) /* Book */
+    
+    #Com_owner.AddEntry( *MTXTXDX076 *MTXTXDX077 XDX00077 ) /* Routed Events */
+    
+    #Com_owner.AddEntry( *MTXTXDX027 *MTXTXDX038 XDX00035 ) /* Simple Animations */
+    
+    #Com_owner.AddEntry( *MTXTXDX025 *MTXTXDX036 XDX00026 ) /* Bouncing Balls */
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Help('Create a panel in the user designed tree and create example panel') Access(*Private)
+    Define_Map For(*Input) Class(#XDXCaption) Name(#Caption)
+    Define_Map For(*Input) Class(#XDXDescription) Name(#Description)
+    Define_Map For(*Input) Class(#XDXExample) Name(#Example) Mandatory("")
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    #Result <= #Tree.AddEntry( #Caption #Description #Example )
+    
+    #Com_owner.CreateExamplePanel( #Example #Result )
+    
+    Endroutine
+    
+    Mthroutine Name(CreateExamplePanel) Help('Create the example panel instance and layout item') Access(*private)
+    Define_Map For(*Input) Class(#XDXExample) Name(#Example)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#TreeItem) Pass(*by_reference)
+    
+    Define_Com Class(#Prim_atli) Name(#LayoutItem) Attachment(Center) Margintop(6) Marginbottom(6)
+    
+    * Create the panel instance
+    Set_Ref Com(#ExamplePanels<#TreeItem>) To(*Create_from #Example) Com_Error(*Set_Null)
+    
+    If (#ExamplePanels<#TreeItem> *Is *null)
+    
+    Use Builtin(ov_message_box) With_Args(#Example)
+    
+    Else
+    
+    * Parent to the content and hide
+    #ExamplePanels<#TreeItem>.Parent <= #Content
+    #ExamplePanels<#TreeItem>.Visible := False
+    
+    * Configure a layout item to control the size
+    #LayoutItem.Parent <= #ContentLayout
+    #LayoutItem.Manage <= #ExamplePanels<#TreeItem>
+    #LayoutItem.Attachment := Center
+    
+    #LayoutItems.Insert( #LayoutItem )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ActivatePanel) Help('Activate the example linked to the selected tree item') Access(*Private)
+    Define_Map For(*Input) Class(#Prim_Tree.TreeItem) Name(#TreeItem) Pass(*By_reference)
+    
+    * Get the active transition type form the settings
+    #Transition.TransitionType := #Application.Settings.TransitionType
+    
+    * If this is the first item, fade it in, other trasnistion
+    If (#ActivePanel *Is *Null)
+    
+    #ExamplePanels<#TreeItem>.FadeIn( 1000 )
+    
+    #ActivePanel <= #ExamplePanels<#TreeItem>
+    
+    Else
+    
+    * Hook up the animation to the selected and active examples
+    #Transition.From <= #ActivePanel
+    #Transition.To <= #ExamplePanels<#TreeItem>
+    
+    * Update the description
+    #ContentDescription := #XDXCaption
+    
+    #AnimationActivate.Start
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#AnimationActivate.Ended)
+    
+    If (#ActivePanel *IsNot *null)
+    
+    #ActivePanel.Deactivate
+    
+    Endif
+    
+    * Update the active panel only when the animation completes
+    * Prevents issues with animations being interrupted
+    #ActivePanel <= #Transition.To *As #XDXBasePanel
+    
+    * Call into the panel to perform any specific processing
+    #ActivePanel.Activate
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemGotFocus) Item(#Item) Caption(#Caption)
+    
+    * Force any animations to complete before activating a new panel
+    If (#AnimationActivate.IsAnimating)
+    
+    #AnimationActivate.Stop
+    
+    Endif
+    
+    #XDXCaption := #Caption
+    
+    #Com_owner.ActivatePanel( #Item )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Settings.Click)
+    
+    #Application.Settings.Show
+    
+    Endroutine
+    
+    Evtroutine Handling(#Popup.Prepare) Left(#Left) Top(#Top)
+    
+    #Hint.Caption := *MTXTXDX040
+    
+    #Left := #Settings.ScreenLeft + (#Settings.Width / 2) - (#Hint.Width / 2)
+    #Top := #Settings.ScreenTop + #Settings.Height
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,103 @@
+﻿Reusable Part:
+  Name:               XSShoppingCartSummary
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart Summary"
+
+  - FRA:
+      Description:        "Shopping Cart Summary"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * This is a Popup Panel designed to appear over the parent window
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(137) Left(0) Top(0) Width(353) Layoutmanager(#TableLayout1) Style(#XSTheme01<BackgroundWhite>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 2 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LItemAddedItem1) Alignment(TopLeft) Column(#Column1) Manage(#LItemAdded) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LItemTotalItem1) Alignment(TopLeft) Column(#Column1) Manage(#LItemTotal) Parent(#TableLayout1) Row(#Row1) Sizing(None) Flow(Down) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LItemSummaryItem1) Alignment(TopLeft) Column(#Column1) Manage(#LItemSummary) Parent(#TableLayout1) Row(#Row1) Sizing(None) Flow(Down) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ContinueButtonItem1) Alignment(TopCenter) Column(#Column1) Manage(#ContinueButton) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ShoppingCartButtonItem1) Alignment(TopCenter) Column(#Column2) Manage(#ShoppingCartButton) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LItemAdded) Caption('Item added to your cart') Displayposition(1) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(351) Left(0) Marginleft(20) Themedrawstyle('PanelHeader2')
+    
+    Define_Com Class(#PRIM_LABL) Name(#LItemSummary) Caption('You have x items in your cart') Displayposition(2) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(25) Verticalalignment(Center) Width(280) Style(#XSTheme01<Text10BoldAlmostBlack>) Marginleft(20)
+    Define_Com Class(#PRIM_LABL) Name(#LItemTotal) Caption('Total Cost : $0.00') Displayposition(3) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(50) Verticalalignment(Center) Width(280) Style(#XSTheme01<Text10BoldAlmostBlack>) Marginleft(20)
+    
+    * BUTTON: Continue Shopping
+    Define_Com Class(#PRIM_PHBN) Name(#ContinueButton) Caption('Continue') Displayposition(4) Left(13) Parent(#COM_OWNER) Tabposition(4) Top(90) Width(150) Style(#XSTheme01<ButtonGn3Wh>) Mouseoverstyle(#XSTheme01<ButtonGn2Wh>)
+    
+    * BUTTON: Go to the Shopping Cart
+    Define_Com Class(#PRIM_PHBN) Name(#ShoppingCartButton) Caption('Shopping Cart') Displayposition(5) Parent(#COM_OWNER) Tabposition(5) Top(90) Width(150) Left(188) Style(#XSTheme01<ButtonGn3Wh>) Mouseoverstyle(#XSTheme01<ButtonGn2Wh>)
+    
+    * Reference to SrvRoutine in the Server Module
+    Define_Com Class(#XSServer.GotoShoppingCart) Name(#GotoShoppingCart)
+    
+    Define_Com Class(#XSCartID) Name(#Cartid)
+    
+    * Events used to signal information to other parts of the application (typically MySession)
+    Define_Evt Name(Continue)
+    Define_Evt Name(CartUpdated)
+    
+    Evtroutine Handling(#ContinueButton.Click)
+    
+    Signal Event(Continue)
+    
+    #com_owner.ClosePopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShoppingCartButton.Click)
+    
+    #GotoShoppingCart.execute
+    
+    Endroutine
+    
+    Mthroutine Name(AddItemtoCart)
+    Define_Map For(*input) Class(#XSProductID) Name(#ProductID)
+    
+    Define_Com Class(#XSServer.AddToCart) Name(#AddtoCart)
+    
+    #XSAccountEmail := #MySession.RestoreLocalValue( Email )
+    
+    #Cartid #XSCartID := #MySession.RestoreLocalValue( CartID )
+    
+    * add the selection to the shopping cart then shop the summary
+    #AddtoCart.ExecuteAsync( #XSCartID #XSAccountEmail #ProductID #XSCartTotalQuantity #XSCartTotalPrice #XSstatus )
+    
+    Evtroutine Handling(#AddtoCart.completed)
+    
+    #LItemSummary := 'You have ' + #XSCartTotalQuantity.asstring + ' items in your cart'
+    #LItemTotal := 'Total Cost : $' + #XSCartTotalPrice.asstring
+    
+    * save the new Cart ID
+    If (#Cartid = *blank)
+    
+    #MySession.SaveLocalValue( CartID #XSCartID )
+    
+    Endif
+    
+    #MySession.pCartQuantity := #XSCartTotalQuantity
+    #MySession.pCartPrice := #XSCartTotalPrice
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

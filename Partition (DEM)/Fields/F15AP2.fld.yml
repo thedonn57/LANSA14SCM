@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F15AP2
+  Type:               Alphanumeric
+  Length:             200
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "ADD PARMS 2"
+      Label:              "F15AP2"
+      Heading1:           "ADD"
+      Heading2:           "PARMS 2"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

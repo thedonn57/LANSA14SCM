@@ -1,0 +1,103 @@
+﻿Web Page:
+  Name:               xDemoWebLayout3ColumnWithList
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Simple 3 Column Layout with List"
+
+  - FRA:
+      Description:        "Simple 3 Column Layout with List"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Style(#Style1) Theme(#SYS_THEME<2015Indigo>)
+    
+    * Using Layouts to control size and position of controls
+    * This example shows 3 columns of controls with a header that spans the page
+    * The middle column has a fixed 800 pixel width.
+    * The 2 outer columns occupy the remaining space
+    * Control within each column flow down the page
+    * A list is used to create the central content. It's resized when required to force the page to scroll rather than the list
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(800) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(1) Ellipses(Word) Left(200) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(800) Alignment(Center) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_13) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(2) Ellipses(Word) Left(200) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(800)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_13) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Label_13) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#Label_20) Displayposition(3) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(196) Height(233) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_20) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_20) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_21) Displayposition(4) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(237) Verticalalignment(Center) Width(196) Height(154) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_21) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_21) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_22) Displayposition(5) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(395) Verticalalignment(Center) Width(196) Height(164) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_22) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_22) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_23) Displayposition(6) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(563) Verticalalignment(Center) Width(196) Height(204) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_23) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label_23) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_24) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(7) Ellipses(Word) Left(1004) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(0) Verticalalignment(Center) Width(196) Height(89) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_24) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_24) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_25) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(8) Ellipses(Word) Left(1004) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(93) Verticalalignment(Center) Width(196) Height(132) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_25) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_25) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_26) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(9) Ellipses(Word) Left(1004) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(229) Verticalalignment(Center) Width(196) Height(68) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_26) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_26) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_27) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(10) Ellipses(Word) Left(1004) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(301) Verticalalignment(Center) Width(196) Height(380) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_27) Alignment(TopCenter) Column(#Column_3) Flow(Down) Manage(#Label_27) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Marginbottom(4) Marginleft(4)
+    Define_Com Class(#PRIM_PANL) Name(#Panel) Displayposition(11) Height(43) Left(200) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(54) Width(800) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Column(#Column_2) Manage(#Panel) Parent(#TableLayout) Row(#Row) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Marginbottom(4)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(12) Height(180) Left(200) Parent(#COM_OWNER) Tabposition(12) Top(101) Width(800) Rowlines(False) Columnlines(False) Columnheaderheight(0) Rowheight(22) Style(#Style2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Column(#Column_2) Manage(#List) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down)
+    Define_Com Class(#PRIM_PHBN) Name(#Add) Displayposition(1) Left(8) Parent(#Panel) Tabposition(1) Top(8) Caption('Add 5 Items') Width(89)
+    Define_Com Class(#PRIM_PHBN) Name(#Delete) Displayposition(2) Left(104) Parent(#Panel) Tabposition(2) Top(8) Caption('Delete')
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnXDEMONUMB) Displayposition(1) Increment(1) Parent(#List) Source(#xDemoNumber) Wrap(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMODESC) Displayposition(2) Parent(#List) Source(#xDemoDescription) Columnunits(Proportion) Columnwidth(1)
+    
+    Evtroutine Handling(#Add.Click)
+    
+    Begin_Loop To(5)
+    
+    #xDemoNumber := #List.Items.ItemCount + 1
+    Add_Entry To_List(#List)
+    
+    End_Loop
+    
+    #Com_owner.Resize
+    
+    Endroutine
+    
+    Evtroutine Handling(#Delete.Click)
+    
+    If (#List.FocusItem *IsNot *null)
+    
+    Dlt_Entry Number(#List.FocusItem.Entry) From_List(#List)
+    
+    Selectlist Named(#List)
+    
+    #xDemoNumber := #List.CurrentItem.Entry
+    Upd_Entry In_List(#List)
+    
+    Endselect
+    
+    Endif
+    
+    #Com_owner.Resize
+    
+    Endroutine
+    
+    Mthroutine Name(Resize)
+    
+    #List.Height := (#List.Items.Itemcount * #List.Rowheight)
+    
+    Endroutine
+    
+    End_Com

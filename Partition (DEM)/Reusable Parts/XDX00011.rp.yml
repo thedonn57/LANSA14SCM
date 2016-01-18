@@ -1,0 +1,31 @@
+﻿Reusable Part:
+  Name:               XDXBanner
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Banner"
+
+  - FRA:
+      Description:        "Bannière"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(238) Left(0) Tabposition(1) Top(0) Width(1124)
+    
+    * Banner for use on splash screen and animation example.
+    * Can be scaled as required to fit to places where used.
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption(*MTXTXDX001) Displayposition(1) Ellipses(Word) Height(95) Left(0) Parent(#COM_OWNER) Style(#CaptionStyle) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(797)
+    Define_Com Class(#PRIM_LABL) Name(#Label_3) Caption(*MTXTXDX002) Displayposition(2) Ellipses(Word) Height(140) Left(96) Parent(#COM_OWNER) Style(#CaptionStyle) Tabposition(1) Tabstop(False) Top(95) Verticalalignment(Center) Width(1029)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#V13Style) Bold(True) Facename('Trebuchet MS') Fontsize(170)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#CaptionStyle) Bold(True) Facename('Trebuchet MS') Fontsize(72)
+    
+    End_Com

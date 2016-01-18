@@ -1,0 +1,230 @@
+﻿File:
+  Name:                           LZ2W
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             LZ2W
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country Warehouses"
+
+  - FRA:
+      Description:        "Entrepot"
+
+  Real Fields:
+  - LZCOCDCON:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - TYPE_VAR:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - LZDATEDAT:
+      Type:               Signed
+      Length:             8
+      Decimals:           0
+
+  - LZWHCD:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - LZWHDS:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - LZWHTS:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZWHMG:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - LZWHL1:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+
+  - LZWHL2:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+
+  - LZWHCT:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+
+  - LZWHST:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+
+  - LZWHPC:
+      Type:               Alphanumeric
+      Length:             6
+      Decimals:           0
+
+  - LZWHPH:
+      Type:               Alphanumeric
+      Length:             18
+      Decimals:           0
+
+  Primary Keys:
+  - LZCOCDCON
+  - LZWHCD
+
+  Virtual Fields:
+  - LZPHCCVIR:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+      Virtual Field Type: Substring
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZWHPH
+      Start Position:     1
+
+  - LZPHACVIR:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+      Virtual Field Type: Substring
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZWHPH
+      Start Position:     5
+
+  - LZPHLCVIR:
+      Type:               Alphanumeric
+      Length:             8
+      Decimals:           0
+      Virtual Field Type: Substring
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZWHPH
+      Start Position:     9
+
+  - LZYMD_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEDAT
+      Source Date Format: YYYYMMDD
+      Target Date Format: YYMMDD
+
+  - LZMDY_VIR:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEDAT
+      Source Date Format: YYYYMMDD
+      Target Date Format: MMDDYY
+
+  - LZDMY_VIR:
+      Type:               Packed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Source Field:       LZDATEDAT
+      Source Date Format: YYYYMMDD
+      Target Date Format: DDMMYY
+
+  File Level Validation Rules:
+  - LZCOCDCON:
+    - Lookup Check:
+        Description:        "RUOM CANNOT ADD - LZ2C DOES NO"
+        File:               LZ2C
+        Keys:
+        - LZCOCDCON
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     LUO4009
+
+  Access Routes:
+  - LCL0000001:
+      Description:        is the parent of / owns
+      File:               LZ2E
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDCON
+      - LZWHCD
+
+  - RUO0000003:
+      Description:        is the parent of/owns (0:M)
+      File:               LZ2I
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDCON
+      - LZWHCD
+
+  - RUO0000005:
+      Description:        is a child of/belongs to (1:1)
+      File:               LZ2C
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDCON

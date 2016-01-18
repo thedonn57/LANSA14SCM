@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_TIME
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          "'  :  :  '"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard TIME"
+      Label:              "Time"
+      Heading1:           "Time"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure Standard"
+      Label:              "Heure"
+      Heading1:           "Heure"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Must be valid time"
+      Condition:          "#STD_TIME *GT 235959"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1084
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a Time. Enter a valid Time into the field..
+      
+      
+        Validation Rules:  Must not be greater than 235959
+      
+        Maximum Length:    6 numerics
+      
+      
+      
+      $$NOAUTO

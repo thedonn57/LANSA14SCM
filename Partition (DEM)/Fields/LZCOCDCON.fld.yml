@@ -1,0 +1,55 @@
+﻿Field:
+  Name:               LZCOCDCON
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    LZCOCD
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Whs Country Code"
+      Label:              "Whs Country"
+      Heading1:           "Whs"
+      Heading2:           "Country"
+      Heading3:           "Code"
+
+  - FRA:
+      Description:        "Code Pays Entrepot"
+      Label:              "Code Pays Entpt"
+      Heading1:           "Code"
+      Heading2:           "Pays"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+       %The Country Code uniquely identifies a Country.}
+      
+        Countries have to exist in the Country file first, before they
+        can be used in the Warehouse system.
+      
+        It is advised to use a 3 character logical abreviation or
+        standard ISO codes.
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+      
+       %Le Code Pays identifie un Pays.}
+      
+        Un Pays doit exister dans le fichier des Pays avant qu'il ne puisse
+        etre utilise par le Systeme Entrepot.
+      
+        Il est reccommande d'utiliser une abreviation de 3 characteres ou les
+        codes standards ISO.
+      
+      
+      $$NOAUTO

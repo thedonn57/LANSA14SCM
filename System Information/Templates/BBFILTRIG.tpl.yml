@@ -1,0 +1,91 @@
+﻿Template:
+  Name:                    BBFILTRIG
+  Description:             File Level Trigger Function
+
+  Source: |
+    @@QUESTION PROMPT('What is the name of the file that this trigger is to be associated with ?') ANSWER(@@CANS001) EXTEND('12345678 <- Specify the physical file name. Use no more than 8 characters.') LOWER(*NO) RANGE(('AAAAAAAAA' 'ZZZZZZZZZ')) HELPIDS(HELP010)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1992')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION')
+    @@COMMENT  COMMENT('Type ..........: @@CANS001 File Level Trigger ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT *NOMESSAGES *LIGHTUSAGE *MLOPTIMISE) RCV_LIST(#TRIG_LIST) TRIGGER(*FILE @@CANS001)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Working fields, lists and groups')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('At entry #TRIG_LIST will contain 0,1 or 2')
+    @@COMMENT  COMMENT('entries representing current and previous')
+    @@COMMENT  COMMENT('record images of file @@CANS001. Refer to the')
+    @@COMMENT  COMMENT('Technical Guide for details and examples.')
+    @@COMMENT  COMMENT('Do NOT define any fields in this list. They')
+    @@COMMENT  COMMENT('are automatically included by the compiler.')
+    DEF_LIST   NAME(#TRIG_LIST) TYPE(*WORKING) ENTRYS(2)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline : @@FUNCTION')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Assume a "good" return initially')
+    CHANGE     FIELD(#TRIG_RETC) TO('OK')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('>>> DELETE all "not defined" events from the  <<<')
+    @@COMMENT  COMMENT('>>> the following CASE construct. (ie: Remove <<<')
+    @@COMMENT  COMMENT('>>> WHEN VALUE_IS commands that are not part  <<<')
+    @@COMMENT  COMMENT('>>> of the definition of this trigger BEFORE  <<<')
+    @@COMMENT  COMMENT('>>> specifying details of the events that are <<<')
+    @@COMMENT  COMMENT('>>> part of the definition of this trigger).  <<<')
+    @@COMMENT  COMMENT('>>> This simplifies logic in this function    <<<')
+    @@COMMENT  COMMENT('>>> and ensures an ABORT if someone attempts  <<<')
+    @@COMMENT  COMMENT('>>> to cause it to be invoked during an event <<<')
+    @@COMMENT  COMMENT('>>> that it has not been set up to handle.    <<<')
+    @@COMMENT  COMMENT(' ')
+    CASE       OF_FIELD(#TRIG_OPER)
+    @@COMMENT  COMMENT('Handle a before open event           ')
+    WHEN       VALUE_IS('= BEFOPN')
+    @@COMMENT  COMMENT('Handle an after open event        ')
+    WHEN       VALUE_IS('= AFTOPN')
+    @@COMMENT  COMMENT('Handle a before close event           ')
+    WHEN       VALUE_IS('= BEFCLS')
+    @@COMMENT  COMMENT('Handle an after close event        ')
+    WHEN       VALUE_IS('= AFTCLS')
+    @@COMMENT  COMMENT('Handle a before read event           ')
+    WHEN       VALUE_IS('= BEFRED')
+    @@COMMENT  COMMENT('Handle an after read event        ')
+    WHEN       VALUE_IS('= AFTRED')
+    @@COMMENT  COMMENT('Handle a before insert event       ')
+    WHEN       VALUE_IS('= BEFINS')
+    @@COMMENT  COMMENT('Handle an after insert event        ')
+    WHEN       VALUE_IS('= AFTINS')
+    @@COMMENT  COMMENT('Handle a before update event       ')
+    WHEN       VALUE_IS('= BEFUPD')
+    @@COMMENT  COMMENT('Handle an after update event        ')
+    WHEN       VALUE_IS('= AFTUPD')
+    @@COMMENT  COMMENT('Handle a before delete event       ')
+    WHEN       VALUE_IS('= BEFDLT')
+    @@COMMENT  COMMENT('Handle an after delete event        ')
+    WHEN       VALUE_IS('= AFTDLT')
+    @@COMMENT  COMMENT('Handle an event not catered for   ')
+    OTHERWISE
+    ABORT      MSGTXT('File @@CANS001 trigger function invalidly invoked/ used.')
+    ENDCASE
+    @@COMMENT  COMMENT('Return control to the invoker')
+    RETURN
+
+  Help Panels:
+  - HELP010:
+      Description:        "  File Level Trigger Function"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Use this building block only when you are starting a new manually coded RDML   
+         function that is to be used as a file level trigger function.                  
+                                                                                        
+         This template will only ask you one question .... the name of the file that    
+         the trigger is to be associated with.

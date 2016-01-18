@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               DAYC
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*DAYC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current day (character)"
+      Label:              "Day ..........."
+      Heading1:           "Day"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Jour en cours, alphanumérique"
+      Label:              "Jour  . . . . ."
+      Heading1:           "Jour"
+      Heading2:           " "
+      Heading3:           " "

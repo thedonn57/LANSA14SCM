@@ -1,0 +1,58 @@
+﻿Reusable Part:
+  Name:               xDemoWebUDCTreeBaseItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Item Base Class"
+
+  - FRA:
+      Description:        "Tree Item Base Class"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_panl *implements #prim_Tree.iTreeDesign) Width(321) Displayposition(1) Tabposition(1) Left(0) Top(0) Themedrawstyle('ListItem')
+    
+    Define_Com Class(#Prim_Tree.TreeItem) Name(#gTreeItem) Reference(*dynamic)
+    
+    Define_Pty Name(TreeItem) Get(*reference #gTreeItem)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #gTreeItem <= #TreeItem
+    
+    Endroutine
+    
+    * All expand/collapse processing has to be handled by the user
+    Mthroutine Name(ExpandCollapse) Access(*Protect)
+    
+    If (#gTreeItem.Expanded)
+    
+    #gTreeItem.Collapse
+    
+    Else
+    
+    #gTreeItem.Expand
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Options(*Redefine)
+    
+    #gTreeItem <= *null
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateName)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Sort) Mandatory(Givename)
+    
+    Endroutine
+    
+    End_Com
+    

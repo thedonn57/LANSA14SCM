@@ -1,0 +1,270 @@
+﻿ServerModule:
+  Name:               xDemoDataServices
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Demo Data Services"
+
+  - FRA:
+      Description:        "Demo Data Services"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Def_List Name(#Departments) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working)
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    
+    Def_List Name(#Skills) Fields(#Empno #Skilcode #Skildesc) Type(*Working) Entrys(9999)
+    
+    Group_By Name(#Employee) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm)
+    Group_By Name(#Department) Fields(#deptment #deptdesc)
+    Group_By Name(#DepartmentSection) Fields(#deptment #Section #Secdesc)
+    
+    * Startup data routine returning lists of Department, Section and Employee data
+    Srvroutine Name(GetData)
+    List_Map For(*Output) List(#Departments)
+    List_Map For(*Output) List(#Sections)
+    List_Map For(*Output) List(#Employees)
+    
+    * Get all department data
+    Select Fields(#Departments) From_File(deptab)
+    
+    Add_Entry To_List(#Departments)
+    
+    Endselect
+    
+    * Get all section data
+    Select Fields(#Sections) From_File(sectab)
+    
+    Add_Entry To_List(#Sections)
+    
+    Endselect
+    
+    * Get all employee data
+    Select Fields(#Employees) From_File(pslmst)
+    
+    * Get the employee thumbnail image.  Stored as a blob
+    Fetch Fields(#empthm) From_File(pslimg) With_Key(#empno)
+    
+    Add_Entry To_List(#Employees)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(GetEmployees)
+    List_Map For(*Output) List(#Employees)
+    
+    * Get all employee data
+    Select Fields(#Employees) From_File(pslmst)
+    
+    * Get the employee thumbnail image.  Stored as a blob
+    Fetch Fields(#empthm) From_File(pslimg) With_Key(#empno)
+    
+    Add_Entry To_List(#Employees)
+    
+    Endselect
+    
+    Endroutine
+    
+    
+    * Help get a "page" of employees
+    Srvroutine Name(GetEmployeePage)
+    Field_Map For(*Input) Field(#StartKey) Parameter_Name(ParmName) Desc("") Help("")
+    Field_Map For(*Input) Field(#ListPage)
+    List_Map For(*Output) List(#EmployeePage)
+    
+    Define Field(#StartKey) Reffld(#Empno)
+    
+    Def_List Name(#EmployeePage) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #deptment #deptdesc #Empthm) Counter(#Listcount) Type(*working) Entrys(999)
+    
+    * Read from the personnel file starting at whatever key was specified
+    Select Fields(#EmployeePage) From_File(pslmst) With_Key(#StartKey) Options(*Startkey)
+    
+    Continue If(#StartKey = #Empno) /* Ignore the first item if a start position specified */
+    
+    Fetch Fields(#EmployeePage) From_File(pslimg) With_Key(#empno)
+    Fetch Fields(#EmployeePage) From_File(deptab) With_Key(#Deptment)
+    
+    Add_Entry To_List(#EmployeePage)
+    
+    Leave If(#Listcount = #ListPage) /* Drop out of loop if there's a "page" full of items */
+    
+    Endselect
+    
+    Endroutine
+    
+    * Return the first value matching the name supplied
+    Srvroutine Name(CompleteGivename)
+    Field_Map For(*Both) Field(#AutocompleteGivename)
+    
+    Define Field(#AutocompleteGivename) Reffld(#Surname)
+    
+    Select Fields(#Givename) From_File(PSLMST3) With_Key(#AutocompleteGivename) Generic(*Yes)
+    
+    #AutocompleteGivename := #Givename
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    * Return the first value matching the name supplied
+    Srvroutine Name(CompleteSurname)
+    Field_Map For(*Both) Field(#AutocompleteSurname)
+    
+    Define Field(#AutocompleteSurname) Reffld(#Surname)
+    
+    Select Fields(#Surname) From_File(PSLMST2) With_Key(#AutocompleteSurname) Generic(*Yes)
+    
+    #AutocompleteSurname := #Surname
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    * Get a complete employee record
+    Srvroutine Name(GetEmployee)
+    Field_Map For(*Input) Field(#Empno)
+    Group_Map For(*output) Group(#Employee)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Fetch Fields(#Employee) From_File(pslmst) With_Key(#Empno)
+    
+    If_Status Is(*Okay)
+    
+    Fetch Fields(#empthm) From_File(pslimg) With_Key(#empno)
+    
+    Endif
+    
+    Endroutine
+    
+    * Get the image for an employee
+    Srvroutine Name(GetEmployeeImage)
+    Field_Map For(*Input) Field(#Empno)
+    Field_Map For(*output) Field(#empimg)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Fetch Fields(#empimg) From_File(pslimg) With_Key(#empno)
+    
+    Endroutine
+    
+    * Get a complete department record
+    Srvroutine Name(GetDepartment)
+    Field_Map For(*Input) Field(#Deptment)
+    Group_Map For(*output) Group(#Department)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Fetch Fields(#Department) From_File(deptab) With_Key(#deptment)
+    
+    Endroutine
+    
+    * Get a complete section record
+    Srvroutine Name(GetSection)
+    Field_Map For(*Input) Field(#Deptment)
+    Field_Map For(*Input) Field(#Section)
+    Group_Map For(*output) Group(#DepartmentSection)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Fetch Fields(#DepartmentSection) From_File(sectab) With_Key(#deptment #section)
+    
+    Endroutine
+    
+    Srvroutine Name(SaveEmployee)
+    Group_Map For(*input) Group(#Employee)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Update Fields(#Employee) In_File(pslmst) With_Key(#Empno) Val_Error(*Next)
+    
+    Endroutine
+    
+    Srvroutine Name(CreateEmployee)
+    Group_Map For(*input) Group(#Employee)
+    Field_Map For(*output) Field(#io$sts) Parameter_Name(Status)
+    
+    Insert Fields(#Employee) To_File(pslmst) Val_Error(*Next)
+    
+    Endroutine
+    
+    Srvroutine Name(DownloadImage) Response(#Response)
+    Field_Map For(*Input) Field(#Empno)
+    
+    Fetch Fields(#GiveName #Surname) From_File(pslmst) With_Key(#empno)
+    
+    If_Status Is(*okay)
+    
+    Fetch Fields(#empimg) From_File(pslimg) With_Key(#empno)
+    
+    If_Status Is(*okay)
+    
+    #Response.ContentFile := #Empimg.Filename
+    #Response.AttachmentFileName := #Surname + #GiveName + #Empno + ".jpg"
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(GetDepartments)
+    List_Map For(*Output) List(#Departments)
+    
+    Select Fields(#Departments) From_File(deptab)
+    
+    Add_Entry To_List(#Departments)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(GetDeptSections)
+    Field_Map For(*Input) Field(#Deptment)
+    List_Map For(*Output) List(#Sections)
+    
+    Select Fields(#Sections) From_File(sectab) With_Key(#Deptment)
+    
+    Add_Entry To_List(#Sections)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(GetDeptSectEmployees)
+    Field_Map For(*Input) Field(#Deptment)
+    Field_Map For(*Input) Field(#Section)
+    List_Map For(*Output) List(#Employees)
+    
+    Select Fields(#Employees) From_File(pslmst1) With_Key(#Deptment #Section)
+    
+    Fetch Fields(#Employees) From_File(pslimg) With_Key(#Empno)
+    
+    Add_Entry To_List(#Employees)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(GetEmployeeSkills)
+    Field_Map For(*Input) Field(#Empno)
+    List_Map For(*Output) List(#Skills)
+    
+    Select Fields(#Skills) From_File(pslskl) With_Key(#empno)
+    
+    Fetch Fields(#Skills) From_File(skltab) With_Key(#skilcode)
+    
+    Add_Entry To_List(#Skills)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

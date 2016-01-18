@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_PHONE
+  Type:               Alphanumeric
+  Length:             18
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard PHONE NUMBER"
+      Label:              "Phone"
+      Heading1:           "Phone"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro de Téléphone Standard"
+      Label:              "N° Téléphone"
+      Heading1:           "Numéro"
+      Heading2:           "Téléphone"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        Enter a Phone Number into this field.
+      
+      
+        Validation Rules : Must be specified by the user.
+                           Should consist of numbers only for most countries.
+      
+        Maximum Length   : 18 characters
+      
+      
+      
+      $$NOAUTO

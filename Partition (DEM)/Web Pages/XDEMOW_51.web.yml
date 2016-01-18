@@ -1,0 +1,35 @@
+﻿Web Page:
+  Name:               xDemoWebFixedPosition
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Fixing the position of a child control"
+
+  - FRA:
+      Description:        "Fixing the position of a child control"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Height(1200) Theme(#SYS_THEME<2015Indigo>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(200) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(200) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(2) Parent(#TableLayout1) Height(2000) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout1) Height(91) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopRight) Column(#Column2) Flow(Down) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(BottomCenter) Column(#Column1) Flow(Down) Manage(#Label3) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Columnspan(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label4) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Columnspan(3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Scrolling Label - FixedPosition(False)') Displayposition(2) Ellipses(Word) Height(177) Left(200) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(91) Verticalalignment(Center) Width(329) Alignment(Center) Themedrawstyle('Heading3+MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('Non- scrolling Label - FixedPosition(True)') Displayposition(3) Ellipses(Word) Height(177) Left(653) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(91) Verticalalignment(Center) Width(329) Alignment(Center) Fixedposition(True) Themedrawstyle('Heading3+MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Caption('Footer') Displayposition(4) Ellipses(Word) Height(56) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(2035) Verticalalignment(Center) Width(1182) Alignment(Center) Themedrawstyle('Heading2+MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Scroll the page - This header and the box on the right will stay in the same place') Displayposition(1) Ellipses(Word) Height(33) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Verticalalignment(Center) Width(1182) Alignment(Center) Fixedposition(True) Themedrawstyle('Heading1+DarkTitle')
+    
+    End_Com

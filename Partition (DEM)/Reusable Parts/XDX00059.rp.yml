@@ -1,0 +1,50 @@
+﻿Reusable Part:
+  Name:               XDXHint
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Hint"
+
+  - FRA:
+      Description:        "Astuces"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(48) Layoutmanager(#ATLM_1) Left(0) Tabposition(1) Top(0) Width(116)
+    
+    * Hint Panel used as content of a popup panel
+    
+    Define_Com Class(#PRIM_Panl) Name(#Top) Displayposition(1) Height(10) Layoutmanager(#Table) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(116)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Alignment(Center) Caption(*MTXTXDX040) Displayposition(2) Ellipses(Word) Height(38) Left(0) Parent(#COM_OWNER) Style(#XDXStyles<MouseOver>) Tabposition(2) Tabstop(False) Verticalalignment(Center) Width(116)
+    Define_Com Class(#PRIM_ATLM) Name(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#Label) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#Top) Parent(#ATLM_1)
+    
+    Define_Com Class(#Prim_panl) Name(#ArrowPanel) Displayposition(1) Height(10) Left(39) Parent(#Top) Tabposition(1) Top(0) Width(38)
+    Define_Com Class(#Prim_panl) Name(#Arrow) Displayposition(1) Height(22) Left(8) Parent(#ArrowPanel) Rotation(45) Style(#XDXStyles<HintArrow>) Tabposition(1) Top(4) Width(22)
+    
+    Define_Com Class(#prim_tblo) Name(#Table)
+    Define_Com Class(#prim_tblo.Column) Name(#Column1) Parent(#Table)
+    Define_Com Class(#prim_tblo.Column) Name(#Column2) Parent(#Table)
+    Define_Com Class(#prim_tblo.Column) Name(#Column3) Parent(#Table)
+    
+    Define_Com Class(#prim_tblo.Row) Name(#Row1) Displayposition(3) Parent(#Table)
+    
+    Define_Com Class(#prim_tblo.Item) Name(#Item1) Column(#Column2) Manage(#ArrowPanel) Parent(#Table) Row(#Row1)
+    
+    Define_Pty Name(Caption) Set(SetCaption)
+    
+    Ptyroutine Name(SetCaption)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Caption)
+    
+    #Label.Caption := #Caption
+    
+    Endroutine
+    
+    End_Com

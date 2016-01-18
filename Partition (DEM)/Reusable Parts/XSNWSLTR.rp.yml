@@ -1,0 +1,107 @@
+﻿Reusable Part:
+  Name:               XSNewsletter
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Newsletter"
+
+  - FRA:
+      Description:        "Newsletter"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(250) Left(0) Tabposition(1) Top(0) Width(383) Themedrawstyle('Panel1') Layoutmanager(#TableLayout1)
+    
+    * LAYOUT: 1 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TitleItem1) Alignment(TopCenter) Column(#Column1) Manage(#Title) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountEmailItem1) Manage(#XSAccountEmail) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column1) Alignment(TopCenter) Flow(Down) Margintop(10) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SubscribeItem1) Manage(#Subscribe) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column1) Alignment(TopCenter) Flow(Down) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#messageItem1) Manage(#message) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column1) Alignment(TopCenter) Flow(Down) Margintop(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LatestCatalogueItem1) Manage(#LatestCatalogue) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Alignment(CenterLeft)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Title) Caption('Subscribe to our Newsletter') Displayposition(1) Ellipses(Word) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Verticalalignment(Center) Wordwrap(False) Marginleft(10) Themedrawstyle('PanelHeader2') Height(35) Width(381) Left(0) Top(0)
+    Define_Com Class(#XSAccountEmail.Visual) Name(#XSAccountEmail) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Labeltype(Caption) Labelposition(None) Marginleft(0) Placeholder('Enter your email address') Width(361) Top(45) Left(10)
+    Define_Com Class(#PRIM_PHBN) Name(#Subscribe) Caption('Subscribe') Displayposition(4) Parent(#COM_OWNER) Tabposition(5) Top(74) Width(137) Themedrawstyle('ButtonLook2') Left(122)
+    Define_Com Class(#PRIM_LABL) Name(#message) Displayposition(5) Ellipses(Word) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(102) Width(381) Caption('<message>') Style(#XSTheme01<Text10Red>) Left(0) Height(25) Alignment(Center) Verticalalignment(Center)
+    
+    * Panel to display image for Latest Catalogue
+    Define_Com Class(#PRIM_PANL) Name(#LatestCatalogue) Displayposition(2) Height(124) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(124) Width(381) Image(#XSImage07) Imagealignment(CenterLeft)
+    
+    Def_List Name(#AccountDetail) Fields(#XSAccountID #XSAccountStatus #XSAccountTitle #XSAccountLastname #XSAccountFirstname #XSBirthDate #XSAccountEmail #XSPhoneMobile #XSPhoneWork #XSPhoneHome #XSAccountAddress1 #XSAccountAddress2 #XSAccountCity #XSAccountState #XSAccountZip #XSAccountCountry #XSDeliveryAddress1 #XSDeliveryAddress2 #XSDeliveryCity #XSDeliveryState #XSDeliveryZip #XSDeliveryCountry #XSDeliveryInstructions #XSNewsletterCancelDate #XSNewsletterStatus #XSNewsletterSubscribeDate) Type(*Working) Entrys(1)
+    
+    Define_Com Class(#XSServer.SendNewsletter) Name(#SendNewsletter)
+    Define_Com Class(#XSServer.SaveAccount) Name(#SaveAccount)
+    
+    Define Field(#WinRetCod) Type(*dec) Length(7) Decimals(0)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    #message := *blank
+    
+    #LatestCatalogue.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#LatestCatalogue.Click)
+    
+    * show document directly from the web server
+    #sys_web.Navigate( "/images/lansatools/Newsletter-Issue26.pdf" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Subscribe.Click)
+    
+    #message.caption := ' '
+    
+    If (#XSAccountEmail = '')
+    
+    #message.caption := 'Try entering an email address'
+    
+    Return
+    
+    Endif
+    
+    If (*Not #XSAccountEmail.contains( @ ))
+    
+    #message.caption := 'Check your email address'
+    
+    Return
+    
+    Endif
+    
+    If (*Not #XSAccountEmail.contains( '.' ))
+    
+    #message.caption := 'Check your email address'
+    
+    Return
+    
+    Endif
+    
+    #SendNewsletter.execute( #XSAccountEmail #WinRetCod )
+    
+    If (#WinRetCod <> 0)
+    
+    #message := 'Attempt to send newsletter failed.  Check your email address.'
+    
+    Return
+    
+    Endif
+    
+    #message.caption := 'Latest newsletter has been emailed to you'
+    
+    #SaveAccount.execute( #AccountDetail #XSStatus )
+    
+    Endroutine
+    
+    
+    End_Com

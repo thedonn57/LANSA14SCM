@@ -1,0 +1,68 @@
+﻿Field:
+  Name:               REP5PAGE
+  Type:               Signed
+  Length:             4
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Report number 5 page number field"
+      Label:              "Page .........."
+      Heading1:           "Page"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro de page pour état no 5"
+      Label:              "Page  . . . . ."
+      Heading1:           "Page"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      %{Description\:  Field REPnPAGE is a standard LANSA field. It is used
+          on reports to cause the current page number to be printed. There
+          are 8 different versions of REPnPAGE called ....
+      
+             REP1PAGE - Page number field to be used on report number 1
+             REP2PAGE - Page number field to be used on report number 2
+             REP3PAGE - Page number field to be used on report number 3
+             REP4PAGE - Page number field to be used on report number 4
+             REP5PAGE - Page number field to be used on report number 5
+             REP6PAGE - Page number field to be used on report number 6
+             REP7PAGE - Page number field to be used on report number 7
+             REP8PAGE - Page number field to be used on report number 8
+      
+         {Please refer to the LANSA Technical Guide for more details of}
+         {these fields and how they are used in RDML printing commands.}
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      %{Description}:  Le champ REPnPAGE est un champ standard LANSA. Il est
+         utilisé dans les états d'impression pour imprimer le numéro de page.
+         Il y a 8 différentes versions de REPnPAGE appelées ....
+      
+             REP1PAGE - Numéro de page à utiliser sur l'état d'impression 1
+             REP2PAGE - Numéro de page à utiliser sur l'état d'impression 2
+             REP3PAGE - Numéro de page à utiliser sur l'état d'impression 3
+             REP4PAGE - Numéro de page à utiliser sur l'état d'impression 4
+             REP5PAGE - Numéro de page à utiliser sur l'état d'impression 5
+             REP6PAGE - Numéro de page à utiliser sur l'état d'impression 6
+             REP7PAGE - Numéro de page à utiliser sur l'état d'impression 7
+             REP8PAGE - Numéro de page à utiliser sur l'état d'impression 8
+      
+        {Reportez-vous au Guide Technique RDML pour avoir plus de détails}
+        {sur ces champs et pour voir comment les utiliser dans les commandes}
+        {d'impression RDML.}

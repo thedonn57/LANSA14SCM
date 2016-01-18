@@ -1,0 +1,60 @@
+﻿Field:
+  Name:               STARTDTER
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Start date (YYMMDD)"
+      Label:              "Start date....."
+      Heading1:           "Start"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date d´entrée, AAMMJJ"
+      Label:              "Date d´entrée ."
+      Heading1:           "Date"
+      Heading2:           "d´entrée"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the date on which the respective
+            employee started to work for the company.
+      
+      
+                  For instance .... 880201
+                                    871226
+      
+      
+            Note that the start date has to be in YYMMDD format, that
+            is, in the  Year-Month-Date order. Also, start date must be
+            before the current date.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient la date d'entrée dans la société de
+            l'employé concerné.
+      
+      
+                  Par exple:
+                         880201
+                         871226
+      
+      
+            Cette date doit être dans le format AAMMJJ, c'est à dire
+            Année-Mois-Jour. Attention également, la date d'entrée doit
+            être antérieure à la date d'aujourd'hui.

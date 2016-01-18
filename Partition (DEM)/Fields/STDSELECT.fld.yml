@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STDSELECT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard *WEBEVENT template field"
+      Label:              "Std *WEBEVENT"
+      Heading1:           "Std *WEBEVENT"
+      Heading2:           "template field"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Zone standard de template *WEBEVENT"
+      Label:              "Std *WEBEVENT"
+      Heading1:           "Zone standard"
+      Heading2:           "template webevent"
+      Heading3:           " "

@@ -1,0 +1,61 @@
+﻿Reusable Part:
+  Name:               XDXPopupPanelEmployeeDetails
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Details Popup"
+
+  - FRA:
+      Description:        "Détails employés"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(222) Layoutmanager(#Layout) Left(0) Style(#XDXStyles<Hint>) Tabposition(1) Top(0) Width(199)
+    
+    * Panel used as a Hint PopupPanel (#prim_ppnl) content
+    * Demonstrates how complex context "hint" can be constructed
+    
+    Define_Com Class(#XDXApplication) Name(#Application) Scope(*Application)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Center) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#Image) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Top) Manage(#DepartmentDetails) Margintop(4) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Top) Manage(#SectionDetails) Parent(#Layout)
+    
+    Define_Com Class(#Prim_panl) Name(#Image) Displayposition(1) Height(153) Left(0) Parent(#COM_OWNER) Style(#ImageBrush) Tabposition(3) Top(0) Width(199)
+    
+    Define_Com Class(#prim_vs.Style) Name(#ImageBrush) Backgroundbrush(#ImageBrushBG)
+    Define_Com Class(#Prim_Vs.ImageBrush) Name(#ImageBrushBG) Height(80) Left(10) Sizing(BestFit) Top(10) Width(80)
+    
+    Define_Com Class(#prim_bmp) Name(#Photo) Reference(*Dynamic)
+    
+    Define_Com Class(#PRIM_LABL) Name(#DepartmentDetails) Alignment(Center) Caption('Department Details') Displayposition(2) Ellipses(Word) Height(20) Left(0) Marginleft(2) Parent(#COM_OWNER) Style(#WhiteText) Tabposition(1) Tabstop(False) Top(157) Verticalalignment(Center) Width(199)
+    Define_Com Class(#PRIM_LABL) Name(#SectionDetails) Alignment(Center) Caption('Section Details') Displayposition(3) Ellipses(Word) Height(20) Left(0) Marginleft(2) Parent(#COM_OWNER) Style(#WhiteText) Tabposition(2) Tabstop(False) Top(177) Verticalalignment(Center) Width(199)
+    
+    Define_Com Class(#Prim_Vs.Style) Name(#WhiteText) Textcolor(White)
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    Fetch Fields(#deptment #Section) From_File(pslmst) With_Key(#EmployeeNumber)
+    Fetch Fields(#deptdesc) From_File(deptab) With_Key(#Deptment)
+    Fetch Fields(#secdesc) From_File(sectab) With_Key(#deptment #Section)
+    Fetch Fields(#empimg) From_File(pslimg) With_Key(#EmployeeNumber)
+    
+    #DepartmentDetails := ("&1 (&2)").Substitute( #Deptdesc #Deptment )
+    #SectionDetails := ("&1 (&2)").Substitute( #Secdesc #Section )
+    
+    #Photo <= #sys_appln.CreateBitmap
+    #Photo.fileName := #Empimg.fileName
+    #ImageBrushBG.image <= #Photo
+    
+    Endroutine
+    
+    End_Com

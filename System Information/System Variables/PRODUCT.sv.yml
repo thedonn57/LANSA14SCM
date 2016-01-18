@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*PRODUCT"
+  Description:        "Product Name (ie: LANSA)"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             5
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

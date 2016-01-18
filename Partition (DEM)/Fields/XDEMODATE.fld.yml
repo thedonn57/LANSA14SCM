@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               xDemoDate
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Generic Date"
+      Label:              "Generic Date"
+      Heading1:           "Generic"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Generic Date"
+      Label:              "Generic Date"
+      Heading1:           "Generic"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDate) Componentversion(1) Defaultvisual(True) Height(21) Showtime(False) Width(298)
+    
+    End_Com
+    
+    End_Com

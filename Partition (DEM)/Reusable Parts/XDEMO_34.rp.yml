@@ -1,0 +1,77 @@
+﻿Reusable Part:
+  Name:               xDemoWebUDCTreeOnDemandSectionItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Section Design"
+
+  - FRA:
+      Description:        "Tree Section Design"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #xDemoWebUDCTreeOnDemandBaseItem) Height(36) Width(454) Layoutmanager(#TableLayout_1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Italic(True)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Cursor(Hand)
+    
+    
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(1) Height(36) Image(#xImageSection32) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(32) Dragstyle(Aggregated) Left(34)
+    Define_Com Class(#PRIM_LABL) Name(#lSection) Caption('Section Details') Displayposition(2) Ellipses(Word) Height(36) Left(70) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(271) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#ShowEmployees) Caption('Show Employees') Displayposition(3) Ellipses(Word) Height(36) Left(341) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(113) Alignment(Right) Marginright(4) Themedrawstyle('Emphasis') Style(#Style2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(4) Parent(#TableLayout_1) Width(0.59)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1) Width(1.41)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_2) Manage(#Image) Parent(#TableLayout_1) Row(#Row_1) Alignment(CenterLeft) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#lSection) Parent(#TableLayout_1) Row(#Row_1) Column(#Column_3) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#ShowEmployees) Parent(#TableLayout_1) Row(#Row_1)
+    
+    * Make department & section available to identify the item
+    
+    Define_Pty Name(Department) Get(*auto #Deptment)
+    Define_Pty Name(Section) Get(*auto #Section)
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Deptment) Name(#Department)
+    Define_Map For(*Input) Class(#Section) Name(#SectionCode)
+    Define_Map For(*Input) Class(#Secdesc) Name(#Description)
+    
+    #Deptment := #Department
+    #section := #SectionCode
+    
+    #lSection := ("&1 (&2)").Substitute( #Description #SectionCode )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowEmployees.Click #Com_owner.DoubleClick)
+    
+    #Com_owner.ExpandCollapse
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemExpanding) Options(*Redefine)
+    
+    #ShowEmployees := "Hide Employees"
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemCollapsed) Options(*Redefine)
+    
+    #ShowEmployees := "Show Employees"
+    
+    Endroutine
+    
+    End_Com
+    
+    

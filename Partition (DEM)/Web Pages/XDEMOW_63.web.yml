@@ -1,0 +1,35 @@
+﻿Web Page:
+  Name:               xDemoWebHelp
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the F1 Key"
+
+  - FRA:
+      Description:        "Using the F1 Key"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB)
+    Define_Com Class(#PRIM_PHBN) Name(#OK) Caption('OK') Displayposition(1) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(168)
+    Define_Com Class(#EMPNO.Visual) Name(#EMPNO) Componentversion(1) Displayposition(2) Height(21) Left(8) Parent(#COM_OWNER) Tabposition(2) Top(32) Usepicklist(False) Width(251) Labelselectable(False)
+    Define_Com Class(#SURNAME.Visual) Name(#SURNAME) Displayposition(3) Left(8) Parent(#COM_OWNER) Tabposition(3) Top(54) Labelselectable(False)
+    Define_Com Class(#GIVENAME.Visual) Name(#GIVENAME) Displayposition(4) Left(8) Parent(#COM_OWNER) Tabposition(4) Top(76) Labelselectable(False)
+    Define_Com Class(#ADDRESS1.Visual) Name(#ADDRESS1) Componentversion(1) Displayposition(5) Height(21) Left(8) Parent(#COM_OWNER) Tabposition(5) Top(98) Usepicklist(False) Width(537) Labelselectable(False)
+    Define_Com Class(#ADDRESS2.Visual) Name(#ADDRESS2) Componentversion(1) Displayposition(6) Height(21) Left(8) Parent(#COM_OWNER) Tabposition(6) Top(120) Usepicklist(False) Width(537) Labelselectable(False)
+    Define_Com Class(#ADDRESS3.Visual) Name(#ADDRESS3) Componentversion(1) Displayposition(7) Height(21) Left(8) Parent(#COM_OWNER) Tabposition(7) Top(142) Usepicklist(False) Width(537) Labelselectable(False)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Help Handler - Press F1 for help') Displayposition(8) Ellipses(Word) Height(25) Left(7) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(6) Verticalalignment(Center) Width(538) Themedrawstyle('DarkTitle')
+    
+    Define_Com Class(#prim_stpg) Name(#Help) Shortcut(F1) Parent(#COM_OWNER)
+    
+    Evtroutine Handling(#Help.Pressed)
+    
+    #sys_web.Alert( #sys_appln.FocusControl.name )
+    
+    Endroutine
+    
+    End_Com

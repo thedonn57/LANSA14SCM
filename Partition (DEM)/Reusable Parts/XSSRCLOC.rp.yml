@@ -1,0 +1,118 @@
+﻿Reusable Part:
+  Name:               XSLocatorSearch
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Search for a Location"
+
+  - FRA:
+      Description:        "Search for a Location"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(157) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1) Style(#XSTheme01<BackgroundGreen3>)
+    
+    * Reference to application object to access global values
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * LAYOUT : 1 Row, 3 Columns (used for top level panel)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Minwidth(340)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(3) Parent(#TableLayout1) Width(300) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(2) Parent(#TableLayout1) Width(300) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel1Item1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row1) Column(#Column2) Margintop(25) Marginbottom(30) Marginright(40) Marginleft(40)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#lCountry) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Alignment(TopLeft) Margintop(10) Marginleft(50)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Flow(Down) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Alignment(TopLeft) Marginleft(50)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column4) Flow(Down) Manage(#Hours1) Parent(#TableLayout1) Row(#Row1) Margintop(20) Marginleft(20) Marginright(20) Sizing(FitToWidth) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Hours2Item1) Column(#Column4) Manage(#Hours2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Marginright(20) Margintop(5) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Hours3Item1) Column(#Column4) Manage(#Hours3) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Marginright(20) Margintop(5) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column4) Manage(#Panel2) Parent(#TableLayout1) Row(#Row1)
+    
+    * LAYOUT : 5 Row, 2 Columns (used for hours grid)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#lCountryItem1) Alignment(TopRight) Column(#Column3) Manage(#lCountry) Parent(#TableLayout2) Row(#Row2) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryItem1) Alignment(TopLeft) Column(#Column3) Parent(#TableLayout2) Row(#Row2) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#FindButtonItem1) Alignment(TopRight) Column(#Column3) Manage(#FindButton) Parent(#TableLayout2) Row(#Row2) Sizing(None) Flow(Down) Marginbottom(20) Marginright(10) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryItem2) Alignment(TopLeft) Column(#Column3) Parent(#TableLayout2) Row(#Row2) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryItem3) Alignment(TopRight) Column(#Column3) Manage(#XSCountry) Parent(#TableLayout2) Row(#Row2) Sizing(FitToWidth) Flow(Down) Marginright(10) Marginleft(10)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(2) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(2) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(3) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(4) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(5) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Hours1Item1) Manage(#Hours1) Parent(#TableLayout3) Row(#Row4) Sizing(FitToWidth) Column(#Column5) Alignment(CenterLeft) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Hours2Item2) Manage(#Hours2) Parent(#TableLayout3) Row(#Row5) Sizing(FitToWidth) Column(#Column5) Alignment(CenterLeft) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Hours3Item2) Manage(#Hours3) Parent(#TableLayout3) Row(#Row6) Sizing(FitToWidth) Column(#Column5) Alignment(CenterLeft) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(CenterRight) Column(#Column6) Flow(Down) Manage(#Hours4) Parent(#TableLayout3) Row(#Row4) Sizing(FitToWidth) Marginright(30)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(CenterRight) Column(#Column6) Flow(Down) Manage(#Hours5) Parent(#TableLayout3) Row(#Row5) Sizing(FitToWidth) Marginright(30)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(CenterRight) Column(#Column6) Flow(Down) Manage(#Hours6) Parent(#TableLayout3) Row(#Row6) Sizing(FitToWidth) Marginright(30)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Left(740) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(25) Height(102) Width(220) Layoutmanager(#TableLayout2) Style(#XSTheme01<BackgroundGrey00BorderWh>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lCountry) Caption('Country') Displayposition(1) Ellipses(Word) Height(25) Parent(#Panel1) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(197) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#XSStoreCountryDropDown) Name(#XSCountry) Displayposition(2) Parent(#Panel1) Tabposition(3) Width(197) Top(35) Left(10)
+    Define_Com Class(#PRIM_PHBN) Name(#FindButton) Caption('Find') Displayposition(3) Parent(#Panel1) Tabposition(2) Top(65) Width(124) Left(83) Themedrawstyle('ButtonLook3')
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Store Location') Displayposition(2) Ellipses(Word) Height(105) Left(50) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Verticalalignment(Bottom) Width(350) Style(#XSTheme01<Text30BoldWh>)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('& Opening Hours') Displayposition(3) Ellipses(Word) Height(25) Left(50) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(115) Verticalalignment(Center) Width(350) Style(#XSTheme01<Text14BoldWh>)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel2) Displayposition(4) Height(157) Left(400) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Width(300) Layoutmanager(#TableLayout3)
+    Define_Com Class(#PRIM_LABL) Name(#Hours1) Displayposition(1) Ellipses(Word) Height(25) Left(20) Parent(#Panel2) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(130) Style(#XSTheme01<Text10BoldWh>) Caption('<text1>') Top(36)
+    Define_Com Class(#PRIM_LABL) Name(#Hours2) Displayposition(2) Ellipses(Word) Height(25) Left(20) Parent(#Panel2) Tabposition(2) Tabstop(False) Top(67) Verticalalignment(Center) Width(130) Style(#XSTheme01<Text10BoldWh>) Caption('<text2>')
+    Define_Com Class(#PRIM_LABL) Name(#Hours3) Displayposition(3) Ellipses(Word) Height(25) Left(20) Parent(#Panel2) Tabposition(3) Tabstop(False) Top(98) Verticalalignment(Center) Width(130) Style(#XSTheme01<Text10BoldWh>) Caption('<text3>')
+    Define_Com Class(#PRIM_LABL) Name(#Hours4) Displayposition(4) Ellipses(Word) Height(25) Left(150) Parent(#Panel2) Tabposition(4) Tabstop(False) Top(36) Verticalalignment(Center) Width(120) Caption('<text4>') Style(#XSTheme01<Text10Wh>) Alignment(Right)
+    Define_Com Class(#PRIM_LABL) Name(#Hours5) Displayposition(5) Ellipses(Word) Height(25) Left(150) Parent(#Panel2) Tabposition(5) Tabstop(False) Top(67) Verticalalignment(Center) Width(120) Caption('<text5>') Style(#XSTheme01<Text10Wh>) Alignment(Right)
+    Define_Com Class(#PRIM_LABL) Name(#Hours6) Displayposition(6) Ellipses(Word) Height(25) Left(150) Parent(#Panel2) Tabposition(6) Tabstop(False) Top(98) Verticalalignment(Center) Width(120) Caption('<text6>') Style(#XSTheme01<Text10Wh>) Alignment(Right)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    * Clear hours
+    #Hours1 #Hours2 #Hours3 #Hours4 #Hours5 #Hours6 := ''
+    
+    Endroutine
+    
+    Evtroutine Handling(#FindButton.Click)
+    
+    #MySession.pCountry := #XSCountry.pCurrentValue
+    
+    * Set up days and hours as hard coded values
+    #Hours1 := 'Monday - Friday'
+    #Hours2 := 'Saturday'
+    #Hours3 := 'Sunday'
+    
+    Case (#MySession.pCountry)
+    
+    When (= '')
+    
+    #Hours1 #Hours2 #Hours3 #Hours4 #Hours5 #Hours6 := ''
+    
+    When (= 'Australia' = 'Netherlands' = 'United Kingdom' = 'Japan')
+    
+    #Hours4 := '9am - 5pm'
+    #Hours5 := '6am - 10pm'
+    #Hours6 := 'Closed'
+    
+    When (= 'Canada' = 'USA' = 'France' = 'Singapore')
+    
+    #Hours4 := '9am - 5pm'
+    #Hours5 := '6am - 10pm'
+    #Hours6 := '7am - 9pm'
+    
+    Endcase
+    
+    Endroutine
+    
+    End_Com

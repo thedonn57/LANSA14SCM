@@ -1,0 +1,129 @@
+﻿File:
+  Name:                           DC@XPV
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@XPV
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Value"
+
+  - FRA:
+      Description:        "XML Property Value"
+
+  Real Fields:
+  - XPVP#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - XPVIDN:
+      Type:               Packed
+      Length:             9
+      Decimals:           0
+
+  - XPVSEQ:
+      Type:               Packed
+      Length:             5
+      Decimals:           0
+
+  - XPVVAL:
+      Type:               Alphanumeric
+      Length:             50
+      Decimals:           0
+
+  - XPVSP1:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  Logical Views:
+  - DC@XPVV1:
+      Identifier:         DC@XPVV1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@XPVV1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@XPV         /NOE"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@XPV         /NOE"
+
+      Fields:
+      - XPVP#I
+      - XPVIDN
+      - XPVSEQ
+      - XPVVAL
+      - XPVSP1
+
+      Keys:
+      - XPVP#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XPVIDN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - XPVSEQ:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+  - DC@XPVV2:
+      Identifier:         DC@XPVV2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@XPVV2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@XPV         /NOE"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@XPV         /NOE"
+
+      Fields:
+      - XPVP#I
+      - XPVIDN
+      - XPVSEQ
+      - XPVVAL
+      - XPVSP1
+
+      Keys:
+      - XPVP#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XPVIDN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - XPVSEQ:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed

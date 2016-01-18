@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               DSEEID
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event Identifier"
+      Label:              "Dummy"
+      Heading1:           "Dummy"
+      Heading2:           "Dummy"
+      Heading3:           "Dummy"
+
+  - FRA:
+      Description:        "Dummy"
+      Label:              "Dummy"
+      Heading1:           "Dummy"
+      Heading2:           "Dummy"
+      Heading3:           "Dummy"

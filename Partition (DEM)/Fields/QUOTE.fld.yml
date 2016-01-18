@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               QUOTE
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*QUOTE"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Quote field"
+      Label:              "Quote"
+      Heading1:           "Quote"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Apostrophe"
+      Label:              "Apostrophe  . ."
+      Heading1:           "Apostrophe"
+      Heading2:           " "
+      Heading3:           " "

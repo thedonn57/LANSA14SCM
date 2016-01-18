@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_DIRCT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "'A'"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard sort direction Ascend/Descend"
+      Label:              "Standard sort d"
+      Heading1:           "Standard sort"
+      Heading2:           "direction"
+      Heading3:           "Ascend/Descend"
+
+  - FRA:
+      Description:        "Ordre de tri standard Ascend/Descend"
+      Label:              "Ordre tri std"
+      Heading1:           "Ordre"
+      Heading2:           "Tri"
+      Heading3:           "A/D"

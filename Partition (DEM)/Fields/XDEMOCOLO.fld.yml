@@ -1,0 +1,37 @@
+﻿Field:
+  Name:               xDemoColor
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Color"
+      Label:              "Color"
+      Heading1:           "Color"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Color"
+      Label:              "Color"
+      Heading1:           "Color"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(298)
+    
+    End_Com
+    
+    End_Com

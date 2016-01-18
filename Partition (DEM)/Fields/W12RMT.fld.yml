@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12RMT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Remote System Indicator"
+      Label:              "W12RMT"
+      Heading1:           "Remote"
+      Heading2:           "System"
+      Heading3:           "Indicator"
+
+  - FRA:
+      Description:        "Remote System Indicator"
+      Label:              "W12RMT"
+      Heading1:           "Remote"
+      Heading2:           "System"
+      Heading3:           "Indicator"

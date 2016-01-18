@@ -1,0 +1,44 @@
+﻿Reusable Part:
+  Name:               XDXReflectingImage
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Reflecting Image"
+
+  - FRA:
+      Description:        "Réfléchir l'image"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(287) Left(0) Style(#Style) Tabposition(1) Top(0) Width(83)
+    
+    Define_Com Class(#Prim_flbx) Name(#Graphic) Reference(*Dynamic)
+    
+    * Style uses mirrored image brush to reflect the supplied image and opacity mask so that the reflected image fades out
+    Define_Com Class(#prim_vs.Style) Name(#Style) Backgroundbrush(#ImageBrush) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1) Cornerbottomleft(3) Cornerbottomright(3) Cornertopleft(3) Cornertopright(3) Maskbrush(#OpacityMask)
+    
+    Define_Com Class(#prim_vs.ImageBrush) Name(#ImageBrush) Height(50) Sizing(FitBoth) Tile(MirrorVertical)
+    
+    Define_Com Class(#prim_vs.LinearBrush) Name(#OpacityMask) Colors(#OpacityMaskColors)
+    Define_Com Class(#prim_vs.BrushColors) Name(#OpacityMaskColors)
+    Define_Com Class(#prim_vs.BrushColor) Name(#OpacityMaskColor1) At(55) Color(Black) Parent(#OpacityMaskColors)
+    Define_Com Class(#prim_vs.BrushColor) Name(#OpacityMaskColor2) At(90) Color(Transparent) Parent(#OpacityMaskColors)
+    
+    Define_Pty Name(Graphic) Set(SetGraphic)
+    
+    Ptyroutine Name(SetGraphic)
+    Define_Map For(*Input) Class(#Prim_flbx) Name(#Property) Pass(*By_reference)
+    
+    #Graphic <= #Property
+    
+    #ImageBrush.image <= #Graphic
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               YYYYC
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*YYYYC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current year (character)"
+      Label:              "Year .........."
+      Heading1:           "Year"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Année en cours (alphanumérique)"
+      Label:              "Année"
+      Heading1:           "Année"
+      Heading2:           " "
+      Heading3:           " "

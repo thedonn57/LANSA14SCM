@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_ERROR
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Error Flag"
+      Label:              "Error Flag"
+      Heading1:           "Error"
+      Heading2:           "Flag"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Flag Erreur"
+      Label:              "Flag Erreur"
+      Heading1:           "Flag"
+      Heading2:           "Erreur"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

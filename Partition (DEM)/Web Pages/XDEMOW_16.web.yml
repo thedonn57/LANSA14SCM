@@ -1,0 +1,92 @@
+﻿Web Page:
+  Name:               xDemoWebLocalStorage
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the browser's local storage"
+
+  - FRA:
+      Description:        "Using the browser's local storage"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    *
+    * D E S I G N
+    *
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(61) Height(739) Width(1200)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(61) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.46)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDXALPHA) Displayposition(1) Parent(#List) Source(#xDemoAlpha128) Columnwidth(353) Columncaption('Key') Columncaptiontype(Caption) Columnreadonly(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDXCAPTIO) Displayposition(2) Parent(#List) Source(#xDemoCaption) Columnwidth(541) Columncaption('Value') Columncaptiontype(Caption) Columnreadonly(False)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Enter a key and value for each item.  Click here to save. Refresh to see saved data') Displayposition(2) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Height(61) Width(1200) Marginleft(2) Themedrawstyle('Heading1+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row)
+    
+    
+    *
+    * I M P L E M E N T A T I O N
+    *
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Com_owner.RestoreValues
+    
+    Endroutine
+    
+    Mthroutine Name(RestoreValues)
+    
+    For Each(#StorageItem) In(#sys_web.LocalStorage)
+    
+    #Com_owner.AddEntry( #StorageItem.Name #StorageItem.Value )
+    
+    Endfor
+    
+    Begin_Loop
+    
+    #Com_owner.AddEntry
+    
+    Leave If(#List.Items.ItemCount = 10)
+    
+    End_Loop
+    
+    Endroutine
+    
+    Mthroutine Name(SaveValues)
+    
+    #sys_web.LocalStorage.Clear
+    
+    Selectlist Named(#List)
+    
+    Continue If(#xDemoAlpha128 = "")
+    
+    #sys_web.localStorage.Add( #xDemoAlpha128 #xDemoCaption )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Name) Mandatory("")
+    Define_Map For(*Input) Class(#xDemoCaption) Name(#Value) Mandatory("")
+    
+    #xDemoAlpha128 := #Name
+    #xDemoCaption := #Value
+    
+    Add_Entry To_List(#List)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label.Click)
+    
+    #Com_owner.SaveValues
+    
+    Endroutine
+    
+    End_Com

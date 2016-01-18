@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*TIMEDATEC"
+  Description:        "Current time and date (character)"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             12
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

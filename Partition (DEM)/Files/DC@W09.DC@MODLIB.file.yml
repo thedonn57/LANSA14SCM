@@ -1,0 +1,107 @@
+﻿File:
+  Name:                           DC@W09
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@W09
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "L4W3 - Web Process Information"
+
+  - FRA:
+      Description:        "L4W3 - Web Process Information"
+
+  Real Fields:
+  - W09P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - W09MOD:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - W09SP1:
+      Type:               Alphanumeric
+      Length:             100
+      Decimals:           0
+
+  Logical Views:
+  - DC@W09V1:
+      Identifier:         DC@W09V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W09V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@W09     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@W09     /NOEDLO"
+
+      Fields:
+      - W09P#I
+      - W09MOD
+      - W09SP1
+
+      Keys:
+      - W09P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W09MOD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@W09V2:
+      Identifier:         DC@W09V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W09V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@W09     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@W09     /NOEDLO"
+
+      Fields:
+      - W09P#I
+      - W09MOD
+      - W09SP1
+
+      Keys:
+      - W09P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W09MOD:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

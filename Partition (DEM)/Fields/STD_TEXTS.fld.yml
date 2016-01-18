@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_TEXTS
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard TEXT, SHORT"
+      Label:              "Text"
+      Heading1:           "Text"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Texte Court Standard"
+      Label:              "Texte"
+      Heading1:           "Texte"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for general or descriptive text.
+      
+      
+        Validation Rules : Must be specified by the user.
+                           Entry of Lower Case characters is normally allowed.
+      
+        Maximum Length   : 30 characters
+      
+      
+      
+      $$NOAUTO

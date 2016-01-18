@@ -1,0 +1,255 @@
+﻿Reusable Part:
+  Name:               XDXTree
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree"
+
+  - FRA:
+      Description:        "Tree"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(389) Width(686) Layoutmanager(#TableLayout_1)
+    
+    * User Designed Control - Tree
+    * If all items in the tree are the same type, items can be made by adding entries as per typical LANSA list processing
+    * This example uses different classes of item for department, section and employee
+    * This is a more advanced tree and requires values to be mapped in manually
+    Define_Com Class(#prim_Tree<#XDXPersonnelTreeDesign>) Name(#Tree) Displayposition(2) Dragstyle(Automatic) Height(359) Left(0) Parent(#COM_OWNER) Selectionstyle(All) Tabposition(2) Top(30) Width(686)
+    Define_Com Class(#XDXCaption.Visual) Name(#Search) Caption('Search') Displayposition(1) Height(26) Labeltype(Caption) Left(216) Marginleft(80) Parent(#COM_OWNER) Tabposition(1) Width(470) Top(2)
+    
+    Define_Com Class(#Prim_timr) Name(#SearchTimer) Interval(300)
+    
+    * PRIM_PPNL have a drop shadow effect by default.
+    * This makes sense for hints and context popups, but not really for drag images
+    Define_Com Class(#Prim_ppnl) Name(#DragPanel) Content(#DragImage) Style(#NoDropShadow)
+    Define_Com Class(#XDXDragAndDropImagePanel) Name(#DragImage) Opacity(70)
+    
+    Define_Com Class(#prim_vs.Style) Name(#NoDropShadow) Effect(*NULL)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(214) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Manage(#Search) Parent(#TableLayout_1) Row(#Row_1) Column(#Column_2) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_2) Column(#Column_1) Columnspan(2)
+    Define_Com Class(#XDXEmployeeSort.DropDown) Name(#Sort) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Height(26) Width(210) Top(2) Caption('Sort by') Marginleft(60) Labeltype(Caption) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#Sort) Parent(#TableLayout_1) Row(#Row_1) Marginright(2) Margintop(2) Marginbottom(2) Marginleft(2)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #SearchTimer.Stop
+    
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    Define_Com Class(#prim_tree.TreeItem) Name(#ParentItem) Reference(*dynamic)
+    
+    Select Fields(#Deptment #Deptdesc) From_File(Deptab)
+    
+    #ParentItem <= #Com_owner.AddDepartment
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartment) Access(*Private)
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    * Add method on tree allows for specific classes to be added
+    #Result <= #Tree.Add( #XDXPersonnelTreeDepartment )
+    
+    * Method on the newly created panel must be called to map in values or components as required.
+    (#Result.Design *As #XDXPersonnelTreeDepartment).Prepare( #Deptment #Deptdesc )
+    
+    #Com_owner.AddSections( #Result )
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections)
+    Define_Map For(*Input) Class(#prim_tree.TreeItem) Name(#ParentItem) Pass(*By_Reference)
+    
+    Select Fields(*all) From_File(Sectab) With_Key(#Deptment)
+    
+    #Com_owner.AddSection( #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddSection) Access(*Private)
+    Define_Map For(*Input) Class(#prim_tree.treeItem) Name(#ParentItem) Pass(*By_Reference)
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    #Result <= #Tree.Add( #XDXPersonnelTreeSection )
+    
+    (#Result.Design *As #XDXPersonnelTreeSection).Prepare( #Section #Secdesc )
+    
+    * Parentitem must be specified to force the new panel to act as sub node.
+    #Result.ParentItem <= #ParentItem
+    
+    #Com_owner.AddEmployees( #Result )
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees)
+    Define_Map For(*Input) Class(#prim_tree.treeItem) Name(#ParentItem) Pass(*By_Reference)
+    
+    Select Fields(*all) From_File(Pslmst1) With_Key(#Deptment #section)
+    
+    #Com_owner.AddEmployee( #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployee) Access(*Private)
+    Define_Map For(*Input) Class(#prim_tree.treeItem) Name(#ParentItem) Pass(*By_Reference)
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    #Result <= #Tree.Add( #XDXPersonnelTreeEmployee )
+    
+    (#Result.Design *As #XDXPersonnelTreeEmployee).Prepare( #Empno #Givename #Surname #address1 #Address2 #address3 #postcode #phonehme #phonebus )
+    
+    * Parentitem must be specified to force the new panel to act as sub node.
+    #Result.ParentItem <= #ParentItem
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Example) Mandatory("")
+    Define_Map For(*Result) Class(#Prim_tvit) Name(#Result) Pass(*by_reference)
+    
+    #XDXExample := #Example
+    
+    Add_Entry To_List(#Tree)
+    
+    Endroutine
+    
+    Mthroutine Name(Search) Access(*Private)
+    
+    Define_Com Class(#Prim_tree.TreeItem) Name(#FoundItem) Reference(*dynamic)
+    
+    Begin_Loop
+    
+    #FoundItem <= #Tree.FindItem( #Search #FoundItem )
+    
+    Leave If(#FoundItem *Is *null)
+    
+    End_Loop
+    
+    Endroutine
+    
+    Evtroutine Handling(#Search.Changed)
+    
+    #SearchTimer.Stop
+    #SearchTimer.Start
+    
+    Endroutine
+    
+    Evtroutine Handling(#SearchTimer.Tick)
+    
+    #SearchTimer.Stop
+    
+    #Com_owner.Search
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.StartDrag) Payload(#Payload) Draglist(#DragList) Continue(#Continue)
+    
+    #Continue := True
+    
+    #DragList.DragListStyle := Popup
+    #DragList.DragPopup <= #DragPanel
+    
+    #Payload <= #Tree.CurrentItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#DragPanel.Prepare) Left(#Left) Top(#Top)
+    
+    * Set the drag image to be the current item design
+    #DragImage.Prepare( (#Tree.CurrentItem.Design *As #prim_panl) )
+    
+    * Position the image under the cursor
+    #Left := (#Tree.CurrentItem.Design *As #prim_panl).ScreenLeft
+    #Top := (#Tree.CurrentItem.Design *As #prim_panl).ScreenTop
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.DragOver) Payload(#Payload) Acceptdrop(#AcceptDrop)
+    
+    If (#Tree.CurrentItem *IsNot *Null)
+    
+    #AcceptDrop := (#Tree.CurrentItem.Design *Is #XDXPersonnelTreeSection) *Or (#Tree.CurrentItem.Design *Is #XDXPersonnelTreeEmployee)
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.DragDrop) Payload(#Payload)
+    
+    * If dropping on a Section Item
+    If (#Tree.CurrentItem.Design *Is #XDXPersonnelTreeSection)
+    
+    #Com_owner.DropOnSection( #Payload #Tree.CurrentItem )
+    
+    Endif
+    
+    * If dropping on an Employee Item
+    If (#Tree.CurrentItem.Design *Is #XDXPersonnelTreeEmployee)
+    
+    #Com_owner.DropOnEmployee( #Payload #Tree.CurrentItem )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(DropOnSection) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Payload) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#TargetItem) Pass(*bY_reference)
+    
+    If ((#Payload *As #Prim_tree.TreeItem).ParentItem *IsNotEqualTo #TargetItem)
+    
+    * Parent to the section items
+    (#Payload *As #Prim_tree.TreeItem).ParentItem <= #TargetItem
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(DropOnEmployee) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Payload) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#TargetItem) Pass(*bY_reference)
+    
+    If ((#Payload *As #Prim_tree.TreeItem).ParentItem *IsNotEqualTo #TargetItem)
+    
+    * Parent to the parent of the employee item
+    (#Payload *As #Prim_tree.TreeItem).ParentItem <= #TargetItem.ParentItem
+    
+    * Set the position to the position of the target employee item
+    (#Payload *As #Prim_tree.TreeItem).Position := #TargetItem.Position
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Sort.Changed)
+    
+    #Tree.Sort( #Sort )
+    
+    Endroutine
+    
+    End_Com
+    
+    

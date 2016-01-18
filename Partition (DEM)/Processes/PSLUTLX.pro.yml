@@ -1,0 +1,95 @@
+﻿Process:
+  Name:                      PSLUTLX
+  Menu Style:                SAA/CUA
+  Anticipated Usage:         Light
+  Optimize For Remote Comms: No
+  Enable For Web:            No
+  Generate XML:              No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel System Utilities - RDMLX"
+
+  - FRA:
+      Description:        "Utilitaires système personnel - RDMLX"
+
+  Functions:
+  - PSLINIX:
+      Name:               PSLINIX
+      Menu Sequence:      1
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Create RDMLX Sample Data"
+
+      - FRA:
+          Description:        "Créer des données exemple RDMLX"
+
+      Allowed Next Functions:
+      - "*ANY"
+
+  - PSLTRG1:
+      Name:               PSLTRG1
+      Menu Sequence:      2
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLEVENT trigger"
+
+      - FRA:
+          Description:        "Déclencheur PSLEVENT"
+
+      Allowed Next Functions:
+      - "*ANY"
+
+  - PSLTRG2:
+      Name:               PSLTRG2
+      Menu Sequence:      3
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLTIMES trigger"
+
+      - FRA:
+          Description:        "Déclencheur PSLTIMES"
+
+      Allowed Next Functions:
+      - "*ANY"
+
+  - PSLVAL1:
+      Name:               PSLVAL1
+      Menu Sequence:      4
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Validate event type"
+
+      - FRA:
+          Description:        "Validation type évènement"
+
+      Allowed Next Functions:
+      - "*ANY"
+
+  - PSLVAR1:
+      Name:               PSLVAR1
+      Menu Sequence:      5
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "*DMXHOURLYRATE"
+
+      - FRA:
+          Description:        "*DMXHOURLYRATE"
+
+      Allowed Next Functions:
+      - "*ANY"

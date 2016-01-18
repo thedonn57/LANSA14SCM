@@ -1,0 +1,127 @@
+﻿File:
+  Name:                           DC@F26
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@R26
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Variables"
+
+  - FRA:
+      Description:        "System Variables"
+
+  Real Fields:
+  - F26VAR:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - F26DES:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - F26TYP:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F26LEN:
+      Type:               Packed
+      Length:             3
+      Decimals:           0
+
+  - F26DEC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - F26PGM:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F26DYN:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  Logical Views:
+  - DC@F26V1:
+      Identifier:         DC@F26V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R26V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@F26 /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@F26 /NOEDLO"
+
+      Fields:
+      - F26VAR
+      - F26DES
+      - F26TYP
+      - F26LEN
+      - F26DEC
+      - F26PGM
+      - F26DYN
+
+      Keys:
+      - F26VAR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - DC@F26V2:
+      Identifier:         DC@F26V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R26V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@F26 /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@F26 /NOEDLO"
+
+      Fields:
+      - F26VAR
+      - F26DES
+      - F26TYP
+      - F26LEN
+      - F26DEC
+      - F26PGM
+      - F26DYN
+
+      Keys:
+      - F26VAR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

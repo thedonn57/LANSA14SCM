@@ -1,0 +1,717 @@
+﻿ServerModule:
+  Name:               XSServer
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Server Side Processing"
+
+  - FRA:
+      Description:        "Server Side Processing"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Group_By Name(#AccountDetail) Fields(#XSAccountID #XSPassword #XSAccountStatus #XSAccountTitle #XSAccountLastname #XSAccountFirstname #XSBirthDate #XSAccountEmail #XSPhoneMobile #XSPhoneWork #XSPhoneHome #XSAccountAddress1 #XSAccountAddress2 #XSAccountCity #XSAccountState #XSAccountZip #XSAccountCountry #XSDeliveryAddress1 #XSDeliveryAddress2 #XSDeliveryCity #XSDeliveryState #XSDeliveryZip #XSDeliveryCountry #XSDeliveryInstructions #XSNewsletterCancelDate #XSNewsletterStatus #XSNewsletterSubscribeDate)
+    
+    Def_List Name(#ProductLineList) Fields(#XSProductLineID #XSProductLineDescription) Type(*Working) Entrys(*max)
+    
+    Def_List Name(#ProductCategoryList) Fields(#XSProductCategoryID #XSProductCategoryDescription #XSProductLineID) Type(*Working) Entrys(*max)
+    
+    Def_List Name(#ProductList) Fields(#XSProductID #XSProductLineID #XSProductCategoryID #XSProductDescription #XSProductModel #XSProductImageLink #XSProductStockStatus #XSProductPrice #XSProductDetail) Type(*Working) Entrys(*max)
+    
+    Def_List Name(#ShoppingCartList) Fields(#XSProductID #XSProductDescription #XSProductImageLink #XSProductStockStatus #XSProductDetail #XSProductPrice #XSQuantity #XSItemTotalPrice) Type(*Working) Entrys(*max)
+    
+    Define Field(#FilHandle) Type(*dec) Length(3) Decimals(0)
+    
+    Define Field(#WinRetCod) Type(*dec) Length(7) Decimals(0)
+    
+    Define Field(#PageSize) Type(*dec) Length(3) Decimals(0)
+    
+    Define Field(#Counter) Type(*dec) Length(3) Decimals(0)
+    
+    Define_Com Class(#io$sts) Name(#doublequote)
+    
+    Define_Com Class(#XSProductLineID) Name(#SelectedLineID)
+    
+    Define_Com Class(#XSProductCategoryID) Name(#SelectedCategoryID)
+    
+    Define_Com Class(#XSPassword) Name(#EnteredPassword)
+    
+    Persist Fields(#XSSessionID #XSSessionEmail #XSSessionFirstName)
+    
+    * **** Login
+    Srvroutine Name(LogIn)
+    Field_Map For(*input) Field(#XSAccountEmail)
+    Field_Map For(*input) Field(#XSPassword)
+    Field_Map For(*output) Field(#XSAccountFirstname)
+    Field_Map For(*both) Field(#XSCartID)
+    Field_Map For(*output) Field(#XSCartTotalQuantity)
+    Field_Map For(*output) Field(#XSCartTotalPrice)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    * Set error code to ensure you get ERROR if web server is not running
+    #XSStatus := ER
+    
+    #EnteredPassword := #XSPassword
+    
+    Fetch Fields(#XSAccountFirstname #XSAccountID #XSPassword) From_File(XSUserAccountV1) With_Key(#XSAccountEmail)
+    
+    If_Status Is_Not(*okay)
+    
+    #XSStatus := NR
+    
+    Return
+    
+    Endif
+    
+    * Verify correct password entered
+    If (#EnteredPassword <> #XSPassword)
+    
+    #XSStatus := PW
+    
+    Return
+    
+    Endif
+    
+    * Save session values
+    #XSSessionID := #XSAccountID
+    #XSSessionEmail := #XSAccountEmail
+    #XSSessionFirstName := #XSAccountFirstname
+    
+    #XSStatus := OK
+    
+    #com_owner.StartSession
+    
+    * Check if account already has an associated Cart
+    Fetch Fields(#XSCartID #XSCartTotalQuantity #XSCartTotalPrice) From_File(XSShoppingCartV1) With_Key(#XSAccountID)
+    If_Status Is(*OKAY)
+    
+    * associated Cart ID will be returned
+    
+    Return
+    
+    Endif
+    
+    * If account does not have a Cart allocated associate the local (guest) cart with this account
+    If (#XSCartID <> *blank)
+    
+    Update Fields(#XSAccountID) In_File(XSShoppingCart) With_Key(#XSCartID)
+    
+    Endif
+    
+    Endroutine
+    
+    * **** Email Password Reminder
+    Srvroutine Name(SendReminder)
+    Field_Map For(*input) Field(#XSAccountEmail)
+    Field_Map For(*output) Field(#XSStatus)
+    Field_Map For(*output) Field(#WinRetCod)
+    Field_Map For(*output) Field(#XSPassword)
+    Field_Map For(*output) Field(#XSEncryptKey)
+    
+    * Set error code to ensure you get ERROR if web server is not running
+    #WinRetCod := 99
+    
+    #doublequote := '"'
+    
+    Fetch Fields(#XSPassword) From_File(XSUserAccountV1) With_Key(#XSAccountEmail) Io_Status(#XSStatus)
+    
+    If_Status Is_Not(*OKAY)
+    
+    #XSStatus := NR
+    
+    Return
+    
+    Endif
+    
+    #XSPasswordEncrypted := #XSPassword
+    Use Builtin(DECRYPT) With_Args(#XSPasswordEncrypted 8 #XSEncryptKey YES) To_Get(#XSPassword #XSStatus)
+    
+    If (#XSStatus <> OK)
+    
+    * Try again with 16
+    Use Builtin(DECRYPT) With_Args(#XSPasswordEncrypted 16 #XSEncryptKey YES) To_Get(#XSPassword #XSStatus)
+    
+    If (#XSStatus <> OK)
+    
+    Return
+    
+    Endif
+    
+    Endif
+    
+    * Generate command file
+    Use Builtin(Stm_File_Open) With_Args('c:\sendemail2.cmd' Write N N) To_Get(#FilHandle #XSStatus)
+    
+    If (#XSStatus <> OK)
+    
+    Return
+    
+    Endif
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle ('C:\mailsend1.16.exe -f ' + #doublequote + 'admin@lansatools.com' + #doublequote + ' -d lansa.com.au -smtp syd1.syd.lansa.com.au -t ' + #doublequote + #XSAccountEmail + #doublequote + ' -sub ' + #doublequote + 'LANSATools Reminder' + #doublequote + ' +cc +bc -M ' + #doublequote + 'Your password is ' + #XSPassword + #doublequote)) To_Get(#XSStatus)
+    
+    If (#XSStatus <> OK)
+    
+    Return
+    
+    Endif
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#XSStatus)
+    
+    * run the command
+    Use Builtin(SYSTEM_COMMAND) With_Args(X 'c:\sendemail2.cmd') To_Get(#WinRetCod)
+    
+    Endroutine
+    
+    * **** Contact email
+    Srvroutine Name(SendEmail)
+    Field_Map For(*input) Field(#XSAccountEmail)
+    Field_Map For(*input) Field(#XSEmailMessage)
+    Field_Map For(*output) Field(#WinRetCod)
+    
+    * Set error code to ensure you get ERROR if web server is not running
+    #WinRetCod := 99
+    
+    #doublequote := '"'
+    
+    * Generate command file
+    Use Builtin(Stm_File_Open) With_Args('c:\sendemail2.cmd' Write N N) To_Get(#FilHandle #XSStatus)
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle ('C:\mailsend1.16.exe -f ' + #doublequote + 'admin@lansatools.com' + #doublequote + ' -d lansa.com.au -smtp syd1.syd.lansa.com.au -t ' + #doublequote + #XSAccountEmail + #doublequote + ' -sub ' + #doublequote + 'LANSATools DIY Advice - website' + #doublequote + ' +cc +bc -attach c:\emailmessage.txt,text,i')) To_Get(#XSStatus)
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#XSStatus)
+    
+    * Add the message in a separate file
+    Use Builtin(Stm_File_Open) With_Args('c:\emailmessage.txt' Write N N) To_Get(#FilHandle #XSStatus)
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle (#XSEmailMessage)) To_Get(#XSStatus)
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#XSStatus)
+    
+    * run the command
+    Use Builtin(SYSTEM_COMMAND) With_Args(X 'c:\sendemail2.cmd') To_Get(#WinRetCod)
+    
+    Endroutine
+    
+    
+    * **** Email newsletter
+    Srvroutine Name(SendNewsletter)
+    Field_Map For(*input) Field(#XSAccountEmail)
+    Field_Map For(*output) Field(#WinRetCod)
+    
+    * Set error code to ensure you get ERROR if web server is not running
+    #WinRetCod := 99
+    
+    #doublequote := '"'
+    
+    * Generate command file
+    Use Builtin(Stm_File_Open) With_Args('c:\sendemail2.cmd' Write N N) To_Get(#FilHandle #XSStatus)
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle ('C:\mailsend1.16.exe -f ' + #doublequote + 'admin@lansatools.com' + #doublequote + ' -d lansa.com.au -smtp syd1.syd.lansa.com.au -t ' + #doublequote + #XSAccountEmail + #doublequote + ' -sub ' + #doublequote + 'LANSATools Newsletter' + #doublequote + ' +cc +bc -attach ' + #doublequote + 'C:\Program Files (x86)\LANSA\WebServer\WebServer\Images\LANSATools\Newsletter-Issue26.pdf' + #doublequote)) To_Get(#XSStatus)
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#XSStatus)
+    
+    * Add the message in a separate file
+    Use Builtin(Stm_File_Open) With_Args('c:\emailmessage.txt' Write N N) To_Get(#FilHandle #XSStatus)
+    
+    Use Builtin(Stm_File_Write) With_Args(#FilHandle (#XSEmailMessage)) To_Get(#XSStatus)
+    
+    Use Builtin(Stm_File_Close) With_Args(#FilHandle) To_Get(#XSStatus)
+    
+    * run the command
+    Use Builtin(SYSTEM_COMMAND) With_Args(X 'c:\sendemail2.cmd') To_Get(#WinRetCod)
+    
+    Endroutine
+    
+    * **** Load Account Details
+    Srvroutine Name(LoadAccount) Session(*required)
+    Group_Map For(*output) Group(#AccountDetail)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    * Active session is required so use the session information to retrieve account details
+    * Attempt to locate account with the session email
+    Fetch Fields(#AccountDetail) From_File(XSUserAccountV1) With_Key(#XSSessionEmail) Io_Status(#XSStatus)
+    
+    Endroutine
+    
+    * **** Save Account Details
+    Srvroutine Name(SaveAccount)
+    Group_Map For(*input) Group(#AccountDetail)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    * Attempt to locate account with this email
+    Fetch Fields(#XSAccountID) From_File(XSUserAccountV1) With_Key(#XSAccountEmail)
+    If_Status Is(*OKAY)
+    
+    Update Fields(#AccountDetail) In_File(XSUserAccountv1) With_Key(#XSAccountEmail) Io_Status(#XSStatus)
+    
+    #com_owner.StartSession
+    
+    Return
+    
+    Endif
+    
+    #XSAccountID := *AUTONUM04XSACCID
+    Insert Fields(#AccountDetail) To_File(XSUserAccount) Io_Status(#XSStatus)
+    
+    * After creating profile automatically login
+    If_Status Is(*OKAY)
+    
+    * Save session values
+    #XSSessionID := #XSAccountID
+    #XSSessionEmail := #XSAccountEmail
+    #XSSessionFirstName := #XSAccountFirstname
+    
+    #com_owner.StartSession
+    
+    Return
+    
+    Endif
+    
+    #com_owner.EndSession
+    
+    Endroutine
+    
+    * **** Load Product Lines
+    Srvroutine Name(LoadProductLines)
+    Field_Map For(*input) Field(#XSProductLineID)
+    List_Map For(*output) List(#ProductLineList)
+    
+    Clr_List Named(#ProductLineList)
+    
+    Select Fields(#ProductLineList) From_File(XSProductLine) With_Key(#XSProductLineID) Nbr_Keys(*compute)
+    
+    Add_Entry To_List(#ProductLineList)
+    
+    Endselect
+    
+    Endroutine
+    
+    * **** Load Product Categories
+    Srvroutine Name(LoadProductCategorys)
+    Field_Map For(*input) Field(#XSProductLineID)
+    Field_Map For(*input) Field(#XSProductCategoryID)
+    List_Map For(*output) List(#ProductCategoryList)
+    
+    Clr_List Named(#ProductCategoryList)
+    
+    Select Fields(#ProductCategoryList) From_File(XSProductCategoryV1) With_Key(#XSProductLineID #XSProductCategoryID) Nbr_Keys(*compute)
+    
+    Add_Entry To_List(#ProductCategoryList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(LoadFeatureProducts)
+    List_Map For(*output) List(#ProductList)
+    
+    Clr_List Named(#ProductList)
+    
+    #Counter := 0
+    
+    Select Fields(#ProductList) From_File(XSProduct) With_Key(#XSProductID) Options(*STARTKEY)
+    
+    * only include if there is a photo
+    Continue If(#XSProductImageLink.Contains( 'photo_unavailable' ))
+    
+    Add_Entry To_List(#ProductList)
+    
+    #Counter += 1
+    
+    Leave If(#Counter = 4)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(LoadProductsPrevious)
+    Field_Map For(*input) Field(#XSProductID)
+    Field_Map For(*input) Field(#XSProductLineID)
+    Field_Map For(*input) Field(#XSProductCategoryID)
+    Field_Map For(*input) Field(#XSCategorySelected)
+    List_Map For(*output) List(#ProductList)
+    Field_Map For(*output) Field(#XSMoreEntries)
+    
+    Clr_List Named(#ProductList)
+    
+    #SelectedLineID := #XSProductLineID
+    #SelectedCategoryID := #XSProductCategoryID
+    #XSMoreEntries := false
+    #Counter := 0
+    
+    Select Fields(#ProductList) From_File(XSProductV1) With_Key(#XSProductLineID #XSProductCategoryID #XSProductID) Options(*backwards *startkey)
+    
+    #Counter += 1
+    
+    * If the Line ID changes  ... return
+    Leave If(#XSProductLineID <> #SelectedLineID)
+    
+    
+    * If a category was selected and no more records matching this category ... return
+    Leave If((#XSCategorySelected) *And (#XSProductCategoryID <> #SelectedCategoryID))
+    
+    If (#Counter = 10)
+    
+    #XSMoreEntries := true
+    
+    * use pagesize of 9 (leave before adding 10th record)
+    Leave
+    
+    Endif
+    
+    Add_Entry To_List(#ProductList)
+    
+    Endselect
+    
+    Sort_List Named(#ProductList) By_Fields(#XSProductID)
+    
+    Endroutine
+    
+    Srvroutine Name(LoadProductsSearch)
+    Field_Map For(*input) Field(#XSSearchValue)
+    List_Map For(*output) List(#ProductList)
+    Field_Map For(*output) Field(#std_qsel)
+    
+    Clr_List Named(#ProductList)
+    
+    * Set up the query based on Search selection
+    #std_qsel := 'XSProductDescription LIKE ''%&1%'''
+    #std_qsel := #std_qsel.Substitute( #XSSearchValue )
+    
+    * Select_sql is used for enhanced performance but may require the associated file OAM to be rebuilt to ensure correct collection is reference in the database.
+    Select_Sql Fields(#XSProductID #XSProductCategoryID #XSProductModel #XSProductDescription #XSProductImageLink #XSProductStockStatus #XSProductPrice #XSProductDetail) From_Files((XSProduct)) Where(#std_qsel)
+    
+    Add_Entry To_List(#ProductList)
+    
+    Endselect
+    
+    Sort_List Named(#ProductList) By_Fields(#XSProductDescription)
+    
+    Endroutine
+    
+    Srvroutine Name(LoadProductsNext)
+    Field_Map For(*input) Field(#XSProductID)
+    Field_Map For(*input) Field(#XSProductLineID)
+    Field_Map For(*input) Field(#XSProductCategoryID)
+    Field_Map For(*input) Field(#XSCategorySelected)
+    List_Map For(*output) List(#ProductList)
+    Field_Map For(*output) Field(#XSMoreEntries)
+    
+    Clr_List Named(#ProductList)
+    
+    #SelectedLineID := #XSProductLineID
+    #SelectedCategoryID := #XSProductCategoryID
+    #XSMoreEntries := false
+    #Counter := 0
+    
+    Select Fields(#ProductList) From_File(XSProductV1) With_Key(#XSProductLineID #XSProductCategoryID #XSProductID) Nbr_Keys(*compute) Options(*startkey)
+    
+    #Counter += 1
+    
+    * If the Line ID changes  ... return
+    Leave If(#XSProductLineID <> #SelectedLineID)
+    
+    * If a category was selected and no more records matching this category ... return
+    Leave If((#XSCategorySelected) *And (#XSProductCategoryID <> #SelectedCategoryID))
+    
+    If (#Counter = 10)
+    
+    #XSMoreEntries := true
+    
+    * use pagesize of 9 (leave before adding 10th record)
+    Leave
+    
+    Endif
+    
+    Add_Entry To_List(#ProductList)
+    
+    Endselect
+    
+    Endroutine
+    
+    * Add selected item to cart
+    Srvroutine Name(AddtoCart)
+    Field_Map For(*both) Field(#XSCartID)
+    Field_Map For(*input) Field(#XSAccountEmail)
+    Field_Map For(*input) Field(#XSProductID)
+    Field_Map For(*output) Field(#XSCartTotalQuantity)
+    Field_Map For(*output) Field(#XSCartTotalPrice)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    Define_Com Class(#XSCartID) Name(#LocalCartID)
+    
+    #XSStatus := ER
+    
+    * Get product details
+    Fetch Fields(#XSProductPrice #XSProductShipping #XSProductTaxPercent) From_File(XSProduct) With_Key(#XSProductID)
+    If_Status Is_Not(*okay)
+    
+    Return
+    
+    Endif
+    
+    #XSCustomerPrice := #XSProductPrice
+    
+    * Find existing account (if not found it will be set up as guest i.e. blank)
+    Fetch Fields(#XSAccountID) From_File(xsuseraccountv1) With_Key(#XSAccountEmail)
+    
+    * if Cart Id supplied attempt to locate it
+    If (#XSCartID <> *blank)
+    
+    * Update the cart summary - cart should exist
+    Fetch Fields(#XSCartID) From_File(XSShoppingCart) With_Key(#XSCartID) Io_Status(#XSstatus)
+    If_Status Is_Not(*okay)
+    
+    Return
+    
+    Endif
+    
+    #XSCartLastSaved := #std_datex.now
+    #XSCartExpiry := #std_datex.now.adjust( 30 )
+    
+    Update Fields(#XSCartStatus #XSCartLastSaved #XSCartExpiry) In_File(XSShoppingCart) With_Key(#XSCartID) Io_Status(#XSstatus)
+    If_Status Is_Not(*okay)
+    
+    Return
+    
+    Endif
+    
+    * now process the item
+    Fetch Fields(#XSQuantity) From_File(XSShoppingCartItem) With_Key(#XSCartID #XSProductID) Io_Status(#XSstatus)
+    If_Status Is(*okay)
+    
+    #XSQuantity += 1
+    
+    Update Fields(#XSQuantity) In_File(xsshoppingcartitem) With_Key(#XSCartID #XSProductID) Io_Status(#XSstatus)
+    
+    #Com_owner.GetCarttotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Return
+    
+    Endif
+    
+    #XSQuantity := 1
+    Insert Fields(*all) To_File(XSShoppingCartItem) Io_Status(#XSstatus)
+    
+    #Com_owner.GetCarttotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Return
+    
+    Endif
+    
+    * Create a Cart
+    #XSCartID := *autoalp10XSCrtid
+    
+    #XSCartCreated := #std_datex.now
+    #XSCartExpiry := #std_datex.now.adjust( 30 )
+    
+    Insert Fields(*all) To_File(XSShoppingCart) Io_Status(#XSstatus)
+    
+    #XSQuantity := 1
+    Insert Fields(*all) To_File(XSShoppingCartItem) Io_Status(#XSstatus)
+    
+    #Com_owner.GetCarttotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Endroutine
+    
+    Srvroutine Name(DeletefromCart)
+    Field_Map For(*both) Field(#XSCartID)
+    Field_Map For(*input) Field(#XSProductID)
+    Field_Map For(*output) Field(#XSCartTotalPrice)
+    Field_Map For(*output) Field(#XSCartTotalQuantity)
+    Field_Map For(*output) Field(#XSCartTotalTax)
+    Field_Map For(*output) Field(#XSCartTotalShipping)
+    Field_Map For(*output) Field(#XSCartTotal)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    Delete From_File(XSShoppingCartItem) With_Key(#XSCartID #XSProductID) Io_Status(#XSStatus)
+    
+    If_Status Is(*okay)
+    
+    #com_owner.GetCartTotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(UpdateCartItem)
+    Field_Map For(*both) Field(#XSCartID)
+    Field_Map For(*input) Field(#XSProductID)
+    Field_Map For(*input) Field(#XSQuantity)
+    Field_Map For(*output) Field(#XSItemTotalPrice)
+    Field_Map For(*output) Field(#XSCartTotalPrice)
+    Field_Map For(*output) Field(#XSCartTotalQuantity)
+    Field_Map For(*output) Field(#XSCartTotalTax)
+    Field_Map For(*output) Field(#XSCartTotalShipping)
+    Field_Map For(*output) Field(#XSCartTotal)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    Update Fields(#XSQuantity) In_File(XSShoppingCartItem) With_Key(#XSCartID #XSProductID) Io_Status(#XSStatus)
+    
+    If_Status Is(*okay)
+    
+    Fetch Fields(#XSItemTotalPrice) From_File(XSShoppingCartItem) With_Key(#XSCartID #XSProductID) Io_Status(#XSStatus)
+    
+    #com_owner.GetCartTotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(GetCartStatus)
+    Field_Map For(*input) Field(#XSCartID)
+    Field_Map For(*output) Field(#XSCartStatus)
+    Field_Map For(*output) Field(#XSCartTotalPrice)
+    Field_Map For(*output) Field(#XSCartTotalQuantity)
+    Field_Map For(*output) Field(#XSCartTotalTax)
+    Field_Map For(*output) Field(#XSCartTotalShipping)
+    Field_Map For(*output) Field(#XSCartTotal)
+    Field_Map For(*output) Field(#XSStatus)
+    
+    #Com_owner.GetCarttotals( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping #XSCartTotal #XSstatus )
+    
+    Endroutine
+    
+    Mthroutine Name(GetCartTotals)
+    Define_Map For(*input) Class(#XSCartID) Name(#Cartid)
+    Define_Map For(*output) Class(#XSCartStatus) Name(#Status)
+    Define_Map For(*output) Class(#XSCartTotalPrice) Name(#Price)
+    Define_Map For(*output) Class(#XSCartTotalQuantity) Name(#Quantity)
+    Define_Map For(*output) Class(#XSCartTotalTax) Name(#Tax)
+    Define_Map For(*output) Class(#XSCartTotalShipping) Name(#Shipping)
+    Define_Map For(*output) Class(#XSCartTotal) Name(#Total)
+    Define_Map For(*output) Class(#XSStatus) Name(#XSStatus)
+    
+    #Status := *blank
+    #Price #Tax #Shipping #Quantity := 0
+    
+    Fetch Fields(#XSCartTotalPrice #XSCartStatus #XSCartTotalQuantity #XSCartTotalShipping #XSCartTotalTax #XSCartTotal) From_File(XSShoppingCart) With_Key(#Cartid) Io_Status(#XSStatus)
+    
+    #Status := #XSCartStatus
+    #Price := #XSCartTotalPrice
+    #Tax := #XSCartTotalTax
+    #Shipping := #XSCartTotalShipping
+    #Quantity := #XSCartTotalQuantity
+    #Total := #XSCartTotal
+    
+    Endroutine
+    
+    * **** Load Shopping Cart Details
+    Srvroutine Name(LoadShoppingCart)
+    Field_Map For(*input) Field(#XSCartID)
+    List_Map For(*output) List(#ShoppingCartList)
+    
+    Clr_List Named(#ShoppingCartList)
+    
+    Select Fields(#ShoppingCartList) From_File(XSShoppingCartItem) With_Key(#XSCartID)
+    
+    Fetch Fields(#XSProductDescription #XSProductImageLink #XSProductStockStatus #XSProductDetail) From_File(XSProduct) With_Key(#XSProductID)
+    
+    Add_Entry To_List(#ShoppingCartList)
+    
+    Endselect
+    
+    Endroutine
+    
+    * **** Load States
+    Srvroutine Name(LoadStates)
+    List_Map For(*output) List(#StateList)
+    
+    Def_List Name(#StateList) Fields(#xsstateid) Type(*Working) Entrys(100)
+    
+    Clr_List Named(#StateList)
+    
+    Select Fields(#StateList) From_File(XSState)
+    
+    Add_Entry To_List(#StateList)
+    
+    Endselect
+    
+    Endroutine
+    
+    * **** Load Countries
+    Srvroutine Name(LoadCountries)
+    List_Map For(*output) List(#CountryList)
+    
+    Def_List Name(#CountryList) Fields(#XSCountryName) Type(*Working) Entrys(500)
+    
+    Clr_List Named(#CountryList)
+    
+    Select Fields(#CountryList) From_File(XSCountry)
+    
+    Add_Entry To_List(#CountryList)
+    
+    Endselect
+    
+    Endroutine
+    
+    * **** Logout
+    Srvroutine Name(LogOut) Session(*required)
+    
+    #com_owner.EndSession
+    
+    Endroutine
+    
+    * *** Transfer to another web page
+    Srvroutine Name(GotoHome) Response(*webpage #XSHome)
+    
+    * Home page
+    
+    Endroutine
+    
+    Srvroutine Name(GotoMyAccount) Response(*webpage #XSAccount)
+    
+    * My Account page
+    
+    Endroutine
+    
+    Srvroutine Name(GotoProducts) Response(*webpage #XSProductsView)
+    Field_Map For(*both) Field(#XSProductLineID)
+    Field_Map For(*both) Field(#XSProductCategoryID)
+    Field_Map For(*both) Field(#XSSearchValue)
+    Field_Map For(*output) Field(#XSProductLineDescription)
+    Field_Map For(*output) Field(#XSProductCategoryDescription)
+    
+    * Products View page
+    
+    #XSProductLineDescription #XSProductCategoryDescription := *blank
+    
+    If (#XSProductLineID <> *blank)
+    
+    Fetch Fields(#XSProductLineDescription) From_File(XSProductLine) With_Key(#XSProductLineID)
+    
+    If (#XSProductCategoryID <> *blank)
+    
+    Fetch Fields(#XSProductCategoryDescription) From_File(XSProductCategoryV1) With_Key(#XSProductLineID #XSProductCategoryID)
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(GotoSearch) Response(*webpage #XSSearchView)
+    Field_Map For(*both) Field(#XSSearchValue)
+    
+    Endroutine
+    
+    Srvroutine Name(GotoShoppingCart) Response(*webpage #XSShoppingCartView)
+    
+    * Shopping cart page
+    
+    Endroutine
+    
+    Srvroutine Name(GotoStoreLocator) Response(*webpage #XSStoreLocator)
+    
+    * Google map page
+    
+    Endroutine
+    
+    End_Com

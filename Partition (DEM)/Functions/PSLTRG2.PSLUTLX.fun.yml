@@ -1,0 +1,207 @@
+﻿Function:
+  Enabled For RDMLX:  Yes
+
+  Source: |
+    Function Options(*DIRECT *HEAVYUSAGE) Rcv_List(#TRIG_LIST) Trigger(*FILE PSLTIMES)
+    
+    *  mandatory trigger list definition.
+    Def_List Name(#TRIG_LIST) Type(*WORKING) Entrys(2)
+    
+    *  group for updating fields in PSLTIMES.
+    Group_By Name(#GUpdate) Fields(#EMPTSWSTR #EMPTSWEND #EMPTSTDSC #EMPTSVSAT #EMPTSVSUN #EMPTSVMON #EMPTSVTUE #EMPTSVWED #EMPTSVTHU #EMPTSVFRI #EMPTSTOTH #EMPTSTOTV #EMPTSMAXH #EMPTSMAXD #EMPTSMINH #EMPTSMIND)
+    
+    *  working list to hold daily hours worked.
+    Def_List Name(#WLMINMAX) Fields(#STD_CODEL #STD_AMNT) Type(*WORKING) Entrys(7)
+    
+    *  perform trigger operations.
+    Case (#TRIG_OPER)
+    
+    *  after insert.
+    When (*EQ BEFINS)
+    
+    #com_owner.BeforeInsert
+    
+    *  after update.
+    When (*EQ BEFUPD)
+    
+    #com_owner.BeforeUpdate
+    
+    Endcase
+    
+    *  indicate a 'good' return.
+    #TRIG_RETC := OK
+    
+    Return
+    
+    Mthroutine Name(BeforeInsert)
+    
+    *  get the key values from the trigger list.
+    Get_Entry Number(1) From_List(#TRIG_LIST)
+    
+    *  calculate week start and end dates.
+    #com_owner.DeriveDates
+    
+    *  decode task group code.
+    #com_owner.DecodeTask
+    
+    *  update hours and $ values.
+    #com_owner.TallyHours
+    
+    *  update the database.
+    Upd_Entry In_List(#TRIG_LIST)
+    
+    Endroutine
+    
+    Mthroutine Name(BeforeUpdate)
+    
+    *  get the values from the trigger list.
+    Get_Entry Number(1) From_List(#TRIG_LIST)
+    
+    *  update hours and $ values.
+    #com_owner.TallyHours
+    
+    *  update the database.
+    Upd_Entry In_List(#TRIG_LIST)
+    
+    Endroutine
+    
+    Mthroutine Name(DeriveDates)
+    
+    *  get the date that corresponds to the week number.
+    #EMPTSWSTR := (('0101' + (#EMPTSYEAR.AsString)).AsDate( DDMMCCYY ).Adjust( ((#EMPTSWEEK * 7) - 7) ))
+    
+    *  go forward to the saturday date (the start of our week).
+    Dowhile (#EMPTSWSTR.AsDayOfWeek *NE Saturday)
+    
+    #EMPTSWSTR := #EMPTSWSTR.Adjust( 1 )
+    
+    Endwhile
+    
+    *  end date = the friday after the start date.
+    #EMPTSWEND := #EMPTSWSTR.Adjust( 6 )
+    
+    Endroutine
+    
+    Mthroutine Name(DecodeTask)
+    
+    *  decode the task group code into english language.
+    Case (#EMPTSTASK)
+    
+    When (*EQ EVENT)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG001
+    
+    When (*EQ LEAVE)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG002
+    
+    When (*EQ OVERT)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG003
+    
+    When (*EQ PHLDY)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG004
+    
+    When (*EQ SCHED)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG005
+    
+    When (*EQ SICKL)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG006
+    
+    When (*EQ TRAIN)
+    
+    #EMPTSTDSC := *MTXTDEMTRIG007
+    
+    Endcase
+    
+    Endroutine
+    
+    Mthroutine Name(TallyHours)
+    
+    *  set total hours worked for week.
+    #EMPTSTOTH := #EMPTSTSAT + #EMPTSTSUN + #EMPTSTMON + #EMPTSTTUE + #EMPTSTWED + #EMPTSTTHU + #EMPTSTFRI
+    
+    *  set the $ value for each day (hours * rate).
+    #EMPTSVSAT := #EMPTSTSAT * *DMX_HOURLY_RATE
+    #EMPTSVSUN := #EMPTSTSUN * *DMX_HOURLY_RATE
+    #EMPTSVMON := #EMPTSTMON * *DMX_HOURLY_RATE
+    #EMPTSVTUE := #EMPTSTTUE * *DMX_HOURLY_RATE
+    #EMPTSVWED := #EMPTSTWED * *DMX_HOURLY_RATE
+    #EMPTSVTHU := #EMPTSTTHU * *DMX_HOURLY_RATE
+    #EMPTSVFRI := #EMPTSTFRI * *DMX_HOURLY_RATE
+    
+    *  set total $ value for week.
+    #EMPTSTOTV := #EMPTSVSAT + #EMPTSVSUN + #EMPTSVMON + #EMPTSVTUE + #EMPTSVWED + #EMPTSVTHU + #EMPTSVFRI
+    
+    *  add all daily hours to working list.
+    Clr_List Named(#WLMINMAX)
+    
+    #com_owner.AddMinimumMaximum( ASAT, #EMPTSTSAT )
+    #com_owner.AddMinimumMaximum( BSUN, #EMPTSTSUN )
+    #com_owner.AddMinimumMaximum( CMON, #EMPTSTMON )
+    #com_owner.AddMinimumMaximum( DTUE, #EMPTSTTUE )
+    #com_owner.AddMinimumMaximum( EWED, #EMPTSTWED )
+    #com_owner.AddMinimumMaximum( FTHU, #EMPTSTTHU )
+    #com_owner.AddMinimumMaximum( GFRI, #EMPTSTFRI )
+    
+    *  get the minimum hours day.
+    Sort_List Named(#WLMINMAX) By_Fields((#STD_AMNT *ASCEND) (#STD_CODEL *ASCEND))
+    
+    #EMPTSMINH := *ZERO
+    #EMPTSMIND := SAT
+    
+    #EMPTSMAXH := *ZERO
+    #EMPTSMAXD := SAT
+    
+    #STD_ENTRY := *ZERO
+    
+    Dountil ((#STD_AMNT *GT *ZERO) *Or (#STD_ENTRY *EQ 7))
+    
+    #STD_ENTRY += 1
+    
+    Get_Entry Number(#STD_ENTRY) From_List(#WLMINMAX)
+    
+    Enduntil
+    
+    If (#STD_AMNT *GT *ZERO)
+    
+    #EMPTSMINH := #STD_AMNT
+    #EMPTSMIND := #STD_CODEL.Substring( 2, 3 )
+    
+    *  this could be the maximum hours day too, so set those.
+    #EMPTSMAXH := #STD_AMNT
+    #EMPTSMAXD := #STD_CODEL.Substring( 2, 3 )
+    
+    *  and now see if there's a day on which more hours were worked.
+    Dowhile (#STD_ENTRY *LT 7)
+    
+    #STD_ENTRY += 1
+    
+    Get_Entry Number(#STD_ENTRY) From_List(#WLMINMAX)
+    
+    If (#STD_AMNT *GT #EMPTSMAXH)
+    
+    #EMPTSMAXH := #STD_AMNT
+    #EMPTSMAXD := #STD_CODEL.Substring( 2, 3 )
+    
+    Endif
+    
+    Endwhile
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(AddMinimumMaximum)
+    Define_Map For(*input) Class(#STD_CODEL) Name(#i_Day)
+    Define_Map For(*input) Class(#EMPTSTSAT) Name(#i_Hours)
+    
+    #STD_CODEL := #i_Day
+    #STD_AMNT := #i_Hours
+    
+    Add_Entry To_List(#WLMINMAX)
+    
+    Endroutine

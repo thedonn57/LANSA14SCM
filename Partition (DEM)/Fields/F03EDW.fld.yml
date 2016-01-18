@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F03EDW
+  Type:               Alphanumeric
+  Length:             24
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "edit word"
+      Label:              "F03EDW"
+      Heading1:           "edit word"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           " "
+      Heading3:           " "

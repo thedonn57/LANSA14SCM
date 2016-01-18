@@ -1,0 +1,72 @@
+﻿Reusable Part:
+  Name:               XBNAccount
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Design for an Account Tile"
+
+  - FRA:
+      Description:        "Design for an Account Tile"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_Tile.iTileDesign *ListFields #ListFields) Displayposition(1) Height(200) Left(0) Tabposition(1) Top(0) Width(270) Mouseoverstyle(#AccountMouseOverStyle) Style(#AccountStyle)
+    
+    * All our content is on a panel, so that we can give it a border and also control the margins between tile-items
+    Define_Com Class(#PRIM_PANL) Name(#ContentPanel) Displayposition(1) Height(180) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(250) Layoutmanager(#TableLayout) Style(#AccountPanelStyle)
+    
+    * Even though tile items don't resize, it is still very helpful to have a table layout to help us design the content
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Height(65) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#AccountDescription) Parent(#TableLayout) Row(#Row1) Marginleft(10) Marginright(10) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#AccountName) Parent(#TableLayout) Row(#Row2) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#AccountBalance) Parent(#TableLayout) Row(#Row3)
+    
+    * Account Description
+    Define_Com Class(#PRIM_LABL) Name(#AccountDescription) Caption('Account Description') Displayposition(3) Ellipses(Word) Parent(#ContentPanel) Tabposition(3) Tabstop(False) Width(228) Height(60) Top(5) Style(#AccountDescriptionStyle)
+    
+    * Account Name
+    Define_Com Class(#PRIM_LABL) Name(#AccountName) Caption('Account Nr / Name') Displayposition(2) Ellipses(Word) Parent(#ContentPanel) Tabposition(2) Tabstop(False) Top(65) Width(228) Themedrawstyle('AccountName')
+    
+    * Account Balance
+    Define_Com Class(#PRIM_LABL) Name(#AccountBalance) Caption('$ 999.99') Displayposition(1) Ellipses(Word) Height(63) Parent(#ContentPanel) Tabposition(1) Tabstop(False) Top(115) Verticalalignment(Center) Width(248) Style(#AccountBalanceStyle) Alignment(Center) Left(0)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#AccountStyle) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#AccountPanelStyle) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1)
+    Define_Com Class(#PRIM_VS.Style) Name(#AccountMouseOverStyle) Backgroundbrush(#AccountMouseOverBrush) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#AccountMouseOverBrush) Color(Theme50)
+    Define_Com Class(#PRIM_VS.Style) Name(#AccountDescriptionStyle) Fontsize(14)
+    Define_Com Class(#PRIM_VS.Style) Name(#AccountBalanceStyle) Fontsize(18) Backgroundbrush(#AccountBalanceBackgroundBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#AccountBalanceBackgroundBrush) Color(Theme200)
+    
+    * Fields mapped in when the entry is added to the Tile
+    Group_By Name(#ListFields) Fields(#XBNAccountName #XBNAccountDescription #XBNAccountBalance)
+    
+    Define_Evt Name(AccountSelected)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#AccountName)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#AccountDescription)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #AccountDescription := #XBNAccountDescription
+    #AccountName := #XBNAccountName
+    #AccountBalance := "$ " + #XBNAccountBalance.AsString
+    
+    Endroutine
+    
+    Evtroutine Handling(#COM_OWNER.Click)
+    
+    Signal Event(AccountSelected) Accountname(#AccountName) Accountdescription(#AccountDescription)
+    
+    Endroutine
+    
+    End_Com

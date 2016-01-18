@@ -1,0 +1,64 @@
+﻿Field:
+  Name:               LZDATEPRD
+  Type:               Signed
+  Length:             8
+  Decimals:           0
+  Default Value:      "*YYYYMMDD"
+  Reference Field:    LZDATE
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Created on Date"
+      Label:              "Created on Date"
+      Heading1:           "Created"
+      Heading2:           "On"
+      Heading3:           "Date"
+
+  - FRA:
+      Description:        "Date De Modification"
+      Label:              "De Modification"
+      Heading1:           "Date"
+      Heading2:           "De Modification"
+      Heading3:           " "
+
+  Validation Rules:
+  - Date Check:
+      Description:        "Must be valid Date"
+      Date Format:        YYYYMMDD
+      Days After:         9999999
+      Days Before:        9999999
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1083
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+       %This field is intended for a Date.}                                  .
+       %Dates are entered or generated in normal system format, but can be}  .
+       %displayed in many other formats.}
+        To display dates in several formats, a standard LANSA facility
+        called %Virtual fields} is used.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+      
+       %Cette variable est une Date.}                                        .
+       %Les Dates sont saisies ou generees au format systeme mais peuvent}   .
+       %etre affichees selon plusieurs autres formats.}
+        Pour afficher une date selon different formats, une facilite de LANSA
+        appele %champs virtuels} est utilise.
+      
+      $$NOAUTO

@@ -1,0 +1,71 @@
+﻿Field:
+  Name:               SKILDESC
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Skill Full Description"
+      Label:              "Skill desc....."
+      Heading1:           "Skill"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description de la formation"
+      Label:              "Formation . . ."
+      Heading1:           "Description"
+      Heading2:           "formation"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Skill desc. cannot be blank"
+      Condition:          "#skildesc *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0015
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      
+            This field contains a brief description about the type
+            of a particular skill.
+      
+      
+            Use of upper and lower case characters allowed.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      
+            Cette zone contient une courte description de chaque formation
+            recensée
+      
+      
+            Vous pouvez utiliser majuscules et minuscules.

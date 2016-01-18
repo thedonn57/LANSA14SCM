@@ -1,0 +1,88 @@
+﻿Reusable Part:
+  Name:               XDXScaling
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Scaling"
+
+  - FRA:
+      Description:        "Mise à l'échelle"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(536) Layoutmanager(#Layout) Width(738)
+    
+    * Scaling images or any other control
+    * Scaling doesn't change the height and width properties.
+    
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(3) Height(512) Left(113) Parent(#COM_OWNER) Style(#ImageStyle) Tabposition(3) Tabstop(False) Top(12) Touchscale(Yes) Width(512)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#ImageStyle) Backgroundbrush(#ImageBrush)
+    Define_Com Class(#Prim_vs.ImageBrush) Name(#ImageBrush) Image(#XDXImageEmployee512) Sizing(BestFit)
+    
+    Define_Com Class(#PRIM_TKBR) Name(#Zoom) Displayposition(1) Height(34) Left(0) Maximumvalue(200) Parent(#COM_OWNER) Tabposition(1) Tickfrequency(100) Tickstyle(None) Top(497) Value(100) Width(281)
+    Define_Com Class(#PRIM_LABL) Name(#Percentage) Caption('100%') Displayposition(2) Ellipses(Word) Height(34) Left(285) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(497) Verticalalignment(Center) Width(65)
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Alignment(BottomLeft) Column(#Column_1) Flow(Right) Manage(#Zoom) Marginbottom(5) Parent(#Layout) Row(#Row_3) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Alignment(BottomLeft) Column(#Column_1) Flow(Left) Manage(#Percentage) Marginbottom(5) Marginleft(4) Parent(#Layout) Row(#Row_3) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Column(#Column_2) Manage(#Image) Parent(#Layout) Row(#Row_2) Sizing(None)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Size Image and SizingPanel based on the image being used
+    #Image.Height := #XDXImageEmployee512.Height
+    #Image.Width := #XDXImageEmployee512.Width
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Zoom.Changed)
+    
+    #Image.ScaleHeight #Image.ScaleWidth := #Zoom.Value
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image.TouchChange) Rotation(#RotationDelta)
+    
+    * Scale but limit to 200%
+    #Image.ScaleHeight #Image.ScaleWidth := #Image.ScaleHeight.Bound( 20 200 )
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image.DoubleClick)
+    
+    * Restore image to initial settings
+    #Image.Rotation := 0
+    
+    #Image.Scaleheight #Image.ScaleWidth := 100
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Mthroutine Name(Update)
+    
+    #Zoom.Value := #Image.ScaleHeight
+    
+    #Percentage := #Zoom.Value.Asstring + "%"
+    
+    Endroutine
+    
+    End_Com

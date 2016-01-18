@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23STY
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Function status"
+      Label:              "F23STY"
+      Heading1:           "Function"
+      Heading2:           "Status"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Function status"
+      Label:              "F23STY"
+      Heading1:           "Function"
+      Heading2:           "Status"
+      Heading3:           " "

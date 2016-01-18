@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W06VAL
+  Type:               Alphanumeric
+  Length:             255
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Value"
+      Label:              "W06VAL"
+      Heading1:           "Value"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Value"
+      Label:              "W06VAL"
+      Heading1:           "Value"
+      Heading2:           " "
+      Heading3:           " "

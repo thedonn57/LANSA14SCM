@@ -1,0 +1,134 @@
+﻿Reusable Part:
+  Name:               XDXBook
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Book"
+
+  - FRA:
+      Description:        "Livre"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(632) Layoutmanager(#TableLayout) Width(1050)
+     
+    * User Designed Control - Book
+    * Individual pages are made by adding entries as per typical LANSA list processing
+    * Fields in the list are defined by the *ListFields parameter of the Design being made
+    Define_Com Class(#prim_Book<#XDXBookDesign>) Name(#Book) Displayposition(1) Height(500) Left(150) Navigationstyle(None) Parent(#COM_OWNER) Tabposition(1) Top(41) Width(750)
+    
+    * Control Buttons
+    Define_Com Class(#prim_panl) Name(#Buttons) Displayposition(2) Layoutmanager(#FWLM_1) Left(150) Parent(#COM_OWNER) Tabposition(2) Top(541) Width(750)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Home) Displayposition(1) Height(32) Image(#XDXImageFirst32) Left(296) Parent(#Buttons) Tabposition(1) Tabstop(False) Top(9) Width(32)
+    Define_Com Class(#PRIM_PANL) Name(#Back) Displayposition(2) Height(32) Image(#XDXImagePrevious32) Left(338) Parent(#Buttons) Tabposition(2) Tabstop(False) Top(9) Width(32)
+    Define_Com Class(#PRIM_PANL) Name(#Forward) Displayposition(3) Height(32) Image(#XDXImageNext32) Left(380) Parent(#Buttons) Tabposition(3) Tabstop(False) Top(9) Width(32)
+    Define_Com Class(#PRIM_PANL) Name(#End) Displayposition(4) Height(32) Image(#XDXImageLast32) Left(422) Parent(#Buttons) Tabposition(4) Tabstop(False) Top(9) Width(32)
+    
+    Define_Com Class(#PRIM_FWLM) Name(#FWLM_1) Flowoperation(Center) Flowoperationhor(Center) Flowoperationver(Center)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_1) Manage(#Home) Parent(#FWLM_1)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_2) Manage(#Back) Parent(#FWLM_1)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_3) Manage(#Forward) Parent(#FWLM_1)
+    Define_Com Class(#PRIM_FWLI) Name(#FWLI_4) Manage(#End) Parent(#FWLM_1)
+    
+    Define_Com Class(#prim_tblo) Name(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Column1) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Column2) Parent(#TableLayout) Units(Pixels) Width(750)
+    Define_Com Class(#prim_tblo.Column) Name(#Column3) Parent(#TableLayout)
+    
+    Define_Com Class(#prim_tblo.row) Name(#Row1) Height(30) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.row) Name(#Row2) Height(500) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#prim_tblo.row) Name(#Row3) Height(50) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#prim_tblo.row) Name(#Row4) Height(30) Parent(#TableLayout)
+    
+    Define_Com Class(#prim_tblo.Item) Name(#Item1) Column(#Column2) Manage(#Book) Parent(#TableLayout) Row(#Row2)
+    Define_Com Class(#prim_tblo.Item) Name(#Item2) Column(#Column2) Manage(#Buttons) Parent(#TableLayout) Row(#Row3)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Load
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Mthroutine Name(Load) Help("Create book pages") Access(*Private)
+    
+    * Create Book Pages (Items)
+    Select Fields(#Surname #Givename #empno) From_File(pslmst)
+    
+    Fetch Fields(#empimg) From_File(pslimg) With_Key(#Empno)
+    
+    Add_Entry To_List(#Book)
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Book.changed)
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateState) Desc('Update button state based on book focus position') Access(*Private)
+    
+    #Com_owner.SetState( #Home ((#Book.FocusItem *IsNot *null) *AndIf (#Book.Focusitem.Position > 1)) )
+    
+    #Com_owner.SetState( #Back ((#Book.FocusItem *IsNot *null) *AndIf (#Book.Focusitem.Position > 1)) )
+    
+    #Com_owner.SetState( #Forward ((#Book.FocusItem *IsNot *null) *AndIf (#Book.Focusitem.Position < #Book.Items.Itemcount)) )
+    
+    #Com_owner.SetState( #End ((#Book.FocusItem *IsNot *null) *AndIf (#Book.Focusitem.Position < #Book.Items.Itemcount)) )
+    
+    Endroutine
+    
+    Mthroutine Name(SetState) Access(*private)
+    Define_Map For(*Input) Class(#prim_panl) Name(#Panel) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_boln) Name(#Enabled)
+    
+    If (#Enabled)
+    
+    #Panel.Opacity := 100
+    #Panel.enabled := True
+    
+    Else
+    
+    #Panel.Opacity := 50
+    #Panel.enabled := False
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Home.Click)
+    
+    #Book.FirstItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Back.Click)
+    
+    #Book.PrevItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Forward.Click)
+    
+    #Book.NextItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#End.Click)
+    
+    #Book.LastItem
+    
+    Endroutine
+    
+    End_Com

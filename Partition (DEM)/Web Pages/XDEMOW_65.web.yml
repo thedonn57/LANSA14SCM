@@ -1,0 +1,41 @@
+﻿Web Page:
+  Name:               xDemoWebCarousel
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Carousel"
+
+  - FRA:
+      Description:        "Carousel"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(64) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(443)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#Carousel) Parent(#TableLayout1) Row(#Row2) Margintop(10) Sizing(None) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Employees') Displayposition(1) Ellipses(Word) Height(64) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(1200) Themedrawstyle('Title+DarkTitle') Marginleft(4)
+    Define_Com Class(#PRIM_CARO<#XDEMO_42>) Name(#Carousel) Carouselstyle(Page) Displayposition(2) Left(150) Parent(#COM_OWNER) Tabposition(2) Top(74) Width(900)
+    
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    For Each(#Employee) In(#gData.Employees)
+    
+    Add_Entry To_List(#Carousel)
+    #Carousel.CurrentItem.RelatedReference <= #Employee
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

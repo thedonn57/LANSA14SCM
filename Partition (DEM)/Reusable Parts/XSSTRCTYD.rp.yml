@@ -1,0 +1,85 @@
+﻿Reusable Part:
+  Name:               XSStoreCountryDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Store Country Dropdown"
+
+  - FRA:
+      Description:        "Store Country Dropdown"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(25) Left(0) Tabposition(1) Top(0) Width(489) Layoutmanager(#TableLayout1) Themedrawstyle('DropDown')
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#CountriesItem1) Alignment(TopLeft) Column(#Column1) Manage(#Countries) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST.DropDown) Name(#Countries) Columnheaderheight(0) Columnlines(False) Displayposition(1) Left(0) Parent(#COM_OWNER) Rowlines(False) Showselection(False) Tabposition(1) Top(0) Dropdownstyle(DropDown) Width(489) Rowheight(25) Height(25)
+    Define_Com Class(#PRIM_LIST.String) Name(#DropDownColumn1) Columnresize(False) Columnunits(Proportion) Columnwidth(1) Displayposition(1) Parent(#Countries) Source(#XSCountryName)
+    
+    Define_Com Class(#XSCountryName) Name(#XSCountry)
+    
+    Define_Pty Name(pCurrentValue) Get(GetCurrent) Set(SetCurrent)
+    
+    Ptyroutine Name(GetCurrent)
+    Define_Map For(*output) Class(#XSCountryName) Name(#value)
+    
+    #value := #Countries.Value
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCurrent)
+    Define_Map For(*input) Class(#XSCountryName) Name(#value)
+    
+    #XSCountry #XSCountryName := #value
+    
+    Selectlist Named(#Countries)
+    
+    Continue If(#XSCountry <> #XSCountryName)
+    
+    #Countries.CurrentItem.Selected := true
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    * Set up static list of drop down values
+    #com_owner.AddDropDownEntry( ' ' )
+    #com_owner.AddDropDownEntry( 'Australia' )
+    #com_owner.AddDropDownEntry( 'Canada' )
+    #com_owner.AddDropDownEntry( 'France' )
+    #com_owner.AddDropDownEntry( 'Japan' )
+    #com_owner.AddDropDownEntry( 'Netherlands' )
+    #com_owner.AddDropDownEntry( 'Singapore' )
+    #com_owner.AddDropDownEntry( 'United Kingdom' )
+    #com_owner.AddDropDownEntry( 'USA' )
+    
+    Endroutine
+    
+    Mthroutine Name(AddDropDownEntry)
+    Define_Map For(*input) Class(#XSCountryName) Name(#Country)
+    
+    #XSCountryName := #Country
+    Add_Entry To_List(#Countries)
+    
+    #Countries.CurrentItem.MouseOverStyle <= #XSTheme01<BackgroundGreen2_50>
+    
+    Endroutine
+    
+    End_Com

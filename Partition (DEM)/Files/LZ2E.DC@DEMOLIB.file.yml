@@ -1,0 +1,237 @@
+﻿File:
+  Name:                           LZ2E
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             LZ2E
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Sales History"
+
+  - FRA:
+      Description:        "Historique des Vente"
+
+  Real Fields:
+  - LZCOCDSAL:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - LZWHCDSAL:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - LZPRCDSAL:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - LZPR01:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR02:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR03:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR04:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR05:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR06:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR07:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR08:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR09:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR10:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR11:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - LZPR12:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  Primary Keys:
+  - LZCOCDSAL
+  - LZWHCDSAL
+  - LZPRCDSAL
+
+  Logical Views:
+  - LZ2EPRD:
+      Identifier:         LZ2EPRD
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      LZ2EPRD
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Sales History by Product"
+
+      - FRA:
+          Description:        "Historique des Vente (Produit)"
+
+      Keys:
+      - LZPRCDSAL:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - LZCOCDSAL:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - LZWHCDSAL:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - LZWHCDSAL:
+    - Lookup Check:
+        Description:        "Cannot Add unless exists"
+        File:               LZ2W
+        Keys:
+        - LZCOCDSAL
+        - LZWHCDSAL
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DCM01
+        Message Number:     LUO4009
+
+  - LZPRCDSAL:
+    - Lookup Check:
+        Description:        "Cannot Add unless exists"
+        File:               LZ2P
+        Keys:
+        - LZPRCDSAL
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DCM01
+        Message Number:     LUO4009
+
+  Access Routes:
+  - LCL0000001:
+      Description:        is the child of / belongs to Warehouse
+      File:               LZ2W
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDSAL
+      - LZWHCDSAL
+
+  - LCL0000002:
+      Description:        is the child of / belongs to Product
+      File:               LZ2P
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZPRCDSAL
+
+  - LCL0000003:
+      Description:        is the grand-child of Country
+      File:               LZ2C
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDSAL
+
+  - LCL0000004:
+      Description:        refers to Inventory
+      File:               LZ2I
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCDSAL
+      - LZWHCDSAL
+      - LZPRCDSAL

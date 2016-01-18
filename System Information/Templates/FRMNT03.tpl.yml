@@ -1,0 +1,658 @@
+﻿Template:
+  Name:                    FRMNT03
+  Description:             Header/Detail Maintenance (S/36 Style)
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP060 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 50 RELATED FILES                     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('Enter the name of the base file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial' 'list of available files to be displayed) or in full (to cause a full list' 'of available files to be displayed). When a list of files is displayed,' 'the file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP060 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR NAME OF "HEADER" ENTITY                         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Specify the name of the object that the "header" file represents') ANSWER(@@CANS001) EXTEND('123456789012345' 'Specify a word that describes the object that the "header" file being' 'used by this template represents. Use singular form, use at most 15' 'characters and do NOT use any single quote characters in the name.' 'Use the HELP key to view more information about this question or to view' 'examples of the type of answers that you would give to this question.') HELPIDS(HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR NAME OF "DETAIL" ENTITY                         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Specify the name of the object that the "detail" file represents') ANSWER(@@CANS002) EXTEND('123456789012345' 'Specify a word that describes that object that the "detail" file being' 'used by this template represents. Use singular form, use at most 15' 'characters and do NOT use any single quote characters in the name.' 'Use the HELP key to view more information about this question or to view' 'examples of the type of answers that you would give to this question.') HELPIDS(HELP080)
+    /* ********** ======================================================= */
+    /* ********** LIST 4 CONTAINS THE HEADER FILES KEYS                   */
+    /* ********** LOAD DETAILS OF FIELDS OF "HEADER" INTO LIST 1          */
+    /* ********** LOAD DETAILS OF FIELDS OF "BROWSE" INTO LIST 2          */
+    /* ********** LIST 3 IS USED AS A WORKING LIST ONLY                   */
+    /* ********** LIST 4 CONTAINS THE HEADER FILES KEYS                   */
+    /* ********** LIST 5 CONTAINS THE HEADER/DETAIL RELATED KEYS          */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(6)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((3 *OUTPUT)) INTO_LST(1)
+    @@CLR_LST  NUMBER(4)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(4)
+    @@CLR_LST  NUMBER(5)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(3)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(A12)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(A11)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(2)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(6)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(5)
+    @@GOTO     LABEL(A14)
+    A11: @@MRG_LSTS FROM_LSTS((3 *OUTPUT)) INTO_LST(2)
+    @@GOTO     LABEL(A14)
+    A12: @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(1) IF_GT(A13)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(1)
+    @@GOTO     LABEL(A14)
+    A13: @@MRG_LSTS FROM_LSTS((3 *OUTPUT)) INTO_LST(1)
+    @@GOTO     LABEL(A14)
+    A14: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO SELECT THE HEADER FIELDS REQUIRED       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(11)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((11 'Fields on' 'Header' 'Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP060 HELP030 HELP040 HELP050)
+    @@QUESTION PROMPT('Design fields on the ADD panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS022) EXTEND('Reply DOWN or ACROSS only.' 'If your ADD panel contains 17 (or less) fields, DOWN is the ' 'recommended value. If your ADD panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP090 HELP100)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO SELECT THE BROWSE FIELDS REQUIRED       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(22)
+    @@MAK_LSTS FROM_LSTS(2) INTO_LSTS((22 'ALL Fields' 'In Detail' 'Area' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP060 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO SELECT THE BROWSE FIELDS REQUIRED       */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(66)
+    @@MAK_LSTS FROM_LSTS(6) INTO_LSTS((66 'Input Flds' 'Detail/List' 'Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP060 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 11 OR LIST 22    */
+    /* ********** AS *HIDDEN FIELDS. LIST 3 IS A WORKING LIST ONLY        */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(A34)
+    @@IF       COND((*IF @@FRELRCF *EQ M)) GOTO(A34)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(22)
+    @@GOTO     LABEL(A36)
+    A34: @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(11)
+    A36: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATION OF RDML CODE STARTS HERE                     */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Groups, definitions and declarations')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    DEFINE     FIELD(#NEXTROUTN) TYPE(*CHAR) LENGTH(15)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Program Mainline')
+    @@COMMENT  COMMENT('=======================================================')
+    CHANGE     FIELD(#NEXTROUTN) TO('GET_KEY')
+    BEGIN_LOOP
+    CASE       OF_FIELD(#NEXTROUTN)
+    WHEN       VALUE_IS('= GET_KEY')
+    EXECUTE    SUBROUTINE(GET_KEY)
+    WHEN       VALUE_IS('= WRK_HEADER')
+    EXECUTE    SUBROUTINE(WRK_HEADER)
+    WHEN       VALUE_IS('= WRK_DETAIL')
+    EXECUTE    SUBROUTINE(WRK_DETAIL)
+    ENDCASE
+    END_LOOP
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('GETKEY : Get keys of record to create or review')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(GET_KEY)
+    @@COMMENT  COMMENT('Groups, definitions and declarations')
+    GROUP_BY   NAME(#KEY) FIELDS(@@LST04)
+    DEF_LIST   NAME(#SAVKEY) FIELDS(@@LST04)  TYPE(*WORKING) ENTRYS(1)
+    @@COMMENT  COMMENT('Subroutine mainline')
+    CLR_LIST   NAMED(#SAVKEY)
+    CHANGE     FIELD(#KEY) TO(*DEFAULT)
+    MESSAGE    MSGTXT('Specify Identifier of @@CANS001 to Create/Review/Change or Delete')
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    REQUEST    FIELDS((#KEY)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) PANEL_TITL('Specify @@CANS001')
+    @@GOTO     LABEL(L92)
+    L91: @@LABEL
+    REQUEST    FIELDS((#KEY)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) PANEL_TITL('Specify @@CANS001') CURSOR_LOC(*ATFIELD #@@LEL0401)
+    L92: @@LABEL
+    IF_NULL    #KEY
+    CHANGE     FIELD(#NEXTROUTN) TO('GET_KEY')
+    ELSE
+    ADD_ENTRY  TO_LIST(#SAVKEY)
+    CHANGE     FIELD(#NEXTROUTN) TO('WRK_HEADER')
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('WRK_HEADER : Work with @@CANS001 details')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** Work with employee details                              */
+    /* ********** ******************************************************* */
+    SUBROUTINE NAME(WRK_HEADER)
+    /* **********                                                         */
+    GROUP_BY   NAME(#HEADER) FIELDS(@@LST11)
+    @@COMMENT  COMMENT('Subroutine mainline')
+    @@COMMENT  COMMENT('Load existing @@CANS001 data (if any)')
+    EXECUTE    SUBROUTINE(GET_HEADER)
+    @@COMMENT  COMMENT('Do until end of this routine is requested')
+    DOUNTIL    COND('#NEXTROUTN *NE WRK_HEADER')
+    CHANGE     FIELD(#NEXTROUTN) TO('GET_KEY')
+    @@IF       COND((*IF @@CANS022 *NE DOWN)) GOTO(D01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L93)
+    DISPLAY    FIELDS((#HEADER)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CHANGE_KEY(*YES) DELETE_KEY(*YES) PANEL_TITL('Work with @@CANS001 Details')
+    @@GOTO     LABEL(D02)
+    L93: @@LABEL
+    DISPLAY    FIELDS((#HEADER)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CHANGE_KEY(*YES) DELETE_KEY(*YES) PANEL_TITL('Work with @@CANS001 Details') CURSOR_LOC(*ATFIELD #@@LEL1101)
+    @@GOTO     LABEL(D02)
+    D01: @@IF       COND((*IF @@CANS022 *NE ACROSS)) GOTO(D02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L94)
+    DISPLAY    FIELDS((#HEADER)) DESIGN(*ACROSS) IDENTIFY(*LABEL) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CHANGE_KEY(*YES) DELETE_KEY(*YES) PANEL_TITL('Work with @@CANS001 Details')
+    @@GOTO     LABEL(D02)
+    L94: @@LABEL
+    DISPLAY    FIELDS((#HEADER)) DESIGN(*ACROSS) IDENTIFY(*LABEL) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CHANGE_KEY(*YES) DELETE_KEY(*YES) PANEL_TITL('Work with @@CANS001 Details') CURSOR_LOC(*ATFIELD #@@LEL1101)
+    D02: CHANGE     FIELD(#NEXTROUTN) TO('WRK_HEADER')
+    @@COMMENT  COMMENT('If @@CANS001 is being displayed')
+    IF_MODE    IS(*DISPLAY)
+    CHANGE     FIELD(#NEXTROUTN) TO('WRK_DETAIL')
+    ENDIF
+    @@COMMENT  COMMENT('If new @@CANS001 is being created')
+    IF_MODE    IS(*ADD)
+    INSERT     FIELDS(#HEADER) TO_FILE(@@FNAME01)
+    EXECUTE    SUBROUTINE(GET_HEADER)
+    MESSAGE    MSGTXT('New @@CANS001 successfully created')
+    ENDIF
+    @@COMMENT  COMMENT('If existing @@CANS001 is being updated')
+    IF_MODE    IS(*CHANGE)
+    UPDATE     FIELDS((#HEADER)) IN_FILE(@@FNAME01)
+    EXECUTE    SUBROUTINE(GET_HEADER)
+    MESSAGE    MSGTXT('@@CANS001 successfully updated')
+    ENDIF
+    @@COMMENT  COMMENT('If existing @@CANS001 is being deleted')
+    IF_MODE    IS(*DELETE)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(A55)
+    DELETE     FROM_FILE(@@FNAMECF) WITH_KEY(@@LST05)
+    @@GOTO     LABEL(A60)
+    A55: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: /* **********                                                         */
+    DELETE     FROM_FILE(@@FNAME01)
+    MESSAGE    MSGTXT('@@CANS001 successfully deleted')
+    CHANGE     FIELD(#NEXTROUTN) TO('GET_KEY')
+    ENDIF
+    @@COMMENT  COMMENT(' ')
+    ENDUNTIL
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('GET_HEADER : Load up @@CANS001 details')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(GET_HEADER)
+    @@COMMENT  COMMENT('Subroutine mainline')
+    FETCH      FIELDS((#HEADER)) FROM_FILE(@@FNAME01) WITH_KEY(@@LST04)
+    IF_STATUS  IS(*OKAY)
+    SET_MODE   TO(*DISPLAY)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A70: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A90)
+    @@IF       COND((*IF @@FAREACF *EQ B)) GOTO(A80)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    FETCH      FIELDS((#HEADER)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03) KEEP_LAST(3)
+    A80: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A70)
+    A90: /* **********                                                         */
+    ELSE
+    CHANGE     FIELD(#HEADER) TO(*DEFAULT)
+    SET_MODE   TO(*ADD)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#SAVKEY)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('WRK_DETAIL : Work with @@CANS002 details')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(WRK_DETAIL)
+    @@COMMENT  COMMENT('Groups, definitions and declarations')
+    DEFINE     FIELD(#USE$NO) TYPE(*DEC) LENGTH(3) DECIMALS(0) LABEL('Line Number') COLHDG('Line' ' No') EDIT_CODE(4)
+    DEFINE     FIELD(#LIN$NO) REFFLD(#USE$NO)
+    DEFINE     FIELD(#TOP$NO) REFFLD(#USE$NO)
+    /* ********** ======================================================= */
+    /* ********** LIST 33 : HEADER KEYS / SELECTED FIELDS .....           */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@MRG_LSTS FROM_LSTS((4 *OUTPUT)) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((66 *INPUT)) INTO_LST(3)
+    @@COMMENT  COMMENT('Top area of Screen Panel')
+    GROUP_BY   NAME(#HDETAIL) FIELDS((#USE$NO) @@LST03)
+    @@COMMENT  COMMENT('Input capable fields in top area')
+    GROUP_BY   NAME(#IDETAIL) FIELDS(@@LST66)
+    @@COMMENT  COMMENT('List to display at bottom of panel')
+    @@CLR_LST  NUMBER(3)
+    @@MRG_LSTS FROM_LSTS((4 *HIDDEN)) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((66 *OUTPUT)) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((22 *OUTPUT)) INTO_LST(3)
+    DEF_LIST   NAME(#LDETAIL) FIELDS((#LIN$NO *OUTPUT)  @@LST03) COUNTER(#LISTENTRY) TOP_ENTRY(#TOP$NO)
+    /* ********** Same as LDETAIL (Used as a save stack)                  */
+    DEF_LIST   NAME(#SDETAIL) FIELDS((#LIN$NO) @@LST03) TYPE(*WORKING) ENTRYS(1)
+    @@COMMENT  COMMENT('Subroutine mainline')
+    @@COMMENT  COMMENT('Load existing @@CANS002 details')
+    EXECUTE    SUBROUTINE(GET_DETAIL)
+    CHANGE     FIELD(#USE$NO) TO('#LISTENTRY + 1')
+    SET_MODE   TO(*CHANGE)
+    @@COMMENT  COMMENT('Loop until another routine requested')
+    DOUNTIL    COND('#NEXTROUTN *NE WRK_DETAIL')
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L95)
+    DISPLAY    FIELDS((#HDETAIL)) DESIGN(*ACROSS) IDENTIFY(*COLHDG) BROWSELIST(#LDETAIL) EXIT_KEY(*NO) MENU_KEY(*YES L10) PANEL_TITL('Work with @@CANS002 Details')
+    @@GOTO     LABEL(L96)
+    L95: @@LABEL
+    DISPLAY    FIELDS((#HDETAIL)) DESIGN(*ACROSS) IDENTIFY(*COLHDG) BROWSELIST(#LDETAIL) EXIT_KEY(*NO) MENU_KEY(*YES L10) PANEL_TITL('Work with @@CANS002 Details') CURSOR_LOC(*ATFIELD #@@LEL0301)
+    L96: @@LABEL
+    @@COMMENT  COMMENT('If cancel of panel was requested')
+    L10: IF_KEY     WAS(*CANCEL)
+    @@COMMENT  COMMENT('If editing an existing line, cancel edit')
+    IF_MODE    IS(*DISPLAY)
+    CHANGE     FIELD(#IDETAIL) TO(*NULL)
+    CHANGE     FIELD(#USE$NO) TO(0)
+    SET_MODE   TO(*CHANGE)
+    @@COMMENT  COMMENT('Else, cancel this subroutine')
+    ELSE
+    CHANGE     FIELD(#NEXTROUTN) TO('WRK_HEADER')
+    ENDIF
+    @@COMMENT  COMMENT('Else, if cancel key was not used')
+    ELSE
+    BEGINCHECK
+    CASE       OF_FIELD(#USE$NO)
+    @@COMMENT  COMMENT('Validate line number')
+    WHEN       VALUE_IS('*LT 1' '*GT (#LISTENTRY + 1)')
+    SET_MODE   TO(*CHANGE)
+    SET_ERROR  FOR_FIELD(#USE$NO) MSGTXT('Line entered number must be in range 1 -> (maximum number shown + 1)')
+    @@COMMENT  COMMENT('When existing line is requested')
+    WHEN       VALUE_IS('*LE #LISTENTRY')
+    @@COMMENT  COMMENT('Handle edit in progress of existing line')
+    IF_MODE    IS(*DISPLAY)
+    @@COMMENT  COMMENT('Delete line if all fields are now null')
+    IF_NULL    FIELD(#IDETAIL)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    B10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(B30)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(B20)
+    DELETE     FROM_FILE(@@FNAMECF)
+    @@GOTO     LABEL(B30)
+    B20: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(B10)
+    B30: /* **********                                                         */
+    MESSAGE    MSGTXT('@@CANS002 details sucessfully deleted')
+    EXECUTE    SUBROUTINE(GET_DETAIL)
+    @@COMMENT  COMMENT('Else, update the existing line details')
+    ELSE
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    B40: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(B60)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(B50)
+    UPDATE     FIELDS((#IDETAIL)) IN_FILE(@@FNAMECF)
+    @@GOTO     LABEL(B60)
+    B50: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(B40)
+    B60: /* **********                                                         */
+    EXECUTE    SUBROUTINE(EXT_DETAIL)
+    CLR_LIST   NAMED(#SDETAIL)
+    ADD_ENTRY  TO_LIST(#SDETAIL)
+    GET_ENTRY  NUMBER(#USE$NO) FROM_LIST(#LDETAIL)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#SDETAIL)
+    UPD_ENTRY  IN_LIST(#LDETAIL)
+    MESSAGE    MSGTXT('@@CANS002 details successfully updated')
+    CHANGE     FIELD(#TOP$NO) TO(#USE$NO)
+    ENDIF
+    CHANGE     FIELD(#USE$NO #IDETAIL) TO(*NULL)
+    SET_MODE   TO(*CHANGE)
+    @@COMMENT  COMMENT('Else, load up an existing LINE for edit')
+    ELSE
+    GET_ENTRY  NUMBER(#USE$NO) FROM_LIST(#LDETAIL)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    B70: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(B90)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(B80)
+    @@CLR_LST  NUMBER(77)
+    @@RTV_KEYS OF_FILE(CF) INTO_LST(77)
+    FETCH      FIELDS((#LDETAIL)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST77)
+    @@GOTO     LABEL(B90)
+    B80: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(B70)
+    B90: /* **********                                                         */
+    SET_MODE   TO(*DISPLAY)
+    CHANGE     FIELD(#TOP$NO) TO(#USE$NO)
+    ENDIF
+    @@COMMENT  COMMENT('Handle entry of a new line')
+    WHEN       VALUE_IS('*GT #LISTENTRY')
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    C10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(C30)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(C20)
+    INSERT     FIELDS((#HDETAIL)) TO_FILE(@@FNAMECF)
+    @@GOTO     LABEL(C30)
+    C20: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(C10)
+    C30: /* **********                                                         */
+    EXECUTE    SUBROUTINE(EXT_DETAIL)
+    CHANGE     FIELD(#LIN$NO) TO('#LISTENTRY + 1')
+    ADD_ENTRY  TO_LIST(#LDETAIL)
+    SET_MODE   TO(*CHANGE)
+    CHANGE     FIELD(#IDETAIL) TO(*NULL)
+    CHANGE     FIELD(#TOP$NO) TO(#USE$NO)
+    CHANGE     FIELD(#USE$NO) TO('#LISTENTRY + 1')
+    ENDCASE
+    ENDCHECK
+    ENDIF
+    ENDUNTIL
+    @@COMMENT  COMMENT(' ')
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('GET_DETAIL : Load up all @@CANS002 details')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(GET_DETAIL)
+    CLR_LIST   NAMED(#LDETAIL)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    C40: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(C60)
+    @@IF       COND((*IF @@FRELRCF *NE M)) GOTO(C50)
+    SELECT     FIELDS((#LDETAIL)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST05)
+    @@GOTO     LABEL(C60)
+    C50: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(C40)
+    C60: /* **********                                                         */
+    EXECUTE    SUBROUTINE(EXT_DETAIL)
+    CHANGE     FIELD(#LIN$NO) TO('#LISTENTRY + 1')
+    ADD_ENTRY  TO_LIST(#LDETAIL)
+    ENDSELECT
+    CHANGE     FIELD(#IDETAIL) TO(*NULL)
+    CHANGE     FIELD(#TOP$NO) TO(#LISTENTRY)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('EXT_DETAIL : Get extended @@CANS002 details')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(EXT_DETAIL)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    C70: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(C90)
+    @@IF       COND((*IF @@FAREACF *NE B)) GOTO(C80)
+    @@IF       COND((*IF @@FRELRCF *EQ M)) GOTO(C80)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    FETCH      FIELDS(#LDETAIL)  FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03) KEEP_LAST(3)
+    C80: @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(C70)
+    C90: /* **********                                                         */
+    ENDROUTINE
+    /* ********** Clear space used by all working lists                   */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@CLR_LST  NUMBER(6)
+    @@CLR_LST  NUMBER(9)
+    @@CLR_LST  NUMBER(11)
+    @@CLR_LST  NUMBER(22)
+    @@CLR_LST  NUMBER(66)
+    @@CLR_LST  NUMBER(77)
+
+  Help Panels:
+  - HELP010:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a header / detail style Maintenance        
+         Function.                                                                      
+         A header / detail style Maintenance panel typically has a Header area with     
+         details from the file upon which the template is based, and details from other 
+         files that are in 1:1 relationships with the base file. This template requires 
+         that an access path be built in the header file definition that links the      
+         header and detail files, and any related files.                                
+         Additionally it has a detail or list area containing multiple occurences of    
+         information from a file that is associated with the base file in a 1:many type 
+         of relationship. Additionally, details from other files associated in 1:1      
+         relationships with the main file in the list area may be displayed.            
+                                                                                        
+         This style of Maintenance is very widely used. Some examples might include...  
+                                                                                        
+         a.  Maintenance on an order and all associated line items                      
+                                                                                        
+         b.  Maintenance on an employee and all associated acquired skills details      
+                                                                                        
+         c.  Maintenance on a GL account and associated chart of accounts transactions
+
+  - HELP020:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         If you elect to use this template you will be asked ....                       
+                                                                                        
+         1. To nominate the file upon which this enquiry is to be based. The file named 
+            may be a physical file or a logical file. You may specify the file name in  
+            full, in part (to select from a partial list of available files), or leave  
+            the name blank (to select from a list of all available files). Once the base
+            file has been chosen, other associated files may be chosen. Information from
+            these other files may be presented on the header or detail area of the      
+            enquiry screen. This decision is made automatically by the template         
+            according to the files relationship with the base file. The template can    
+            only know about a relationship if an access path has been defined.          
+         2. To choose and order the fields that you wish to appear in the header area   
+            of the Maintenance panel.                                                   
+         3. To choose and order the fields that are required in the detail area of the  
+            Maintenance panel. These fields will be Output only.                        
+         4. To choose and order the fields required as Input for the detail area of the 
+            Maintenance panel. These Fields will be Input Capable.                      
+         5. To specify whether fields in the header area are to be designed ACROSS the  
+            Maintenance panel or DOWN the Maintenance panel.
+
+  - HELP060:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         The Template has been designed to meet the basic requirements of a Header /    
+         Detail style Maintenance function.                                             
+                                                                                        
+         More than likely the Template will not match totally the requirement for your  
+         Applications. A suggestion is :                                                
+         1. Copy this template so as not to lose the basic method of processing.        
+         2. Use the Copied template to generate a Header / Detail style Maintenance     
+            function.                                                                   
+         3. From this generated function, code in the extra processing required that    
+            meet your Site's requirements.                                              
+         4. Thoroughly test the amended function for accuracy.                          
+         5. From the amended function Retrofit it into the copied template.             
+         6. Test the Copied template thoroughly.                                        
+                                                                                        
+         This Copied Template should then form the basis for any Header / Detail style  
+         Maintenance functions that need to be generated.
+
+  - HELP030:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         Order number . . . 300987                                                      
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                This is an example of the first panel   
+                                                that would be presented by a function   
+                                                created from this template over an      
+                                                ORDERS file.                            
+                                                                                        
+                                                It is requesting that the user specify  
+                                                the number of the ORDER that is to be   
+                                                displayed. The user has entered 300987
+
+  - HELP040:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         Order number  . . . : 300987                                                   
+         Date due  . . . . . : 11/21/89                                                 
+         Customer no . . . . : 75691                                                    
+         Customer name . . . : ACME TOOL AND DIE COMPANY                                
+         City / state  . . . : CHICAGO / ILLINOIS                                       
+         Phone number  . . . : (312) 647-4377                                           
+         Ship-to . . . . . . : FRED BLOGGS EXPORTING Ltd                                
+         Ship-to Addr  . . . : NEW YORK City                                            
+         Contact Person  . . : Warehouse Foreman                                        
+         Contact Phone . . . : (047) 621-2631 x14                                       
+                                                                                        
+                                                                                        
+                                            This is an example of the full Maintenance  
+                                            panel for the Header Area. Note that it has 
+                                            details from the ORDERS file the CUSTOMER   
+                                            file and the SHIP-TO Details file.          
+                                            Designed DOWN the Panel
+
+  - HELP050:
+      Description:        Hdr/Dtl Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         Line  Order   Product  Order                                                   
+         No    Line    Number   Quantity                                                
+               Number                                                                   
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+               Order                                                                    
+         Line  Line    Product  Order     Product                     Stock  Unit       
+         No    Number  Number   Quantity  Description                 Unit   Cost       
+           1      1    A00001        5    Bicycle Frame (26x26)        EA    125.00     
+           2      2    AD0004        2    Peda                                          
+           3      3    MG0021        2    Mud   This is an example of the Detail        
+           4      4    WH0012        2    Whee  Maintenance panel. Please note that     
+           5      5    HB0052        1    Hand  the Input Capable fields at the top of  
+           6      6    SD0062        1    Sadd  the Panel may have to be "painted" to   
+           7      7    PRK001        1    Kit   align them. The "Line No" relates to    
+           8      8    PRD012        2    Valv  the displayed list relative Line        
+           9      9    TYR026        2    Tyre  number, used to retrieve/add lines.
+
+  - HELP070:
+      Description:        Hdr/Det Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         The Word(s) you specify here for the name of the object the Header file        
+         represents is used to build the identifying Panel Titles, and relevant         
+         information messages issued by this Template.                                  
+                                                                                        
+         For example: if the object that the Header File represents is the Customer     
+         Order Master file then a suitable word(s) would be Customer Orders.            
+                                                                                        
+         This would then be used to form the Panel Title for the Request and Header     
+         Maintenance Panel.                                                             
+                                                                                        
+         e.g.   Request Panel Title : Specify Customer Order                            
+                                                                                        
+           Header Maintenance Panel : Work With Customer Order
+
+  - HELP080:
+      Description:        Hdr/Det Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+         The Word(s) you specify here for the name of the the object the Detail file    
+         represents is used to build the identifying Panel Title,  and relevant         
+         information messages issued by this Template.                                  
+                                                                                        
+         For example: if the object that the Detail File represents is the Customer     
+         Order Details Master file, then the Suitable word(s) would be Order Details.   
+                                                                                        
+          This would then be used to form the Panel Title for the Detail Maintenance    
+          Panel.                                                                        
+                                                                                        
+          e.g.   Detail Maintenance Panel Title: Work with Order Details
+
+  - HELP090:
+      Description:        Hdr/Det Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+          Order number  . . . : 300987                                                  
+          Date due  . . . . . : 11/21/89                                                
+          Customer no . . . . : 75691                                                   
+          Customer name . . . : ACME TOOL AND DIE COMPANY                               
+          City / state  . . . : CHICAGO / ILLINOIS                                      
+          Phone number  . . . : (312) 647-4377                                          
+          Ship-to . . . . . . : FRED BLOGGS EXPORTING Ltd                               
+          Ship-to Addr  . . . : NEW YORK City                                           
+          Contact Person  . . : Warehouse Foreman                                       
+          Contact Phone . . . : (047) 621-2631 x14                                      
+                                                                                        
+                                                                                        
+                                         This is an example of the full Maintenance     
+                                         panel for the Header Area. This is how the     
+                                         Panel will be designed if you answer DOWN      
+                                         to this Question.
+
+  - HELP100:
+      Description:        Hdr/Det Style Maint Sys36
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+          Order number ... 300987  Date Due .... 11/03/90  Customer No.. 75961          
+          Customer Name... ACME TOOL AND DIE COMPANY   City / State..... CHICAGO        
+          Phone number.... (312) 647-4377    Customer Contact.. Fred Bloggs             
+          Ship-to Number.. 001   Ship-To Name.... ACME TOOL AND DIE SHIPPING Ltd.       
+          Ship-To Contact. General Foreman    Ship-to Phone.. (02) 666 3251             
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                           This is an example of the full Maintenance   
+                                           panel for the Header Area. This is how the   
+                                           Panel will be designed if you answer ACROSS  
+                                           to this Question.

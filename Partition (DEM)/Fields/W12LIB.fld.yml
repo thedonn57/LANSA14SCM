@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12LIB
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Library"
+      Label:              "W12LIB"
+      Heading1:           "System"
+      Heading2:           "Library"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "System Library"
+      Label:              "W12LIB"
+      Heading1:           "System"
+      Heading2:           "Library"
+      Heading3:           " "

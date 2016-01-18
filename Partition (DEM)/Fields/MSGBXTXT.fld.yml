@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               MSGBXTXT
+  Type:               Alphanumeric
+  Length:             150
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message box text"
+      Label:              "Message box tex"
+      Heading1:           "Message"
+      Heading2:           "box"
+      Heading3:           "text"
+
+  - FRA:
+      Description:        "Texte de boite de message"
+      Label:              "Texte boite msg"
+      Heading1:           "Texte"
+      Heading2:           "boite"
+      Heading3:           "message"

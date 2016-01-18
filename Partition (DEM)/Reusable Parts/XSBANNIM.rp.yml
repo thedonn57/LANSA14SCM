@@ -1,0 +1,152 @@
+﻿Reusable Part:
+  Name:               XSBannerImages
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Banner Images"
+
+  - FRA:
+      Description:        "Banner Images"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(270) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1) Style(#Style1)
+    
+    * Create a local style to use as this is unique background
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(237:27:36)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Minwidth(800) Maxwidth(1170)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image1Item1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1) Column(#Column1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image2Item1) Column(#Column1) Manage(#Image2) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image3Item1) Column(#Column1) Manage(#Image3) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(1) Height(270) Image(#XSBanner1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(1000) Imagesizing(FitBoth)
+    Define_Com Class(#PRIM_IMAG) Name(#Image2) Displayposition(2) Height(270) Image(#XSBanner2) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(1000) Imagesizing(FitBoth)
+    Define_Com Class(#PRIM_IMAG) Name(#Image3) Displayposition(3) Height(270) Image(#XSBanner3) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Width(1000) Imagesizing(FitBoth)
+    
+    Define_Com Class(#PRIM_TIMR) Name(#Timer) Interval(8000)
+    Define_Com Class(#prim_alph) Name(#CurrentImage)
+    Define_Com Class(#prim_alph) Name(#Transition)
+    Define_Com Class(#prim_alph) Name(#Transition2)
+    Define_Com Class(#prim_nmbr) Name(#Duration)
+    
+    Define_Com Class(#XSServer.GotoSearch) Name(#GotoSearch)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    #Image1.Cursor #Image2.Cursor #Image3.Cursor <= #sys_appln.Cursors<Hand>
+    
+    #CurrentImage := 'banner1'
+    #Transition := MOVETOLEFTFROMRIGHT
+    #Duration := 2000
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Tick)
+    
+    * #Timer.stop
+    
+    Case (#CurrentImage)
+    When ('= ''banner1''')
+    
+    #com_owner.Transition( #Image1 #Image2 #Transition #Duration )
+    #CurrentImage := 'banner2'
+    
+    When ('= ''banner2''')
+    
+    #com_owner.Transition( #Image2 #Image3 #Transition #Duration )
+    #CurrentImage := 'banner3'
+    
+    When ('= ''banner3''')
+    
+    #com_owner.Transition( #Image3 #Image1 #Transition #Duration )
+    #CurrentImage := 'banner1'
+    
+    Endcase
+    
+    * #Timer.start
+    
+    Endroutine
+    
+    Mthroutine Name(ShowImagetoLeft)
+    
+    #Transition2 := MOVETORIGHTFROMLEFT
+    #Timer.stop
+    
+    Case (#CurrentImage)
+    When ('= ''banner1''')
+    
+    #com_owner.Transition( #Image1 #Image3 #Transition2 #Duration )
+    #CurrentImage := 'banner3'
+    
+    When ('= ''banner2''')
+    
+    #com_owner.Transition( #Image2 #Image1 #Transition2 #Duration )
+    #CurrentImage := 'banner1'
+    
+    When ('= ''banner3''')
+    
+    #com_owner.Transition( #Image3 #Image2 #Transition2 #Duration )
+    #CurrentImage := 'banner2'
+    
+    Endcase
+    
+    #Timer.start
+    
+    Endroutine
+    
+    Mthroutine Name(ShowImagetoRight)
+    
+    #Transition2 := MOVETOLEFTFROMRIGHT
+    #Timer.stop
+    
+    Case (#CurrentImage)
+    When ('= ''banner1''')
+    
+    #com_owner.Transition( #Image1 #Image2 #Transition2 #Duration )
+    #CurrentImage := 'banner2'
+    
+    When ('= ''banner2''')
+    
+    #com_owner.Transition( #Image2 #Image3 #Transition2 #Duration )
+    #CurrentImage := 'banner3'
+    
+    When ('= ''banner3''')
+    
+    #com_owner.Transition( #Image3 #Image1 #Transition2 #Duration )
+    #CurrentImage := 'banner1'
+    
+    Endcase
+    
+    #Timer.Start
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image1.Click)
+    
+    #GotoSearch.execute( 'Ormine' )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image2.Click)
+    
+    * What to do for 1000 prize
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image3.Click)
+    
+    #sys_web.Navigate( "/images/lansatools/LANSA-Tools-Catalogue.pdf" New )
+    
+    Endroutine
+    
+    End_Com

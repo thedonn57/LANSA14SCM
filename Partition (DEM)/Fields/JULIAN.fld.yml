@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               JULIAN
+  Type:               Signed
+  Length:             5
+  Decimals:           0
+  Default Value:      "*JULIAN"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Numeric date in Julian format"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date numérique, format julien"
+      Label:              "Date  . . . . ."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

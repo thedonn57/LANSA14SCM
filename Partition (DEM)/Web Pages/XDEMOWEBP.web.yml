@@ -1,0 +1,91 @@
+﻿Web Page:
+  Name:               xDemoWebPageAtaTime
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Page and a Time List"
+
+  - FRA:
+      Description:        "Page and a Time List"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Def_List Name(#EmployeePage) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Deptment #Deptdesc #Empthm) Counter(#ListCount) Type(*working)
+    
+    Define_Com Class(#Prim_nmbr) Name(#gEmployeeCount)
+    Define_Com Class(#Prim_nmbr) Name(#gPageCount)
+    Define_Com Class(#Prim_nmbr) Name(#gPageSize) Value(10)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(37) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.62)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(5) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(763) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(37) Width(1200) Rowheight(53)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row_2) Columnspan(5) Rowspan(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Displayposition(2) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Height(37) Width(1200) Caption('Employees page at a time') Themedrawstyle('Heading1+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(CenterLeft) Column(#Column) Flow(Down) Manage(#Label_2) Parent(#TableLayout) Row(#Row) Columnspan(5)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Source(#EMPTHM)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Columnwidth(160)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTMENT) Displayposition(5) Parent(#List) Source(#DEPTMENT)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTDESC) Displayposition(6) Parent(#List) Source(#DEPTDESC)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.LoadPage
+    
+    Endroutine
+    
+    Mthroutine Name(LoadPage)
+    Define_Map For(*Input) Class(#Empno) Name(#StartKey) Mandatory("")
+    
+    Define_Com Class(#xDemoDataServices.GetEmployeePage) Name(#GetEmployeePage)
+    
+    #GetEmployeePage.Executeasync( #StartKey #gPageSize #EmployeePage )
+    
+    Evtroutine Handling(#GetEmployeePage.Completed)
+    
+    Selectlist Named(#EmployeePage)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddPage)
+    
+    Get_Entry Number(#List.Items<#List.Items.itemcount>.Entry) From_List(#List)
+    
+    #Com_owner.LoadPage( #Empno )
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemRealizing) Item(#Item)
+    
+    If (#Item.Entry = (#List.Items.ItemCount - 2))
+    
+    #Com_owner.AddPage
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

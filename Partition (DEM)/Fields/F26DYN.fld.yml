@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F26DYN
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Dynamic system var flag"
+      Label:              "F26DYN"
+      Heading1:           "Dynamic"
+      Heading2:           "System"
+      Heading3:           "Var Flag"
+
+  - FRA:
+      Description:        "Dynamic system var flag"
+      Label:              "F26DYN"
+      Heading1:           "Dynamic"
+      Heading2:           "System"
+      Heading3:           "Var Flag"

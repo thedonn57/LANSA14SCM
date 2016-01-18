@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W14PRO
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current Process"
+      Label:              "W14PRO"
+      Heading1:           "Current"
+      Heading2:           "Process"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Current Process"
+      Label:              "W14PRO"
+      Heading1:           "Current"
+      Heading2:           "Process"
+      Heading3:           " "

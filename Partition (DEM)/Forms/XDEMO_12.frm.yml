@@ -1,0 +1,115 @@
+﻿Form:
+  Name:               xDemoSQLNotLike
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - parameter (NOT) LIKE"
+
+  - FRA:
+      Description:        "SELECT_SQL - parameter (NOT) LIKE"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(485) Clientwidth(599) Height(524) Layoutmanager(#TableLayout_1) Left(152) Top(195) Width(615)
+    
+    * SQL Like processing
+    
+    Define_Com Class(#PRIM_LTVW) Name(#List) Displayposition(6) Height(337) Left(0) Parent(#COM_OWNER) Tabposition(4) Top(148) Width(599)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List) Source(#SURNAME) Width(21) Widthtype(Remainder)
+    Define_Com Class(#PRIM_RDBN) Name(#Like) Buttonchecked(True) Caption('LIKE') Displayposition(4) Groupindex(2) Left(4) Parent(#COM_OWNER) Tabposition(2) Top(25) Width(143)
+    Define_Com Class(#PRIM_RDBN) Name(#NotLike) Caption('NOT LIKE') Displayposition(8) Groupindex(2) Left(4) Parent(#COM_OWNER) Tabposition(6) Top(50) Width(143)
+    Define_Com Class(#PRIM_RDBN) Name(#FirstB) Buttonchecked(True) Caption('All names, first character = ''B''') Displayposition(3) Groupindex(1) Left(151) Parent(#COM_OWNER) Tabposition(1) Top(25) Width(448)
+    Define_Com Class(#PRIM_RDBN) Name(#ContainsB) Caption('All names with character ''B'' in it') Displayposition(5) Groupindex(1) Left(151) Parent(#COM_OWNER) Tabposition(3) Top(50) Width(448)
+    Define_Com Class(#PRIM_RDBN) Name(#SecondL) Caption('All names with second character = ''L''') Displayposition(7) Groupindex(1) Left(151) Parent(#COM_OWNER) Tabposition(5) Top(75) Width(448)
+    Define_Com Class(#PRIM_RDBN) Name(#Maximum5) Caption('All names with maximum 5 characters') Displayposition(9) Groupindex(1) Left(151) Parent(#COM_OWNER) Tabposition(7) Top(100) Width(448)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(124) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(0.49)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(1.51)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#FirstB) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#ContainsB) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#SecondL) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Maximum5) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Like) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_7) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#NotLike) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_8) Column(#Column_1) Columnspan(2) Manage(#List) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('Like or Not Like') Displayposition(2) Ellipses(Word) Height(25) Left(4) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(0) Verticalalignment(Center) Width(143)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#LABL_1) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption('Selection Examples') Displayposition(1) Ellipses(Word) Height(25) Left(151) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(0) Verticalalignment(Center) Width(448)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#LABL_2) Marginleft(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(2) Height(24) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#xDemoAlpha256.Visual) Name(#SQLWhere) Caption('Select_Sql Fields(#SURNAME) From_Files((PSLMST))') Displayposition(10) Height(20) Labeltype(Caption) Left(2) Marginleft(280) Parent(#COM_OWNER) Readonly(True) Tabposition(10) Top(126) Width(595)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(TopLeft) Column(#Column_1) Columnspan(2) Manage(#SQLWhere) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_3)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #com_owner.Caption := *component_desc
+    
+    #Com_owner.Select
+    
+    Endroutine
+    
+    Evtroutine Handling(#Like.Click #NotLike.Click #FirstB.Click #ContainsB.Click #SecondL.Click #Maximum5.Click)
+    
+    #Com_owner.Select
+    
+    Endroutine
+    
+    Mthroutine Name(Select) Access(*Private)
+    
+    #SQLWhere := "SURNAME "
+    
+    If (#Like.ButtonChecked)
+    
+    #SQLWhere += "LIKE "
+    
+    Endif
+    
+    If (#NotLike.ButtonChecked)
+    
+    #SQLWhere += "NOT LIKE "
+    
+    Endif
+    
+    If (#FirstB.ButtonChecked)
+    
+    #SQLWhere += "'B%'"
+    
+    Endif
+    
+    If (#ContainsB.ButtonChecked)
+    
+    #SQLWhere += "'%B%'"
+    
+    Endif
+    
+    If (#SecondL.ButtonChecked)
+    
+    #SQLWhere += "'_L%'"
+    
+    Endif
+    
+    If (#Maximum5.ButtonChecked)
+    
+    #SQLWhere += "'_____'"
+    
+    Endif
+    
+    Clr_List Named(#List)
+    
+    Select_Sql Fields(#SURNAME) From_Files((PSLMST)) Where(#SQLWhere)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    

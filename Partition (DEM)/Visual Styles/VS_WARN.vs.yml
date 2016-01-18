@@ -1,0 +1,26 @@
+﻿Visual Style:
+  Name:               VS_WARN
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                20
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual Style to use for warnings"
+
+  - FRA:
+      Description:        "Style visuel pour les msgs d´attention"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_VS
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_VS) Default(#SCHEME)
+    Define_Com Class(#PRIM_VSS) Name(#SCHEME) Captions(#CAPTION) Titles(#CAPTION) Values(#VALUE)
+    Define_Com Class(#PRIM_VSI) Name(#CAPTION) Bold(True) Facename('MS Sans Serif') Fontsize(8) Normbackcolor(ButtonFace) Script(Western) Textcolor(Red)
+    Define_Com Class(#PRIM_VSI) Name(#VALUE) Bold(True) Bordercolor(WindowText) Borderstyle(3DLeft) Errorbackcolor(255:96:160) Facename('MS Sans Serif') Fontsize(8) Script(Western) Textcolor(Red)
+    End_Com

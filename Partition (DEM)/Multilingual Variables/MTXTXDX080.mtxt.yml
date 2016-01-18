@@ -1,0 +1,10 @@
+﻿Multilingual Variable:
+  Name:               "*MTXTXDX080"
+  Maximum Length:     78
+
+  Multilingual Details:
+  - ENG:
+      Description:        "User clicked on &1"
+
+  - FRA:
+      Description:        "Clic utilisateur sur &1"

@@ -1,0 +1,153 @@
+﻿Template:
+  Name:                    FRPOP04
+  Description:             Pop Up Prompter (from Fixed Value List)
+  Extended Description 1:  Displays a list of valid values for a
+  Extended Description 2:  field in the dictionary, hard coded.
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ------------------------------------------------        */
+    /* ********** BEGINNING OF TEMPLATE STATEMENTS                        */
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK FOR HEADING OF WINDOW PANEL                         */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Enter the title of the POP UP window, up to 20 characters') ANSWER(@@CANS001) EXTEND('12345678901234567890' 'This will be used for the panel title that appears in the window. Use' 'upper and lower case characters. Do not use any '' (quote symbols). Use at' 'most 20 characters.' 'For additional information and examples use the HELP function key.') HELPIDS(HELP010 HELP020 HELP030)
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK FOR THE NAME OF THE FIELD TO BE WORKED ON           */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Enter the name of the field to be worked on') ANSWER(@@CANS002) EXTEND('This is the field for which you want to enter the values to be prompted.' 'The field should already exist in the data dictionary. Do not prefix the' 'field name with a # (hash) symbol.') LOWER(*NO) HELPIDS(HELP010 HELP020 HELP030)
+    /* ********** ------------------------------------------------        */
+    /* ********** BEGINNING OF RDML STATEMENTS                            */
+    /* ********** ------------------------------------------------        */
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT *CLOSE_DISPLAY)
+    @@COMMENT  COMMENT('Define the description field and browselist')
+    DEFINE     FIELD(#VALUEDESC) TYPE(*CHAR) LENGTH(40) COLHDG('Description')
+    DEF_LIST   NAME(#LIST01) FIELDS((#@@CANS002) (#VALUEDESC)) SEL_ENTRY(#LISTENTRY)
+    CLR_LIST   NAMED(#LIST01)
+    @@COMMENT  COMMENT('Set up the list of valid values')
+    /* ********** ------------------------------------------------        */
+    /* ********** FIND OUT THE FIELD TYPE                                 */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Is the field type ALPHA or NUMERIC? Answer A or N only.') ANSWER(@@CANS003) EXTEND('When the field was defined in the data dictionary it would have been' 'given a type of alpha (type A) or numeric (type P or S). Enter A or N' 'accordingly.') LOWER(*NO) VALUES(A N) HELPIDS(HELP010 HELP020 HELP030)
+    @@IF       COND((*IF @@CANS003 *EQ N)) GOTO(L2)
+    /* ********** ------------------------------------------------        */
+    /* ********** RETRIEVE ALLOWABLE ALPHA VALUES                         */
+    /* ********** ------------------------------------------------        */
+    L1 : @@LABEL
+    @@QUESTION PROMPT('Enter an allowable alpha value for the nominated field.') ANSWER(@@CANS010) EXTEND('The value entered should be the same or less in length than the specified' 'field. The first time a value is requested the inquiry line will be blank' 'but in subsequent passes the value previously entered is not cleared,' 'simply type over the existing value. When there are no more values to' 'enter, blank out the entry line and press enter.') HELPIDS(HELP010 HELP020 HELP030)
+    @@IF       COND((*IF @@CANS010 *EQ ' ')) GOTO(L3)
+    @@QUESTION PROMPT('Enter the description of the value') ANSWER(@@CANS020) EXTEND('1234567890123456789012345678901234567890' 'Enter the description that is to appear next to the value in the list.' 'The description should be no more than 40 characters and should not' 'contain any '' quotes.') HELPIDS(HELP010 HELP020 HELP030)
+    EXECUTE    SUBROUTINE(ADD_VALUE) WITH_PARMS('''@@CANS010''' '''@@CANS020''')
+    @@GOTO     LABEL(L1)
+    /* ********** ------------------------------------------------        */
+    /* ********** RETRIEVE ALLOWABLE NUMERIC VALUES                       */
+    /* ********** ------------------------------------------------        */
+    L2 : @@LABEL
+    @@QUESTION PROMPT('Enter an allowable numeric value for the nominated field.') ANSWER(@@NANS010) EXTEND('The value entered should be the same or less in length than the specified' 'field. The first time a value is requested the inquiry line will be blank' 'but in subsequent passes the value previously entered is not cleared,' 'simply type over the existing value. When there are no more values to' 'enter, blank out the entry line and press enter.') HELPIDS(HELP010 HELP020 HELP030)
+    @@IF       COND((*IF @@NANS010 *EQ 0)) GOTO(L3)
+    @@QUESTION PROMPT('Enter the description of the value') ANSWER(@@CANS020) EXTEND('1234567890123456789012345678901234567890' 'Enter the description that is to appear next to the value in the list.' 'The description should be no more than 40 characters and should not' 'contain any '' quotes.') HELPIDS(HELP010 HELP020 HELP030)
+    EXECUTE    SUBROUTINE(ADD_VALUE) WITH_PARMS(@@NANS010 '''@@CANS020''')
+    @@GOTO     LABEL(L2)
+    L3 : @@LABEL
+    /* ********** ------------------------------------------------        */
+    /* ********** END OF TEMPLATE STATEMENTS                              */
+    /* ********** ------------------------------------------------        */
+    @@COMMENT  COMMENT('Display the pop-up window until a record is selected')
+    DOUNTIL    COND('#LISTENTRY *GT 0')
+    POP_UP     AT_LOC(5 22) PANEL_TITL('@@CANS001') BROWSELIST(#LIST01) EXIT_KEY(*NO) MENU_KEY(*YES *MENU) PROMPT_KEY(*NO) CURSOR_LOC(*ATFIELD #@@CANS002)
+    ENDUNTIL
+    @@COMMENT  COMMENT('Retrieve selected entry & pass back to calling program')
+    GET_ENTRY  NUMBER(#LISTENTRY) FROM_LIST(#LIST01)
+    EXCHANGE   FIELDS(#@@CANS002)
+    MENU
+    @@COMMENT  COMMENT('***************************************************' 'ADD_VALUE - Adds an entry to the browselist')
+    @@COMMENT  COMMENT('***************************************************')
+    SUBROUTINE NAME(ADD_VALUE) PARMS(#@@CANS002 #VALUEDESC)
+    ADD_ENTRY  TO_LIST(#LIST01)
+    ENDROUTINE
+    /* ********** ------------------------------------------------        */
+    /* ********** END OF RDML STATEMENTS                                  */
+    /* ********** ------------------------------------------------        */
+
+  Help Panels:
+  - HELP010:
+      Description:        Prompt valid field values
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple pop up prompter. You can use the  
+         resulting program as is, or modify the resulting program yourself so that it   
+         exactly matches your requirements. Use this template to set up a prompt        
+         facility for a field that can contain a limited number of valid values but is  
+         not linked to a code table. This template allows you to set up the list of     
+         valid values. If you elect to use this template you will be asked ...          
+                                                                                        
+           1. To specify a title that describes the type of information that will be    
+              displayed in the pop up window. An example would be "Company Codes" or    
+              "Customer Types". Both upper and lower case should be used in the title.  
+              Use at most 20 characters for the title and do not use any ' (single      
+              quotes).                                                                  
+                                                                                        
+           2. To nominate the field who's valid values you wish to display in the pop   
+              up window. Enter the full field name. The field should already exist in   
+              the data dictionary. Do not prefix the field name with a # (hash) symbol.
+
+  - HELP020:
+      Description:        Prompt valid field values
+
+      Text: |
+        <-
+                                                                                        
+           3. Next, you must specify the nominated field's type. IE. when the field was 
+              created in the data dictionary it was given a type of either alpha (type  
+              A) or numeric (type S or P). You must specify A for alpha or N for        
+              numeric.                                                                  
+                                                                                        
+           4. To specify the first valid value for the field. The value can be the same 
+              length or shorter than the field itself.                                  
+                                                                                        
+           5. To supply a description for the value that was entered. The description   
+              can be up to 40 characters in length and should not contain any ' (single 
+              quotes).                                                                  
+                                                                                        
+         Questions 4 and 5 will be asked repeatedly until all values have been entered. 
+         To cause the template to generate a function blank out the line that requests  
+         you to enter a value. All values and their related descriptions are placed in  
+         a browselist ready to be displayed in a pop up window.                         
+                                                                                        
+         The value that is selected by the user from the browselist is returned to the  
+         calling program.
+
+  - HELP030:
+      Description:        Prompt valid field values
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                            ..........................................................  
+                            : POPUP01             Company Codes                      :  
+                            :                                                        :  
+                            : Comp                                                   :  
+                            :  No  Description                                       :  
+                            : 0001 Acme Engineering Pty Ltd                          :  
+                            : 0002 Acme Steel & Aluminium Processing Indust          :  
+                            : 0005 Acme Ship and Frame Fabricators Pty Ltd           :  
+                            : 0007 Acme Holdings Limited                             :  
+                            : 0009 Acme Finance Incorporated                         :  
+                                           estments Pty Limited                      :  
+              This is an example of a pop                                            :  
+              up for COMPANY codes.                                                  :  
+              Note the title area.                                                   :  
+              The company number would be                                            :  
+              returned to the caller.                                                :  
+                                           F3=Exit  F14=Msgs                         :  
+                            :........................................................:

@@ -1,0 +1,31 @@
+﻿Form:
+  Name:               STD_FORM
+  Enabled For RDMLX:  No
+
+  Framework:
+    Id1:                10240
+    Id2:                10
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard form"
+
+  - FRA:
+      Description:        "Formulaire standard"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_FORM
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(484) Clientheight(301) Componentversion(2)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Set Com(#com_owner) Caption(*component_desc)
+    
+    Endroutine
+    
+    End_Com

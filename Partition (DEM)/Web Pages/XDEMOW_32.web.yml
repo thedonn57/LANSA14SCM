@@ -1,0 +1,281 @@
+﻿Web Page:
+  Name:               xDemoWebMultipageResponsive
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Responsive Design Multipage Application"
+
+  - FRA:
+      Description:        "Responsive Design Multipage Application"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Style(#Style4)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleTitle) Fontsize(28) Foregroundbrush(#Brush3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(48:48:48)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleMenu) Foregroundbrush(#StyleMenuFG) Bold(False) Fontsize(10) Backgroundbrush(#StyleMenuBG)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#StyleMenuFG) Color(250:250:250)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#StyleMenuBG) Color(Transparent)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Backgroundbrush(#Brush2) Foregroundbrush(#Brush4)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush4) Color(79:79:79)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(230:230:230)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style4) Backgroundbrush(#LinearBrush1)
+    Define_Com Class(#PRIM_VS.LinearBrush) Name(#LinearBrush1) Colors(#BrushColors1) Endtop(0) Starttop(100) Startleft(100)
+    Define_Com Class(#PRIM_VS.BrushColors) Name(#BrushColors1)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BrushColor1) Color(84:84:84) Parent(#BrushColors1)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BrushColor2) At(100) Color(194:194:194) Parent(#BrushColors1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style5) Fontsize(36)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style6) Fontsize(24)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout1) Width(1.61)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(80) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#Tab1) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(CenterLeft) Column(#Column2) Flow(Right) Manage(#CompanyLogo) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(CenterLeft) Column(#Column2) Flow(Right) Manage(#Title) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutContact) Alignment(CenterRight) Flow(Left) Manage(#Contact) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutAbout) Alignment(CenterRight) Flow(Left) Manage(#About) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutHome) Alignment(CenterRight) Flow(Left) Manage(#Home) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutProducts) Alignment(CenterRight) Flow(Left) Manage(#Products) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutPopupMenu) Alignment(CenterRight) Column(#Column2) Flow(Left) Manage(#PopupMenu) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginright(4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopCenter) Column(#Column3) Flow(Down) Manage(#Label2) Parent(#TableLayout2) Row(#Row3) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopCenter) Column(#Column3) Flow(Down) Manage(#Label3) Parent(#TableLayout2) Row(#Row3) Sizing(FitToWidth)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(1) Parent(#TableLayout3)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(1) Parent(#TableLayout4)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(1) Parent(#TableLayout4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopCenter) Column(#Column5) Flow(Down) Manage(#Label4) Parent(#TableLayout4) Row(#Row5) Sizing(None) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopCenter) Column(#Column5) Flow(Down) Manage(#Label5) Parent(#TableLayout4) Row(#Row5) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Alignment(TopCenter) Column(#Column5) Flow(Down) Manage(#Label6) Parent(#TableLayout4) Row(#Row5) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(TopCenter) Column(#Column5) Flow(Down) Manage(#Label7) Parent(#TableLayout4) Row(#Row5) Sizing(None)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(1) Parent(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(1) Parent(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label8Item1) Column(#Column6) Manage(#Label8) Parent(#TableLayout5) Row(#Row6) Sizing(None) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label9Item1) Column(#Column6) Manage(#Label9) Parent(#TableLayout5) Row(#Row6) Sizing(None) Flow(Down) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label10Item1) Column(#Column6) Manage(#Label10) Parent(#TableLayout5) Row(#Row6) Sizing(None) Flow(Down) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label11Item1) Column(#Column6) Manage(#Label11) Parent(#TableLayout5) Row(#Row6) Sizing(None) Flow(Down) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column7) Displayposition(1) Parent(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(1) Parent(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#List1Item1) Column(#Column7) Manage(#ProductList) Parent(#TableLayout6) Row(#Row7)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column8) Displayposition(1) Parent(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row8) Displayposition(1) Parent(#TableLayout7)
+    
+    Define_Com Class(#PRIM_TBSH) Name(#HomePage) Caption('HomePage') Displayposition(1) Height(720) Left(0) Parent(#Tab1) Tabposition(1) Tabstop(False) Top(0) Width(1200) Layoutmanager(#TableLayout2)
+    Define_Com Class(#PRIM_TBSH) Name(#AboutPage) Caption('About') Displayposition(2) Height(720) Left(0) Parent(#Tab1) Tabposition(2) Tabstop(False) Top(0) Width(1200) Layoutmanager(#TableLayout4)
+    
+    Define_Com Class(#PRIM_TBSH) Name(#ContactPage) Caption('Contact') Displayposition(3) Height(720) Left(0) Parent(#Tab1) Tabposition(3) Tabstop(False) Top(0) Width(1200) Layoutmanager(#TableLayout5)
+    Define_Com Class(#PRIM_IMAG) Name(#CompanyLogo) Displayposition(6) Left(4) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Height(67) Width(64) Image(#xImageImage256) Imagesizing(BestFit) Top(7)
+    Define_Com Class(#PRIM_LABL) Name(#Title) Displayposition(7) Ellipses(Word) Height(63) Left(68) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(9) Verticalalignment(Center) Width(288) Style(#StyleTitle) Caption('ABC Widgets') Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Contact) Caption('Contact Us') Displayposition(2) Ellipses(Word) Height(25) Left(1074) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(28) Verticalalignment(Center) Width(90) Alignment(Center) Style(#StyleMenu)
+    Define_Com Class(#PRIM_LABL) Name(#About) Caption('About') Displayposition(3) Ellipses(Word) Height(25) Left(984) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(28) Verticalalignment(Center) Width(90) Alignment(Center) Style(#StyleMenu)
+    Define_Com Class(#PRIM_LABL) Name(#Home) Caption('Home Page') Displayposition(5) Ellipses(Word) Height(25) Left(804) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(28) Verticalalignment(Center) Width(90) Alignment(Center) Style(#StyleMenu)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('Welcome to ABC Widgets') Displayposition(1) Ellipses(Word) Height(169) Left(0) Parent(#HomePage) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Bottom) Width(1200) Alignment(Center) Style(#Style5)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Caption('The home of the widget') Displayposition(2) Ellipses(Word) Height(88) Left(0) Parent(#HomePage) Tabposition(2) Tabstop(False) Top(169) Verticalalignment(Center) Width(1200) Alignment(Center) Style(#Style6)
+    Define_Com Class(#PRIM_TBSH) Name(#ProductsPage) Caption('Products') Displayposition(4) Height(720) Left(0) Parent(#Tab1) Tabposition(4) Tabstop(False) Top(0) Width(1200) Layoutmanager(#TableLayout6)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Interesting text about ABC Widgets') Displayposition(1) Ellipses(Word) Height(40) Left(367) Parent(#AboutPage) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(466) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label5) Caption('Interesting text about ABC Widgets') Displayposition(2) Ellipses(Word) Height(40) Left(367) Parent(#AboutPage) Tabposition(2) Tabstop(False) Top(50) Verticalalignment(Center) Width(466) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label6) Caption('Interesting text about ABC Widgets') Displayposition(3) Ellipses(Word) Height(40) Left(367) Parent(#AboutPage) Tabposition(3) Tabstop(False) Top(90) Verticalalignment(Center) Width(466) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label7) Caption('Interesting text about ABC Widgets') Displayposition(4) Ellipses(Word) Height(40) Left(367) Parent(#AboutPage) Tabposition(4) Tabstop(False) Top(130) Verticalalignment(Center) Width(466) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label8) Caption('Contact information') Displayposition(1) Ellipses(Word) Height(40) Left(468) Parent(#ContactPage) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(265) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label9) Caption('Contact information') Displayposition(2) Ellipses(Word) Height(40) Left(468) Parent(#ContactPage) Tabposition(2) Tabstop(False) Top(50) Verticalalignment(Center) Width(265) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label10) Caption('Contact information') Displayposition(3) Ellipses(Word) Height(40) Left(468) Parent(#ContactPage) Tabposition(3) Tabstop(False) Top(90) Verticalalignment(Center) Width(265) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label11) Caption('Contact information') Displayposition(4) Ellipses(Word) Height(40) Left(468) Parent(#ContactPage) Tabposition(4) Tabstop(False) Top(130) Verticalalignment(Center) Width(265) Alignment(Center)
+    Define_Com Class(#PRIM_LIST) Name(#ProductList) Displayposition(1) Left(0) Parent(#ProductsPage) Tabposition(1) Top(0) Height(720) Width(1200) Rowheight(40) Columnheaderheight(0) Columnlines(False) Rowlines(False)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage1) Columnwidth(40) Displayposition(1) Parent(#ProductList) Image(#xImageSettings32)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnLabel1) Displayposition(2) Parent(#ProductList)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnLabel2) Displayposition(3) Parent(#ProductList) Columnwidth(1) Columnunits(Proportion)
+    
+    Define_Com Class(#PRIM_TAB) Name(#Tab1) Bottomlayoutpriority(4) Componentversion(2) Displayposition(8) Height(720) Left(0) Leftlayoutpriority(1) Parent(#COM_OWNER) Rightlayoutpriority(2) Tabposition(1) Top(80) Toplayoutpriority(3) Width(1200) Style(#Style3) Showpagetabs(False)
+    Define_Com Class(#PRIM_LABL) Name(#Products) Caption('Products') Displayposition(4) Ellipses(Word) Height(25) Left(894) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(28) Verticalalignment(Center) Width(90) Alignment(Center) Style(#StyleMenu)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#PopupMenu) Displayposition(1) Image(#xImagePopupMenu32) Left(1164) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(24) Visible(False) Height(32) Width(32)
+    
+    Define_Com Class(#prim_acol<#prim_labl>) Name(#MenuItems)
+    Define_Com Class(#prim_acol<#prim_tblo.Item>) Name(#MenuLayoutItems)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Title.Cursor #CompanyLogo.Cursor #Home.Cursor #Contact.Cursor #About.Cursor #Products.Cursor #PopupMenu.Cursor <= #sys_appln.cursors<hand>
+    
+    * Add some product entries
+    Begin_Loop To(50)
+    
+    Add_Entry To_List(#ProductList)
+    
+    #ColumnLabel1.currentItem.Value := ("Sample Product &1").Substitute( #ProductList.Items.Itemcount.asstring )
+    #ColumnLabel2.currentItem.Value := ("Sample Product Description &1").Substitute( #ProductList.Items.Itemcount.asstring )
+    
+    End_Loop
+    
+    * Collect menu items and related layoutitems for easier processing
+    #MenuItems.insert( #Home )
+    #MenuItems.insert( #Products )
+    #MenuItems.insert( #About )
+    #MenuItems.insert( #Contact )
+    
+    #MenuLayoutItems.insert( #LayoutHome )
+    #MenuLayoutItems.insert( #LayoutProducts )
+    #MenuLayoutItems.insert( #LayoutAbout )
+    #MenuLayoutItems.insert( #LayoutContact )
+    #MenuLayoutItems.insert( #LayoutPopupMenu )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Title.Click #CompanyLogo.Click #Home.Click)
+    
+    #HomePage.opened := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#About.Click)
+    
+    #AboutPage.opened := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#Products.Click)
+    
+    #ProductsPage.opened := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#Contact.Click)
+    
+    #ContactPage.opened := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.SizeChanged)
+    
+    If (#Com_owner.width > #Com_owner.Height)
+    
+    #Com_owner.LayoutLandscape
+    
+    Else
+    
+    #Com_owner.LayoutPortrait
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(LayoutPortrait)
+    
+    #Row1.Height := 40
+    #CompanyLogo.Height #CompanyLogo.Width := 32
+    
+    #StyleTitle.Fontsize := 22
+    
+    #MenuItems<>.Visible := false
+    #MenuItems<>.width := 300
+    
+    #MenuLayoutItems<>.flow := down
+    #StyleMenuBG.color := "128:128:128"
+    #PopupMenu.visible := true
+    
+    #Com_owner.SequenceMenuforPortrait
+    
+    Endroutine
+    
+    Mthroutine Name(LayoutLandscape)
+    
+    #Row1.Height := 80
+    #CompanyLogo.Height #CompanyLogo.Width := 64
+    #StyleTitle.Fontsize := 22
+    
+    #PopupMenu.visible := false
+    #MenuItems<>.Visible := true
+    #MenuItems<>.opacity := 100
+    
+    #MenuItems<>.width := 90
+    
+    #MenuLayoutItems<>.flow := Left
+    #StyleMenuBG.color := transparent
+    
+    #Com_owner.SequenceMenuforLandscape
+    
+    Endroutine
+    
+    Evtroutine Handling(#MenuItems<>.Click)
+    
+    * If portrait, hide menu items after a click
+    If (#Com_owner.Height > #Com_owner.width)
+    
+    #MenuItems<>.Fadeout
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#PopupMenu.Click)
+    
+    If (#MenuItems<1>.visible)
+    
+    #MenuItems<>.fadeout
+    
+    Else
+    
+    #MenuItems<>.fadein
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(SequenceMenuforPortrait) Access(*Private)
+    
+    Define_Com Class(#prim_nmbr) Name(#Sequence)
+    
+    #Sequence := 1
+    
+    For Each(#MenuItem) In(#MenuItems)
+    
+    #Sequence += 1
+    #MenuItem.DisplayPosition := #Sequence
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(SequenceMenuforLandscape) Access(*Private)
+    
+    Define_Com Class(#prim_nmbr) Name(#Sequence)
+    
+    * Reverse sequence
+    #Sequence := #MenuItems.Itemcount + 1
+    
+    For Each(#MenuItem) In(#MenuItems)
+    
+    #MenuItem.DisplayPosition := #Sequence
+    #Sequence -= 1
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com
+    

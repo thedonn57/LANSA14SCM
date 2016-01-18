@@ -1,0 +1,324 @@
+﻿File:
+  Name:                           PSLMST
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             PSLMST
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel"
+
+  - FRA:
+      Description:        "Fichier Personnel"
+
+  Real Fields:
+  - EMPNO:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - SURNAME:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - GIVENAME:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - ADDRESS1:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - ADDRESS2:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - ADDRESS3:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - POSTCODE:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+
+  - PHONEHME:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - PHONEBUS:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - STARTDTER:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+
+  - TERMDATER:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+
+  - DEPTMENT:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - SECTION:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - SALARY:
+      Type:               Packed
+      Length:             11
+      Decimals:           2
+
+  Primary Keys:
+  - EMPNO
+
+  Virtual Fields:
+  - STARTDTE:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   Yes
+      Source Field:       STARTDTER
+      Source Date Format: YYMMDD
+      Target Date Format: SYSFMT
+
+  - TERMDATE:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+      Virtual Field Type: Date Conversion
+      Derive On Input:    Yes
+      Derive On Output:   Yes
+      Source Field:       TERMDATER
+      Source Date Format: YYMMDD
+      Target Date Format: SYSFMT
+
+  - MNTHSAL:
+      Type:               Packed
+      Length:             11
+      Decimals:           2
+      Virtual Field Type: Calculation
+      Derive On Input:    Yes
+      Operations:
+      - Factor 1:           SALARY
+        Operator:           Divide
+        Factor 2:           +12
+        Result:             MNTHSAL
+
+  Logical Views:
+  - PSLMST1:
+      Identifier:         PSLMST1
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PSLMST1
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Personnel by Deptment, Section, Employee"
+
+      - FRA:
+          Description:        "Fichier Personnel par dept, sect, no emp"
+
+      Keys:
+      - DEPTMENT:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - SECTION:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPNO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PSLMST2:
+      Identifier:         PSLMST2
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PSLMST2
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Personnel by Surname, Given Name"
+
+      - FRA:
+          Description:        "Fichier Personnel par nom, prénom"
+
+      Keys:
+      - SURNAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - GIVENAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PSLMST3:
+      Identifier:         PSLMST3
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PSLMST3
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Personnel by Givename, Surname"
+
+      - FRA:
+          Description:        "Fichier Personnel par prénom, nom"
+
+      Keys:
+      - GIVENAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - SURNAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - EMPNO:
+    - Lookup Check:
+        Description:        "No entries in PSLSKL file"
+        File:               PSLSKL
+        Keys:
+        - EMPNO
+        When Inserting:     Never
+        When Updating:      Never
+        When Deleting:      Always
+        Positive Action:    Error
+        Negative Action:    Next
+        Message File:       DC@M01
+        Message Number:     DEM0020
+
+  - DEPTMENT:
+    - Lookup Check:
+        Description:        "Department in DEPTAB table"
+        File:               DEPTAB
+        Keys:
+        - DEPTMENT
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     DEM0021
+
+  - SECTION:
+    - Lookup Check:
+        Description:        "Section code in SECTAB table"
+        File:               SECTAB
+        Keys:
+        - DEPTMENT
+        - SECTION
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message File:       DC@M01
+        Message Number:     DEM0022
+
+  - TERMDATE:
+    - Date Check:
+        Description:        "Deletion only after 7 years"
+        Date Format:        DDMMYY
+        Days After:         9999999
+        Days Before:        2555
+        When Inserting:     Never
+        When Updating:      Never
+        When Deleting:      Always
+        Positive Action:    Error
+        Negative Action:    Next
+        Message File:       DC@M01
+        Message Number:     DEM0023
+
+  Access Routes:
+  - PSLMST01:
+      Description:        Associated skill details
+      File:               PSLSKL
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - EMPNO
+
+  - PSLMST02:
+      Description:        Associated department details
+      File:               DEPTAB
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DEPTMENT
+
+  - PSLMST03:
+      Description:        Associated section details
+      File:               SECTAB
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DEPTMENT
+      - SECTION

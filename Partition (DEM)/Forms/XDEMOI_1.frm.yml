@@ -1,0 +1,188 @@
+﻿Form:
+  Name:               xDemoImageControl
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Image Control"
+
+  - FRA:
+      Description:        "Image Control"
+
+  Source: |
+    * META:Form,Image,Table Layout,DropDown
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Height(396) Layoutmanager(#TableLayout_1) Left(169) Top(208) Width(719) Clientwidth(703) Clientheight(357) Theme(#xDemoTheme)
+    
+    * Using the new Image Control (#Prim_IMAG)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout_1)
+    
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#TableLayout_1) Width(110) Units(Pixels)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#gImage) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(0) Height(357) Width(409) Image(#xImageGlobe512)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#gImage) Parent(#TableLayout_1) Row(#Row_1) Columnspan(3) Rowspan(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(5) Parent(#TableLayout_1) Width(180) Units(Pixels)
+    Define_Com Class(#xDemoDropDown) Name(#gAlignment) Displayposition(2) Height(26) Left(525) Parent(#COM_OWNER) Width(176) Top(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Column(#Column) Manage(#gAlignment) Parent(#TableLayout_1) Row(#Row_1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Marginleft(2) Marginright(2) Margintop(2) Marginbottom(2)
+    Define_Com Class(#xDemoDropDown) Name(#gSizing) Displayposition(4) Height(26) Left(525) Parent(#COM_OWNER) Tabposition(3) Top(32) Width(176)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Column(#Column) Manage(#gSizing) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down) Marginleft(2) Marginright(2) Margintop(2) Marginbottom(2)
+    Define_Com Class(#xDemoDropDown) Name(#gUnits) Displayposition(7) Height(26) Left(525) Parent(#COM_OWNER) Tabposition(6) Top(62) Width(176)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Column(#Column) Manage(#gUnits) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down) Marginleft(2) Marginright(2) Margintop(2) Marginbottom(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Image Alignment') Displayposition(3) Ellipses(Word) Left(415) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(2) Verticalalignment(Center) Height(26) Width(106)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#Label) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_2) Caption('Image Sizing') Displayposition(5) Ellipses(Word) Left(415) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(32) Verticalalignment(Center) Height(26) Width(106)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#Label_2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_3) Caption('Units') Displayposition(6) Ellipses(Word) Left(415) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(62) Verticalalignment(Center) Height(26) Width(106)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#Label_3) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#gImageLeft) Displayposition(9) Left(415) Parent(#COM_OWNER) Tabposition(2) Top(122) Width(286) Marginleft(110) Height(26) Labeltype(Caption) Caption('Left')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#gImageLeft) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2) Columnspan(2)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#gImageTop) Displayposition(10) Left(415) Parent(#COM_OWNER) Tabposition(4) Top(152) Width(286) Marginleft(110) Height(26) Labeltype(Caption) Caption('Top')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#gImageTop) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2) Columnspan(2)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#gImageHeight) Displayposition(11) Left(415) Parent(#COM_OWNER) Tabposition(5) Top(182) Width(286) Marginleft(110) Height(26) Labeltype(Caption) Caption('Height')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#gImageHeight) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2) Columnspan(2)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#gImageWidth) Displayposition(12) Left(415) Parent(#COM_OWNER) Tabposition(7) Top(212) Width(286) Marginleft(110) Height(26) Labeltype(Caption) Caption('Width')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_11) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#gImageWidth) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2) Columnspan(2)
+    Define_Com Class(#PRIM_LABL) Name(#Label_4) Caption('Tiling') Displayposition(8) Ellipses(Word) Left(415) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(92) Verticalalignment(Center) Width(106) Height(26)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_12) Alignment(TopCenter) Column(#Column_4) Flow(Down) Manage(#Label_4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#xDemoDropDown) Name(#gTiling) Displayposition(13) Height(26) Left(525) Parent(#COM_OWNER) Tabposition(8) Top(92) Width(176)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_13) Column(#Column) Manage(#gTiling) Parent(#TableLayout_1) Row(#Row_1) Flow(Down) Alignment(TopCenter) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Load drop downs and initialize the UI
+    #Com_owner.LoadAlignment
+    #Com_owner.LoadSizing
+    #Com_owner.LoadTiling
+    #Com_owner.LoadUnits
+    
+    #Com_owner.GetDefaults
+    
+    Endroutine
+    
+    Mthroutine Name(LoadAlignment) Access(*private)
+    
+    * Add the drop down items
+    #gAlignment.Add( TopLeft "TopLeft" )
+    #gAlignment.Add( TopCenter "TopCenter" )
+    #gAlignment.Add( TopRight "TopRight" )
+    #gAlignment.Add( CenterLeft "CenterLeft" )
+    #gAlignment.Add( Center "Center" )
+    #gAlignment.Add( CenterRight "CenterRight" )
+    #gAlignment.Add( BottomLeft "BottomLeft" )
+    #gAlignment.Add( BottomCenter "BottomCenter" )
+    #gAlignment.Add( BottomRight "BottomRight" )
+    
+    * Position the drop down the current image alignment value
+    #gAlignment.Find( #gImage.ImageAlignment )
+    
+    Endroutine
+    
+    Mthroutine Name(LoadSizing) Access(*private)
+    
+    * Add the drop down items
+    #gSizing.Add( BestFit "BestFit" )
+    #gSizing.Add( Cropped "Cropped" )
+    #gSizing.Add( FitBoth "FitBoth" )
+    #gSizing.Add( None "None" )
+    #gSizing.Add( ShrinkToFit "ShrinkToFit" )
+    
+    #gSizing.Find( #gImage.ImageSizing )
+    
+    Endroutine
+    
+    
+    Mthroutine Name(LoadTiling) Access(*Private)
+    
+    * Add the drop down items
+    #gTiling.Add( None "None" )
+    #gTiling.Add( MirrorVertical "MirrorVertical" )
+    #gTiling.Add( MirrorHorizontal "MirrorHorizontal" )
+    #gTiling.Add( MirrorBoth "MirrorBoth" )
+    
+    * Position the drop down the current image Tile value
+    #gTiling.Find( #gImage.ImageTile )
+    
+    Endroutine
+    
+    Mthroutine Name(LoadUnits) Access(*private)
+    
+    * Add the drop down items
+    #gUnits.Add( Percentage "Percentage" )
+    #gUnits.Add( Pixels "Pixels" )
+    
+    * Position the drop down the current image Units value
+    #gUnits.Find( #gImage.ImageUnits )
+    
+    Endroutine
+    
+    Mthroutine Name(GetDefaults) Access(*Private)
+    
+    #gImageLeft := #gImage.ImageLeft
+    #gImageTop := #gImage.ImageTop
+    #gImageHeight := #gImage.ImageHeight
+    #gImageWidth := #gImage.ImageWidth
+    
+    Endroutine
+    
+    Evtroutine Handling(#gAlignment.ItemGotFocus) Value(#Value)
+    
+    #gImage.ImageAlignment := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#gSizing.ItemGotFocus) Value(#Value)
+    
+    #gImage.ImageSizing := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#gUnits.ItemGotFocus) Value(#Value)
+    
+    #gImage.ImageUnits := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#gTiling.ItemGotFocus) Value(#Value)
+    
+    #gImage.ImageTile := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#gImageLeft.Changed)
+    
+    #gImage.ImageLeft := #gImageLeft
+    
+    Endroutine
+    
+    Evtroutine Handling(#gImageTop.Changed)
+    
+    #gImage.ImageTop := #gImageTop
+    
+    Endroutine
+    
+    Evtroutine Handling(#gImageHeight.Changed)
+    
+    #gImage.ImageHeight := #gImageHeight
+    
+    Endroutine
+    
+    Evtroutine Handling(#gImageWidth.Changed)
+    
+    #gImage.ImageWidth := #gImageWidth
+    
+    Endroutine
+    
+    
+    End_Com

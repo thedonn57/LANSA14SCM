@@ -1,0 +1,173 @@
+﻿Form:
+  Name:               xDemoTreeViewDragandDrop
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Treeview Drag and Drop"
+
+  - FRA:
+      Description:        "Treeview Drag and Drop"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Use drag and drop to move employees') Clientheight(528) Clientwidth(747) Height(567) Layoutmanager(#TableLayout_1) Left(213) Top(229) Width(763) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(20) Componentversion(2) Displayposition(1) Dragstyle(Automatic) Fullrowselect(True) Haslines(False) Height(528) Left(0) Multipleselectstyle(SameParent) Parent(#COM_OWNER) Selectionstyle(Multiple) Tabposition(1) Top(0) Viewstyle(UnLevelled) Width(747) Rowheight(22)
+    
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Captiontype(Caption) Displayposition(1) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128) Width(17) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Captiontype(Caption) Displayposition(2) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_2) Width(38) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Captiontype(Caption) Displayposition(3) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_3) Width(37) Widthtype(Fixed)
+    
+    Define_Com Class(#xDemoUtilities) Name(#Utilities)
+    Define_Com Class(#xDemoDragandDropImage) Name(#DragImage)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    Select Fields(*All) From_File(Deptab)
+    
+    #Com_owner.AddEntry( #Deptment #Deptdesc "" #xImageDepartment32 )
+    
+    #Com_Owner.AddSections( #Tree.Currentitem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Sectab) With_Key(#Deptment)
+    
+    #Com_owner.AddEntry( #section #secdesc "" #xImageSection32 #ParentItem )
+    
+    #Com_Owner.AddEmployees( #Tree.Currentitem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Pslmst1) With_Key(#Deptment #Section)
+    
+    #Com_owner.AddEntry( #empno #Surname #GiveName #xImageEmployee32 #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Column1)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column2) Mandatory("")
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column3) Mandatory("")
+    Define_Map For(*Input) Class(#prim_flbx) Name(#Image) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Result) Class(#prim_tvit) Name(#Result) Mandatory(*null) Pass(*by_reference)
+    
+    #xDemoUnicode128 := #Column1
+    #xDemoUnicode128_2 := #Column2
+    #xDemoUnicode128_3 := #Column3
+    
+    Add_Entry To_List(#Tree)
+    
+    #Tree.Currentitem.ParentItem <= #ParentItem
+    
+    #Tree.Currentitem.image <= #Image
+    
+    #Result <= #Tree.Currentitem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.StartDrag) Continue(#Continue) Payload(#Payload) Draglist(#DragList)
+    
+    Define_Com Class(#prim_lcol<#Prim_tvit>) Name(#SelectedItems) Reference(*Dynamic)
+    
+    #SelectedItems <= #Utilities.GetSelectedTreeItems( #Tree )
+    
+    #Continue := False
+    
+    * If there are any selected items, and they are employee items
+    If ((#SelectedItems.Itemcount > 0) *AndIf (#SelectedItems<1>.Level = 3))
+    
+    * Set the payload to be the selected items
+    #Payload <= #SelectedItems
+    
+    #Continue := True
+    
+    * Hook up the drag image
+    #DragList.DragListStyle := Popup
+    #DragList.DragPopup <= #DragImage
+    
+    * Use the image from the first item as the drag image, and overlay with the count
+    #DragImage.DragImage <= #SelectedItems<1>.Image *As #prim_bmp
+    #DragImage.DragCaption := #SelectedItems.ItemCount.AsString
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.DragOver) Payload(#Payload) Acceptdrop(#AcceptDrop) Showdrophilight(#DropHighlight)
+    
+    #DropHighlight := True
+    
+    * Can drop an employee if the current item is a section or an employee
+    #AcceptDrop := (#Tree.CurrentItem *IsNot *null) *AndIf (#Tree.CurrentItem.level > 1)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.DragDrop) Payload(#Payload)
+    
+    * Make sure the drop occurs on somethign within the tree
+    If (#Tree.CurrentItem *IsNot *null)
+    
+    #Com_owner.DoDrop( (#Payload *As #prim_lcol<#Prim_tvit>) #Tree.Currentitem )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(DoDrop) Access(*Private)
+    Define_Map For(*Input) Class(#prim_lcol<#Prim_tvit>) Name(#Payload) Pass(*By_Reference)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#DropItem) Pass(*By_Reference)
+    
+    Case (#DropItem.Level)
+    
+    When (= 2) /* Section */
+    
+    For Each(#Item) In(#Payload)
+    
+    #Item.Parentitem <= #DropItem
+    
+    Endfor
+    
+    When (= 3) /* Section */
+    
+    For Each(#Item) In(#Payload)
+    
+    #Item.Parentitem <= #DropItem.Parentitem
+    
+    Endfor
+    
+    Endcase
+    
+    Endroutine
+    
+    End_Com
+    

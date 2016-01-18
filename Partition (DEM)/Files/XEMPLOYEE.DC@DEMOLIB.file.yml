@@ -1,0 +1,340 @@
+﻿File:
+  Name:                           xEmployee
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             XEMPLOYEE
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000     1000      3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee"
+
+  - FRA:
+      Description:        "Employee"
+
+  Real Fields:
+  - XEMPLOYID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XEMPTITLE:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSURNAME:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - XGIVENAME:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - XEMPDOB:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XGENDER:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSTREET:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+
+  - XCITY:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - XSTATE:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - XPOSTCODE:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XCOUNTRY:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - XPHONEHME:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - XPHONEBUS:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - XPHONEMOB:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - XSALARY:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - XSTARTDTE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XTERMDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - XDEPTMENT:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  Primary Keys:
+  - XEMPLOYID
+
+  Virtual Fields:
+
+  Logical Views:
+  - xEmployeeByDepartment:
+      Identifier:         XEMPLOYEE1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      XEMPLOYEE1
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "xEmployee by xDepartment and xEmployID"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - XDEPTMENT:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XEMPLOYID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - xEmployeeBySurname:
+      Identifier:         XEMPLOYEE2
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      XEMPLOYEE2
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "xEmployee by xSurname and xGiveName"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - XSURNAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XGIVENAME:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - XEMPLOYID:
+    - Range Check:
+        Description:        "Employee Id must be between 1"
+        Ranges:
+        - From:               "'000001'"
+          To:                 "'999999'"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Employee Id must be in the range 1-999999"
+
+  - XSURNAME:
+    - Simple Logic Check:
+        Description:        "Surname must be entered"
+        Condition:          "#xEmployeeSurname *ne *blanks"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Surname must be entered"
+
+  - XGIVENAME:
+    - Simple Logic Check:
+        Description:        "Given Name(s) must be entered"
+        Condition:          "#xEmployeeGivenNames *ne *blanks"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Given Name(s) must be entered"
+
+  - XGENDER:
+    - List Check:
+        Description:        "Male, Female or Nodisclose"
+        Values:
+        - "'Male'"
+        - "'Female'"
+        - "'NoDisclose'"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Gender must be Male, Female or NoDisclose"
+
+  - XSTREET:
+    - Simple Logic Check:
+        Description:        "Street must be entered"
+        Condition:          "#xEmployeeStreet *ne *blanks"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Street must be entered"
+
+  - XCITY:
+    - Simple Logic Check:
+        Description:        "City must be entered"
+        Condition:          "#xEmployeeCity *ne *blanks"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "City must be entered"
+
+  - XPOSTCODE:
+    - Range Check:
+        Description:        "Must be in range 1000-99999"
+        Ranges:
+        - From:               "'01000'"
+          To:                 "'99999'"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Postal Code must be in the range 1000-99999"
+
+  - XSALARY:
+    - Simple Logic Check:
+        Description:        "Salary must be entered"
+        Condition:          "#xEmployeeSalary *gt 0"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Salary must be entered"
+
+  - XSTARTDTE:
+    - Simple Logic Check:
+        Description:        "StartDate today or later"
+        Condition:          "#xEmployeeStartDate *LE #xEmployeeStartDate.Now"
+        When Inserting:     Always
+        When Updating:      Never
+        When Deleting:      Never
+        Positive Action:    Error
+        Negative Action:    Next
+        Message Text:       "Start Date must be today or later"
+
+  - XTERMDATE:
+    - Simple Logic Check:
+        Description:        "Check value before validate"
+        Condition:          "#xEmployeeTerminationDate *is *sqlnull"
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Accept
+        Negative Action:    Next
+        Message File:       DC@M01
+        Message Number:     DCU0004
+    - Simple Logic Check:
+        Description:        "Termination date after Start"
+        Condition:          "#xEmployeeTerminationDate *gt #xEmployeeStartDate"
+        When Inserting:     Always
+        When Updating:      Always
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Termination Date must be after the Start Date"
+
+  - XDEPTMENT:
+    - Lookup Check:
+        Description:        "Department in xDepartments"
+        File:               XDEPTMENTS
+        Keys:
+        - XDEPTMENT
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Enter a valid Department"
+
+  Access Routes:
+  - XEMPDEPT:
+      Description:        Lookup xEmployeeDepartment xDepartments
+      File:               XDEPTMENTS
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - XDEPTMENT
+
+      PJFs:
+      - XEMPDEPT:
+          PJF Type:           Lookup
+          Source Field:       XDEPTDESC

@@ -1,0 +1,88 @@
+﻿Reusable Part:
+  Name:               XSEmail
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Email Us"
+
+  - FRA:
+      Description:        "Email Us"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(250) Left(0) Tabposition(1) Top(0) Width(383) Layoutmanager(#TableLayout1) Themedrawstyle('Panel1')
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(35) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Manage(#Title) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#EmailItem1) Column(#Column1) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Alignment(TopLeft) Flow(Down) Marginleft(10) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#BodyItem1) Alignment(TopLeft) Column(#Column1) Manage(#Body) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SendItem1) Alignment(BottomLeft) Column(#Column1) Manage(#Send) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Down) Marginleft(10) Margintop(10) Marginbottom(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem1) Alignment(BottomRight) Column(#Column1) Manage(#Message) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Down) Margintop(5) Marginleft(10) Marginbottom(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSTemporaryEmailItem1) Alignment(TopLeft) Column(#Column1) Manage(#XSTemporaryEmail) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Flow(Down) Margintop(10) Marginleft(10) Marginright(10)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Title) Caption('Need D.I.Y Advice?  Ask us!') Displayposition(1) Ellipses(Word) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(381) Wordwrap(False) Themedrawstyle('PanelHeader2') Top(0) Left(0) Marginleft(10) Height(35)
+    Define_Com Class(#PRIM_text) Name(#Body) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Top(76) Width(361) Height(134)
+    Define_Com Class(#XSTemporaryEmail.Visual) Name(#XSTemporaryEmail) Displayposition(2) Parent(#COM_OWNER) Tabposition(2) Labeltype(Caption) Labelposition(None) Marginleft(0) Placeholder('Enter your email address') Width(361) Height(21) Usepicklist(False) Top(45) Left(10)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Send) Caption('Send') Displayposition(4) Parent(#COM_OWNER) Tabposition(4) Top(213) Width(100) Themedrawstyle('ButtonLook2')
+    
+    Define_Com Class(#PRIM_LABL) Name(#Message) Displayposition(5) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(213) Verticalalignment(Center) Width(233) Left(148) Style(#XSTheme01<Text10Red>)
+    
+    Define_Com Class(#XSServer.SendEmail) Name(#SendEmail)
+    
+    Evtroutine Handling(#Send.Click)
+    
+    Define Field(#WinRetCod) Type(*dec) Length(7) Decimals(0)
+    
+    #Message.caption := ''
+    #XSEmailMessage := #Body
+    
+    If (#XSTemporaryEmail = '')
+    
+    #Message.caption := '     Try entering an Email address'
+    
+    Return
+    
+    Endif
+    
+    If (*Not #XSTemporaryEmail.contains( @ ))
+    
+    #Message.caption := 'Check your email address'
+    
+    Return
+    
+    Endif
+    
+    If (*Not #XSTemporaryEmail.contains( '.' ))
+    
+    #Message.caption := 'Check your email address'
+    
+    Return
+    
+    Endif
+    
+    #SendEmail.Execute( #XSTemporaryEmail #XSEmailMessage #WinRetCod )
+    
+    If (#WinRetCod = 0)
+    
+    #Message.caption := '     Email has been sent'
+    
+    Return
+    
+    Endif
+    
+    #Message.caption := '     Email send failed'
+    
+    Endroutine
+    
+    End_Com

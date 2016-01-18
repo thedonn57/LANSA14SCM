@@ -1,0 +1,443 @@
+﻿Web Page:
+  Name:               XETMain
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Editor: Tablet/Phone"
+
+  - FRA:
+      Description:        "Employee Editor: Tablet/Phone"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayoutMain) Theme(#SYS_THEME<2015Blue>) Icon(#XETBM003) Caption('Employees') Designmanager(#DesignManager)
+    
+    * Layout: main page
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutMain) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayoutMain) Width(3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(3) Parent(#TableLayoutMain) Width(4)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider) Displayposition(2) Parent(#TableLayoutMain) Width(4)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemStatusMessage) Alignment(BottomCenter) Column(#Column1) Manage(#LabelStatusMessage) Parent(#TableLayoutMain) Row(#Row1) Sizing(None) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemList) Column(#Column1) Parent(#TableLayoutMain) Row(#Row1) Manage(#EmployeeList)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemViewer) Column(#Column1) Parent(#TableLayoutMain) Row(#Row1) Manage(#EmployeeViewer)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemEditor) Column(#Column1) Parent(#TableLayoutMain) Row(#Row1) Manage(#EmployeeEditor)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemNoSelectionPanelItem) Manage(#NoSelectionPanel) Parent(#TableLayoutMain) Row(#Row1) Column(#Column2)
+    
+    * Layout: 'No Selection'-Panel
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutMainNoSelectionPanel)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#SelectionPanelColumn) Displayposition(1) Parent(#TableLayoutMainNoSelectionPanel)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#SelectionPanelRow) Displayposition(1) Parent(#TableLayoutMainNoSelectionPanel)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemNoSelectionPanelHeader) Alignment(TopCenter) Column(#SelectionPanelColumn) Manage(#NoSelectionPanelHeader) Parent(#TableLayoutMainNoSelectionPanel) Row(#SelectionPanelRow) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemNoSelectionImage) Column(#SelectionPanelColumn) Manage(#NoSelectionImage) Parent(#TableLayoutMainNoSelectionPanel) Row(#SelectionPanelRow) Sizing(None) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItemNoSelectionText) Column(#SelectionPanelColumn) Manage(#NoSelectionText) Parent(#TableLayoutMainNoSelectionPanel) Row(#SelectionPanelRow) Sizing(None) Flow(Down)
+    
+    * Design manager
+    Define_Com Class(#PRIM_DESN) Name(#DesignManager)
+    Define_Com Class(#PRIM_DESN.Design) Name(#PhoneDesign) Designmanager(#DesignManager) Width(800)
+    
+    * Initially, the 2nd column Content Panel is showing a 'No Selection' Panel
+    Define_Com Class(#PRIM_PANL) Name(#NoSelectionPanel) Displayposition(1) Left(517) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(800) Width(683) Layoutmanager(#TableLayoutMainNoSelectionPanel)
+    
+    * With an Image, a label and a header bar...
+    Define_Com Class(#PRIM_IMAG) Name(#NoSelectionImage) Displayposition(1) Left(259) Parent(#NoSelectionPanel) Tabposition(1) Tabstop(False) Top(328) Height(145) Width(165) Image(#XETBM003)
+    Define_Com Class(#PRIM_LABL) Name(#NoSelectionText) Caption('No Employee Selected') Displayposition(2) Ellipses(Word) Height(39) Left(227) Parent(#NoSelectionPanel) Tabposition(2) Tabstop(False) Top(473) Verticalalignment(Center) Width(228) Alignment(Center)
+    Define_Com Class(#PRIM_PANL) Name(#NoSelectionPanelHeader) Displayposition(3) Left(0) Parent(#NoSelectionPanel) Tabposition(3) Tabstop(False) Top(0) Width(683) Themedrawstyle('MediumTitle') Height(48)
+    
+    * An animated status message
+    Define_Com Class(#PRIM_LABL) Name(#LabelStatusMessage) Displayposition(5) Ellipses(Word) Height(37) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(743) Verticalalignment(Center) Width(146) Visible(False) Alignment(Center) Themedrawstyle('MediumTitle') Left(183)
+    Define_Com Class(#PRIM_ANIM) Name(#StatusMessageAnimation)
+    Define_Com Class(#PRIM_ANIM.Visibility) Name(#FadeIn) Duration(500) Starttime(1000) Parent(#StatusMessageAnimation) Manage(#LabelStatusMessage) Visible(True)
+    Define_Com Class(#PRIM_ANIM.Visibility) Name(#FadeOut) Starttime(5000) Parent(#StatusMessageAnimation) Manage(#LabelStatusMessage) Duration(500)
+    
+    * Three different views: Employee - LIST/VIEWER/EDITOR
+    Define_Com Class(#XETList) Name(#EmployeeList) Parent(#COM_OWNER) Tabposition(4) Height(800) Width(513) Displayposition(2)
+    Define_Com Class(#XETViewer) Name(#EmployeeViewer) Parent(#COM_OWNER) Displayposition(3) Tabposition(3) Height(800) Visible(False) Width(513)
+    Define_Com Class(#XETEditor) Name(#EmployeeEditor) Parent(#COM_OWNER) Height(800) Visible(False) Displayposition(4) Width(513) Tabposition(2)
+    
+    * A delete-confimation popup.
+    Define_Com Class(#XETDelete) Name(#DeleteEmployeePopup)
+    
+    * A messages popup
+    Define_Com Class(#XETMessages) Name(#MessagesPopup)
+    
+    * The flag that tells us what logic we're running
+    Define Field(#ShowingOnPhone) Type(*BOOLEAN)
+    
+    * ********************************
+    * Events coming from the MAIN PAGE
+    * ********************************
+    
+    Evtroutine Handling(#COM_OWNER.DesignChanged) Design(#Design)
+    
+    * Check if the browser's width is smaller than the width specified for the PHONE design.
+    If ((#Design *IsNot *null) *AndIf (#Design *IsEqualTo #PhoneDesign))
+    
+    * Run the PHONE logic (this includes tablet in portrait mode)
+    
+    #COM_OWNER.AdjustDisplayForPhone
+    
+    #ShowingOnPhone := True
+    
+    Else
+    
+    * Run the TABLET logic (tablet in landscape mode)
+    
+    #COM_OWNER.AdjustDisplayForTablet
+    
+    #ShowingOnPhone := False
+    
+    Endif
+    
+    Endroutine
+    
+    * ************************************
+    * Events coming from the EMPLOYEE-LIST
+    * ************************************
+    
+    Evtroutine Handling(#EmployeeList.AddClicked)
+    
+    * Create a new employee in the editor
+    #EmployeeEditor.AddEmployee
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeList) To(#EmployeeEditor) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Else
+    
+    * TABLET
+    
+    #EmployeeViewer.Visible := False
+    
+    #EmployeeEditor.Visible := True
+    
+    #COM_OWNER.DisableEmployeeList
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeList.EmployeeClicked) Employee(#Employee)
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #EmployeeViewer.ViewEmployee( #Employee )
+    
+    #COM_OWNER.Transition From(#EmployeeList) To(#EmployeeViewer) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Else
+    
+    * TABLET - handles the focus event instead
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeList.EmployeeGotFocus) Employee(#Employee)
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE - handles the click event instead
+    
+    Else
+    
+    * TABLET
+    
+    #NoSelectionPanel.Visible := False
+    
+    #EmployeeEditor.Visible := False
+    
+    #EmployeeViewer.ViewEmployee( #Employee )
+    
+    #EmployeeViewer.Visible := True
+    
+    #COM_OWNER.EnableEmployeeList
+    
+    Endif
+    
+    Endroutine
+    
+    * **************************************
+    * Events coming from the EMPLOYEE-VIEWER
+    * **************************************
+    
+    Evtroutine Handling(#EmployeeViewer.BackClicked)
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    Else
+    
+    * TABLET - back doesn't show on tablet
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeViewer.DeleteClicked)
+    
+    #DeleteEmployeePopup.ShowPopup Placement(Center)
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeViewer.EditClicked)
+    
+    * Pass the current employee to the editor
+    #EmployeeEditor.EditEmployee( #EmployeeViewer.CurrentEmployee )
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeEditor) Transitiontype(MoveToLeftFromRight) Duration(600)
+    
+    Else
+    
+    * TABLET
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeEditor) Transitiontype(PushLeftPullRight) Duration(600)
+    
+    #COM_OWNER.DisableEmployeeList
+    
+    Endif
+    
+    Endroutine
+    
+    * **************************************
+    * Events coming from the EMPLOYEE-EDITOR
+    * **************************************
+    
+    Evtroutine Handling(#EmployeeEditor.EditCancelled)
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    Else
+    
+    * TABLET
+    
+    If (#EmployeeViewer.CurrentEmployee *IsNot *null)
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeViewer) Transitiontype(PushRightPullLeft) Duration(600)
+    
+    #COM_OWNER.EnableEmployeeList
+    
+    Else
+    
+    #EmployeeEditor.Visible := False
+    
+    #COM_OWNER.EnableEmployeeList
+    
+    Endif
+    
+    Endif
+    
+    * Show status message
+    #COM_OWNER.ShowStatusMessage( "Editing Cancelled" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeEditor.EditCompleted)
+    
+    * Update the list to reflect the changed employee details
+    #EmployeeList.UpdateEmployee( #EmployeeEditor.CurrentEmployee )
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    
+    Else
+    
+    * TABLET
+    
+    #EmployeeViewer.ViewEmployee( #EmployeeEditor.CurrentEmployee )
+    
+    #COM_OWNER.Transition From(#EmployeeEditor) To(#EmployeeViewer) Transitiontype(PushRightPullLeft) Duration(600)
+    
+    #COM_OWNER.EnableEmployeeList
+    
+    Endif
+    
+    * Show status message
+    #COM_OWNER.ShowStatusMessage( "Employee Updated" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeEditor.EditFailed)
+    
+    #MessagesPopup.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    * ********************************************
+    * Events coming from the DELETE EMPLOYEE POPUP
+    * ********************************************
+    
+    Evtroutine Handling(#DeleteEmployeePopup.OkClicked)
+    
+    * Delete the employee from the list
+    #EmployeeList.DeleteEmployee( #EmployeeViewer.CurrentEmployee )
+    
+    If (#ShowingOnPhone)
+    
+    * PHONE
+    
+    #COM_OWNER.Transition From(#EmployeeViewer) To(#EmployeeList) Transitiontype(MoveToRightFromLeft) Duration(600)
+    
+    
+    Else
+    
+    * TABLET
+    
+    #EmployeeViewer.Visible := False
+    
+    #NoSelectionPanel.Visible := True
+    
+    Endif
+    
+    * Show status message
+    #COM_OWNER.ShowStatusMessage( "Employee Deleted" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#DeleteEmployeePopup.CancelClicked)
+    
+    * Nothing to do
+    
+    Endroutine
+    
+    * ***************
+    * Private Methods
+    * ***************
+    
+    Mthroutine Name(AdjustDisplayForPhone) Access(*PRIVATE)
+    
+    * Move the viewer and editor to column 1
+    Set Com(#LayoutItemViewer #LayoutItemEditor) Column(#Column1)
+    
+    * Drop the extra column and the divider
+    Set Com(#ColumnDivider #Column2) Parent(*NULL)
+    
+    * Adjust the size of the messages popup
+    Set Com(#MessagesPopup) Height(320) Width(312)
+    
+    * Hide the no selection panel
+    #NoSelectionPanel.Visible := False
+    
+    * Initially, only the list view is visible...
+    #EmployeeList.Visible := True
+    #EmployeeViewer.Visible := False
+    #EmployeeEditor.Visible := False
+    
+    * ... unless we're in the middle of editing when we're swapping to the phone-design
+    If (#EmployeeEditor.CurrentEmployee *IsNot *NULL)
+    
+    * In that case, keep showing the editor
+    #EmployeeList.Visible := False
+    #EmployeeEditor.Visible := True
+    
+    Endif
+    
+    * Make sure to enable the list
+    #COM_OWNER.EnableEmployeeList
+    
+    * We now need a back button on the viewer
+    #EmployeeViewer.ShowBackButton
+    
+    Endroutine
+    
+    Mthroutine Name(AdjustDisplayForTablet) Access(*PRIVATE)
+    
+    * Enable the column 2 and the column-divider
+    Set Com(#ColumnDivider #Column2) Parent(#TableLayoutMain)
+    
+    * Move the viewer and editor to column 2
+    Set Com(#LayoutItemViewer #LayoutItemEditor) Column(#Column2)
+    
+    * Adjust the size of the messages popup
+    Set Com(#MessagesPopup) Width(500) Height(400)
+    
+    * The list is always visible
+    #EmployeeList.Visible := True
+    
+    * The EDITOR is only visible if we're in edit-mode while swapping from phone to tablet view
+    If (#EmployeeEditor.CurrentEmployee *IsNot *NULL)
+    
+    * In that case, keep showing the EDITOR, hide the VIEWER
+    #EmployeeEditor.Visible := True
+    #EmployeeViewer.Visible := False
+    #NoSelectionPanel.Visible := False
+    
+    * Disable the list
+    #COM_OWNER.DisableEmployeeList
+    
+    Else
+    
+    * Don't show the EDITOR
+    #EmployeeEditor.Visible := False
+    
+    * The VIEWER is visible if there is a current employee
+    If (#EmployeeViewer.CurrentEmployee *IsNot *NULL)
+    
+    #EmployeeViewer.Visible := True
+    #NoSelectionPanel.Visible := False
+    
+    Else
+    
+    * Show the 'No Selection' panel
+    #EmployeeViewer.Visible := False
+    #NoSelectionPanel.Visible := True
+    
+    Endif
+    
+    Endif
+    
+    * We don't need the back button on the viewer anymore
+    #EmployeeViewer.HideBackButton
+    
+    Endroutine
+    
+    Mthroutine Name(ShowStatusMessage) Access(*PRIVATE)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#StatusMessage)
+    
+    #LabelStatusMessage := #StatusMessage
+    
+    #StatusMessageAnimation.Start
+    
+    Endroutine
+    
+    Mthroutine Name(DisableEmployeeList) Access(*PRIVATE)
+    
+    #EmployeeList.Opacity := 50
+    
+    #EmployeeList.Enabled := False
+    
+    Endroutine
+    
+    Mthroutine Name(EnableEmployeeList) Access(*PRIVATE)
+    
+    #EmployeeList.Opacity := 100
+    
+    #EmployeeList.Enabled := True
+    
+    Endroutine
+    
+    End_Com

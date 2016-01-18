@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               TIMEDATE8
+  Type:               Signed
+  Length:             14
+  Decimals:           0
+  Default Value:      "*TIMEDATE8"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current time and date (numeric)"
+      Label:              "Time / date ..."
+      Heading1:           "Time / date"
+      Heading2:           "-----------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure et date en cours (numérique)"
+      Label:              "Heure / date"
+      Heading1:           "Heure / date"
+      Heading2:           "------------"
+      Heading3:           " "

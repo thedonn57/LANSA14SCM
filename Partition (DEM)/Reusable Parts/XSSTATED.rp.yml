@@ -1,0 +1,110 @@
+﻿Reusable Part:
+  Name:               XSStateDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "State Dropdown"
+
+  - FRA:
+      Description:        "State Dropdown"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(21) Left(0) Tabposition(1) Top(0) Width(489) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#StatesItem1) Alignment(TopLeft) Column(#Column1) Manage(#States) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST.DropDown) Name(#States) Columnheaderheight(0) Columnlines(False) Displayposition(1) Left(0) Parent(#COM_OWNER) Rowlines(False) Showselection(False) Tabposition(1) Top(0) Dropdownstyle(DropDown) Width(489) Rowheight(25) Height(21)
+    Define_Com Class(#PRIM_LIST.String) Name(#DropDownColumn1) Columnresize(False) Columnunits(Proportion) Columnwidth(1) Displayposition(1) Parent(#States) Source(#XSStateID)
+    
+    Def_List Name(#StateList) Fields(#xsstateid) Counter(#listcount) Type(*Working) Entrys(100)
+    
+    Define_Com Class(#XSStateID) Name(#SelectedState)
+    
+    Define_Com Class(#XSServer.LoadStates) Name(#LoadStates)
+    
+    Define_Pty Name(pCurrentValue) Get(GetCurrent) Set(SetCurrent)
+    
+    Define_Evt Name(StateUpdated)
+    Define_Map For(*Input) Class(#XSStateID) Name(#StateID)
+    
+    Ptyroutine Name(GetCurrent)
+    Define_Map For(*output) Class(#XSStateID) Name(#value)
+    
+    #SelectedState #value := #States.value
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCurrent)
+    Define_Map For(*input) Class(#XSStateID) Name(#value)
+    
+    #SelectedState #States.value := #Value
+    
+    #Com_owner.HighlightSelection
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #LoadStates.ExecuteAsync( #StateList )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadStates.completed)
+    
+    * Add a blank entry to accommodate countries other than USA
+    #XSStateId := *blanks
+    Add_Entry To_List(#States)
+    
+    Selectlist Named(#StateList)
+    
+    Add_Entry To_List(#States)
+    
+    Endselect
+    
+    #Com_owner.HighlightSelection
+    
+    Endroutine
+    
+    Mthroutine Name(HighlightSelection)
+    
+    Selectlist Named(#States)
+    
+    Continue If(#SelectedState.uppercase <> #XSStateID.uppercase)
+    
+    #States.CurrentItem.Selected := true
+    
+    Leave
+    
+    Endselect
+    
+    * Ensure value set correctly even if not found in list
+    #XSStateID := #SelectedState
+    
+    Endroutine
+    
+    Evtroutine Handling(#States.Changed)
+    
+    * Ensure first character is uppercase for automatching
+    If (#States.value.CurChars = 1)
+    
+    #States.value := #States.value.UpperCase
+    
+    Endif
+    
+    #com_owner.pCurrentValue := #States.value
+    
+    Signal Event(StateUpdated) Stateid(#com_owner.pCurrentValue)
+    
+    Endroutine
+    
+    End_Com

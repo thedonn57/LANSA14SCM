@@ -1,0 +1,64 @@
+﻿Form:
+  Name:               xDemoTreeViewAutomatic
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Treeview - Automatic positioning"
+
+  - FRA:
+      Description:        "Treeview - Automatic positioning"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('TreeView Basics - Tree levels defined by data') Clientheight(509) Clientwidth(515) Height(548) Layoutmanager(#TableLayout_1) Left(274) Top(185) Width(531) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    
+    * Tree is defined as Viewstyle(Leveled)
+    * Items will be allocated a position based on the data values
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(19) Componentversion(2) Displayposition(1) Height(509) Keyboardpositioning(SortColumn) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(515)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Keyposition(1) Level(1) Parent(#Tree) Source(#DEPTMENT) Visible(False)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Displayposition(1) Level(1) Parent(#Tree) Source(#DEPTDESC)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Keyposition(1) Level(2) Parent(#Tree) Source(#SECTION) Visible(False)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_4) Displayposition(1) Level(2) Parent(#Tree) Source(#SECDESC)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_5) Keyposition(1) Level(3) Parent(#Tree) Source(#EMPNO) Visible(False)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_6) Displayposition(1) Level(3) Parent(#Tree) Source(#FULLNAME)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Load the base level data
+    Select Fields(#Tree) From_File(Deptab)
+    
+    Add_Entry To_List(#Tree)
+    #Tree.currentItem.image <= #xImageDepartment32
+    
+    Endselect
+    
+    * Section data will be added to the correct node based on the department value
+    Select Fields(#Tree) From_File(Sectab)
+    
+    Add_Entry To_List(#Tree)
+    #Tree.currentItem.Image <= #xImageSection32
+    
+    Endselect
+    
+    * Employee data will be added to the correct node based on the department and section values
+    Select Fields(#Deptment #Section #Empno #Givename #Surname) From_File(pslmst1)
+    
+    #Fullname := ("&1, &2").Substitute( #Surname #Givename )
+    Add_Entry To_List(#Tree)
+    #Tree.currentItem.image <= #xImageEmployee32
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

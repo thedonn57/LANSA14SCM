@@ -1,0 +1,37 @@
+﻿Field:
+  Name:               XSProductTaxPercent
+  Type:               Signed
+  Length:             5
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Tax %"
+      Label:              "Product Tax %"
+      Heading1:           "Product"
+      Heading2:           "Tax %"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Discount Percentage"
+      Label:              "Discount Percen"
+      Heading1:           "Discount"
+      Heading2:           "Percentage"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(249)
+    
+    End_Com
+    
+    End_Com

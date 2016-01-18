@@ -1,0 +1,43 @@
+﻿Field:
+  Name:               XDXBoolean
+  Type:               Boolean
+  Length:             1
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Boolea"
+      Label:              "Boolea"
+      Heading1:           "Boolea"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Boolea"
+      Label:              "Boolea"
+      Heading1:           "Boolea"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#Item) Caption('CaptionForFirstItem') Default(True) Parent(#Picklist) Value('False')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_1) Caption('CaptionForSecondItem') Parent(#Picklist) Value('True')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Appearance(CheckBox) Componentversion(1) Height(19) Width(209)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#CheckBox) Appearance(CheckBox) Componentversion(1) Defaultvisual(True) Height(19) Width(237)
+    
+    End_Com
+    End_Com

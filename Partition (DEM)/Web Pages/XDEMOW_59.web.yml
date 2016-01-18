@@ -1,0 +1,51 @@
+﻿Web Page:
+  Name:               xDemoWebAnimationStyles
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Style Animation"
+
+  - FRA:
+      Description:        "Style Animation"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:123:17)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Backgroundbrush(#Brush2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(85:131:255)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Displayposition(3) Ellipses(Word) Height(65) Left(64) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(72) Verticalalignment(Center) Width(105) Alignment(Center) Style(#Style1)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Displayposition(2) Ellipses(Word) Height(65) Left(288) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(72) Verticalalignment(Center) Width(105) Alignment(Center) Style(#Style1)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Displayposition(1) Ellipses(Word) Height(65) Left(176) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(72) Verticalalignment(Center) Width(105) Alignment(Center) Style(#Style1)
+    
+    Define_Com Class(#prim_anim) Name(#Animation)
+    Define_Com Class(#prim_anim.Style) Name(#Animation1) Parent(#Animation) Duration(250) Style(#Style2)
+    
+    Evtroutine Handling(#Label1.MouseEnter #Label2.MouseEnter #Label3.MouseEnter) Com_Sender(#Sender)
+    
+    If (#Sender.Style *IsEqualTo #Style1)
+    
+    #Animation1.Style <= #Style2
+    
+    Else
+    
+    #Animation1.Style <= #Style1
+    
+    Endif
+    
+    #Animation1.Control <= #Sender
+    
+    #Animation.Start
+    
+    Endroutine
+    
+    End_Com
+    

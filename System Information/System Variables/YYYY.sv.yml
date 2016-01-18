@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*YYYY"
+  Description:        "Numeric Year in format YYYY"
+  Derivation:         Static
+  Data Type:          Numeric
+  Length:             4
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

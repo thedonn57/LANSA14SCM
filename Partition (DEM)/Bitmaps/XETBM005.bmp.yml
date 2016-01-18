@@ -1,0 +1,22 @@
+﻿Bitmap:
+  Name:               XETBM005
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Delete Icon"
+
+  - FRA:
+      Description:        "Delete Icon"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_BMP)
+    End_Com
+
+  Data: |
+    89504E470D0A1A0A0000000D49484452000000180000001808040000004A7EF5730000003A4944415438CB636018FCE0BFC2
+    FF07FF61E0C17F057C4AF100EA6820C7FDA49A3FAA6154032E0DAFB0AA7F815B83FFFF9798CAFFFB0EF23C0F00432792C1EA
+    6754F20000000049454E44AE426082

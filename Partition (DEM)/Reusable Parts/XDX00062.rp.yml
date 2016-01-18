@@ -1,0 +1,53 @@
+﻿Reusable Part:
+  Name:               XDXExamplesTree
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Examples Tree"
+
+  - FRA:
+      Description:        "Exemples arborescence"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(458) Layoutmanager(#Layout) Width(265)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    
+    * User designed tree showing list of available examples
+    Define_Com Class(#PRIM_TREE<#XDXTreeDesign>) Name(#Tree) Displayposition(1) Height(458) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(265)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#Tree) Parent(#Layout)
+    
+    Define_Evt Name(ItemGotFocus)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#Item) Pass(*By_Reference)
+    Define_Map For(*Input) Class(#XDXCaption) Name(#Caption)
+    
+    Mthroutine Name(AddEntry) Help('Create a panel in the user designed tree and create example panel')
+    Define_Map For(*Input) Class(#XDXCaption) Name(#Caption)
+    Define_Map For(*Input) Class(#XDXDescription) Name(#Description)
+    Define_Map For(*Input) Class(#XDXExample) Name(#Example) Mandatory("")
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*By_Reference)
+    
+    #XDXCaption := #Caption
+    #XDXDescription := #Description
+    #XDXExample := #Example
+    
+    Add_Entry To_List(#Tree)
+    
+    #Result <= #Tree.CurrentItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemGotFocus)
+    
+    Signal Event(ItemGotFocus) Item(#Tree.CurrentItem) Caption(#XDXCaption)
+    
+    Endroutine
+    
+    End_Com

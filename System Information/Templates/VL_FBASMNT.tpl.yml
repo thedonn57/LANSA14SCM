@@ -1,0 +1,334 @@
+﻿Template:
+  Name:                    VL_FBASMNT
+  Description:             Visual LANSA flat file maintenance
+  Extended Description 1:  Visual LANSA simple flat file maint,
+  Extended Description 2:  using tab folder or flat form depending
+  Extended Description 3:  on number of fields.
+
+  Source: |
+    /* **********                                                         */
+    /* ********** This RDMLX code creates a file maintenance form         */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    @@QUESTION PROMPT('Supply a word that describes WHAT this data entry program works with') ANSWER(@@CANS001) EXTEND('The word you specify here is used to build messages that appear on the' 'data entry screen panel. You should use ONE word only, use lowercase' 'characters, and only use singular form (eg: "Customer", "Employee"' '"Order"). Do NOT use more than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010)
+    /* **********                                                         */
+    /* ********** Get name of one physical file                           */
+    /* **********                                                         */
+    @@GET_FILS TO(1) PROMPT('Enter the name of the PHYSICAL file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP020)
+    /* **********                                                         */
+    @@ROUTEDEF
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' @@CANS001                                  ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' @@FNAME01 - Maintenance form               ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Template - VL_BASEMNT  Version 2.          ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Set to top @@var_top = 0          ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    /* ********** Load fields and keys                                    */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    @@SET_IDX  IDX_NAME(SV) TO(@@LNE02)
+    @@CLR_LST  NUMBER(9)
+    @@MRG_LSTS FROM_LSTS((2)) INTO_LST(9)
+    /* **********                                                         */
+    /* ********** Set index WW to 0 as flag for width property.           */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(WW) TO(0)
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Key Fields                                 ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    /* ********** Set displayposition count to 1                          */
+    /* ********** Set key field count to 1                                */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(DP) TO(1)
+    @@SET_IDX  IDX_NAME(KF) TO(1)
+    K10: @@LABEL
+    @@CMP_IDX  IDX_NAME(KF) IDX_VALUE(@@LNE02) IF_GT(K20)
+    DEFINE_COM CLASS(#@@LEL02KF.VISUAL ) NAME(#@@LEL02KF) LEFT(8) PARENT(#@@PROCESS) TOP(@@VAR_TOP + 30)
+    @@INC_IDX  IDX_NAME(DP)
+    @@INC_IDX  IDX_NAME(KF)
+    @@GOTO     LABEL(K10)
+    K20: @@LABEL
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@QUESTION PROMPT('How do you want to display fields? Select from types listed below') ANSWER(@@CANS002) EXTEND('FF = Flat Form' 'TF = Tab Folder' 'Note: If the file definition contains many fields (more than 10), it may' 'be easier to arrange them on a tab folder.') LOWER(*NO) VALUES(FF TF) HELPIDS(HELP030)
+    /* **********                                                         */
+    A10: @@LABEL
+    @@IF       COND((*IF @@CANS002 *EQ TF)) GOTO(T10)
+    /* **********                                                         */
+    /* ********** Create single form display                              */
+    /* **********                                                         */
+    S10: @@LABEL
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(9) INTO_LSTS((3 'Select' 'fields' 'to display' *YESNO *FORCE))
+    @@MRG_LSTS FROM_LSTS((3)) INTO_LST(9)
+    @@SET_IDX  IDX_NAME(TT) TO(@@LNE03)
+    @@CMP_IDX  IDX_NAME(TT) IDX_VALUE(0) IF_EQ(A99)
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set left margin to @@var_left  = 8      ')
+    @@COMMENT  COMMENT('    Set field top to @@var_top + 20         ')
+    @@COMMENT  COMMENT('    Set field top to @@var_ftop = @@var_top ')
+    @@COMMENT  COMMENT('                                            ')
+    @@SET_IDX  IDX_NAME(SF) TO(@@INDEXSV)
+    @@INC_IDX  IDX_NAME(SF)
+    @@SET_IDX  IDX_NAME(XX) TO(1)
+    S20: @@LABEL
+    @@CMP_IDX  IDX_NAME(SF) IDX_VALUE(@@LNE09) IF_GT(A99)
+    @@CMP_IDX  IDX_NAME(XX) IDX_VALUE(9) IF_LT(Z10)
+    @@CMP_IDX  IDX_NAME(XX) IDX_VALUE(9) IF_GT(Z10)
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set left margin to @@var_left  = 384    ')
+    @@COMMENT  COMMENT('  Reset field top to @@var_ftop = @@var_top ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    /* ********** Set index WW to 1 as flag for width property.           */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(WW) TO(1)
+    Z10: @@LABEL
+    DEFINE_COM CLASS(#@@LEL09SF.VISUAL ) NAME(#@@LEL09SF) LEFT(@@VAR_LEFT + 0) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP)     TOP(@@VAR_FTOP + 30)
+    @@INC_IDX  IDX_NAME(DP)
+    @@INC_IDX  IDX_NAME(SF)
+    @@INC_IDX  IDX_NAME(XX)
+    @@GOTO     LABEL(S20)
+    /* **********                                                         */
+    /* ********** Create tab folder                                       */
+    /* **********                                                         */
+    T10: @@LABEL
+    @@SET_IDX  IDX_NAME(ZZ) TO(0)
+    @@QUESTION PROMPT('''How many tab sheets do you wish to create?') ANSWER(@@NANS001) EXTEND('Select up to 10 logically grouped fields for each tab sheet to allow room ' 'to rearrange position or size of fields if required.') HELPIDS(HELP040)
+    @@SET_IDX  IDX_NAME(TB) TO(1)
+    T20: @@LABEL
+    @@CMP_IDX  IDX_NAME(TB) IDX_VALUE(@@NANS001) IF_GT(T99)
+    @@CLR_LST  NUMBER(3)
+    @@INC_IDX  IDX_NAME(ZZ)
+    @@QUESTION PROMPT('Supply a word that describes WHAT tab sheet @@INDEXZZ contains') ANSWER(@@CANS003) EXTEND('The word you specify here is used as the caption on the tab sheet')
+    @@SET_IDX  IDX_NAME(SV) TO(@@LNE09)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(9) INTO_LSTS((3 'Select' 'fields' 'to display' *YESNO *FORCE))
+    @@MRG_LSTS FROM_LSTS((3)) INTO_LST(9)
+    @@SET_IDX  IDX_NAME(TT) TO(@@LNE03)
+    @@CMP_IDX  IDX_NAME(TT) IDX_VALUE(0) IF_EQ(T99)
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    @@CANS003 - Tab sheet                   ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set left margin to @@var_left = 2       ')
+    @@COMMENT  COMMENT('    Set top margin to @@var_tbshtop  = 0   ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TBSH) NAME(#TBSH_@@INDEXZZ) CAPTION('@@CANS003') DISPLAYPOSITION(@@INDEXZZ) PARENT(#TAB_1)
+    @@SET_IDX  IDX_NAME(CF) TO(@@INDEXSV)
+    @@INC_IDX  IDX_NAME(CF)
+    @@SET_IDX  IDX_NAME(XX) TO(1)
+    T30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@LNE03) IF_GT(T40)
+    @@CMP_IDX  IDX_NAME(XX) IDX_VALUE(9) IF_LT(X10)
+    @@CMP_IDX  IDX_NAME(XX) IDX_VALUE(9) IF_GT(X10)
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set left margin to @@var_left  = 370    ')
+    @@COMMENT  COMMENT('    Set top margin to @@var_tbshtop  = 0    ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    /* ********** Set index WW to 1 as flag for width property.           */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(WW) TO(1)
+    X10: @@LABEL
+    DEFINE_COM CLASS(#@@LEL09CF.VISUAL ) NAME(#@@LEL09CF) LEFT(@@VAR_LEFT + 0) PARENT(#TBSH_@@INDEXZZ) TOP(@@VAR_TBSHTOP + 25)
+    @@INC_IDX  IDX_NAME(DP)
+    @@INC_IDX  IDX_NAME(CF)
+    @@INC_IDX  IDX_NAME(XX)
+    @@GOTO     LABEL(T30)
+    T40: @@LABEL
+    @@INC_IDX  IDX_NAME(TB)
+    @@GOTO     LABEL(T20)
+    /* **********                                                         */
+    T99: @@LABEL
+    @@COMMENT  COMMENT('                                            ')
+    @@CMP_IDX  IDX_NAME(WW) IDX_VALUE(1) IF_EQ(TF1)
+    @@COMMENT  COMMENT(' Set tab folder width @@var_TFW   = 445    ')
+    @@GOTO     LABEL(TF9)
+    TF1: @@LABEL
+    @@COMMENT  COMMENT(' Set tab folder width @@var_TFW   = 745    ')
+    TF9: @@LABEL
+    DEFINE_COM CLASS(#PRIM_TAB) NAME(#TAB_1) DISPLAYPOSITION(@@INDEXDP) HEIGHT(265) LEFT(8) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 35) WIDTH(@@VAR_TFW + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    /* **********                                                         */
+    A99: @@LABEL
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Buttons                                 ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set button top to @@VAR_TOP + 280       ')
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#FETCH) CAPTION(&Fetch) DISPLAYPOSITION(@@INDEXDP) LEFT(20) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#INSERT) CAPTION(&Insert) DISPLAYPOSITION(@@INDEXDP) LEFT(120) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#UPDATE) CAPTION(&Update) DISPLAYPOSITION(@@INDEXDP) LEFT(220) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#DELETE) CAPTION(&Delete) DISPLAYPOSITION(@@INDEXDP) LEFT(320) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    /* **********                                                         */
+    /* ********** Add status bar for messages.                            */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) HEIGHT(25) MESSAGEPOSITION(1) PARENT(#@@PROCESS) TOP(@@VAR_TOP + 50)
+    /* **********                                                         */
+    /* ********** Adjust form size and details.                           */
+    /* **********                                                         */
+    @@ROUTEBEG
+    @@CMP_IDX  IDX_NAME(WW) IDX_VALUE(1) IF_EQ(W10)
+    BEGIN_COM  CAPTION(@@CANS001) HEIGHT(@@VAR_TOP + 40) LEFT(270)    TOP(105) VISUALSTYLE(#VS_NORM) WIDTH(470)
+    @@GOTO     LABEL(W20)
+    W10: @@LABEL
+    BEGIN_COM  CAPTION(@@CANS001) HEIGHT(@@VAR_TOP + 40) LEFT(19)     TOP(105) VISUALSTYLE(#VS_NORM) WIDTH(765)
+    W20: @@LABEL
+    @@ROUTEDEF
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('     RDML Definitions                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    DEFINE     #MESSAGE *CHAR 132
+    GROUP_BY   NAME(#ALLFLDS) FIELDS(@@LST01)
+    @@ROUTERTN
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('     Event Routines                         ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Fetch                                   ')
+    EVTROUTINE HANDLING(#FETCH.CLICK)
+    FETCH      FIELDS(#ALLFLDS) FROM_FILE(@@FNAME01) WITH_KEY(@@LST02)
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    EXECUTE    SUBROUTINE(INITFLDS)
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error retrieving @@CANS001')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Insert                                  ')
+    EVTROUTINE HANDLING(#INSERT.CLICK)
+    INSERT     FIELDS(#ALLFLDS) TO_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    MESSAGE    MSGTXT('@@CANS001 inserted successfully')
+    EXECUTE    SUBROUTINE(INITFLDS)
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error inserting @@CANS001')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Update                                  ')
+    EVTROUTINE HANDLING(#UPDATE.CLICK)
+    UPDATE     FIELDS(#ALLFLDS) IN_FILE(@@FNAME01) WITH_KEY(@@LST02) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    MESSAGE    MSGTXT('@@CANS001 updated successfully')
+    EXECUTE    SUBROUTINE(INITFLDS)
+    ELSE
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error updating @@CANS001')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Delete                                  ')
+    EVTROUTINE HANDLING(#DELETE.CLICK)
+    DELETE     FROM_FILE(@@FNAME01) WITH_KEY(@@LST02) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    MESSAGE    MSGTXT('@@CANS001 deleted successfully')
+    EXECUTE    SUBROUTINE(INITFLDS)
+    ELSE
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error deleting @@CANS001')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    /* ********** Initialise fields                                       */
+    /* **********                                                         */
+    SUBROUTINE NAME(INITFLDS)
+    CHANGE     #ALLFLDS *NULL
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    E99: @@LABEL
+    @@ROUTEEND
+    END_COM
+    /* **********                                                         */
+    /* ********** ------------------------------------------------        */
+    /* ********** CLEAN UP TEMPLATE PROCESSING                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(9)
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of VL_BASEMNT
+
+      Text: |
+        This template creates a maintenance form for a database file. The key fields    
+        will be automatically placed on the form. Other fields will be presented for    
+        selection and can be added to the flat form or a tab folder for display. If a   
+        tab folder is selected a prompt will ask for each tab sheet caption.
+
+  - HELP020:
+      Description:        File name and keys
+
+      Text: |
+        This template requests the name of the file to be maintained. A generic name can
+        be entered which will cause a list to be displayed with the matching file names.
+        The keys of the file will automatically be added to the form.
+
+  - HELP030:
+      Description:        Type of arrangement of fields
+
+      Text: |
+        If there are more than 10 fields to be displayed, it is advisable to select a   
+        tab folder to display them, and group them logically onto separate tab sheets.
+
+  - HELP040:
+      Description:        Logical grouping of fields
+
+      Text: |
+        When this template uses a tab folder and tab sheets, up to 10 fields can be     
+        positioned on each. This limit is for manageability of the form size and to     
+        allow space to resize or rearrange fields. It applies to this template only.    
+                                                                                        
+        The number of tab sheets required can be calculated by considering how many     
+        logical groups of fields there are in the file definition. For example if the   
+        file contains address details, the street number, street name, town, and zip or 
+        post code would logically be grouped together on the same tab sheet.            
+                                                                                        
+        You will be prompted for an appropriate name for each tab sheet.

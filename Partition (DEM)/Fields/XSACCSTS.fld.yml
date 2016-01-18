@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               XSAccountStatus
+  Type:               Char
+  Length:             20
+  Decimals:           0
+  Default Value:      "'ACTIVE'"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Account Status"
+      Label:              "Account Status"
+      Heading1:           "Account"
+      Heading2:           "Status"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Account Status"
+      Label:              "Account Status"
+      Heading1:           "Account"
+      Heading2:           "Status"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(419)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,41 @@
+﻿Reusable Part:
+  Name:               XDXBasePanel
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Base Panel"
+
+  - FRA:
+      Description:        "Panneau de base"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *Implements #prim_app.iHelpHandler) Displayposition(1) Left(0) Tabposition(1) Tabstop(False) Top(0)
+    
+    * Base panel
+    * Uses iHelpHandler interface to interrupt F1 Processing
+    
+    Define_Com Class(#XDXApplication) Name(#Application) Scope(*Application)
+    
+    Mthroutine Name(Activate)
+    
+    Endroutine
+    
+    Mthroutine Name(Deactivate)
+    
+    Endroutine
+    
+    Mthroutine Name(ProcessHelpRequest) Options(*Redefine)
+    
+    #Handled := True
+    
+    Endroutine
+    
+    
+    End_Com

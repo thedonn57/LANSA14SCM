@@ -1,0 +1,21 @@
+﻿Bitmap:
+  Name:               XEPBM002
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Add Icon"
+
+  - FRA:
+      Description:        "Add Icon"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_BMP)
+    End_Com
+
+  Data: |
+    89504E470D0A1A0A0000000D49484452000000180000001808040000004A7EF5730000001F4944415438CB6360180530F01F
+    084635E052840B5047C3683C90AA6178030003AA6799AC726D9D0000000049454E44AE426082

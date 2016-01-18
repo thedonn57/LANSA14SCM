@@ -1,0 +1,52 @@
+﻿Field:
+  Name:               EMPTSWEEK
+  Type:               Packed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Edit Mask:          Z
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Week number"
+      Label:              "Week number"
+      Heading1:           "Week"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro de semaine"
+      Label:              "No semaine"
+      Heading1:           "Numéro"
+      Heading2:           "semaine"
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "must be between 1 and 52"
+      Ranges:
+      - From:               +1
+        To:                 +52
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0052
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(193)
+    
+    End_Com
+    
+    End_Com

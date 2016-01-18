@@ -1,0 +1,92 @@
+﻿Web Page:
+  Name:               xDemoWebImageDownload
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Image Multiple DownLoad"
+
+  - FRA:
+      Description:        "Image DownLoad"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    * Employee List with Image Download
+    * Listing of all employees showing name and a thumbnail
+    * Click on Save for the required itemhAddress column uses a reusable part to display more than one field in the column
+    * An instance will be created for each item added to the list
+    
+    * Sample data object. Scope(*Application) is used to enure that a single instance is shared between all the referrers
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1) Cornertopleft(3) Cornerbottomleft(3) Cornertopright(3) Cornerbottomright(3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(214:214:214)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200) Rowheight(37) Rowresize(True) Selectionstyle(All) Rowlines(False) Columnlines(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row1)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmarginbottom(2) Cellmarginleft(2) Cellmarginright(2) Cellmargintop(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columncaption('Emp #') Columnwidth(78) Sortonclick(True) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#List) Source(#SURNAME) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#List) Source(#GIVENAME) Sortonclick(True) Columnwidth(161)
+    Define_Com Class(#PRIM_LIST.Button) Name(#ColumnDownload) Columnwidth(113) Displayposition(5) Parent(#List) Image(#xImageDownload16) Caption('Download') Cellsizing(None) Cellwidth(100) Style(#Style1)
+    
+    * Data has been loaded
+    Evtroutine Handling(#gData.Prepared)
+    
+    * Loop through the employee instances
+    For Each(#Employee) In(#gData.Employees)
+    
+    * Populate column values and add an entry
+    #Empno := #Employee.ID
+    #Surname := #Employee.Surname
+    #Givename := #Employee.GivenName
+    #deptdesc := #Employee.Department.Description
+    
+    Add_Entry To_List(#List)
+    
+    * Show the employee thumbnail
+    #ColumnImage.currentitem.image <= #Employee.Thumbnail
+    
+    #ColumnDownload.currentitem.Visible := false
+    #ColumnDownload.currentitem.Hint := "Download Image"
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#ColumnDownload.Click)
+    
+    #Com_owner.Download
+    
+    Endroutine
+    
+    Mthroutine Name(Download)
+    
+    Define_Com Class(#xDemoDataServices.DownloadImage) Name(#ImageDownLoad)
+    
+    #ImageDownLoad.execute( #Empno )
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseEnter)
+    
+    #ColumnDownload.currentItem.Visible := true
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseLeave)
+    
+    #ColumnDownload.currentItem.Visible := false
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,55 @@
+﻿Form:
+  Name:               xDemoFileSave
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the File Save Dialog"
+
+  - FRA:
+      Description:        "Using the File Save Dialog"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Theme(#SYS_THEME<2015Blue>) Clientwidth(551) Clientheight(301) Left(165) Top(204) Width(567)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Save) Caption('Save') Displayposition(1) Left(416) Parent(#COM_OWNER) Tabposition(1) Top(264) Width(129)
+    
+    Def_List Name(#List) Fields(#xDemoNumber) Type(*Working)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    Begin_Loop Using(#xDemoNumber) To(10)
+    Add_Entry To_List(#List)
+    End_Loop
+    
+    Endroutine
+    
+    Evtroutine Handling(#Save.Click)
+    
+    #Com_owner.Save
+    
+    Endroutine
+    
+    Mthroutine Name(Save)
+    
+    Define_Com Class(#Prim_appl.ICommonDialogFileSave) Name(#FileSave) Reference(*Dynamic)
+    
+    #FileSave <= #sys_appln.CreateFileSaveDialog
+    #FileSave.File := "SuggestedName.txt"
+    
+    If (#FileSave.Show)
+    
+    Use Builtin(Transform_list) With_Args(#List #FileSave.File T) To_Get(#IO$STS)
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    
+    

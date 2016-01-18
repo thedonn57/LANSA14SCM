@@ -1,0 +1,51 @@
+﻿Reusable Part:
+  Name:               xDemoDragandDropImage
+  Enabled For RDMLX:  Yes
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drag and Drop Image"
+
+  - FRA:
+      Description:        "Drag and Drop Image"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Left(0) Top(0) Width(282) Style(#Style2)
+    
+    * Popup Panel (Prim_PPNL) used as the image for drag and drop
+    
+    * Text to appear on top of the image
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Foregroundbrush(#Brush1) Bold(True) Fontsize(12)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:29:6)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#Prim_Labl) Name(#Caption) Displayposition(1) Ellipses(Word) Left(0) Marginleft(2) Margintop(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(33) Width(33) Caption('5') Style(#Style1)
+    
+    Define_Pty Name(DragCaption) Set(SetDragCaption)
+    Define_Pty Name(DragImage) Set(SetDragImage)
+    
+    Ptyroutine Name(SetDragCaption)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Property)
+    
+    #Caption := #Property
+    
+    Endroutine
+    
+    Ptyroutine Name(SetDragImage)
+    Define_Map For(*Input) Class(#Prim_bmp) Name(#Property) Pass(*by_reference)
+    
+    #Com_owner.Image <= #Property
+    #Com_owner.Height := #Property.Height
+    #Com_owner.Width := #Property.Width
+    
+    Endroutine
+    
+    End_Com

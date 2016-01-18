@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03FMT
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Function name"
+      Label:              "X03FMT"
+      Heading1:           "Function"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Function name"
+      Label:              "X03FMT"
+      Heading1:           "Function"
+      Heading2:           "Name"
+      Heading3:           " "

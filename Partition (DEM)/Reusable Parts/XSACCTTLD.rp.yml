@@ -1,0 +1,86 @@
+﻿Reusable Part:
+  Name:               XSAccountTitleDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Account Title Dropdown"
+
+  - FRA:
+      Description:        "Account Title Dropdown"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(21) Left(0) Tabposition(1) Top(0) Width(489) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TitlesItem1) Alignment(TopLeft) Column(#Column1) Manage(#Titles) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST.DropDown) Name(#Titles) Columnheaderheight(0) Columnlines(False) Displayposition(1) Left(0) Parent(#COM_OWNER) Rowlines(False) Showselection(False) Tabposition(1) Top(0) Dropdownstyle(DropDown) Width(489) Rowheight(25) Height(21)
+    Define_Com Class(#PRIM_LIST.String) Name(#DropDownColumn1) Columnresize(False) Columnunits(Proportion) Columnwidth(1) Displayposition(1) Parent(#Titles) Source(#XSAccountTitle)
+    
+    Define_Com Class(#XSAccountTitle) Name(#XSTitle)
+    
+    Define_Pty Name(pCurrentValue) Get(GetCurrent) Set(SetCurrent)
+    
+    Ptyroutine Name(GetCurrent)
+    Define_Map For(*output) Class(#XSAccountTitle) Name(#value)
+    
+    #value := #Titles.Value
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCurrent)
+    Define_Map For(*input) Class(#XSAccountTitle) Name(#value)
+    
+    #XSTitle #XSAccountTitle := #value
+    
+    Selectlist Named(#Titles)
+    
+    Continue If(#XSTitle.uppercase <> #XSAccountTitle.uppercase)
+    
+    #Titles.CurrentItem.Selected := true
+    
+    Leave
+    
+    Endselect
+    
+    * Ensure value set correctly even if not found in list
+    #Titles.value := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    * Set up static list of drop down values
+    #com_owner.AddDropDownEntry( *BLANKS )
+    #com_owner.AddDropDownEntry( 'Ms' )
+    #com_owner.AddDropDownEntry( 'Mr' )
+    #com_owner.AddDropDownEntry( 'Mrs' )
+    #com_owner.AddDropDownEntry( 'Miss' )
+    #com_owner.AddDropDownEntry( 'Dr' )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Titles.changed)
+    
+    #com_owner.pCurrentValue := #Titles.value
+    
+    Endroutine
+    
+    Mthroutine Name(AddDropDownEntry)
+    Define_Map For(*input) Class(#XSAccountTitle) Name(#Title)
+    
+    #XSAccountTitle := #Title
+    Add_Entry To_List(#Titles)
+    
+    Endroutine
+    
+    End_Com

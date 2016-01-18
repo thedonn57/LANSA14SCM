@@ -1,0 +1,37 @@
+﻿Form:
+  Name:               xDemoTreeSimpleList
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        " Using tree for a simple list"
+
+  - FRA:
+      Description:        "Free Format Tree"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(798) Clientheight(384) Left(124) Top(225) Layoutmanager(#Layout) Height(423) Width(814) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TREE<#xDemoTreeSimpleListDesign>) Name(#List) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Height(384) Width(798)
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Parent(#Layout) Row(#Row_1) Column(#Column_1) Manage(#List)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Select Fields(#List) From_File(pslmst)
+    Fetch Fields(#Empthm) From_File(PSLIMG) With_Key(#Empno)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

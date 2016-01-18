@@ -1,0 +1,98 @@
+﻿File:
+  Name:                           LZ2C
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             LZ2C
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country"
+
+  - FRA:
+      Description:        "Pays"
+
+  Real Fields:
+  - LZCOCD:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - LZCODS:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - LZDATEDAT:
+      Type:               Signed
+      Length:             8
+      Decimals:           0
+
+  Primary Keys:
+  - LZCOCD
+
+  File Level Validation Rules:
+  - LZCOCD:
+    - Lookup Check:
+        Description:        "RUOM CANNOT DELETE - LZ2W EXIS"
+        File:               LZ2W
+        Keys:
+        - LZCOCD
+        When Inserting:     Never
+        When Updating:      Never
+        When Deleting:      Always
+        Positive Action:    Error
+        Negative Action:    Next
+        Message File:       DC@M01
+        Message Number:     LUO4007
+
+  Access Routes:
+  - LCL0000001:
+      Description:        is the grand-parent of country
+      File:               LZ2E
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCD
+
+  - RUO0000001:
+      Description:        is the parent of/owns (0:M)
+      File:               LZ2W
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - LZCOCD

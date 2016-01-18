@@ -1,0 +1,35 @@
+﻿ActiveX:
+  Name:               VA_WEBCTL
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Groups:
+  - Id1:                1021
+    Id2:                1600
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Microsoft Web Browser"
+
+  - FRA:
+      Description:        "Contrôle Web Microsoft"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT . :  STD_ACTVX                        *
+    *  DATE  . . . :  DEC'99                           *
+    *  DESCRIPTION :                                   *
+    *                                                  *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_MCVO) Displayposition(1) Progid('Shell.Explorer.2') Tabposition(1) Typelibid('{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}1.1,0')
+    End_Com
+
+  Data: |
+    01000000E6000000380000009C00000061F956880A34D011A96B00C04FD705A240A55F0209000000535F5745424354524C40
+    A55F0209000000535F5745424354524C40A55F02000000004C0000002E1E0000060D00000000000000000000000000000000
+    000000000000000000004C000000000000000000000001000000E0D057007335CF11AE6908002B2E12620800000000000000
+    4C0000000114020000000000C000000000000046000000000000000000000000000000000000000000000000000000000000
+    000000000000000000000100000000000000000000000000000000000000

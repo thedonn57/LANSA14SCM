@@ -1,0 +1,47 @@
+﻿Reusable Part:
+  Name:               xDemoFieldVisSectionPicklist
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual - Section Drop Down"
+
+  - FRA:
+      Description:        "Visual - Section Drop Down"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * Uses the iDynamicPicklist and IMonitorSubject interface to support use as a field visualization
+    Begin_Com Role(*EXTENDS #PRIM_objt *implements #Prim_dc.iMonitorSubject #Prim_dc.IDynamicPicklist)
+    
+    * Field Visualization - Departments dynamic picklist
+    
+    * Receive a department value from the monitor
+    Mthroutine Name(ApplymonitoredValue) Options(*redefine)
+    
+    #Deptment := #MonitorSubject.GetValue
+    
+    Endroutine
+    
+    Mthroutine Name(Load) Options(*Redefine)
+    
+    * Always clear the list when Loading
+    #Picklist.RemoveAll
+    
+    * Read the section table and add a picklist for each record
+    Select Fields(#Section #Secdesc) From_File(sectab) With_Key(#deptment)
+    
+    * Add the item using the section code and description.  First item will become the default item
+    #Picklist.Add( #Section ("&1 (&2)").substitute( #secdesc #section ) #Picklist.Items.IsEmpty )
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

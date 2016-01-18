@@ -1,0 +1,145 @@
+﻿Reusable Part:
+  Name:               xDemoWebDropDown
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Web Drop Down"
+
+  - FRA:
+      Description:        "Web Drop Down"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(44) Left(0) Tabposition(1) Top(0) Width(268) Layoutmanager(#Layout) Tabstop(False)
+    
+    * Sample Drop down ready to be used on a webpage
+    * This is a generic dropdown supporting a value and description
+    * xDemoWebDropDownSamples show how this might be used
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_List.DropDown) Name(#DropDown) Displayposition(1) Height(44) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(268) Columnlines(False) Rowlines(False) Columnheaderheight(0)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Parent(#Layout) Row(#Row_1) Manage(#DropDown)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOVALU) Displayposition(2) Parent(#DropDown) Source(#xDemoValue) Columnvisible(False) Columnunits(Proportion) Columnwidth(1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT) Displayposition(1) Parent(#DropDown) Source(#xDemoCaption) Columnunits(Proportion)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#NoBorders) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0) Backgroundbrush(#NoBordersBGBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#NoBordersBGBrush) Color(Transparent)
+    
+    Define_Pty Name(DropDown) Get(*reference #DropDown) Help('Reference to the dropdown')
+    
+    Define_Pty Name(CurrentItem) Get(GetCurrentItem) Help('Reference to the currentitem in the list')
+    
+    Define_Pty Name(FocusItem) Get(GetFocusItem) Help('Reference to the focus item in the list')
+    
+    Define_Pty Name(EmbeddedinList) Set(SetEmbeddedinList) Help('Remove borders and background')
+    
+    Define_Evt Name(ItemGotFocus)
+    Define_Map For(*Input) Class(#xDemoValue) Name(#Value) Help('Value of the focus item')
+    Define_Map For(*Input) Class(#xDemoCaption) Name(#Caption) Help('Caption of the focus item')
+    Define_Map For(*Input) Class(#Prim_List.ListItem) Name(#Item) Pass(*by_reference)
+    
+    Ptyroutine Name(GetCurrentItem)
+    Define_Map For(*Output) Class(#Prim_list.ListItem) Name(#Property) Pass(*by_reference)
+    
+    #Property <= #DropDown.CurrentItem
+    
+    Endroutine
+    
+    Ptyroutine Name(GetFocusItem)
+    Define_Map For(*Output) Class(#Prim_List.ListItem) Name(#Property) Pass(*by_reference)
+    
+    #Property <= #DropDown.FocusItem
+    
+    Endroutine
+    
+    Ptyroutine Name(SetEmbeddedinList)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Property)
+    
+    If (#Property)
+    #DropDown.Style <= #NoBorders
+    Else
+    #DropDown.Style <= *null
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(Add) Help('Add an entry to the drop down')
+    Define_Map For(*Input) Class(#xDemoValue) Name(#Value) Help('Value of the item e.g. An item code or identifier')
+    Define_Map For(*Input) Class(#xDemoCaption) Name(#Caption) Help('Text to display for the item')
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Reference) Mandatory(*Null) Help('Reference to store against the item') Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_List.ListItem) Name(#Result) Help('Reference to the newly created item') Pass(*by_reference)
+    
+    * Apply the supplied values
+    #xDemoValue := #Value
+    #xDemoCaption := #Caption
+    
+    Add_Entry To_List(#DropDown)
+    
+    * Store the supplied data object against the item
+    #DropDown.CurrentItem.RelatedReference <= #Reference
+    
+    #Result <= #DropDown.CurrentItem
+    
+    Endroutine
+    
+    Mthroutine Name(Clear)
+    
+    Clr_List Named(#DropDown)
+    
+    Endroutine
+    
+    Mthroutine Name(Find) Help('Find the first item with the value specified in the Value parameter')
+    Define_Map For(*Input) Class(#xDemoValue) Name(#Value) Help('Value to search for')
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Focus) Mandatory(True) Help('Set focus to the found item?')
+    Define_Map For(*Result) Class(#Prim_List.ListItem) Name(#Result) Help('Reference to the found item') Pass(*by_reference)
+    
+    * Look through the drop down items for one matching the supplied value
+    Selectlist Named(#DropDown)
+    Continue If(#xDemoValue <> #Value)
+    
+    #Result <= #DropDown.CurrentItem
+    
+    If (#Focus)
+    
+    #DropDown.CurrentItem.Focus := True
+    
+    Endif
+    
+    Leave
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(FindReference) Help('Find the first item with the value specified in the Value parameter')
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Reference) Help('Reference to store against the item') Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Focus) Mandatory(True) Help('Set focus to the found item?')
+    Define_Map For(*Result) Class(#Prim_List.ListItem) Name(#Result) Help('Reference to the found item') Pass(*by_reference)
+    
+    * Search the items RelatedReference property for the supplied object
+    #Result <= #DropDown.FindReference( #Reference )
+    
+    If ((#Focus) *AndIf (#Result *IsNot *null))
+    
+    #Result.Focus := True
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#DropDown.ItemGotFocus)
+    
+    Signal Event(ItemGotFocus) Value(#xDemoValue) Caption(#xDemoCaption) Item(#DropDown.CurrentItem)
+    
+    Endroutine
+    
+    End_Com
+    

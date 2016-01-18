@@ -1,0 +1,44 @@
+﻿Reusable Part:
+  Name:               XDXTouchEmployeeImage
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Image"
+
+  - FRA:
+      Description:        "Employee Image"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(300) Left(0) Style(#ImageStyle) Tabposition(1) Top(0) Touchmove(Both) Touchrotate(Yes) Touchscale(Yes) Width(300)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#ImageStyle) Backgroundbrush(#ImageBrush)
+    Define_Com Class(#Prim_vs.ImageBrush) Name(#ImageBrush) Sizing(BestFit)
+    
+    Mthroutine Name(Construct) Options(*Constructor *Required)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Image) Pass(*By_reference)
+    
+    #ImageBrush.image <= #Image
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.TouchStart)
+    
+    #Com_owner.DisplayPosition := 1
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.DoubleClick)
+    
+    #Com_owner.Rotation := 0
+    #Com_owner.height #Com_owner.height := 300
+    
+    Endroutine
+    
+    End_Com

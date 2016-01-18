@@ -1,0 +1,46 @@
+﻿Reusable Part:
+  Name:               xDemoWebListInputSurname
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Surname"
+
+  - FRA:
+      Description:        "Surname"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #prim_list.IListCellDesign *listfields #ListFields) Displayposition(1) Height(30) Left(0) Tabposition(1) Top(0) Width(500) Layoutmanager(#TableLayout)
+    
+    Group_By Name(#ListFields) Fields(#Surname)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#Surname.Visual) Name(#Surname) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Height(30) Width(500) Marginleft(0) Editstyle(#Style1)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#Surname) Parent(#TableLayout) Row(#Row)
+    
+    Evtroutine Handling(#Surname.AutoCompleting) Value(#Value)
+    
+    #Com_owner.AutoComplete( #Value )
+    
+    Endroutine
+    
+    Mthroutine Name(AutoComplete)
+    Define_Map For(*Both) Class(#Surname) Name(#Value)
+    
+    Define_Com Class(#xDemoDataServices.CompleteSurname) Name(#AutoComplete)
+    
+    #AutoComplete.Execute( #Value )
+    
+    Endroutine
+    
+    End_Com

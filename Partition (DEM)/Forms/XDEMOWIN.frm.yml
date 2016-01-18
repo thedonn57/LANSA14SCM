@@ -1,0 +1,58 @@
+﻿Form:
+  Name:               xDemoWindowsDragAndDrop
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "WindowsDragAndDrop"
+
+  - FRA:
+      Description:        "WindowsDragAndDrop"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(464) Clientwidth(680) Dragstyle(Aggregated) Height(503) Left(313) Top(207) Width(696) Layoutmanager(#TableLayout1) Caption('Drag and drop some files from Windows Explorer')
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#FilesItem1) Column(#Column1) Manage(#Files) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LTVW) Name(#Files) Columnbuttonheight(20) Componentversion(2) Displayposition(1) Dragstyle(Automatic) Fullrowselect(True) Height(464) Keyboardpositioning(SortColumn) Left(0) Parent(#COM_OWNER) Showsortarrow(True) Tabposition(1) Top(0) Width(680)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL1) Displayposition(1) Parent(#Files) Source(#xDemoCaption) Widthtype(Remainder) Caption('Files') Captiontype(Caption)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #Sys_Appln.AllowWindowsDragDrop := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#Files.DragOver) Payload(#Payload) Acceptdrop(#AcceptDrop)
+    
+    #AcceptDrop := (#Payload *Is #Prim_Appl.iDragDropFilePaths)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Files.DragDrop) Payload(#Payload)
+    
+    Clr_List Named(#Files)
+    
+    If (#Payload *Is #Prim_Appl.IDragDropFilePaths)
+    
+    Begin_Loop To((#Payload *As #Prim_Appl.IDragDropFilePaths).FileCount)
+    
+    #xDemoCaption := (#Payload *As #Prim_Appl.IDragDropFilePaths).FilePath<(#Files.Entries + 1)>
+    Add_Entry To_List(#Files)
+    
+    End_Loop
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

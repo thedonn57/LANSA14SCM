@@ -1,0 +1,83 @@
+﻿Reusable Part:
+  Name:               xDemoFieldVisNumberAsDate
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual - Number as Date"
+
+  - FRA:
+      Description:        "Visual - Number as Date"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_dc.iMonitorSubject #Prim_dc.iContextualSubject) Defaultpty(Value) Displayposition(1) Height(20) Layoutmanager(#TableLayout_1) Left(0) Tabposition(1) Tabstop(False) Top(0) Width(279)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#xDate) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#xDemoDate.Visual) Name(#xDate) Displayposition(1) Height(20) Marginleft(0) Parent(#COM_OWNER) Tabposition(1) Width(279)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#xDate) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Pty Name(Value) Get(GetPropertyValue) Set(SetPropertyValue)
+    
+    Ptyroutine Name(GetPropertyValue)
+    Define_Map For(*Output) Class(#prim_nmbr) Name(#Property)
+    
+    If (#xDate.IsNotSqlNull)
+    
+    #Property := #xDate.AsNumber( sysFmt6 )
+    
+    Endif
+    
+    Endroutine
+    
+    Ptyroutine Name(SetPropertyValue)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#Property)
+    
+    #xDate := *Sqlnull
+    
+    If (#Property <> 0)
+    
+    If (#Property.isDate( sysFmt6 ))
+    
+    #xDate := #Property.asDate( sysFmt6 )
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ApplymonitoredValue) Options(*redefine)
+    
+    * No Action Required
+    
+    Endroutine
+    
+    Mthroutine Name(OnContextChanged) Options(*redefine)
+    
+    If (#Context *Is #prim_evst)
+    
+    #xDate.ReadOnly := (#Context *As #prim_evp).ReadOnly
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#xDate.Changed)
+    
+    Signal Event(ValueChanged)
+    
+    Endroutine
+    
+    End_Com
+    
+    

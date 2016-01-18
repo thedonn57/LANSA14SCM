@@ -1,0 +1,34 @@
+﻿Reusable Part:
+  Name:               XDXDragAndDropImagePanel
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drag and Drop Panel"
+
+  - FRA:
+      Description:        "Panneau glisser / déposer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(96) Left(0) Style(#Style) Tabposition(1) Top(0) Width(304)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Style) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#Prim_vs.VisualBrush) Name(#BackgroundBrush) Sizing(BestFit)
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Prim_panl) Name(#Control) Pass(*by_reference)
+    
+    #Com_owner.Width := #Control.Width / 2
+    #Com_owner.Height := #Control.Height / 2
+    
+    #BackgroundBrush.Control <= #Control
+    
+    Endroutine
+    
+    End_Com

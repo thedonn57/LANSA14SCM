@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               SYSVAR$NV
+  Type:               Packed
+  Length:             30
+  Decimals:           9
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - RB
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Variable Numeric Result"
+      Label:              "Numeric result"
+      Heading1:           "System Variable"
+      Heading2:           "Numeric"
+      Heading3:           "Result"
+
+  - FRA:
+      Description:        "Variable système résultat numérique"
+      Label:              "Résult. num."
+      Heading1:           "Variable système"
+      Heading2:           "Résultat"
+      Heading3:           "Numérique"

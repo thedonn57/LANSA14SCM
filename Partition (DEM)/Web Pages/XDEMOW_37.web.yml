@@ -1,0 +1,171 @@
+﻿Web Page:
+  Name:               xDemoWebSessions
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Session Handling"
+
+  - FRA:
+      Description:        "Session Handling"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Valid) Backgroundbrush(#Brush3)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush3) Color(202:245:206)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Invalid) Backgroundbrush(#Brush4)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush4) Color(245:191:183)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(503) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column_2) Flow(Down) Manage(#SigninUser) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Marginright(2) Margintop(2) Alignment(TopCenter) Marginleft(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column_2) Flow(Down) Manage(#SignonOff) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(2) Margintop(2) Marginbottom(2) Marginright(2) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column_2) Flow(Down) Manage(#Test) Parent(#TableLayout) Row(#Row_2) Sizing(None) Marginleft(2) Margintop(2) Marginbottom(2) Marginright(2) Alignment(TopCenter)
+    
+    Define_Com Class(#xDemoAlpha128.Visual) Name(#SigninUser) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Top(202) Width(499) Height(50) Marginleft(0) Caption('Enter a valid User ID') Labeltype(Caption) Labelhoralignment(Center) Labelposition(Top) Margintop(25) Left(351) Editstyle(#Invalid) Labelselectable(False)
+    Define_Com Class(#PRIM_PHBN) Name(#SignonOff) Displayposition(2) Left(496) Parent(#COM_OWNER) Tabposition(3) Top(256) Width(209) Caption('Sign In')
+    Define_Com Class(#PRIM_PHBN) Name(#Test) Caption('Test Session') Displayposition(3) Left(496) Parent(#COM_OWNER) Tabposition(2) Top(285) Width(209)
+    
+    Define_Com Class(#Prim_boln) Name(#SessionActive)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #SigninUser := LANSA
+    
+    Endroutine
+    
+    Evtroutine Handling(#SignonOff.Click)
+    
+    #Com_owner.SignonOff
+    
+    Endroutine
+    
+    Mthroutine Name(SignonOff)
+    
+    If (#SessionActive)
+    
+    #Com_owner.Signoff
+    
+    Else
+    
+    #Com_owner.Signon
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(Signon) Access(*Private)
+    
+    Define_Com Class(#xDemoSessionServices.Signin) Name(#Signin)
+    
+    #Signin.ExecuteAsync( #SigninUser #io$STS )
+    
+    Evtroutine Handling(#Signin.Completed)
+    
+    #Com_owner.UpdateSession( (#IO$sts = ok) )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Signin.Failed)
+    
+    #Com_owner.UpdateSession( False )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(Signoff) Access(*Private)
+    
+    Define_Com Class(#xDemoSessionServices.Signoff) Name(#Signoff)
+    
+    #Signoff.ExecuteAsync
+    
+    Evtroutine Handling(#Signoff.Completed #Signoff.Failed)
+    
+    #Com_owner.UpdateSession( False )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateSession) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Active)
+    
+    #SessionActive := #Active
+    
+    If (#Active)
+    
+    #SigninUser.EditStyle <= #Valid
+    
+    #SignonOff.Caption := "Sign Off"
+    
+    Else
+    
+    #SigninUser.EditStyle <= #Invalid
+    
+    #SignonOff.Caption := "Sign On"
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Test.Click)
+    
+    #Com_owner.TestSession
+    
+    Endroutine
+    
+    Mthroutine Name(TestSession)
+    
+    Define_Com Class(#xDemoSessionServices.TestSessionState) Name(#TestSession)
+    
+    #io$sts := ""
+    #Test.Caption := "Testing Session"
+    
+    #TestSession.ExecuteAsync( #Io$sts )
+    
+    Evtroutine Handling(#TestSession.Completed)
+    
+    #Com_owner.UpdateSession( True )
+    
+    #Test.Caption := "Test (Success)"
+    
+    Endroutine
+    
+    Evtroutine Handling(#TestSession.Failed) Reason(#Reason) Handled(#Handled)
+    
+    #Handled := True
+    
+    Case (#Reason)
+    
+    When (= Unknown)
+    
+    #Test.Caption := "Test (Failed)"
+    
+    When (= SessionInvalid)
+    
+    #Test.Caption := "Test (Session Invalid)"
+    
+    Endcase
+    
+    #Com_owner.UpdateSession( False )
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

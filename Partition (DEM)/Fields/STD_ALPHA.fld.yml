@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_ALPHA
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard alpha field"
+      Label:              "std alpha field"
+      Heading1:           "standard"
+      Heading2:           "alpha"
+      Heading3:           "field"
+
+  - FRA:
+      Description:        "Zone alpha standard"
+      Label:              "Zone alpha std"
+      Heading1:           "Zone"
+      Heading2:           "alpha"
+      Heading3:           "std"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_ALPHA
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    End_Com

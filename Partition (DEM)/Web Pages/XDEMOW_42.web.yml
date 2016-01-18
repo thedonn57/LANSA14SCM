@@ -1,0 +1,226 @@
+﻿Web Page:
+  Name:               xDemoWebTreeOnDemand
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Loading On Demand"
+
+  - FRA:
+      Description:        "Tree Loading On Demand"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(250) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(250) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#List) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Manage(#LoadImage) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(800) Left(250) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(700) Columnlines(False) Rowlines(False) Rowheight(22)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOAL_11) Displayposition(1) Parent(#List) Source(#xDemoAlpha256) Columnwidth(233) Columnunits(Proportion) Columncaption('Personnel Details') Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTMENT1) Displayposition(2) Parent(#List) Source(#DEPTMENT) Columnvisible(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSECTION1) Displayposition(3) Parent(#List) Source(#SECTION) Columnvisible(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(4) Parent(#List) Source(#EMPNO) Columnvisible(False)
+    Define_Com Class(#PRIM_IMAG) Name(#LoadImage) Displayposition(1) Left(525) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(325) Height(150) Width(150) Imagesizing(BestFit)
+    
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    Def_List Name(#Departments) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working)
+    Def_List Name(#Skills) Fields(#Empno #Skilcode #Skildesc) Type(*Working) Entrys(9999)
+    
+    Define_Com Class(#Prim_dcol<#Prim_alph #prim_list.ListItem>) Name(#LoadingItems)
+    
+    Evtroutine Handling(#Com_owner.initialize)
+    
+    #LoadImage.FileName := #xDemoWebLoading
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    Define_Com Class(#xDemoDataServices.GetDepartments) Name(#GetDepartments)
+    
+    #GetDepartments.ExecuteAsync( #Departments )
+    
+    Evtroutine Handling(#GetDepartments.Completed)
+    
+    Selectlist Named(#Departments)
+    
+    #Com_owner.AddEntry( #Deptdesc *Null #Deptment )
+    
+    Endselect
+    
+    #LoadImage.Visible := False
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoDataServices.GetDeptSections) Name(#GetSections)
+    
+    #Com_owner.ItemLoading( #ParentItem )
+    
+    #GetSections.ExecuteAsync( #Deptment #Sections )
+    
+    Evtroutine Handling(#GetSections.Completed)
+    
+    Selectlist Named(#Sections)
+    
+    #Com_owner.AddEntry( #Secdesc #ParentItem #Deptment #Section )
+    
+    Endselect
+    
+    #Com_owner.ItemLoadingComplete( #ParentItem )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoDataServices.GetDeptSectEmployees) Name(#GetEmployees)
+    
+    #Com_owner.ItemLoading( #ParentItem )
+    
+    #GetEmployees.ExecuteAsync( #deptment #Section #Employees )
+    
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    Selectlist Named(#Employees)
+    
+    #Com_owner.AddEntry( ("&1 &2").Substitute( #Givename #Surname ) #ParentItem #Deptment #Section #Empno )
+    
+    Endselect
+    
+    #Com_owner.ItemLoadingComplete( #ParentItem )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddSkills)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployeeSkills) Name(#GetSkills)
+    
+    #Com_owner.ItemLoading( #ParentItem )
+    
+    #GetSkills.ExecuteAsync( #empno #Skills )
+    
+    Evtroutine Handling(#GetSkills.Completed)
+    
+    Selectlist Named(#Skills)
+    
+    #Com_owner.AddEntry( #SkilDesc #ParentItem "" "" #Empno )
+    
+    Endselect
+    
+    #Com_owner.ItemLoadingComplete( #ParentItem )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Caption)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#Parentitem) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Department) Mandatory("")
+    Define_Map For(*Input) Class(#Prim_alph) Name(#SectionCode) Mandatory("")
+    Define_Map For(*Input) Class(#Prim_alph) Name(#EmployeeID) Mandatory("")
+    Define_Map For(*Result) Class(#prim_list.ListItem) Name(#Result) Pass(*By_reference)
+    
+    #xDemoAlpha256 := #Caption
+    #Deptment := #Department
+    #Section := #SectionCode
+    #Empno := #EmployeeID
+    
+    Add_Entry To_List(#List)
+    
+    #Result <= #List.CurrentItem
+    
+    #List.CurrentItem.ParentItem <= #ParentItem
+    
+    If (#List.CurrentItem.Level < 4) /* Don't show for skills */
+    
+    #List.CurrentItem.HasChildren := Unknown
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemExpanding) Item(#Item)
+    
+    #Com_owner.ExpandCollapse( #Item )
+    
+    Endroutine
+    
+    Mthroutine Name(ExpandCollapse)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#Item) Pass(*by_reference)
+    
+    If (#Item.ItemCount = 0)
+    
+    Case (#Item.Level)
+    
+    When (= 1)
+    
+    #Com_owner.AddSections( #Item )
+    
+    When (= 2)
+    
+    #Com_owner.AddEmployees( #Item )
+    
+    When (= 3)
+    
+    #Com_owner.AddSkills( #Item )
+    
+    Endcase
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ItemLoading)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#LoadingItem) Pass(*By_reference)
+    
+    Get_Entry Number(#LoadingItem.Entry)
+    
+    * Store details of the loading item
+    #LoadingItems.Insert( (*New #prim_alph) #LoadingItem )
+    #LoadingItems<#LoadingItem> := #xDemoAlpha256
+    
+    #xDemoAlpha256 := "Loading..."
+    Upd_Entry In_List(#List)
+    
+    #LoadingItem.ThemeDrawStyle := Emphasis
+    
+    Endroutine
+    
+    Mthroutine Name(ItemLoadingComplete)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#LoadingItem) Pass(*By_reference)
+    
+    Get_Entry Number(#LoadingItem.Entry)
+    
+    * Restore the caption from the stored list of expanding items
+    #xDemoAlpha256 := #LoadingItems<#LoadingItem>
+    Upd_Entry In_List(#List)
+    
+    #LoadingItems.Remove( #LoadingItem )
+    
+    #LoadingItem.ThemeDrawStyle := ""
+    
+    Endroutine
+    
+    End_Com

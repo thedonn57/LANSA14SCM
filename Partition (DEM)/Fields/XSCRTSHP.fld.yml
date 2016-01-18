@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               XSCartTotalShipping
+  Type:               Signed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Cart Total Shipping"
+      Label:              "Cart Total Tax"
+      Heading1:           "Cart"
+      Heading2:           "Tax"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Product Price"
+      Label:              "Product Price"
+      Heading1:           "Product"
+      Heading2:           "Price"
+      Heading3:           " "

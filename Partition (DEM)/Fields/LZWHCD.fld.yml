@@ -1,0 +1,72 @@
+﻿Field:
+  Name:               LZWHCD
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_CODE4
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    LZ2WPMT
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Warehouse Code"
+      Label:              "Warehouse Code"
+      Heading1:           "Whs"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code Entrepot"
+      Label:              "Code Entrepot"
+      Heading1:           "Code"
+      Heading2:           "Entrepot"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "must not be blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Warehouse code, in combination with the Country code,}
+        %uniquely identifies a Warehouse.}
+      
+        A Warehouse must exist in the Warehouse file before it can be
+        used in the Warehouse system.
+      
+        Standard LANSA repository functions will safeguard that:
+        -  Locations and Stock may only exist for Warehouse which are
+           defined in the warehouse file.
+        -  A Warehouse can not be deleted if there is Stock in it.
+        -  Other Referential Integrity rules are adhered to.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le code Entrepot , en combinaison avec le code Pays,}
+        %identifie un Entrepot}
+      
+        Un Entrepot doit exister dans le fichier des Entrepots avant qu'il
+        ne puisse etre utilise dans le systeme des Entrepots.
+      
+        Des fonctions standard du dictionnaire de LANSA assurent que :
+        -  Des Emplacements et Inventaires ne peuvent etre crees que pour
+           des Entrepots existant dans le fichier.
+        -  Un Entrepot ne peut pas etre supprime si li contient un stock.
+      $$NOAUTO

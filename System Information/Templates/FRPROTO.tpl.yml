@@ -1,0 +1,832 @@
+﻿Template:
+  Name:                    FRPROTO
+  Description:             ProtoTyping Template
+  Extended Description 1:  ProtoTyping Template
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT)
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** % %     P R O T O _ T Y P I N G  T E M P L A T E    % % */
+    /* ********** % %     P R O T O _ T Y P I N G  T E M P L A T E    % % */
+    /* ********** ===     P R O T O _ T Y P I N G  T E M P L A T E    === */
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(G2) TO(0)
+    @@SET_IDX  IDX_NAME(RH) TO(1)
+    @@SET_IDX  IDX_NAME(DL) TO(1)
+    /* **********                                                         */
+    /* ********** TEMPLATE MAINLINE                                       */
+    /* **********                                                         */
+    PT1: @@LABEL
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC001: Do you want to prototype SCREENs or REPORTs or EXIT ?') ANSWER(@@CANS002) EXTEND('At this point you can decide what you want to prototype.' 'SCREEN - will allow you to set up screen panels.' 'REPORT - will allow you to set up report heading and detail formats.' 'EXIT   - will end this prototyping session.' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(SCREEN REPORT EXIT) HELPIDS(HELP010 HELP100)
+    /* **********                                                         */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS002 *EQ EXIT)) GOTO(END)
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC001: Specify a title for this section of the prototype.') ANSWER(@@CANS300) EXTEND(1234567890123456789012345678901234567890 'Please enter up to 40 characters of text as a title.' 'You are currently prototyping a @@CANS002' 'Use the HELP function key for more details about this template.') HELPIDS(HELP010 HELP110)
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('TITLE : @@CANS300')
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('***********************************')
+    @@COMMENT  COMMENT('                                   ')
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC001: Do you want to specify any descriptive text ?') ANSWER(@@CANS100) EXTEND('If you want to place any comments at the start of this section of the' 'function specify Y for YES. If not specify N for No.' 'You are currently prototyping a @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP120)
+    @@IF       COND((*IF @@CANS100 *NE Y)) GOTO(PTB)
+    @@SET_IDX  IDX_NAME(GO) TO(8)
+    @@GOTO     LABEL(SR6)
+    R08: @@LABEL
+    /* **********                                                         */
+    PTB: @@IF       COND((*IF @@CANS002 *EQ REPORT)) GOTO(REP)
+    @@IF       COND((*IF @@CANS002 *EQ SCREEN)) GOTO(SCN)
+    /* **********                                                         */
+    /* **********                                                         */
+    SCN: @@LABEL
+    /* **********                                                         */
+    /* ********** DETERMINE SCREEN TYPE POP_UP, OR DISPLAY                */
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC002: Do you want a POPUP panel or FLAT screen panel ?') ANSWER(@@CANS003) EXTEND('Select what kind of screen panel you want to prototype.' 'POPUP - will generate a POP_UP style screen panel.' 'FLAT  - will generate a normal flat screen panel.' 'You are currently ProtoTyping a @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(POPUP FLAT) HELPIDS(HELP010 HELP200)
+    @@QUESTION PROMPT('SEC003: Will this screen DISPLAY data or be INPUT capable ?') ANSWER(@@CANS004) EXTEND('DISPLAY - will prototype a screen panel with output only fields.' 'INPUT   - will generate a screen panel with input capable fields.' 'You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(DISPLAY INPUT) HELPIDS(HELP010 HELP300)
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO BUILD LIST OF FIELDS                 */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(1)
+    @@GOTO     LABEL(SR1)
+    R01: @@LABEL
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(2)
+    @@GOTO     LABEL(SR2)
+    R02: @@LABEL
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC006: Enter a name for this group of fields.') ANSWER(@@CANS012) EXTEND('123456789 Do not use more than 9 characters. Do not use quotes. Some' 'suggestions are FLDGRP001, or EMPDETAIL.' 'Use a name that is unique to this protoyping session.' 'You are currently designing a @@CANS003 @@CANS004.' 'Use the HELP function key for more details about this template.') LOWER(*NO) HELPIDS(HELP010 HELP600)
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('Panel group')
+    @@COMMENT  COMMENT('                                   ')
+    GROUP_BY   NAME(#@@CANS012) FIELDS(@@LST04)
+    @@COMMENT  COMMENT('Set some default values')
+    CHANGE     FIELD(#@@CANS012) TO(*HIVAL)
+    /* **********                                                         */
+    /* ********** CHANGE ALPHA FIELDS TO ALL 'X'                          */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(9)
+    @@GOTO     LABEL(SR7)
+    R09: @@LABEL
+    /* **********                                                         */
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC005: Will this @@CANS003 @@CANS002 contain a scrolling list of data ?') ANSWER(@@CANS007) EXTEND('Do you want to display fields in a list form on the bottom half of' 'this screen panel. Y = Yes, N = No.' 'You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP500)
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS007 *EQ N)) GOTO(CNT)
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO BUILD LIST OF FIELDS                 */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(3)
+    @@GOTO     LABEL(SR1)
+    R03: @@LABEL
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(4)
+    @@GOTO     LABEL(SR2)
+    R04: @@LABEL
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC006: Enter a name for this list of fields.') ANSWER(@@CANS014) EXTEND('123456789 Only use up to 9 characters. Do not use quotes. Some' 'suggestions are FLDLST001, or EMPLIST.' 'The name MUST be unique within this function - @@FUNCTION.' 'You are currently designing a @@CANS003 @@CANS004.' 'Use the HELP function key for more details about this template.') LOWER(*NO) HELPIDS(HELP010 HELP600)
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('List definition')
+    @@COMMENT  COMMENT('                                   ')
+    DEF_LIST   NAME(#@@CANS014) FIELDS(@@LST04)
+    @@COMMENT  COMMENT('Set some default values')
+    CHANGE     FIELD(#@@CANS014) TO(*HIVAL)
+    /* **********                                                         */
+    /* ********** CHANGE ALPHA FIELDS TO ALL 'X'                          */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(10)
+    @@GOTO     LABEL(SR7)
+    R10: @@LABEL
+    /* **********                                                         */
+    /* ********** PUT SOME VALUES IN THE LIST                             */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Add some dummy entries to list.')
+    CLR_LIST   NAMED(#@@CANS014)
+    INZ_LIST   NAMED(#@@CANS014) NUM_ENTRYS(30)
+    /* **********                                                         */
+    CNT: @@LABEL
+    /* **********                                                         */
+    /* ********** FOR INPUT SCREENS SET MODE TO ADD                       */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS004 *EQ DISPLAY)) GOTO(L01)
+    SET_MODE   TO(*ADD)
+    @@GOTO     LABEL(L02)
+    L01: @@LABEL
+    SET_MODE   TO(*DISPLAY)
+    L02: @@LABEL
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO SETUP PANEL LAYOUT                   */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(5)
+    @@GOTO     LABEL(SR5)
+    R05: @@LABEL
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Screen panels')
+    /* **********                                                         */
+    /* ********** GENERATE SCREEN PANEL                                   */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS007 *EQ N)) GOTO(NBR)
+    @@IF       COND((*IF @@CANS003 *EQ POPUP)) GOTO(POP)
+    DISPLAY    FIELDS(#@@CANS012)   DESIGN(*@@CANS020) IDENTIFY(*@@CANS030)    PANEL_TITL('@@CANS040') BROWSELIST(#@@CANS014)
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    POP: @@LABEL
+    POP_UP     FIELDS(#@@CANS012) DESIGN(*@@CANS020) IDENTIFY(*@@CANS030)     PANEL_TITL('@@CANS040') AT_LOC(@@NANS010 @@NANS011) WITH_SIZE(@@NANS020 @@NANS021) BROWSELIST(#@@CANS014)
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    NBR: @@LABEL
+    @@IF       COND((*IF @@CANS003 *EQ POPUP)) GOTO(PO2)
+    DISPLAY    FIELDS(#@@CANS012) DESIGN(*@@CANS020) IDENTIFY(*@@CANS030)    PANEL_TITL('@@CANS040')
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    PO2: @@LABEL
+    POP_UP     FIELDS(#@@CANS012) DESIGN(*@@CANS020) IDENTIFY(*@@CANS030)     PANEL_TITL('@@CANS040') AT_LOC(@@NANS010 @@NANS011) WITH_SIZE(@@NANS020 @@NANS021)
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    REP: @@LABEL
+    @@QUESTION PROMPT('SEC007: Do you want to prototype the Report HEADER or Report DETAIL ?') ANSWER(@@CANS008) EXTEND('HEADER - will allow you to prototype the header section of a report.' 'DETAIL - will allow you to prototype the detail section of a report.' 'Note if you try to prototype more than eight HEADERS or DETAILs it will be' 'ignored. IE You will be returned to SEC001.' 'You are currently prototyping a @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(HEADER DETAIL) HELPIDS(HELP010 HELP700)
+    /* **********                                                         */
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(8) IF_GT(PT1)
+    /* **********                                                         */
+    /* ********** GENERATE DEF_HEAD                                       */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS008 *EQ DETAIL)) GOTO(DET)
+    /* **********                                                         */
+    @@QUESTION PROMPT('SEC006: Enter a name for this report heading.') ANSWER(@@CANS015) EXTEND('123456789 Only use up to 9 characters. Do not use quotes. Some' 'suggestions are HEADERnn, or REPHEAD.' 'The name MUST be unique within this function - @@FUNCTION.' 'You are currently prototyping a @@CANS002 @@CANS008.' 'Use the HELP function key for more details about this template.') LOWER(*NO) HELPIDS(HELP010 HELP600)
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO BUILD LIST OF FIELDS                 */
+    /* **********                                                         */
+    OK : @@SET_IDX  IDX_NAME(GO) TO(6)
+    @@GOTO     LABEL(SR1)
+    R06: @@LABEL
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(7)
+    @@GOTO     LABEL(SR2)
+    R07: @@LABEL
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('Report heading')
+    @@COMMENT  COMMENT('                                   ')
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(1) IF_EQ(RH1)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(2) IF_EQ(RH2)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(3) IF_EQ(RH3)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(4) IF_EQ(RH4)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(5) IF_EQ(RH5)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(6) IF_EQ(RH6)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(7) IF_EQ(RH7)
+    @@CMP_IDX  IDX_NAME(RH) IDX_VALUE(8) IF_EQ(RH8)
+    RH1: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(1)
+    @@GOTO     LABEL(RRR)
+    RH2: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(2)
+    @@GOTO     LABEL(RRR)
+    RH3: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(3)
+    @@GOTO     LABEL(RRR)
+    RH4: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(4)
+    @@GOTO     LABEL(RRR)
+    RH5: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(5)
+    @@GOTO     LABEL(RRR)
+    RH6: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(6)
+    @@GOTO     LABEL(RRR)
+    RH7: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(7)
+    @@GOTO     LABEL(RRR)
+    RH8: @@LABEL
+    DEF_HEAD   NAME(#@@CANS015) FIELDS(@@LST04) FOR_REPORT(8)
+    RRR: @@LABEL
+    @@COMMENT  COMMENT('Set some default values')
+    CHANGE     FIELD(#@@CANS015) TO(*HIVAL)
+    /* **********                                                         */
+    /* ********** CHANGE ALPHA FIELDS TO ALL 'X'                          */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(12)
+    @@GOTO     LABEL(SR7)
+    R12: @@LABEL
+    /* **********                                                         */
+    /* ********** INCREMENT REPORT HEADER COUNTER                         */
+    /* **********                                                         */
+    @@INC_IDX  IDX_NAME(RH)
+    /* **********                                                         */
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    /* ********** GENERATE DEF_LINE                                       */
+    /* **********                                                         */
+    DET: @@LABEL
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(8) IF_GT(PT1)
+    @@QUESTION PROMPT('SEC006: Enter a name for this detail line.') ANSWER(@@CANS016) EXTEND('123456789 Only use up to nine characters. Do not use quotes. Some' 'suggestions are LINEnn, or DETAILnn.' 'The name MUST be unique within this function - @@FUNCTION.' 'You are currently prototyping a @@CANS002 @@CANS008.' 'Use the HELP function key for more details about this template.') LOWER(*NO) HELPIDS(HELP010 HELP600)
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO BUILD LIST OF FIELDS                 */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(14)
+    @@GOTO     LABEL(SR1)
+    R14: @@LABEL
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(GO) TO(15)
+    @@GOTO     LABEL(SR2)
+    R15: @@LABEL
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('Report detail line')
+    @@COMMENT  COMMENT('                                   ')
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(1) IF_EQ(DL1)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(2) IF_EQ(DL2)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(3) IF_EQ(DL3)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(4) IF_EQ(DL4)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(5) IF_EQ(DL5)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(6) IF_EQ(DL6)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(7) IF_EQ(DL7)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(8) IF_EQ(DL8)
+    DL1: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(1)
+    @@GOTO     LABEL(DDD)
+    DL2: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(2)
+    @@GOTO     LABEL(DDD)
+    DL3: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(3)
+    @@GOTO     LABEL(DDD)
+    DL4: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(4)
+    @@GOTO     LABEL(DDD)
+    DL5: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(5)
+    @@GOTO     LABEL(DDD)
+    DL6: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(6)
+    @@GOTO     LABEL(DDD)
+    DL7: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(7)
+    @@GOTO     LABEL(DDD)
+    DL8: @@LABEL
+    DEF_LINE   NAME(#@@CANS016) FIELDS(@@LST04) FOR_REPORT(8)
+    @@COMMENT  COMMENT('Set some default values')
+    CHANGE     FIELD(#@@CANS016) TO(*HIVAL)
+    /* **********                                                         */
+    /* ********** EXECUTE ROUTINE TO GIVE FIELDS VALUES                   */
+    /* **********                                                         */
+    DDD: @@SET_IDX  IDX_NAME(GO) TO(11)
+    @@GOTO     LABEL(SR7)
+    R11: @@LABEL
+    /* **********                                                         */
+    @@COMMENT  COMMENT('Print some dummy report lines.')
+    BEGIN_LOOP TO(10)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(1) IF_EQ(PL1)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(2) IF_EQ(PL2)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(3) IF_EQ(PL3)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(4) IF_EQ(PL4)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(5) IF_EQ(PL5)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(6) IF_EQ(PL6)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(7) IF_EQ(PL7)
+    @@CMP_IDX  IDX_NAME(DL) IDX_VALUE(8) IF_EQ(PL8)
+    PL1: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(1)
+    @@GOTO     LABEL(PPP)
+    PL2: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(2)
+    @@GOTO     LABEL(PPP)
+    PL3: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(3)
+    @@GOTO     LABEL(PPP)
+    PL4: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(4)
+    @@GOTO     LABEL(PPP)
+    PL5: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(5)
+    @@GOTO     LABEL(PPP)
+    PL6: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(6)
+    @@GOTO     LABEL(PPP)
+    PL7: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(7)
+    @@GOTO     LABEL(PPP)
+    PL8: @@LABEL
+    PRINT      LINE(#@@CANS016) ON_REPORT(8)
+    PPP: @@LABEL
+    END_LOOP
+    /* **********                                                         */
+    /* ********** INCREMENT DETAIL LINE COUNTER                           */
+    /* **********                                                         */
+    @@INC_IDX  IDX_NAME(DL)
+    /* **********                                                         */
+    @@GOTO     LABEL(PTE)
+    /* **********                                                         */
+    PTE: @@GOTO     LABEL(PT1)
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** SUBROUTINES (WELL SORT OF)                              */
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* ********** SR1 - CLEAR LISTS                                       */
+    /* **********                                                         */
+    SR1: @@CLR_LST  NUMBER(01)
+    @@CLR_LST  NUMBER(02)
+    /* **********                                                         */
+    @@CMP_IDX  IDX_NAME(G2) IDX_VALUE(0) IF_GT(SR2)
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(04)
+    /* **********                                                         */
+    /* ********** EXECUTE GOTO RETURN ROUTINE                             */
+    /* **********                                                         */
+    @@GOTO     LABEL(SR3)
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* ********** SR2 -                 RETRIEVE FIELDS                   */
+    /* **********                                                         */
+    SR2: @@LABEL
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('SEC004: Select the file that contains the fields for your @@CANS002.') EXTEND('The file name may be specified in full, partially (to cause a partial' 'list of available files to be displayed) or leave blank (to cause a full' 'list of available files to be displayed). When a list of files is,' 'displayed the file required may be selected from the list.' 'Fields from up to 50 related files can be selected at any one time.' 'Use the HELP function key for more details about this template.' 'You are currently prototyping a @@CANS002') HELPIDS(HELP010 HELP400)
+    @@SET_IDX  IDX_NAME(FC) TO(1)
+    MFI: @@CMP_IDX  IDX_NAME(FC) IDX_VALUE(@@TFMX) IF_GT(NFI)
+    @@RTV_FLDS FROM_FILE(FC) INTO_LST(1)
+    @@INC_IDX  IDX_NAME(FC)
+    @@GOTO     LABEL(MFI)
+    /* **********                                                         */
+    NFI: @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 ' Select' 'Required' ' Fields')) HELPIDS(HELP010 HELP410)
+    @@MRG_LSTS FROM_LSTS((2)) INTO_LST(4)
+    @@QUESTION PROMPT('SEC004: Do you want to select fields from any more files ?') ANSWER(@@CANS009) EXTEND('Press HELP function key for details on how to include fields from the' 'dictionary into your field selection.' 'Use the HELP function key for more details about this template.' 'You are currently prototyping a @@CANS002') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP400)
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS009 *EQ 'N')) GOTO(ER2)
+    @@SET_IDX  IDX_NAME(G2) TO(1)
+    @@GOTO     LABEL(SR1)
+    /* **********                                                         */
+    ER2: @@LABEL
+    @@MAK_LSTS FROM_LSTS(4) INTO_LSTS((5 'Confirm' 'Fields ' *N *YESNO *ALL)) HELPIDS(HELP010 HELP430)
+    @@MRG_LSTS FROM_LSTS((5)) INTO_LST(4)
+    /* **********                                                         */
+    /* ********** EXECUTE GOTO RETURN ROUTINE                             */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(G2) TO(0)
+    @@GOTO     LABEL(SR3)
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** SR3 - GOTO RETURN                                       */
+    /* ********** DETERMINES WHERE TO RETURN BASED ON VALUE IN            */
+    /* ********** THE INDEX "GO"                                          */
+    /* **********                                                         */
+    SR3: @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(1) IF_EQ(R01)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(2) IF_EQ(R02)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(3) IF_EQ(R03)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(4) IF_EQ(R04)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(5) IF_EQ(R05)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(6) IF_EQ(R06)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(7) IF_EQ(R07)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(8) IF_EQ(R08)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(9) IF_EQ(R09)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(10) IF_EQ(R10)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(11) IF_EQ(R11)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(12) IF_EQ(R12)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(14) IF_EQ(R14)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(15) IF_EQ(R15)
+    @@CMP_IDX  IDX_NAME(GO) IDX_VALUE(99) IF_EQ(R99)
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** SR5 - PANEL LAYAOUT                                     */
+    /* **********                                                         */
+    SR5: @@QUESTION PROMPT('SEC006: Design fields on the panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS020) EXTEND('Reply DOWN or ACROSS only.' 'If your panel contains 17 (or less) fields, DOWN is the ' 'recommended value. If your panel contains more than 17' 'fields, ACROSS is the recommended value.' 'You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP610)
+    @@QUESTION PROMPT('SEC006: How do you want to identify fields NOID, LABEL, DESC, COLHDG ?') ANSWER(@@CANS030) EXTEND('NOID   = No identification is needed for this field' 'LABEL  = The field will be identified by its label' 'DESC  = The field will be identified by its description' 'COLHDG = The field will be identified by its column heading' 'You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') LOWER(*NO) VALUES(NOID LABEL DESC COLHDG) HELPIDS(HELP010 HELP620)
+    @@QUESTION PROMPT('SEC006: Enter some text to describe this panel.') ANSWER(@@CANS040) EXTEND(12345678901234567890 'Use only 20 characters. Do not use quotes.' 'The text you specify here will appear at the top centre of the panel' 'generated by this prototyping session.' 'You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') HELPIDS(HELP010 HELP630)
+    /* **********                                                         */
+    /* ********** THESE QUESTIONS FOR POP_UPS ONLY                        */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS003 *EQ FLAT)) GOTO(ER5)
+    @@QUESTION PROMPT('SEC006: At what row should the top left corner of the POPUP be situated ?') ANSWER(@@NANS010) EXTEND('You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') RANGE((5 20)) HELPIDS(HELP010 HELP640)
+    @@QUESTION PROMPT('SEC006: What column should the top left corner of the POPUP be situated ?') ANSWER(@@NANS011) EXTEND('You are currently prototyping a @@CANS003 @@CANS004' 'Use the HELP function key for more details about this template.') RANGE((5 75)) HELPIDS(HELP010 HELP640)
+    @@QUESTION PROMPT('SEC006: How wide do you want the POP_UP to be ?') ANSWER(@@NANS020) EXTEND('You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') RANGE((1 70)) HELPIDS(HELP010 HELP640)
+    @@QUESTION PROMPT('SEC006: How long do you want the POP_UP to be ?') ANSWER(@@NANS021) EXTEND('You are currently prototyping a @@CANS003 @@CANS002' 'Use the HELP function key for more details about this template.') RANGE((1 20)) HELPIDS(HELP010 HELP640)
+    ER5: @@LABEL
+    /* **********                                                         */
+    /* ********** EXECUTE GOTO RETURN ROUTINE                             */
+    /* **********                                                         */
+    @@GOTO     LABEL(SR3)
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** SR6 - ALLOWS COMMENTS TO BE PLACED IN FUNCTION          */
+    /* **********                                                         */
+    SR6: @@QUESTION PROMPT('SEC001: Enter descriptive text now.') ANSWER(@@CANS200) EXTEND(1234567890123456789012345678901234567890 'Enter up to 40 characters of text only.' 'Use the HELP function key for more details about this template.' 'You are currently prototyping a @@CANS002') HELPIDS(HELP010 HELP120)
+    @@COMMENT  COMMENT(@@CANS200)
+    @@QUESTION PROMPT('SEC001: Do you want to specify more descriptive text for this function ?') ANSWER(@@CANS100) EXTEND('If you want to place any more comments at the start of this section of the' 'function specify Y for YES. if not specify N for No.' 'Use the HELP function key for more details about this template.' 'You are currently prototyping a @@CANS002') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP120)
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS100 *EQ Y)) GOTO(SR6)
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                   ')
+    @@COMMENT  COMMENT('***********************************')
+    @@COMMENT  COMMENT('                                   ')
+    /* **********                                                         */
+    /* ********** EXECUTE GOTO RETURN ROUTINE                             */
+    /* **********                                                         */
+    ER6: @@GOTO     LABEL(SR3)
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    /* ********** SR7 - GENERATE CODE TO FILL FIELDS WITH VALUES          */
+    /* **********                                                         */
+    SR7: @@SET_IDX  IDX_NAME(FS) TO(0)
+    LR7: @@INC_IDX  IDX_NAME(FS)
+    @@CMP_IDX  IDX_NAME(FS) IDX_VALUE(@@LNE05) IF_GT(ER7)
+    @@IF       COND((*IF @@LTP05FS *NE A)) GOTO(LB7)
+    USE        BUILTIN(FILLSTRING) WITH_ARGS('X') TO_GET(#@@LEL05FS)
+    LB7: @@GOTO     LABEL(LR7)
+    /* **********                                                         */
+    /* ********** EXECUTE GOTO RETURN ROUTINE                             */
+    /* **********                                                         */
+    ER7: @@GOTO     LABEL(SR3)
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** ******************************************************* */
+    /* **********                                                         */
+    END: @@LABEL
+    @@SET_IDX  IDX_NAME(GO) TO(99)
+    @@GOTO     LABEL(SR1)
+    R99: @@LABEL
+
+  Help Panels:
+  - HELP010:
+      Description:        Map of Template
+
+      Text: |
+        <-
+                                              <---------------------------------------  
+                                           SEC001                                     ¦ 
+                                      SCREEN REPORT END                               ¦ 
+                            SCREEN     Specify  Title       REPORT                    ¦ 
+                       <-----------   Specify Narrative    -------->                  ¦ 
+                      ¦                                             ¦                 ¦ 
+                    SEC002                                        SEC007              ¦ 
+               POPUP or FLAT Panel                           HEADER or DETAIL         ¦ 
+                      ¦                              <----------------¦               ¦ 
+                      ¦                             ¦   ------------->¦               ¦ 
+                    SEC003                          ¦  ¦               -------------->¦ 
+                INPUT or DISPLAY           SEC004                                     ¦ 
+                      ¦----------->  Build list of fields                             ¦ 
+                      ¦<-----------  Order list of fields                             ¦ 
+                    SEC005             ¦  ¦                                           ¦ 
+             Panel contains list       ¦  ¦                                           ¦ 
+                      ¦----- Yes ----->   ¦                                           ¦ 
+                      ¦<------------------                                            ¦ 
+                    SEC006                                                            ¦ 
+                 Panel options      ------------------------------------------------->
+
+  - HELP100:
+      Description:        Prototype options
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+           This screen lets you decide whether to prototype a screen or report format,  
+           or to end this prototyping session.                                          
+                                                                                        
+                                                                                        
+              SCREEN - Taking this option will allow you to prototype screen panels.    
+                                                                                        
+                                                                                        
+              REPORT - Taking this option will allow you to prototype report heading    
+                       and detail layouts.                                              
+                                                                                        
+              EXIT   - Taking this option will end the prototyping session.
+
+  - HELP110:
+      Description:        Title specification
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+           This screen lets you give this section of the prototype function template    
+           a title. This title will be included in the resulting function as a          
+           comment.                                                                     
+                                                                                        
+                                                                                        
+                      EXAMPLE                                                           
+                                                                                        
+                         If you enter : This is the title                               
+                                                                                        
+                         you will get . . .                                             
+                                                                                        
+                           **********                                                   
+                           ********** TITLE : This is the title                         
+                           **********
+
+  - HELP120:
+      Description:        Descriptive text
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+           If you answer Yes to "Do you want to specify any descriptive text ?' and     
+           "Do you want to specify any more descriptive text ?" you will be able to     
+           enter as many lines of narrative as you want to the resulting function.      
+           This narrative will be included as comments at the beginning of this         
+           section of the resulting function (just after the title).                    
+                                                                                        
+           Enter any text you want at this point. You may wish to enter a brief         
+           description of what the prototype function is about. You may use this        
+           area to enter your name and job title.
+
+  - HELP200:
+      Description:        Panel type
+
+      Text: |
+        <-
+                                                                                        
+           This screen lets you decide what type of screen panel you are going to       
+           prototype.                                                                   
+                                                                                        
+           FLAT  - Taking this option will allow you to design a flat screen            
+                   panel. A flat screen panel is one which utilises all of the          
+                   screen area.                                                         
+                                                                                        
+           POPUP - Taking this option will allow you to design a POPUP style screen     
+                   panel. A popup panel can be thought of as a mini screen. The         
+                   following is an example of what a popup panel can look like.         
+                                                                                        
+                            ................................                            
+                            : POP01  Popup Panel           :                            
+                            :                              :                            
+                            :    Time . . . 12:24:00       :                            
+                            :                              :                            
+                            :                              :                            
+                            : F1=Help F3=Exit F14=Msgs     :                            
+                            :..............................:
+
+  - HELP300:
+      Description:        Input or Display
+
+      Text: |
+        <-
+                                                                                        
+           This question is used to determine in what mode the screen panel you are     
+           prototyping will appear.                                                     
+                                                                                        
+               DISPLAY - This will produce a screen panel that is output only.          
+                 Example          .........................                             
+                                  : POP02 Display Mode    :                             
+                                  :                       :                             
+                                  :  Date . . : 23/09/91  :                             
+                                  :                       :                             
+                                  : F1=Help F3=Exit       :                             
+                                  :.......................:                             
+               INPUT   - This will produce a screen panel that will be input capable.   
+                 Example          .........................                             
+                                  : POP03 Input Mode      :                             
+                                  :                       :                             
+                                  :  Date . . . 23/09/91  :                             
+                                  :                       :                             
+                                  : F1=Help F3=Exit       :                             
+                                  :.......................:
+
+  - HELP400:
+      Description:        File selection
+
+      Text: |
+        <-
+                                                                                        
+           Enter the name of the file that contains the fields you want to use in       
+           your prototype screen / report. You can enter either the full name of        
+           the file, a partial name (this will give a list of files that start with     
+           the letters you have specified), or leave blank to get a list of all         
+           files available.                                                             
+                                                                                        
+           When you have selected a file, you will be shown a list of all related       
+           files (if any). You can then select some of these extra files if you want    
+           to include fields from any of these related files.                           
+                                                                                        
+           If you want to include system fields (IE TIME, DATE, FUNCTION etc) in your   
+           prototype you will need to do the following . . .                            
+                                                                                        
+                 1. Create a LANSA file give it a sensible name (IE SYSFLDS).           
+                                                                                        
+                 2. Include all the system fields in the file definition.               
+                                                                                        
+           This file can then be used at this point to select any system fields.
+
+  - HELP410:
+      Description:        Build list
+
+      Text: |
+        <-
+                                                                                        
+           This panel is showing all the fields from the file(s) selected. Choose       
+           the fields you want to use by placing a non-blank character in the           
+           "Select Required Fields" column.                                             
+                                                                                        
+            Example : Select only EMPNO, SURNAM, FIRNAM and SALARY fields from          
+                      the following field list.                                         
+                                                                                        
+                                                       Select                           
+                                                      Required                          
+                Field    Description                   Fields                           
+                EMPNO    Employee number                 X                              
+                SURNAM   Employee Surname                X                              
+                FIRNAM   Employee Given names            X                              
+                SECCODE  Section Code                                                   
+                DEPTCDE  Department Code                                                
+                SALARY   Employee Salary                 X
+
+  - HELP430:
+      Description:        Confirm field selection
+
+      Text: |
+        <-
+                                                                                        
+              Confirm field selection by unselecting any fields that you do not         
+              want to include in your prototype screen / report.                        
+                                                                                        
+              If you do not want to drop any of the fields selected do not make         
+              any changes at this point, and press Enter to continue with the           
+              prototyping session.                                                      
+                                                                                        
+              Example : Field EMPNO was not supposed to be selected.                    
+                                                                                        
+                                                    Confirm                             
+                                                    Fields                              
+           Field      Description                                                       
+           EMPNO      Employee number                                                   
+           FIRNAM     Employee given name              Y                                
+           SURNAM     Employee surname                 Y                                
+           SALARY     Salary                           Y
+
+  - HELP500:
+      Description:        List on Panel
+
+      Text: |
+        <-
+                                                                                        
+             This question gives you the opportunity to include a rolling list of       
+             fields on the bottom half of the resulting panel. This list will be        
+             the same mode as the panel (INPUT or DISPLAY).                             
+                                                                                        
+             Example of POP_UP panel in DISPLAY mode with a list.                       
+                       ...........................................                      
+                       : POP04     Example POPUP Panel           :                      
+                       :                                         :                      
+                       :   Department . . : ADM                  :                      
+                       :                                         :                      
+                       :             Employee                    :                      
+                       :   Section   Number    Employee name     : --                   
+                       :     01      A0001     Brown             :   ¦                  
+                       :     01      A0090     Bloggs            :   ¦ --- List area    
+                       :     02      A0043     Church            :   ¦                  
+                       :     03      A0932     Randall         + : --                   
+                       :                                         :                      
+                       : F1=Help F3=Exit                         :                      
+                       :.........................................:
+
+  - HELP600:
+      Description:        Group / List name
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+            Enter a name to uniquely identify this selection of fields from all         
+            other selections in this prototyping session. Use up to nine characters     
+            do not use quotes, do not start name with a numeric, do not use the         
+            # (hash) symbol.                                                            
+                                                                                        
+            Examples of valid names . . .                                               
+                                                                                        
+                 FLDGRP001        EMPDET01       GROUP01       HEADER01                 
+                 EMPLOYEE         EMPDETAIL      FLDGRP01      REPHEAD01                
+                 LIST01           SCREEN01       DATA01        EMPDATA                  
+                 FLDLIST          COMPANIES      etc...
+
+  - HELP610:
+      Description:        Down or across field layout
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+              If this is a flat panel and it will contain 17 or less fields (and        
+              no scrolling list area) DOWN should be specified for the design option.   
+              Otherwise use the ACROSS option for design.                               
+                                                                                        
+                                                                                        
+           Fields designed DOWN the panel          Fields designed ACROSS the panel     
+                                            ¦                                           
+           Field one . . . : X              ¦      Field one : X Field two : XX         
+           Field two . . . : XX             ¦      Field three : XXX Field four : XXXX  
+           Field three . . : XXX            ¦      Field five : XXXXX                   
+           Field four  . . : XXXX           ¦                                           
+           Field five  . . : XXXXX          ¦                                           
+                                            ¦
+
+  - HELP620:
+      Description:        Field identification
+
+      Text: |
+        <-
+                                                                                        
+           Choose one of the following methods to identify fields on this panel.        
+                                                                                        
+              DESC - Description             ¦   LABEL - Label                          
+                                             ¦                                          
+             Employee Number  . . : A0090    ¦  Emp No........ A0090                    
+             Employee Surname . . : Smithers ¦  Emp Surname... Smithers                 
+                                             ¦                                          
+                                             ¦                                          
+                                             ¦                                          
+                                             ¦                                          
+            ---------------------------------------------------------------------       
+              COLHDG - Column Heading        ¦    NOID - No Identification              
+                                             ¦                                          
+             Employee  Employee              ¦  A0090                                   
+              Number   Surname               ¦  Smithers                                
+             A0090     Smithers              ¦                                          
+             A0023     Taggart               ¦                                          
+             A8032     Wansdyke              ¦                                          
+                                             ¦
+
+  - HELP630:
+      Description:        Panel Title Text
+
+      Text: |
+        <-
+                                                                                        
+             Enter a short description of this panel. This description will become      
+             the PANEL TITLE. A panel title typically appears at the top centre of      
+             panel whether it be a POPUP or FLAT panel.                                 
+                                                                                        
+                                                                                        
+            Example : "This is the Title" will be used as the panel title of            
+                      the following popup screen.                                       
+                                                                                        
+                      ........................................                          
+                      : POP01     This is the Title          :                          
+                      :                                      :                          
+                      : Employee number . . : A0090          :                          
+                      :                                      :                          
+                      : F1=Help F3=Exit F14=Msgs             :                          
+                      :......................................:
+
+  - HELP640:
+      Description:        POPUP location
+
+      Text: |
+        <-
+                                                                                        
+            These questions are used to determine where the POPUP panel will be         
+            located on the screen.                                                      
+                                                                                        
+                        COLUMN  COLUMN  COLUMN                                          
+                   ROW                        ---                                       
+                   ROW                         ¦                                        
+                   ROW                       Length                                     
+                   ROW                         ¦                                        
+                   ROW ¦------ Width -------¦ ---                                       
+                                                                                        
+            These questions are also used to determine the size of the POPUP panel.     
+                                                                                        
+            Be careful to make the popup panel big enough to fit all your fields        
+            into or errors will occur when you try to create / run the resulting        
+            function from this prototyping session.
+
+  - HELP700:
+      Description:        Report Header or Detail
+
+      Text: |
+        <-
+                                                                                        
+            Specify what section of your report(s) you want to prototype either         
+            the HEADER section or the DETAIL section. Each new HEADER or DETAIL         
+            prototyped in any one template session will be for a new report.            
+            IE the first HEADER protoyped will be for report one, the next header       
+            will be for report two etc...                                               
+                                                                                        
+            NOTE : You can only design up to eight HEADER and eight DETAIL sections     
+            for any one function. This template will not allow you to go beyond         
+            this limit. It will return you to SEC001 (the first question) when you      
+            try prototype beyond this limit.                                            
+                                                                                        
+                                                                                        
+                HEADER - will allow you to prototype the heading area of a report.      
+                                                                                        
+                DETAIL - will allow you to prototype the detail area of a report.

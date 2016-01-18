@@ -1,0 +1,49 @@
+﻿Field:
+  Name:               xDemoBrushSizing
+  Type:               Alphanumeric
+  Length:             12
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Brush Sizing"
+      Label:              "Brush Sizing"
+      Heading1:           "Brush"
+      Heading2:           "Sizing"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Brush Sizing"
+      Label:              "Brush Sizing"
+      Heading1:           "Brush"
+      Heading2:           "Sizing"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(322)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#PicklistItems) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Caption('BestFit') Parent(#PicklistItems) Value('BESTFIT')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_3) Caption('Cropped') Parent(#PicklistItems) Value('CROPPED')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_4) Caption('FitBoth') Parent(#PicklistItems) Value('FITBOTH')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Caption('None') Default(True) Parent(#PicklistItems) Value('NONE')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#Picklist) Appearance(DropDownList) Componentversion(1) Fixedheight(False) Height(20) Width(237)
+    
+    End_Com
+    
+    End_Com

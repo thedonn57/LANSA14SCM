@@ -1,0 +1,416 @@
+﻿Form:
+  Name:               xDemoWordIntegration
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Controlling Microsoft Word with ActiveX"
+
+  - FRA:
+      Description:        "Controlling Microsoft Word with ActiveX"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Controlling Microsoft Word with ActiveX ') Clientheight(572) Clientwidth(936) Formposition(ScreenCenter) Height(611) Layoutmanager(#TableLayout_1) Left(177) Top(223) Width(952) Theme(#xDemoTheme)
+    
+    * ActiveX Control for Word
+    Define_Com Class(#xdemoword.Application) Name(#Word) Reference(*Dynamic)
+    
+    Define_Com Class(#PRIM_STBR) Name(#StatusBar) Displayposition(1) Height(25) Left(0) Messageposition(1) Parent(#COM_OWNER) Tabposition(1) Top(547) Width(936)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(255) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Height(1.12) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption('Word Application') Displayposition(2) Ellipses(Word) Height(33) Left(0) Marginleft(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(312) Themedrawstyle('Heading2')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#LABL_2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#StartWord) Caption('Start Word') Displayposition(3) Left(4) Parent(#COM_OWNER) Tabposition(3) Top(37) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#StartWord) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#ShowHideWord) Caption('Show/Hide Word') Displayposition(4) Enabled(False) Left(4) Parent(#COM_OWNER) Tabposition(4) Top(66) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#ShowHideWord) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#xDemoWindowState.DropDown) Name(#WindowState) Displayposition(5) Enabled(False) Height(25) Left(4) Marginleft(80) Parent(#COM_OWNER) Tabposition(5) Top(95) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_4) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#WindowState) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#Exit) Caption('Exit Word') Displayposition(6) Enabled(False) Left(4) Parent(#COM_OWNER) Tabposition(6) Top(124) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_5) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Exit) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_5) Caption('Documents') Displayposition(7) Ellipses(Word) Height(33) Left(312) Marginleft(2) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(0) Verticalalignment(Center) Width(312) Themedrawstyle('Heading2')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_6) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#LABL_5) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#NewDocument) Caption('New Document') Displayposition(8) Enabled(False) Left(316) Parent(#COM_OWNER) Tabposition(8) Top(37) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_7) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#NewDocument) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#Open) Caption('Open...') Displayposition(9) Enabled(False) Left(316) Parent(#COM_OWNER) Tabposition(9) Top(66) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_8) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Open) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#Save) Caption('Save') Displayposition(11) Enabled(False) Left(316) Parent(#COM_OWNER) Tabposition(10) Top(296) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_9) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Save) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LTVW) Name(#Documents) Columnbuttonheight(19) Componentversion(2) Displayposition(10) Enabled(False) Fullrowselect(True) Height(197) Keyboardpositioning(SortColumn) Left(316) Parent(#COM_OWNER) Showsortarrow(True) Tabposition(11) Top(95) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_10) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Documents) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_3) Caption('Document Name') Captiontype(Caption) Displayposition(1) Parent(#Documents) Source(#xDemoAlpha256) Widthtype(Remainder)
+    Define_Com Class(#PRIM_PHBN) Name(#Print) Caption('Print') Displayposition(12) Enabled(False) Left(316) Parent(#COM_OWNER) Tabposition(12) Top(325) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_11) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Print) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#Close) Caption('Close') Displayposition(13) Enabled(False) Left(316) Parent(#COM_OWNER) Tabposition(13) Top(354) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_12) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#Close) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_14) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#InsertText) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Alignment(TopLeft) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Flow(Down) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Flow(Down) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Alignment(TopLeft) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Manage(#InsertText) Parent(#TableLayout_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Manage(#InsertText) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_7) Column(#Column_3) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_8) Manage(#InsertText) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_9) Column(#Column_3) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_10) Alignment(TopCenter) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_11) Alignment(TopLeft) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_12) Manage(#InsertText) Parent(#TableLayout_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_13) Flow(Down) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_14) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_15) Flow(Down) Manage(#InsertText) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_6) Caption('Active Document') Displayposition(14) Ellipses(Word) Height(33) Left(624) Marginleft(2) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(0) Verticalalignment(Center) Width(312) Themedrawstyle('Heading2')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_13) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#LABL_6) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#InsertText) Caption('Insert Text') Displayposition(18) Enabled(False) Left(628) Parent(#COM_OWNER) Tabposition(15) Top(226) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_15) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#InsertText) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#xDemoUnicode4K.MultiLineEdit) Name(#TextToInsert) Displayposition(17) Enabled(False) Height(127) Left(628) Marginleft(0) Parent(#COM_OWNER) Tabposition(16) Top(95) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_16) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#TextToInsert) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#PageNumber) Caption('Page Number') Componentversion(1) Displayposition(22) Enabled(False) Height(25) Labeltype(Caption) Left(624) Marginleft(90) Parent(#COM_OWNER) Tabposition(17) Top(288) Width(165)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_18) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#PageNumber) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#PRIM_PHBN) Name(#GotoLine) Caption('Goto Line') Displayposition(19) Enabled(False) Left(804) Parent(#COM_OWNER) Tabposition(18) Top(259) Width(132)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_19) Alignment(TopRight) Column(#Column_3) Flow(Down) Manage(#GotoLine) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#PRIM_PHBN) Name(#GotoPage) Caption('Goto Page') Displayposition(21) Enabled(False) Left(804) Parent(#COM_OWNER) Tabposition(19) Top(288) Width(132)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_20) Alignment(TopRight) Column(#Column_3) Flow(Down) Manage(#GotoPage) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#LineNumber) Caption('Line Number') Componentversion(1) Displayposition(20) Enabled(False) Height(25) Labeltype(Caption) Left(624) Marginleft(90) Parent(#COM_OWNER) Tabposition(20) Top(259) Width(165)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_17) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#LineNumber) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#PRIM_LTVW) Name(#Bookmarks) Columnbuttonheight(19) Componentversion(2) Displayposition(23) Enabled(False) Fullrowselect(True) Height(138) Keyboardpositioning(SortColumn) Left(628) Parent(#COM_OWNER) Showsortarrow(True) Tabposition(21) Top(317) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_21) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#Bookmarks) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Caption('Bookmarks') Captiontype(Caption) Displayposition(1) Parent(#Bookmarks) Source(#xDemoAlpha256) Widthtype(Remainder)
+    Define_Com Class(#PRIM_PHBN) Name(#GotoBookMark) Caption('Goto Bookmark') Displayposition(24) Enabled(False) Left(628) Parent(#COM_OWNER) Tabposition(22) Top(459) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_22) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#GotoBookMark) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#ViewWebPageFormat) Caption('View in WebPage Format') Displayposition(15) Enabled(False) Left(628) Parent(#COM_OWNER) Tabposition(23) Top(37) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_23) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#ViewWebPageFormat) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_PHBN) Name(#ViewNormal) Caption('View Normal') Displayposition(16) Enabled(False) Left(628) Parent(#COM_OWNER) Tabposition(24) Top(66) Width(304)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_24) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#ViewNormal) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_16) Manage(#ViewNormal) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_17) Alignment(TopLeft) Manage(#ViewNormal) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_18) Flow(Down) Manage(#ViewNormal) Parent(#TableLayout_1) Sizing(None)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Columns) Caption('Columns') Componentversion(1) Displayposition(25) Enabled(False) Height(25) Labeltype(Caption) Left(624) Marginleft(90) Parent(#COM_OWNER) Tabposition(25) Top(488) Width(165)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_25) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#Columns) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Rows) Caption('Rows') Componentversion(1) Displayposition(26) Enabled(False) Height(25) Labeltype(Caption) Left(624) Marginleft(90) Parent(#COM_OWNER) Tabposition(26) Top(517) Width(165)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_26) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#Rows) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#PRIM_PHBN) Name(#InsertTable) Caption('Insert Table') Displayposition(27) Enabled(False) Left(804) Parent(#COM_OWNER) Tabposition(27) Top(488) Width(132)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_27) Alignment(TopRight) Column(#Column_3) Flow(Down) Manage(#InsertTable) Marginleft(4) Marginright(4) Margintop(175) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#StartWord.Click)
+    
+    *  Start Word by setting a reference to it. Word has been enrolled as ActiveX component xdemoword
+    #Word <= *New #xdemoword.Application
+    
+    * If Word has been started, enable some controls and issue a message
+    If (#Word *IsNot *Null)
+    Message Msgtxt("Word has been started")
+    Endif
+    
+    #com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowHideWord.Click)
+    
+    * If Word is hidden make it visible and vice versa
+    #Word.visible := *Not #Word.Visible
+    
+    Endroutine
+    
+    Evtroutine Handling(#WindowState.Changed)
+    
+    * Set the size of the Word window using the Windowstate property of the Word application object.
+    Case (#WindowState)
+    
+    When (= Minimized)
+    
+    #Word.Windowstate := xdemoword.wdWindowStateMinimize
+    
+    When (= Normal)
+    
+    #Word.Windowstate := xdemoword.wdWindowStateNormal
+    
+    When (= Maximized)
+    
+    #Word.Windowstate := xdemoword.wdWindowStateMaximize
+    
+    Endcase
+    
+    Endroutine
+    
+    Evtroutine Handling(#Exit.Click)
+    
+    *  Close Word without saving any changes
+    #Word.Quit Savechanges(0)
+    
+    * Clear lists and disable controls in the Work with Document group box
+    Clr_List Named(#Documents)
+    
+    * issue a message and disable controls
+    Message Msgtxt("Word has been closed.")
+    
+    #com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#NewDocument.Click)
+    
+    * Show the Word New Document dialog
+    * If not cancelled
+    If (#Word.Dialogs.item<xdemoword.wdDialogFileNew>.show <> 0)
+    
+    Message Msgtxt("A new document has been opened.")
+    
+    * Update the list of documents
+    #com_owner.UpdateDocumentList
+    
+    #com_owner.UpdateState
+    
+    Endif
+    
+    
+    
+    Endroutine
+    
+    Evtroutine Handling(#Open.Click)
+    
+    * Show the Word Open Document dialog
+    
+    If (#Word.Dialogs.item<xdemoword.wdDialogFileOpen>.show <> 0)
+    
+    * Enable and show controls, show message
+    Message Msgtxt("Document has been opened.")
+    
+    * Update the list of documents
+    #com_owner.UpdateDocumentList
+    
+    #com_owner.UpdateState
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Documents.ItemGotFocus)
+    
+    Get_Entry Number(#Documents.FocusItem.Entry) From_List(#Documents)
+    
+    * activate the selected document
+    #Word.documents.item<#xDemoAlpha256>.activate
+    
+    Endroutine
+    
+    Evtroutine Handling(#Word.DocumentChange)
+    
+    * Get Bookmarks in the active document
+    If (#Word.Documents.Count > 0)
+    
+    #com_owner.UpdateBookMarkList
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Print.Click)
+    
+    * Print out the document.
+    #Word.ActiveDocument.PrintOut
+    
+    Message Msgtxt("Document has been sent to the printer.")
+    
+    Endroutine
+    
+    Evtroutine Handling(#Save.Click)
+    
+    * Bring up the Save dialog
+    If (#Word.Dialogs.item<xdemoword.wdDialogFileSaveAs>.show <> 0)
+    
+    * update document list
+    #com_owner.UpdateDocumentList
+    
+    Message Msgtxt("Document has been saved.")
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Close.Click)
+    * if a document is open, close it without saving any changes
+    If (#Word.Documents.Count > 0)
+    #Word.activedocument.close Savechanges(0)
+    Endif
+    
+    * update document list, issue a message, disable controls
+    #com_owner.UpdateDocumentList
+    
+    Message Msgtxt("Document has been closed.")
+    
+    
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateDocumentList) Access(*Private)
+    
+    *  Define a component definition for fiedl #I so that it's value property can be used as index in collections
+    Define Field(#Index) Reffld(#STD_NUM)
+    
+    * Clear #Documents and then add the names of all open documents
+    Clr_List Named(#Documents)
+    Begin_Loop Using(#Index) To(#Word.Documents.Count)
+    
+    #xDemoAlpha256 := #Word.documents.item<#Index>.Name_COM
+    Add_Entry To_List(#Documents)
+    
+    End_Loop
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateBookMarkList) Access(*Private)
+    
+    * Get the bookmarks in the document and put them in a list
+    * Get the number of bookmarks
+    
+    Clr_List Named(#Bookmarks)
+    
+    If (#Word.ActiveDocument.Bookmarks.Count > 0)
+    
+    Begin_Loop Using(#Index) To(#Word.ActiveDocument.Bookmarks.Count)
+    
+    #xDemoAlpha256 := #Word.ActiveDocument.Bookmarks.item<#Index>.name_COM
+    Add_Entry To_List(#Bookmarks)
+    
+    End_Loop
+    
+    #GotoBookMark.Enabled := True
+    
+    Else
+    
+    #xDemoAlpha256 := 'No bookmarks'
+    Add_Entry To_List(#Bookmarks)
+    #GotoBookMark.Enabled := False
+    
+    Endif
+    
+    Endroutine
+    
+    *  Go to a line
+    Evtroutine Handling(#GotoLine.Click)
+    
+    * Get the number of lines in the document and if the line exists, move the cursor to it
+    
+    If ((#LineNumber < #Word.ActiveDocument.ComputeStatistics( xdemoword.wdStatisticLines )) *And (#LineNumber > 0))
+    
+    *  Go to a line
+    #Word.Selection.GoTo What(3) Which(1) Count(#LineNumber.Value)
+    Message Msgtxt("The cursor has been moved to the line.")
+    
+    Else
+    
+    Message Msgtxt("This line does not exist in the document.")
+    
+    Endif
+    
+    Endroutine
+    
+    *  Go to a page
+    Evtroutine Handling(#GotoPage.Click)
+    
+    If ((#PageNumber.Value < #Word.ActiveDocument.ComputeStatistics( xdemoword.wdStatisticPages )) *And (#PageNumber > 0))
+    
+    *  Go to a page
+    #Word.Selection.GoTo What(3) Which(1) Count(#PageNumber.Value)
+    Message Msgtxt("The cursor has been moved to the page.")
+    
+    Else
+    
+    Message Msgtxt("This page does not exist in the document.")
+    
+    Endif
+    
+    Endroutine
+    
+    *  Move cursor to selected bookmark
+    Evtroutine Handling(#GotoBookMark.Click)
+    
+    Get_Entry Number(#Bookmarks.focusitem.Entry)
+    
+    #Word.ActiveDocument.Bookmarks.item<#xDemoAlpha256>.select
+    
+    Message Msgtxt("Boomark is selected.")
+    
+    Endroutine
+    
+    *  Insert the text in the multiline edit box
+    Evtroutine Handling(#InsertText.Click)
+    
+    #Word.Selection.TypeText( #TextToInsert )
+    
+    Message Msgtxt("Text has been inserted.")
+    
+    Endroutine
+    
+    *  Insert a blank table
+    Evtroutine Handling(#InsertTable.Click)
+    
+    If ((#Columns.Value > 0) *And (#Rows.Value > 0))
+    #Word.ActiveDocument.Tables.Add Range(#Word.Selection.Range) Numrows(#Rows.value) Numcolumns(#Columns.value)
+    Message Msgtxt("Table has been inserted.")
+    Else
+    Message Msgtxt("Row and column number must be greater than 0")
+    Endif
+    
+    Endroutine
+    
+    *  Control the minimum value of spin boxes
+    Evtroutine Handling(#LineNumber.Changed)
+    
+    #LineNumber := #LineNumber.Value.Max( 1 )
+    
+    Endroutine
+    
+    *  View the document as HTML
+    Evtroutine Handling(#ViewWebPageFormat.Click)
+    
+    #Word.ActiveWindow.ActivePane.view.Type := xdemoword.wdWebView
+    #Word.Visible := True
+    
+    Endroutine
+    
+    *  View the document in normal view
+    Evtroutine Handling(#ViewNormal.Click)
+    
+    Set Com(#Word.ActiveWindow.ActivePane.view) Type(xdemoword.wdNormalView)
+    #Word.Visible := True
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateState) Access(*Private)
+    
+    #ShowHideWord.Enabled #Exit.Enabled #WindowState.Enabled #NewDocument.enabled #Open.enabled := (#Word *IsNot *null)
+    
+    #InsertText.Enabled #Columns.Enabled #InsertTable.Enabled #Rows.enabled := ((#Word *IsNot *null) *AndIf (#Word.Documents.Count <> 0))
+    #GotoLine.Enabled #GotoPage.Enabled #LineNumber.Enabled #Documents.enabled #Bookmarks.enabled #PageNumber.enabled #ViewWebPageFormat.enabled #ViewNormal.enabled := ((#Word *IsNot *null) *AndIf (#Word.Documents.Count <> 0))
+    
+    Endroutine
+    
+    Evtroutine Handling(#Word.Quit)
+    
+    #Word <= *Null
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    End_Com
+    
+    

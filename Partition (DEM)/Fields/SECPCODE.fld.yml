@@ -1,0 +1,43 @@
+﻿Field:
+  Name:               SECPCODE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Post / Zip Code of Section"
+      Label:              "Post/zip code.."
+      Heading1:           "Post/zip"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code postal de la section"
+      Label:              "Code postal . ."
+      Heading1:           "Code"
+      Heading2:           "Postal"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+          This field represnets the post or zip code of the suburb or
+          region in which the section is located. Note that is very often
+          the same as the associated deprtment, but in some instances may
+          not be.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Il s'agit du code postal correspondant à la ville où la section
+          a ses bureaux. Notez que très souvent ce code est le même que
+          celui du département associé, mais qu'il peut ne pas l'être.

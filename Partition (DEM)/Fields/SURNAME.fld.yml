@@ -1,0 +1,78 @@
+﻿Field:
+  Name:               SURNAME
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Surname"
+      Label:              "Surname........"
+      Heading1:           "Surname"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom de l´employé"
+      Label:              "Nom . . . . . ."
+      Heading1:           "Nom"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Surname cannot be blank"
+      Condition:          "#surname *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0017
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual_Host #xDemoFieldVisSurnameAutoComplete) Name(#AutoComplete) Height(21) Width(251)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the surname (or last name) of an
+            employee of this company. Surnames are always required and
+            should be specified in uppercase.
+      
+            If a situation arises in which a surname will not fit into the
+            allowed space, contact your supervisor or manager for further
+            advice about how it can be abbreviated for internal use.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      
+            Cette zone représente le nom patronymique de l'employé.
+            Cette mention est obligatoire et devrait être précisée en
+            majuscules.
+      
+            S'il arrive que le nom d'un employé dépasse l'espace imparti,
+            contactez votre responsable pour savoir comment abréger ce
+            nom en usage interne.

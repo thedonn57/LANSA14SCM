@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XSProductStockStatus
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Stock Status"
+      Label:              "Product Stock S"
+      Heading1:           "Product"
+      Heading2:           "Stock"
+      Heading3:           "Status"
+
+  - FRA:
+      Description:        "Product Stock Status"
+      Label:              "Product Stock S"
+      Heading1:           "Product"
+      Heading2:           "Stock"
+      Heading3:           "Status"

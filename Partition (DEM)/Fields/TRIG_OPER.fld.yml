@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               TRIG_OPER
+  Type:               Alphanumeric
+  Length:             6
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Trigger Operation"
+      Label:              "Trigger Oper"
+      Heading1:           "Trigger"
+      Heading2:           "Operation"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Opération déclencheur"
+      Label:              "Opér. déclench."
+      Heading1:           "Opération"
+      Heading2:           "Déclencheur"
+      Heading3:           " "

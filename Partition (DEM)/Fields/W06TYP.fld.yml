@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W06TYP
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Graphics Type"
+      Label:              "W06TYP"
+      Heading1:           "Graphics"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Graphics Type"
+      Label:              "W06TYP"
+      Heading1:           "Graphics"
+      Heading2:           "Type"
+      Heading3:           " "

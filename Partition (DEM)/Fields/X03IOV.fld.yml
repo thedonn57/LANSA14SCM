@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03IOV
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Input or Ouput Visual"
+      Label:              "X03IOV"
+      Heading1:           "Input or"
+      Heading2:           "Output Visual"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Input or Ouput Visual"
+      Label:              "X03IOV"
+      Heading1:           "Input or"
+      Heading2:           "Output Visual"
+      Heading3:           " "

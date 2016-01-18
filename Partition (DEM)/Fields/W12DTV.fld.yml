@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               W12DTV
+  Type:               Packed
+  Length:             5
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Data Version"
+      Label:              "W12DTV"
+      Heading1:           "Data"
+      Heading2:           "Version"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Data Version"
+      Label:              "W12DTV"
+      Heading1:           "Data"
+      Heading2:           "Version"
+      Heading3:           " "

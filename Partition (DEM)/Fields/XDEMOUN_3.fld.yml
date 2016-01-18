@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               xDemoUnicode4K
+  Type:               NChar
+  Length:             4096
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Unicode 4096"
+      Label:              "Unicode 4096"
+      Heading1:           "Unicode"
+      Heading2:           "4096"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Unicode 4096"
+      Label:              "Unicode 4096"
+      Heading1:           "Unicode"
+      Heading2:           "4096"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(782)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVEM) Name(#MultiLineEdit) Componentversion(1) Height(148) Width(389)
+    
+    End_Com
+    End_Com

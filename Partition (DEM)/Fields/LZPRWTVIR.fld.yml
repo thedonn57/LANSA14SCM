@@ -1,0 +1,42 @@
+﻿Field:
+  Name:               LZPRWTVIR
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    LZPRWT
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Weight (lb)"
+      Label:              "Prd. Weight(lb)"
+      Heading1:           "Product"
+      Heading2:           "Weight (lb)"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Poids Du Produit"
+      Label:              "Du Produit"
+      Heading1:           "Poids"
+      Heading2:           "Du Produit"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Product Weight contains the weight of one unit }
+        %of the Product, expressed in kilo's}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le Poids du produit indique le poids d'une unite }
+        %d'un Produit, exprime en kilos}
+      $$NOAUTO

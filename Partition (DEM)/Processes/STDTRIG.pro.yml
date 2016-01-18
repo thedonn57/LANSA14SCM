@@ -1,0 +1,30 @@
+﻿Process:
+  Name:                      STDTRIG
+  Menu Style:                SAA/CUA
+  Anticipated Usage:         Light
+  Optimize For Remote Comms: No
+  Enable For Web:            No
+  Generate XML:              No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Triggers"
+
+  - FRA:
+      Description:        "Standard Triggers"
+
+  Functions:
+  - STDGUD:
+      Name:               STDGUD
+      Display on Menu:    No
+      Next Function:      MENU
+
+      Multilingual Details:
+      - ENG:
+          Description:        "STD_GUID Field Level Trigger"
+
+      - FRA:
+          Description:        "STD_GUID Field Level Trigger"
+
+      Allowed Next Functions:
+      - "*ANY"

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XSDeliveryInstructions
+  Type:               NVarChar
+  Length:             512
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Delivery Instructions"
+      Label:              "Delivery Instru"
+      Heading1:           "Delivery"
+      Heading2:           "Instructions"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Delivery Instructions"
+      Label:              "Delivery Instru"
+      Heading1:           "Delivery"
+      Heading2:           "Instructions"
+      Heading3:           " "

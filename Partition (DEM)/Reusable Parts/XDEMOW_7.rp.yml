@@ -1,0 +1,67 @@
+﻿Reusable Part:
+  Name:               xDemoWebTraceHandler
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Web Trace Handler"
+
+  - FRA:
+      Description:        "Web Trace Handler"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT *implements #prim_app.ITraceHandler)
+    
+    * Include a Define_Com for this reusable part in your web page
+    * It will install itself as the TraceHandler if "trace=true" is included as a parameter on the URL
+    * You can then embed #sys_appln.TraceMessageText( aaa bbb ccc ddd ) whereever you want to send trace data to the console.
+    * Each parameter equates to a single trace statement
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    For Each(#Parameter) In(#sys_web.UrlParameters)
+    
+    Continue If(#Parameter.Name.UpperCase <> Trace)
+    Continue If(#Parameter.Value.uppercase <> True)
+    
+    #Sys_appln.TraceHandler <= #Com_owner /* Set this to be the trace handler for the application */
+    
+    Leave
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(TraceMessage) Help('Request to trace data received') Options(*redefine)
+    
+    #Com_owner.WriteToConsole( #ComponentName #Description #LineNumber #MessageText )
+    
+    Endroutine
+    
+    Mthroutine Name(WriteToConsole) Help('Write an entry to the browser console') Access(*private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#ComponentName)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Description)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#LineNumber)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Message)
+    
+    Define_Com Class(#prim_Dat) Name(#Now)
+    
+    #Message := #Now.now.AsLocalizedDateTime.AsString.Righttrim( "0" ) + " " + #ComponentName + " " + #Description + " " + #LineNumber.asstring + " " + #Message
+    
+    #sys_web.Console.Log( #Message )
+    
+    Endroutine
+    
+    Mthroutine Name(TracingState) Options(*redefine)
+    
+    #MessageTracingActive := True
+    
+    Endroutine
+    
+    End_Com

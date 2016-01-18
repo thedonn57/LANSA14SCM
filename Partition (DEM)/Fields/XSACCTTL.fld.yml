@@ -1,0 +1,52 @@
+﻿Field:
+  Name:               XSAccountTitle
+  Type:               Char
+  Length:             10
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Account Title"
+      Label:              "Account Title"
+      Heading1:           "Account"
+      Heading2:           "Title"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Account Title"
+      Label:              "Account Title"
+      Heading1:           "Account"
+      Heading2:           "Title"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(298)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_char.std_char') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Value(1) Caption(' ') Parent(#Picklist) Default(True)
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Value('Mr') Caption('Mr') Parent(#Picklist)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT1) Parent(#Picklist) Caption('Mrs') Value('Mrs')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT2) Parent(#Picklist) Caption('Ms') Value('Ms')
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Appearance(DropDownList) Height(19) Componentversion(1) Width(87) Labelposition(None) Marginleft(0)
+    
+    End_Com
+    End_Com

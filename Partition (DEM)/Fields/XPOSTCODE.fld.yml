@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               xEmployeePostalCode
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Postal Code"
+      Label:              "Postal Code"
+      Heading1:           "Postal"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Postal Code"
+      Label:              "Postal Code"
+      Heading1:           "Postal"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(286) Componentversion(1)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_varchar.std_varchar') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+            Represents the zip code for the location of the address.
+      
+            Zip code is also known as postal code or postcode.

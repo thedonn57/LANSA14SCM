@@ -1,0 +1,1421 @@
+﻿Template:
+  Name:                    VL_FBASBOB
+  Description:             Visual LANSA Business Object Browser
+  Extended Description 1:  Base from for Business Object Browser
+
+  Source: |
+    @@QUESTION PROMPT('Do you wish to continue?') ANSWER(@@CANS001) EXTEND('This template produces a skeleton Business Object Browser.' 'It is based on the demonstration personnel system.' 'Please read the comments supplied in the code carefully' 'and replace the file and fields shown by the ones you wish to use.' 'You should execute templates VL_BASEBOF and VL_BASEBOD first so that' 'the Business Object Detailers and Filter exist before making ' 'reference to them in this form.' 'See help for further information.') LOWER(*NO) HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(E99)
+    @@ROUTEBEG
+    BEGIN_COM  BORDERICONS(Maximize+Minimize+SystemMenu) CAPTION('Business Object Browser') HEIGHT(373) LEFT(10) TOP(135) VISUALSTYLE(#VS_NORM) WIDTH(492)
+    @@ROUTEDEF
+    /* **********                                                         */
+    /* ********** Business Object Browser Template                        */
+    /* ********** Version  1.0                                            */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Tree view of Business Objects.                          */
+    /* ********** Open component tab of editor.                           */
+    /* ********** Replace source fields of tree view columns with         */
+    /* ********** appropriate names in the property sheet.                */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TRVW) NAME(#TREEVIEW) DISPLAYPOSITION(2) HEIGHT(239) LEFT(0) MANAGECHILDREN(True) PARENT(#COM_OWNER) POPUPMENU(#PMNU_1) TABPOSITION(3) TOP(63)WIDTH(185)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_1) KEYPOSITION(1) LEVEL(1) PARENT(#TREEVIEW) SORTPOSITION(2) SOURCE(#DEPTMENT) VISIBLE(False)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_2) DISPLAYPOSITION(1) LEVEL(1) PARENT(#TREEVIEW) SORTPOSITION(1) SOURCE(#DEPTDESC)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_3) KEYPOSITION(1) LEVEL(2) PARENT(#TREEVIEW) SOURCE(#SECTION) VISIBLE(False)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_4) DISPLAYPOSITION(1) LEVEL(2) PARENT(#TREEVIEW) SORTPOSITION(1) SOURCE(#SECDESC)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_5) KEYPOSITION(1) LEVEL(3) PARENT(#TREEVIEW) SOURCE(#EMPNO) VISIBLE(False)
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_6) DISPLAYPOSITION(1) LEVEL(3) PARENT(#TREEVIEW) SOURCE(#FULLNAME)
+    /* **********                                                         */
+    /* ********** The detail list view shows the details of the children  */
+    /* ********** of the current tree object.                             */
+    /* ********** The columns are hidden and displayed as appropriate.    */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_LTVW) NAME(#LTVW_1) DISPLAYPOSITION(3) HEIGHT(239) LEFT(186) PARENT(#COM_OWNER) TABPOSITION(2) TOP(63) WIDTH(296)
+    /* **********                                                         */
+    /* ********** Child details of level 1.                               */
+    /* ********** Replace source fields of list view columns with         */
+    /* ********** appropriate names.                                      */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_21) CAPTION('Level 2') CAPTIONTYPE(Caption) DISPLAYPOSITION(2) PARENT(#LTVW_1) SOURCE(#SECTION) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_22) CAPTIONTYPE(ColumnHeadings) PARENT(#LTVW_1) SOURCE(#SECDESC) VISIBLE(False) WIDTH(50)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_23) CAPTIONTYPE(ColumnHeadings) PARENT(#LTVW_1) SOURCE(#SECPHBUS) VISIBLE(False) WIDTH(20)
+    /* **********                                                         */
+    /* ********** Child details of level 2.                               */
+    /* ********** Replace source fields of list view columns with         */
+    /* ********** appropriate names.                                      */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_31) CAPTION('Code') CAPTIONTYPE(Caption) DISPLAYPOSITION(1) PARENT(#LTVW_1) SOURCE(#EMPNO) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_32) CAPTIONTYPE(ColumnHeadings) PARENT(#LTVW_1) SOURCE(#SURNAME) VISIBLE(False) WIDTH(50)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_33) CAPTIONTYPE(ColumnHeadings) PARENT(#LTVW_1) SOURCE(#SALARY) VISIBLE(False) WIDTH(30)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_34) CAPTIONTYPE(ColumnHeadings) PARENT(#LTVW_1) SOURCE(#STARTDTE) VISIBLE(False) WIDTH(30)
+    /* **********                                                         */
+    /* ********** Timer used for layout manager emulation.                */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TIMR) NAME(#TIMR_1) INTERVAL(0)
+    /* **********                                                         */
+    /* ********** Status bar to display validation and other messages.    */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) DISPLAYPOSITION(4) HEIGHT(25) LEFT(0) MESSAGEPOSITION(1) PARENT(#COM_OWNER) TABPOSITION(4) TOP(302) WIDTH(484)
+    /* **********                                                         */
+    /* ********** These group boxes and labels are displayed at the top   */
+    /* ********** of the tree and detail list.                            */
+    /* ********** Change captions if required.                            */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#LSTTL1) DISPLAYPOSITION(6) HEIGHT(26) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(6) TABSTOP(False) TOP(37) WIDTH(187)
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#LSTTL2) DISPLAYPOSITION(5) HEIGHT(26) LEFT(186) PARENT(#COM_OWNER) TABPOSITION(5) TABSTOP(False) TOP(37) WIDTH(300)
+    DEFINE_COM CLASS(#PRIM_LABL) NAME(#LABL_1) CAPTION('AllObjects') DISPLAYPOSITION(1) HEIGHT(12) LEFT(6) PARENT(#LSTTL1) TABPOSITION(1) TABSTOP(False) TOP(8) WIDTH(150)
+    DEFINE_COM CLASS(#PRIM_LABL) NAME(#LABL_2) CAPTION('Contents of') DISPLAYPOSITION(1) HEIGHT(12) LEFT(6) PARENT(#LSTTL2) TABPOSITION(1) TABSTOP(False) TOP(8) WIDTH(250)
+    /* **********                                                         */
+    /* ********** This group box acts as the tool bar.                    */
+    /* ********** It contains the selection combo box and tool bar        */
+    /* ********** buttons.                                                */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#TOOLS) DISPLAYPOSITION(7) HEIGHT(37) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(7) TABSTOP(False) TOP(0) WIDTH(485)
+    DEFINE_COM CLASS(#PRIM_CMBX) NAME(#CMBX_1) DISPLAYPOSITION(2) HEIGHT(22) LEFT(4) PARENT(#TOOLS) TABPOSITION(2)WIDTH(185)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBCL_1) DISPLAYPOSITION(1) PARENT(#CMBX_1) SOURCE(#DEPTDESC) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBCL_2) PARENT(#CMBX_1) SOURCE(#DEPTMENT) VISIBLE(False) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_NEW) DISPLAYPOSITION(7) HEIGHT(22) HINT('Create new object') IMAGE(#VB_NEW) LEFT(195) PARENT(#TOOLS) TABPOSITION(7) WIDTH(22)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_SAV) DISPLAYPOSITION(5) HEIGHT(22) HINT('Save changed data') IMAGE(#VB_SAVE) LEFT(218) PARENT(#TOOLS) TABPOSITION(5) WIDTH(22)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_DEL) DISPLAYPOSITION(6) ENABLED(False) HEIGHT(22) HINT('Delete currentobject') IMAGE(#VB_DELETE) LEFT(241) PARENT(#TOOLS) TABPOSITION(6) WIDTH(22)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_CUT) DISPLAYPOSITION(1) ENABLED(False) HEIGHT(22) HINT('CUT') IMAGE(#VB_CUT) LEFT(287) PARENT(#TOOLS) TABPOSITION(1) WIDTH(22)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_PST) DISPLAYPOSITION(4) ENABLED(False) HEIGHT(22) HINT('PASTE') IMAGE(#VB_PASTE) LEFT(310) PARENT(#TOOLS) TABPOSITION(4) WIDTH(22)
+    DEFINE_COM CLASS(#PRIM_SPBN) NAME(#SPBN_CLS) DISPLAYPOSITION(3) HEIGHT(22) HINT('Close Application') IMAGE(#VB_CLOSE) LEFT(356) PARENT(#TOOLS) TABPOSITION(3) WIDTH(22)
+    /* **********                                                         */
+    /* ********** Standard menu bar.                                      */
+    /* ********** Change caption names as required.                       */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MBAR) NAME(#MBAR_1) PARENT(#COM_OWNER)
+    /* **********                                                         */
+    /* ********** Object menu                                             */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_OBJ) CAPTION('&Object') DISPLAYPOSITION(1) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_1) PARENT(#MI_OBJ)
+    /* **********                                                         */
+    /* ********** New sub menu                                            */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_NEW) CAPTION('&New') DISPLAYPOSITION(1) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_NEW) PARENT(#MI_NEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MINW_1) CAPTION('Level 1') DISPLAYPOSITION(1) PARENT(#SMNU_NEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MINW_2) CAPTION('Level 2') DISPLAYPOSITION(2) ENABLED(False) PARENT(#SMNU_NEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MINW_3) CAPTION('Level 3') DISPLAYPOSITION(3) ENABLED(False) PARENT(#SMNU_NEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_SAV) CAPTION('&Save') DISPLAYPOSITION(2) PARENT(#SMNU_1)
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_3) CAPTION('-')DISPLAYPOSITION(3) PARENT(#SMNU_1)
+    /* **********                                                         */
+    /* ********** If validation rules exist enable delete menu option.    */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_4) CAPTION('&Delete') DISPLAYPOSITION(4) ENABLED(False) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_5) CAPTION('D&etails') DEFAULT(True) DISPLAYPOSITION(5) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_6) CAPTION('-')DISPLAYPOSITION(6) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_7) CAPTION('&Close') DISPLAYPOSITION(7) PARENT(#SMNU_1)
+    /* **********                                                         */
+    /* ********** Edit menu                                               */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_EDT) CAPTION('&Edit') DISPLAYPOSITION(2) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_2) PARENT(#MI_EDT)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_CUT) CAPTION('Cu&t') DISPLAYPOSITION(1) ENABLED(False) PARENT(#SMNU_2)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_PST) CAPTION('&Paste') DISPLAYPOSITION(2) ENABLED(False) PARENT(#SMNU_2)
+    /* **********                                                         */
+    /* ********** View menu                                               */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_VW) CAPTION('&View') DISPLAYPOSITION(3) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_3) PARENT(#MI_VW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_RFSH) CAPTION('&Refresh') DISPLAYPOSITION(1) PARENT(#SMNU_3)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_FLTR) CAPTION('&Filter') DISPLAYPOSITION(2) PARENT(#SMNU_3)
+    /* **********                                                         */
+    /* ********** Tools menu                                              */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_TLS) CAPTION('&Tools') DISPLAYPOSITION(4) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_4) PARENT(#MI_TLS)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_CNCT) CAPTION('&Connect') DISPLAYPOSITION(1) PARENT(#SMNU_4)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_DCNCT) CAPTION('&Disconnect') DISPLAYPOSITION(2) PARENT(#SMNU_4)
+    /* **********                                                         */
+    /* ********** Help menu                                               */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MI_HLP) CAPTION('&Help') DISPLAYPOSITION(5) PARENT(#MBAR_1)
+    /* **********                                                         */
+    /* ********** Standard pop up menu.                                   */
+    /* ********** Change caption names as required.                       */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_PMNU) NAME(#PMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIP_DTL) CAPTION('&Details') DEFAULT(True) DISPLAYPOSITION(1) PARENT(#PMNU_1)
+    /* **********                                                         */
+    /* ********** If validation rules exist enable delete menu option.    */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIP_DLT) CAPTION('D&elete') DISPLAYPOSITION(2) ENABLED(False) PARENT(#PMNU_1)
+    /* **********                                                         */
+    /* ********** New sub menu                                            */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIP_NEW) CAPTION('&New') DISPLAYPOSITION(3) PARENT(#PMNU_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_PNEW) PARENT(#MIP_NEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIPNW_1) CAPTION('Level 1') DISPLAYPOSITION(1) PARENT(#SMNU_PNEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIPNW_2) CAPTION('Level 2') DISPLAYPOSITION(2) ENABLED(False) PARENT(#SMNU_PNEW)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MIPNW_3) CAPTION('Level 3') DISPLAYPOSITION(3) ENABLED(False) PARENT(#SMNU_PNEW)
+    /* **********                                                         */
+    /* ********** The Level 3 list shows a view of just the level 3       */
+    /* ********** objects. It is made visible by selection in the filter  */
+    /* ********** form.                                                   */
+    /* ********** Change the source field names for each column.          */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_LTVW) NAME(#LVL3LST) DISPLAYPOSITION(1) HEIGHT(239) LEFT(0) PARENT(#COM_OWNER) POPUPMENU(#PMNU_1) TABPOSITION(1) TOP(64) VISIBLE(False) VISUALSTYLE(#VS_NORM) WIDTH(185)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_61) CAPTION('Name 1') CAPTIONTYPE(Caption) DISPLAYPOSITION(1) MINIMUMWIDTH(10) PARENT(#LVL3LST) SOURCE(#SURNAME) WIDTH(50)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_62) CAPTION('Name 2') CAPTIONTYPE(Caption) DISPLAYPOSITION(2) MINIMUMWIDTH(10) PARENT(#LVL3LST) SOURCE(#GIVENAME) WIDTH(20) WIDTHTYPE(Remainder)
+    DEFINE_COM CLASS(#PRIM_LVCL) NAME(#LVCL_63) PARENT(#LVL3LST) SOURCE(#EMPNO) VISIBLE(False) WIDTH(20)
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Member detail and filter forms. Replace names with      */
+    /* ********** new form names created using VL_basebod & VL_basebof.   */
+    /* **********                                                         */
+    /* ********** Definition of level 1 Business Object Detail form.      */
+    /* ********** This form is defined as a keyed collection (or multi-   */
+    /* ********** instance) form. It can be changed to a single instance  */
+    /* ********** form by copying the level 2 Business Object Detailer.   */
+    /* ********** Invoke commands must also be changed.                   */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_KCOL) NAME(#VL_DEM21) COLLECTS(#VL_DEM21) KEEPLAST(20) KEYEDBY(#DEPTMENT)
+    /* **********                                                         */
+    /* ********** Definition of level 2 Business Object Detail form.      */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#VL_DEM22) NAME(#VL_DEM22) BORDERICONS(Maximize+Minimize+SystemMenu) FRAMESTYLE(Single) HEIGHT(350) LEFT(400) TOP(80) VISUALSTYLEOFPARENT(True) WIDTH(386)
+    /* **********                                                         */
+    /* ********** Definition of level 3 Business Object Detail form.      */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#VL_DEM23) NAME(#VL_DEM23) BORDERICONS(Maximize+Minimize+SystemMenu) FRAMESTYLE(Sizable) HEIGHT(393) LEFT(240) TOP(180) VISIBLE(False) WIDTH(500)
+    /* **********                                                         */
+    /* ********** Definition of Business Object Filter form.              */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#VL_DEM28) NAME(#VL_DEM28) BORDERICONS(Maximize+Minimize+SystemMenu) FRAMESTYLE(Sizable)
+    /* **********                                                         */
+    /* ********** Definition of Utility server connection form.           */
+    /* ********** If this form is not required remove this definition and */
+    /* ********** the option to call it from the 'tools' menu.            */
+    /* ********** If required it can be copied and renamed.               */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#VL_DEM27) NAME(#VL_DEM27) FORMPOSITION(Designed) HEIGHT(385) LEFT(390) TOP(136) WIDTH(284)
+    /* **********                                                         */
+    /* ********** Work fields for layout manager emulation.               */
+    /* **********                                                         */
+    DEFINE     FIELD(#PHEIGHT) TYPE(*DEC) LENGTH(7) DECIMALS(0)
+    DEFINE     FIELD(#PWIDTH) TYPE(*DEC) LENGTH(7) DECIMALS(0)
+    DEFINE     FIELD(#WHEIGHT) REFFLD(#PHEIGHT)
+    DEFINE     FIELD(#WWIDTH) REFFLD(#PWIDTH)
+    DEFINE     FIELD(#XHEIGHT) REFFLD(#PHEIGHT)
+    DEFINE     FIELD(#XWIDTH) REFFLD(#PWIDTH)
+    /* **********                                                         */
+    /* ********** Work fields for titles.                                 */
+    /* **********                                                         */
+    DEFINE     FIELD(#LISTCAP) TYPE(*CHAR) LENGTH(40)
+    DEFINE     FIELD(#TITLE) TYPE(*CHAR) LENGTH(80)
+    /* **********                                                         */
+    /* ********** Work fields to control display position of keyed        */
+    /* ********** collection.                                             */
+    /* **********                                                         */
+    DEFINE     FIELD(#STD_NUMD) REFFLD(#STD_NUM)
+    DEFINE     FIELD(#STD_QTYD) REFFLD(#STD_QTY)
+    /* **********                                                         */
+    /* ********** Work fields used with cut and paste.                    */
+    /* ********** Replace key fields in definitions below to the          */
+    /* ********** appropriate names.                                      */
+    /* **********                                                         */
+    DEFINE     FIELD(#CUTOBJ) TYPE(*CHAR) LENGTH(1) DEFAULT(N)
+    DEFINE     FIELD(#OLDLVL3) REFFLD(#EMPNO)
+    DEFINE     FIELD(#OLDLVL1) REFFLD(#DEPTMENT)
+    DEFINE     FIELD(#NEWLVL1) REFFLD(#DEPTMENT)
+    DEFINE     FIELD(#OLDLVL2) REFFLD(#SECTION)
+    /* **********                                                         */
+    /* ********** Work fields used to save keys.                          */
+    /* **********                                                         */
+    DEFINE     FIELD(#SAVLVL1) REFFLD(#DEPTMENT)
+    DEFINE     FIELD(#SAVLVL2) REFFLD(#SECTION)
+    /* **********                                                         */
+    /* ********** Work fields used with filter.                           */
+    /* **********                                                         */
+    DEFINE     FIELD(#FLTRLVL1) REFFLD(#DEPTMENT)
+    DEFINE     FIELD(#FLTRLVL2) REFFLD(#SECTION)
+    /* **********                                                         */
+    /* ********** Working list to filter and sort the level 3 entries.    */
+    /* ********** Replace fields with appropriate names of fields which   */
+    /* ********** will be used to filter and sort.                        */
+    /* **********                                                         */
+    DEF_LIST   NAME(#TLVL3LST) FIELDS(#SURNAME #GIVENAME #EMPNO #STARTDTER #STARTDTE #TERMDATER #SALARY) TYPE(*WORKING) ENTRYS(5000)
+    /* **********                                                         */
+    @@ROUTERTN
+    EVTROUTINE HANDLING( #com_owner.Initialize )
+    /* **********                                                         */
+    /* ********** Load all level 1 information into tree.                 */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(LOAD_LVL1)
+    /* **********                                                         */
+    /* ********** Save starting position layout manager emulation.        */
+    /* ********** See Timer click event for form resizing logic.          */
+    /* **********                                                         */
+    CHANGE     FIELD(#PHEIGHT) TO('#COM_OWNER.HEIGHT')
+    CHANGE     FIELD(#PWIDTH) TO('#COM_OWNER.WIDTH')
+    CHANGE     FIELD(#XHEIGHT) TO('#COM_OWNER.HEIGHT - #LTVW_1.HEIGHT')
+    CHANGE     FIELD(#XWIDTH) TO('#COM_OWNER.WIDTH  - #LTVW_1.WIDTH')
+    set        #timr_1 interval(300)
+    /* **********                                                         */
+    /* ********** Set form top for keyed collection member form.          */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_NUMD) TO(*ZERO)
+    /* **********                                                         */
+    /* ********** Set form left for keyed collection member form.         */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_QTYD) TO(400)
+    /* **********                                                         */
+    /* ********** Hide detail list columns until required.                */
+    /* **********                                                         */
+    set        ( #lvcl_21 #lvcl_22 #lvcl_23 #lvcl_31 #lvcl_32 #lvcl_33 #lvcl_34 ) visible(false)
+    /* **********                                                         */
+    /* ********** Assign icons to the tree view column for level 1.       */
+    /* **********                                                         */
+    set        #tvcl_1 image(#vi_deptcl) imageexpanded(#vi_deptop)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Create new object                                       */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #spbn_new.click )
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 1')
+    EXECUTE    SUBROUTINE(NEW_LVL1)
+    ELSE
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 2')
+    EXECUTE    SUBROUTINE(NEW_LVL2)
+    ELSE
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 3')
+    EXECUTE    SUBROUTINE(NEW_LVL3)
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #minw_1.Click  #mipnw_1.click )
+    EXECUTE    SUBROUTINE(NEW_LVL1)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #minw_2.Click  #mipnw_2.click )
+    EXECUTE    SUBROUTINE(NEW_LVL2)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #minw_3.Click  #mipnw_3.click )
+    EXECUTE    SUBROUTINE(NEW_LVL3)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Replace the field and form names to the appropriate     */
+    /* ********** names you wish to use in the three new_lvl routines.    */
+    /* ********** Note level 1 in this example is a keyed collection.     */
+    /* ********** If you are not using a keyed collection change the code */
+    /* ********** to match the level 2 example.                           */
+    /* ********** This example uses property routines but you could use   */
+    /* ********** methods instead.                                        */
+    /* **********                                                         */
+    SUBROUTINE NAME(NEW_LVL1)
+    CHANGE     FIELD(#DEPTMENT) TO(*BLANKS)
+    invoke     #vl_dem21<#deptment>.activateform
+    set        #vl_dem21<#deptment> dept_value(#deptment)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(NEW_LVL2)
+    invoke     #vl_dem22.activateform
+    CHANGE     FIELD(#SECTION) TO(*BLANKS)
+    set        #vl_dem22 dept_value(#deptment) sect_value(#section)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(NEW_LVL3)
+    invoke     #vl_dem23.activateform
+    CHANGE     FIELD(#EMPNO) TO(*BLANKS)
+    set        #vl_dem23 dept_value(#deptment) sect_value(#section) emp_value(#empno)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Tree Events                                             */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#TREEVIEW.ItemGotFocus)
+    CLR_LIST   NAMED(#LTVW_1)
+    CHANGE     FIELD(#STD_COUNT) TO(0)
+    /* **********                                                         */
+    /* ********** If tree level is 1, load the second level details to    */
+    /* ********** the list view.                                          */
+    /* ********** Enable and disable the appropriate menu items and tool  */
+    /* ********** bar buttons.                                            */
+    /* ********** At each level the new options should be available for   */
+    /* ********** the current level and the next lower level.             */
+    /* **********                                                         */
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 1')
+    set        ( #minw_3 #mipnw_3 #mitm_cut #spbn_cut ) enabled( false )
+    set        ( #mi_new #mip_new #spbn_new #minw_1 #minw_2  #mipnw_1 #mipnw_2 ) enabled( true )
+    CHANGE     FIELD(#SAVLVL1) TO(#DEPTMENT)
+    EXECUTE    SUBROUTINE(LOAD_LVL2)
+    ELSE
+    /* **********                                                         */
+    /* ********** Else if tree level is 2, load the third level details   */
+    /* ********** to the list view.                                       */
+    /* ********** Enable and disable the appropriate menu items and tool  */
+    /* ********** bar buttons.                                            */
+    /* ********** At each level the new options should be available for   */
+    /* ********** the current level and the next lower level.             */
+    /* **********                                                         */
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 2')
+    set        ( #minw_1 #mipnw_1 ) enabled(false)
+    set        ( #mi_new #mip_new #spbn_new #minw_2 #minw_3 #mipnw_2 #mipnw_3 #mitm_cut #spbn_cut ) enabled( true )
+    CHANGE     FIELD(#STD_FLAG) TO(L)
+    IF         COND('#STD_FILTR *EQ Y')
+    EXECUTE    SUBROUTINE(FILTER)
+    ELSE
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WITH_KEY(#DEPTMENT #SECTION)
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    CHANGE     FIELD(#STD_COUNT) TO('#STD_COUNT + 1')
+    ENDSELECT
+    set        #lvcl_34 visible( true )
+    set        #lvcl_33 visible( false )
+    ENDIF
+    set        ( #lvcl_21 #lvcl_22 #lvcl_23 ) visible( false )
+    set        ( #lvcl_31 #lvcl_32 ) visible(true)
+    set        #lvcl_31 displayposition(1)
+    set        #lvcl_32 displayposition(2)
+    /* **********                                                         */
+    /* ********** Execute routine to determine if delete buttons and menu */
+    /* ********** options should be enabled/disabled. If using validation */
+    /* ********** rules this code is not required.                        */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(SET_DEL)
+    /* **********                                                         */
+    /* ********** Set the title of the detail list.                       */
+    /* **********                                                         */
+    USE        BUILTIN(BCONCAT) WITH_ARGS('''Employees of ''' #SECDESC) TO_GET(#LISTCAP)
+    set        #labl_2 caption(#listcap)
+    ELSE
+    /* **********                                                         */
+    /* ********** Else if tree level is 2, load the third level details   */
+    /* ********** to the list view.                                       */
+    /* ********** Enable and disable the appropriate menu items and tool  */
+    /* ********** bar buttons.                                            */
+    /* ********** At each level the new options should be available for   */
+    /* ********** the current level and the next lower level.             */
+    /* **********                                                         */
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 3')
+    set        ( #minw_1 #minw_2 #mipnw_1 #mipnw_2 ) enabled(false)
+    set        ( #mi_new #mip_new #spbn_new #minw_3 #mipnw_3  #mitm_cut #spbn_cut ) enabled(true)
+    /* **********                                                         */
+    /* ********** Perform checks to see if the focus item can be deleted. */
+    /* ********** If using validation rules this check is not required.   */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(CHK_LVL3)
+    ENDIF
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Execute routine to determine if delete buttons and menu */
+    /* ********** options should be enabled/disabled. If using validation */
+    /* ********** rules this code is not required.                        */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(SET_DEL)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#TREEVIEW.ItemExpanding)
+    /* **********                                                         */
+    /* ********** Check which tree level is being expanded.               */
+    /* ********** Replace section with appropriate key field.             */
+    /* **********                                                         */
+    IF         COND('#SECTION *EQ *BLANKS')
+    MESSAGE    MSGTXT('Loading Sections') TYPE(*STATUS)
+    /* **********                                                         */
+    /* ********** Change next level tree columns to null.                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#EMPNO #FULLNAME) TO(*NULL)
+    /* **********                                                         */
+    /* ********** Check if a filter is active and if a filter selection   */
+    /* ********** has been made for this level.                           */
+    /* **********                                                         */
+    IF         COND('( #STD_FILTR *EQ Y ) AND ( #FLTRLVL2 *NE *BLANKS )')
+    /* **********                                                         */
+    /* ********** If a filter selection has been made for this level      */
+    /* ********** fetch the appropriate record.                           */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details and add to tree.                                */
+    /* ********** Add icons to tree columns if required.                  */
+    /* **********                                                         */
+    FETCH      FIELDS(#SECTION #SECDESC) FROM_FILE(SECTAB) WITH_KEY(#DEPTMENT #FLTRLVL2)
+    ADD_ENTRY  TO_LIST(#TREEVIEW)
+    /* **********                                                         */
+    /* ********** Assign icons to tree level 2                            */
+    /* **********                                                         */
+    set        #treeview.currentitem image(#vi_sectcl) imageexpanded(#vi_sectop)
+    ELSE
+    /* **********                                                         */
+    /* ********** If no filter active or all items for this level         */
+    /* ********** required select all and add to tree.                    */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details and add to tree.                                */
+    /* **********                                                         */
+    SELECT     FIELDS(#SECTION #SECDESC) FROM_FILE(SECTAB) WITH_KEY(#DEPTMENT)
+    ADD_ENTRY  TO_LIST(#TREEVIEW)
+    /* **********                                                         */
+    /* ********** Assign icons to tree level 2.                           */
+    /* **********                                                         */
+    set        #treeview.currentitem image(#vi_sectcl) imageexpanded(#vi_sectop)
+    ENDSELECT
+    ENDIF
+    ELSE
+    /* **********                                                         */
+    /* ********** Check which tree level is being expanded.               */
+    /* ********** Replace empno with appropriate key field.               */
+    /* **********                                                         */
+    IF         COND('#EMPNO *EQ *BLANKS')
+    MESSAGE    MSGTXT('Loading Employee Details') TYPE(*STATUS)
+    CLR_LIST   NAMED(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO(*ZERO)
+    CHANGE     FIELD(#STD_FLAG) TO(T)
+    /* **********                                                         */
+    /* ********** If a filter is active call routine to process           */
+    /* ********** information.                                            */
+    /* **********                                                         */
+    IF         COND('#STD_FILTR *EQ Y')
+    EXECUTE    SUBROUTINE(FILTER)
+    ELSE
+    /* **********                                                         */
+    /* ********** If no filter is active select all records for parent.   */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details and add to tree.                                */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_DIRCT) TO(A)
+    CHANGE     FIELD(#STD_SORT) TO(N)
+    SELECT     FIELDS(#EMPNO #DEPTMENT #SECTION #SURNAME #GIVENAME #SALARY #STARTDTER #TERMDATER) FROM_FILE(PSLMST1) WITH_KEY(#DEPTMENT #SECTION)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** This routine is only called if a filter is active and   */
+    /* ********** the list view of level 3 requested.                     */
+    /* **********                                                         */
+    SUBROUTINE NAME(LD_LVL3LST)
+    MESSAGE    MSGTXT('Loading Employee Details') TYPE(*STATUS)
+    CLR_LIST   NAMED(#LTVW_1)
+    CLR_LIST   NAMED(#LVL3LST)
+    CHANGE     FIELD(#STD_FLAG) TO(E)
+    CHANGE     FIELD(#STD_COUNT) TO(*ZERO)
+    EXECUTE    SUBROUTINE(FILTER)
+    /* **********                                                         */
+    /* ********** Enable and position the level 3 columns in the detail   */
+    /* ********** list.                                                   */
+    /* **********                                                         */
+    set        ( #lvcl_31 #lvcl_32 ) visible( true )
+    set        #lvcl_31 displayposition( 1 )
+    set        #lvcl_32 displayposition( 2 )
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(FILTER)
+    /* **********                                                         */
+    /* ********** If all level 1 was selected in filter.                  */
+    /* **********                                                         */
+    IF         COND('#FLTRLVL1 *EQ *BLANK')
+    IF         COND('#STD_FLAG *NE E')
+    /* **********                                                         */
+    /* ********** This call was from tree not level 3 list.               */
+    /* ********** Save and use current level 1 key from tree.             */
+    /* **********                                                         */
+    CHANGE     FIELD(#SAVLVL1) TO(#DEPTMENT)
+    ENDIF
+    ELSE
+    /* **********                                                         */
+    /* ********** Save and use selected level 1 key from filter.          */
+    /* **********                                                         */
+    CHANGE     FIELD(#SAVLVL1) TO(#FLTRLVL1)
+    ENDIF
+    /* **********                                                         */
+    /* ********** If all level 2 was selected in filter.                  */
+    /* **********                                                         */
+    IF         COND('#FLTRLVL2 *EQ *BLANK')
+    IF         COND('#STD_FLAG *NE E')
+    /* **********                                                         */
+    /* ********** This call was from tree not level 3 list.               */
+    /* ********** Save and use current level 2 key from tree.             */
+    /* **********                                                         */
+    CHANGE     FIELD(#SAVLVL2) TO(#SECTION)
+    ENDIF
+    ELSE
+    /* **********                                                         */
+    /* ********** Save and use selected level 2 key from filter.          */
+    /* **********                                                         */
+    CHANGE     FIELD(#SAVLVL2) TO(#FLTRLVL2)
+    ENDIF
+    /* **********                                                         */
+    CLR_LIST   NAMED(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO(*ZERO)
+    IF         COND('#STD_FLAG *NE T')
+    /* **********                                                         */
+    /* ********** This call was from the level 3 list not the tree.       */
+    /* ********** Display appropriate columns in detail list.             */
+    /* **********                                                         */
+    set        #lvcl_34 visible( true ) displayposition( 3 )
+    set        #lvcl_33 visible( false )
+    ENDIF
+    /* **********                                                         */
+    /* ********** If the filter and sort are by date or value execute     */
+    /* ********** appropriate routine.                                    */
+    /* **********                                                         */
+    IF         COND('#STD_SORT *EQ D')
+    EXECUTE    SUBROUTINE(FLTR_DATE)
+    ELSE
+    IF         COND('#STD_SORT *EQ V')
+    EXECUTE    SUBROUTINE(FLTR_VALUE)
+    IF         COND('#STD_FLAG *NE T')
+    set        #lvcl_34 visible( false )
+    set        #lvcl_33 visible( true ) displayposition( 3 )
+    ENDIF
+    ELSE
+    /* **********                                                         */
+    /* ********** Else select the level 3 details using the saved keys.   */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details.                                                */
+    /* **********                                                         */
+    IF         COND('#SAVLVL2 *NE *BLANKS')
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANKS')
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ELSE
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDIF
+    ENDIF
+    EXECUTE    SUBROUTINE(LVL3_SORT)
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** This routine executes the appropriate routine according */
+    /* ********** to the comparison operator.                             */
+    /* **********                                                         */
+    SUBROUTINE NAME(FLTR_VALUE)
+    CLR_LIST   NAMED(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO(*ZERO)
+    /* **********                                                         */
+    IF         COND('#STD_CMPAR *EQ GT')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(GTV_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(GTV_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(GTV_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ELSE
+    IF         COND('#STD_CMPAR *EQ EQ')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(EQV_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(EQV_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(EQV_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ELSE
+    IF         COND('#STD_CMPAR *EQ LT')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(LTV_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(LTV_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(LTV_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ENDIF
+    ENDIF
+    ENDIF
+    EXECUTE    SUBROUTINE(LVL3_SORT)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details in the following routines.                      */
+    /* **********                                                         */
+    SUBROUTINE NAME(GTV_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *GT #STD_NUM')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(GTV_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *GT #STD_NUM') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(GTV_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *GT #STD_NUM') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQV_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *EQ #STD_NUM')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQV_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *EQ #STD_NUM') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQV_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *EQ #STD_NUM') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTV_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *LT #STD_NUM')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTV_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *LT #STD_NUM') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTV_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#SALARY *LT #STD_NUM') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** This routine executes the appropriate routine according */
+    /* ********** to the comparison operator.                             */
+    /* **********                                                         */
+    SUBROUTINE NAME(FLTR_DATE)
+    CLR_LIST   NAMED(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO(*ZERO)
+    /* **********                                                         */
+    IF         COND('#STD_CMPAR *EQ GT')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(GTD_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(GTD_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(GTD_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ELSE
+    IF         COND('#STD_CMPAR *EQ EQ')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(EQD_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(EQD_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(EQD_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ELSE
+    IF         COND('#STD_CMPAR *EQ LT')
+    IF         COND('#SAVLVL2 *NE *BLANK')
+    EXECUTE    SUBROUTINE(LTD_LVL2)
+    ELSE
+    IF         COND('#SAVLVL1 *NE *BLANK')
+    EXECUTE    SUBROUTINE(LTD_LVL1)
+    ELSE
+    EXECUTE    SUBROUTINE(LTD_ALL)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    ENDIF
+    ENDIF
+    ENDIF
+    EXECUTE    SUBROUTINE(LVL3_SORT)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details in the following routines.                      */
+    /* **********                                                         */
+    SUBROUTINE NAME(GTD_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *GT #STD_DATE')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(GTD_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *GT #STD_DATE') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(GTD_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *GT #STD_DATE') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQD_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *EQ #STD_DATE')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQD_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *EQ #STD_DATE') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(EQD_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *EQ #STD_DATE') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTD_ALL)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *LT #STD_DATE')
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTD_LVL1)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *LT #STD_DATE') WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LTD_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(PSLMST1) WHERE('#STARTDTER *LT #STD_DATE') WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_TEMP)
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Add entries to temporary work list for sorting.         */
+    /* **********                                                         */
+    SUBROUTINE NAME(ADD_TEMP)
+    ADD_ENTRY  TO_LIST(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO('#STD_COUNT + 1')
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Sort work list according to filter requirement.         */
+    /* ********** Replace sort field names with appropriate names.        */
+    /* **********                                                         */
+    SUBROUTINE NAME(LVL3_SORT)
+    IF         COND('#STD_SORT *EQ C')
+    /* ********** Do nothing                                              */
+    ELSE
+    IF         COND('#STD_SORT *EQ N')
+    SORT_LIST  NAMED(#TLVL3LST) BY_FIELDS(#SURNAME #GIVENAME)
+    ELSE
+    IF         COND('#STD_SORT *EQ D')
+    SORT_LIST  NAMED(#TLVL3LST) BY_FIELDS(#STARTDTER #SURNAME)
+    ELSE
+    IF         COND('#STD_SORT *EQ S')
+    SORT_LIST  NAMED(#TLVL3LST) BY_FIELDS(#SALARY #SURNAME)
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Read list in ascending order as required by filter.     */
+    /* ********** Add entries to list and tree according to who called    */
+    /* ********** this processing.                                        */
+    /* **********                                                         */
+    IF         COND('#STD_DIRCT *EQ A')
+    SELECTLIST NAMED(#TLVL3LST)
+    IF         COND('#STD_FLAG *EQ L')
+    /* **********                                                         */
+    /* ********** Detail list                                             */
+    /* **********                                                         */
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    ELSE
+    IF         COND('#STD_FLAG *EQ E')
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    /* **********                                                         */
+    /* ********** Level 3 list                                            */
+    /* **********                                                         */
+    ADD_ENTRY  TO_LIST(#LVL3LST)
+    ELSE
+    /* **********                                                         */
+    /* ********** Tree                                                    */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(ADD_TREE)
+    ENDIF
+    ENDIF
+    ENDSELECT
+    ELSE
+    /* **********                                                         */
+    /* ********** Else read list in descending order as required by       */
+    /* ********** filter.                                                 */
+    /* **********                                                         */
+    DOWHILE    COND('#STD_COUNT *GT *ZERO')
+    GET_ENTRY  NUMBER(#STD_COUNT) FROM_LIST(#TLVL3LST)
+    CHANGE     FIELD(#STD_COUNT) TO('#STD_COUNT - 1')
+    IF         COND('#STD_FLAG *EQ L')
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    ELSE
+    IF         COND('#STD_FLAG *EQ E')
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    ADD_ENTRY  TO_LIST(#LVL3LST)
+    ELSE
+    EXECUTE    SUBROUTINE(ADD_TREE)
+    ENDIF
+    ENDIF
+    ENDWHILE
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(ADD_TREE)
+    /* **********                                                         */
+    /* ********** Perform any formatting required before adding entry to  */
+    /* ********** tree and assigning an icon.                             */
+    /* **********                                                         */
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#SURNAME '''-''' #GIVENAME) TO_GET(#FULLNAME)
+    ADD_ENTRY  TO_LIST(#TREEVIEW)
+    /* **********                                                         */
+    /* ********** Assign icons to tree level 3.                           */
+    /* **********                                                         */
+    set        #treeview.currentitem image(#vi_employ) imageexpanded(#vi_employ)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#CMBX_1.ItemGotFocus)
+    /* **********                                                         */
+    /* ********** Replace deptment with level 1 key.                      */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_CODEL) TO(#DEPTMENT)
+    SELECTLIST NAMED(#TREEVIEW)
+    IF         COND('#DEPTMENT *EQ #STD_CODEL')
+    set        #treeview.currentitem selected(true)
+    CHANGE     FIELD(#STD_IDNO) TO('#TREEVIEW.FOCUSITEM.ENTRY')
+    GET_ENTRY  NUMBER(#STD_IDNO) FROM_LIST(#TREEVIEW)
+    CHANGE     FIELD(#SAVLVL1) TO(#DEPTMENT)
+    /* **********                                                         */
+    /* ********** Load level 2 children into details list for current     */
+    /* ********** level 1 parent.                                         */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(LOAD_LVL2)
+    LEAVE
+    ENDIF
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Double click in detail list view invokes form           */
+    /* ********** displaying selected item.                               */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#LTVW_1.DoubleClick)
+    /* **********                                                         */
+    /* ********** Determine which level of detail is currently displayed  */
+    /* ********** in list view.                                           */
+    /* ********** Invoke the appropriate detail form.                     */
+    /* ********** Set the detail form properties.                         */
+    /* **********                                                         */
+    IF         COND('#LVCL_21.VISIBLE *EQ TRUE')
+    invoke     #vl_dem22.activateform
+    set        #vl_dem22 dept_value(#deptment) sect_value(#section) top(#std_num)
+    MESSAGE    MSGTXT('Invoking ....... form')
+    ELSE
+    IF         COND('#LVCL_31.VISIBLE *EQ TRUE')
+    invoke     #vl_dem23.activateform
+    set        #vl_dem23 dept_value(#deptment) sect_value(#section) emp_value(#empno)
+    MESSAGE    MSGTXT('Invoking ....... form')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(DPTFRMTOP)
+    IF         COND('#STD_NUMD *GT 400')
+    CHANGE     FIELD(#STD_NUMD) TO(10)
+    ELSE
+    CHANGE     FIELD(#STD_NUMD) TO('#STD_NUMD + 30')
+    CHANGE     FIELD(#STD_NUM) TO('#STD_NUMD')
+    CHANGE     FIELD(#STD_QTYD) TO('#STD_QTYD - 30')
+    CHANGE     FIELD(#STD_QTY) TO('#STD_QTYD')
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Level 1                                                 */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Monitor for changes to level 1 objects in appropriate   */
+    /* ********** member forms.                                           */
+    /* ********** Refresh the tree and selector combo box with changes.   */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#vl_dem21<>.dept_chgd)
+    MESSAGE    MSGTXT('Reloading departments')
+    EXECUTE    SUBROUTINE(LOAD_LVL1)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(LOAD_LVL1)
+    CLR_LIST   NAMED(#TREEVIEW)
+    CLR_LIST   NAMED(#CMBX_1)
+    CHANGE     FIELD(#STD_COUNT) TO(0)
+    /* **********                                                         */
+    /* ********** Change lower level tree columns to null.                */
+    /* ********** Replace fields with required names.                     */
+    /* **********                                                         */
+    CHANGE     FIELD(#SECTION #SECDESC #FULLNAME #EMPNO) TO(*NULL)
+    MESSAGE    MSGTXT('Loading ..........') TYPE(*STATUS)
+    /* **********                                                         */
+    /* ********** if a filter level 1 is available use it to fetch a      */
+    /* ********** single record,                                          */
+    /* ********** else select all level 1 records.                        */
+    /* ********** Replace deptment processing with appropriate file       */
+    /* ********** details.                                                */
+    /* **********                                                         */
+    IF         COND('#FLTRLVL1 *NE *BLANK')
+    FETCH      FIELDS(#DEPTMENT #DEPTDESC) FROM_FILE(DEPTAB) WITH_KEY(#FLTRLVL1)
+    EXECUTE    SUBROUTINE(ADD_LVL1)
+    ELSE
+    SELECT     FIELDS(#DEPTMENT #DEPTDESC) FROM_FILE(DEPTAB)
+    EXECUTE    SUBROUTINE(ADD_LVL1)
+    ENDSELECT
+    ENDIF
+    MESSAGE    MSGTXT('Load Complete')
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(ADD_LVL1)
+    ADD_ENTRY  TO_LIST(#TREEVIEW)
+    /* **********                                                         */
+    /* ********** Assign icons to tree level 1.                           */
+    /* **********                                                         */
+    set        #treeview.currentitem image(#vi_deptcl) imageexpanded(#vi_deptop)
+    ADD_ENTRY  TO_LIST(#CMBX_1)
+    IF         COND('#STD_COUNT *EQ 0')
+    set        #cmbx_1.currentitem focus(true)
+    CHANGE     FIELD(#STD_COUNT) TO(1)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Level 2                                                 */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Load level 2 details into the detail list.              */
+    /* **********                                                         */
+    SUBROUTINE NAME(LOAD_LVL2)
+    CLR_LIST   NAMED(#LTVW_1)
+    CHANGE     FIELD(#STD_COUNT) TO(0)
+    /* **********                                                         */
+    /* ********** if a filter level 2 key is available use it to fetch a  */
+    /* ********** single record.                                          */
+    /* ********** else select all level 2 records.                        */
+    /* ********** Replace section processing with appropriate file        */
+    /* ********** details.                                                */
+    /* **********                                                         */
+    IF         COND('#SAVLVL2 *NE *BLANKS')
+    SELECT     FIELDS(*ALL) FROM_FILE(SECTAB) WITH_KEY(#SAVLVL1 #SAVLVL2)
+    EXECUTE    SUBROUTINE(ADD_LVL2)
+    ENDSELECT
+    ELSE
+    SELECT     FIELDS(*ALL) FROM_FILE(SECTAB) WITH_KEY(#SAVLVL1)
+    EXECUTE    SUBROUTINE(ADD_LVL2)
+    ENDSELECT
+    ENDIF
+    /* **********                                                         */
+    /* ********** Make detail list columns for level 2 object visible.    */
+    /* **********                                                         */
+    set        ( #lvcl_31 #lvcl_32 #lvcl_33 #lvcl_34 ) visible( false )
+    set        ( #lvcl_21 #lvcl_22 #lvcl_23 ) visible( true )
+    set        #lvcl_21 displayposition(1)
+    USE        BUILTIN(BCONCAT) WITH_ARGS('''Sections of ''' #DEPTDESC) TO_GET(#LISTCAP)
+    set        #labl_2 caption(#listcap)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(ADD_LVL2)
+    ADD_ENTRY  TO_LIST(#LTVW_1)
+    CHANGE     FIELD(#STD_COUNT) TO('#STD_COUNT + 1')
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Monitor for changes to level 2 objects in appropriate   */
+    /* ********** detail forms.                                           */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#vl_dem22.sect_insert)
+    MESSAGE    MSGTXT('Section inserted')
+    CHANGE     FIELD(#DEPTMENT) TO('#VL_DEM22.DEPT_VALUE')
+    CHANGE     FIELD(#SECTION) TO('#VL_DEM22.SECT_VALUE')
+    CHANGE     FIELD(#SECDESC) TO('#VL_DEM22.SECD_VALUE')
+    ADD_ENTRY  TO_LIST(#TREEVIEW)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Montior for any events which must be notified between   */
+    /* ********** member forms.                                           */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #vl_dem21<>.sect_sltd )
+    CHANGE     FIELD(#DEPTMENT) TO('#VL_DEM21<#DEPTMENT>.DEPT_VALUE')
+    CHANGE     FIELD(#SECTION) TO('#VL_DEM21<#DEPTMENT>.SECT_VALUE')
+    set        #vl_dem22 sect_graph( Y )
+    set        #vl_dem22 dept_value( #deptment )
+    set        #vl_dem22 sect_value( #section )
+    invoke     #vl_dem22.activateform
+    ENDROUTINE
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Level 3                                                 */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Monitor for changes to level 3 objects in appropriate   */
+    /* ********** detail forms and notify other forms if required.        */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#vl_dem23.salary_changed)
+    CHANGE     FIELD(#EMPNO) TO('#VL_DEM23.EMP_VALUE')
+    FETCH      FIELDS(#DEPTMENT #SECTION) FROM_FILE(PSLMST) WITH_KEY(#EMPNO) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    invoke     #vl_dem21<#deptment>.activateform
+    set        #vl_dem21<#deptment> dept_value(#deptment)
+    invoke     #vl_dem22.activateform
+    set        #vl_dem22 dept_value(#deptment) sect_value(#section)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(CHK_LVL3)
+    /* **********                                                         */
+    /* ********** Check for child records of level 3 parent to            */
+    /* ********** enable/disable delete button and menu options.          */
+    /* **********                                                         */
+    CHECK_FOR  IN_FILE(PSLSKL) WITH_KEY(#EMPNO) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*EQUALKEY)
+    CHANGE     FIELD(#STD_COUNT) TO(1)
+    ELSE
+    CHANGE     FIELD(#STD_COUNT) TO(0)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(SET_DEL)
+    /* **********                                                         */
+    /* ********** This generic routine enables or disables the delete     */
+    /* ********** buttons and menu options according to the current value */
+    /* ********** of the count work field.                                */
+    /* **********                                                         */
+    IF         COND('#STD_COUNT *GT 0')
+    set        ( #mitm_4 #mip_dlt #spbn_del ) enabled(false)
+    ELSE
+    set        ( #mitm_4 #mip_dlt #spbn_del ) enabled(true)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Menu Options & Tool bar buttons.                        */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Display current item details.                           */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#mip_dtl.click #mitm_5.click #treeview.doubleclick)
+    /* **********                                                         */
+    /* ********** Invoke the appropriate form to display the details of   */
+    /* ********** the current object.                                     */
+    /* ********** Replace the key fields and forms with the appropriate   */
+    /* ********** names.                                                  */
+    /* **********                                                         */
+    IF         COND('#EMPNO *NE *BLANKS')
+    invoke     #vl_dem23.activateform
+    set        #vl_dem23 dept_value(#deptment) sect_value(#section) emp_value(#empno)
+    MESSAGE    MSGTXT('Invoking employee form')
+    ELSE
+    IF         COND('#SECTION *NE *BLANKS')
+    invoke     #vl_dem22.activateform
+    set        #vl_dem22 dept_value(#deptment) sect_value(#section) top(#std_num)
+    MESSAGE    MSGTXT('Invoking section form')
+    ELSE
+    IF         COND('#DEPTMENT *NE *BLANKS')
+    /* **********                                                         */
+    /* ********** As the level 1 detail form is defined as a collection   */
+    /* ********** adjust the form position each time a new instance is    */
+    /* ********** invoked so that all instances of the form are visible.  */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(DPTFRMTOP)
+    set        #vl_dem21<#deptment> dept_left(#std_qty) dept_top(#std_num) dept_value(#deptment)
+    invoke     #vl_dem21<#deptment>.activateform
+    MESSAGE    MSGTXT('Invoking department form')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Delete current item.                                    */
+    /* ********** Check the tree view level.                              */
+    /* ********** Replace the file processing with the required names.    */
+    /* ********** Delete menu options and tool bar button have been       */
+    /* ********** enabled after checking that the current item can be     */
+    /* ********** deleted, but check that the object has been deleted     */
+    /* ********** from the file before deleting from the tree.            */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #mip_dlt.click #mitm_4.click #spbn_del.click )
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 1')
+    DELETE     FROM_FILE(DEPTAB) WITH_KEY(#DEPTMENT) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    DLT_ENTRY  FROM_LIST(#TREEVIEW)
+    MESSAGE    MSGTXT('Department deleted successfully')
+    ENDIF
+    ELSE
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 2')
+    DELETE     FROM_FILE(SECTAB) WITH_KEY(#DEPTMENT #SECTION) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    DLT_ENTRY  FROM_LIST(#TREEVIEW)
+    MESSAGE    MSGTXT('Section deleted successfully')
+    ENDIF
+    ELSE
+    IF         COND('#TREEVIEW.CURRENTITEM.LEVEL *EQ 3')
+    DLT_ENTRY  FROM_LIST(#TREEVIEW)
+    DELETE     FROM_FILE(PSLMST) WITH_KEY(#EMPNO) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    DLT_ENTRY  FROM_LIST(#TREEVIEW)
+    MESSAGE    MSGTXT('Employee deleted successfully')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** The refresh menu option reloads level 1 of the tree.    */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#mitm_rfsh.click)
+    EXECUTE    SUBROUTINE(LOAD_LVL1)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Invoke the Business Object Filter form to select data   */
+    /* ********** for display.                                            */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#MITM_FLTR.Click)
+    invoke     #vl_dem28.activateform
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** These 3 routines invoke the utility server connection   */
+    /* ********** form to connect and disconnect.                         */
+    /* ********** The data is refreshed after connection to the server or */
+    /* ********** after disconnect from the local data base.              */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#MITM_cnct.Click)
+    invoke     #vl_dem27.uconnect
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#vl_dem27.uConnectionCreated #vl_dem27.uConnectionDestroyed)
+    EXECUTE    SUBROUTINE(LOAD_LVL1)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#MITM_dcnct.Click)
+    invoke     #vl_dem27.udisconnect
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** The cut and paste menu options and buttons only apply   */
+    /* ********** to the tree.                                            */
+    /* ********** The cut saves the keys of the selected object           */
+    /* ********** but the actual cut does not happen until the paste      */
+    /* ********** option is used.                                         */
+    /* ********** Replace the key field names with the appropriate names. */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #SPBN_CUT.Click #mitm_cut.click )
+    CHANGE     FIELD(#CUTOBJ) TO(Y)
+    set        ( #mitm_pst #spbn_pst ) enabled( true )
+    CHANGE     FIELD(#STD_ENTRY) TO('#TREEVIEW.FOCUSITEM.ENTRY')
+    CHANGE     FIELD(#OLDLVL1) TO(#DEPTMENT)
+    CHANGE     FIELD(#OLDLVL2) TO(#SECTION)
+    CHANGE     FIELD(#OLDLVL3) TO(#EMPNO)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** When the paste menu options or buttons used check if    */
+    /* ********** any objects have been selected.                         */
+    /* ********** The cut saves the keys of the selected object           */
+    /* ********** but the actual cut does not happen until the paste      */
+    /* ********** option is used.                                         */
+    /* ********** Replace the key field names with the appropriate names. */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #SPBN_PST.Click #mitm_pst.click )
+    IF         COND('#CUTOBJ *EQ Y')
+    IF         COND('#TREEVIEW.FOCUSITEM.LEVEL *EQ 1')
+    EXECUTE    SUBROUTINE(INS_LVL2)
+    ELSE
+    IF         COND('#TREEVIEW.FOCUSITEM.LEVEL *EQ 2')
+    EXECUTE    SUBROUTINE(INS_LVL3)
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Paste level 2 object to new level 1 parent.             */
+    /* ********** Replace file and key fields with appropriate details.   */
+    /* **********                                                         */
+    SUBROUTINE NAME(INS_LVL2)
+    CHECK_FOR  IN_FILE(SECTAB) WITH_KEY(#DEPTMENT #OLDLVL2) VAL_ERROR(*NEXT)
+    CHANGE     FIELD(#NEWLVL1) TO(#DEPTMENT)
+    IF_STATUS  IS(*EQUALKEY)
+    MESSAGE    MSGTXT('''Section already exists in target department''')
+    ELSE
+    UPDATE     FIELDS(#DEPTMENT) IN_FILE(SECTAB) WITH_KEY(#OLDLVL1 #OLDLVL2)
+    DLT_ENTRY  NUMBER(#STD_ENTRY) FROM_LIST(#TREEVIEW)
+    /* **********                                                         */
+    SELECT     FIELDS(#DEPTMENT #EMPNO) FROM_FILE(PSLMST1) WITH_KEY(#OLDLVL1 #OLDLVL2)
+    CHANGE     FIELD(#DEPTMENT) TO(#NEWLVL1)
+    UPDATE     FIELDS(#DEPTMENT) IN_FILE(PSLMST) WITH_KEY(#EMPNO)
+    ENDSELECT
+    /* **********                                                         */
+    /* ********** Reset flag to indicate no details to be pasted.         */
+    /* **********                                                         */
+    CHANGE     FIELD(#CUTOBJ) TO(N)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Paste level 3 object to new parent.                     */
+    /* ********** Replace file and key fields with appropriate details.   */
+    /* ********** Reset flag to indicate no details to be pasted.         */
+    /* **********                                                         */
+    SUBROUTINE NAME(INS_LVL3)
+    CHECK_FOR  IN_FILE(PSLMST) WITH_KEY(#OLDLVL3) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*EQUALKEY)
+    UPDATE     FIELDS(#DEPTMENT #SECTION) IN_FILE(PSLMST) WITH_KEY(#OLDLVL3)
+    DLT_ENTRY  NUMBER(#STD_ENTRY) FROM_LIST(#TREEVIEW)
+    CHANGE     FIELD(#CUTOBJ) TO(N)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Menu option and tool bar button to exit.                */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#mitm_7.click #spbn_cls.click)
+    EXECUTE    SUBROUTINE(CLOSEFORMS)
+    EXIT
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** If the save menu option or tool bar button is used      */
+    /* ********** notify all member forms to save pending changes.        */
+    /* ********** Change form names to the appropriate Business Object    */
+    /* ********** Detail forms.                                           */
+    /* **********                                                         */
+    EVTROUTINE HANDLING( #mi_sav.click #spbn_sav.click )
+    invoke     #vl_dem21<>.save_depart
+    invoke     #vl_dem22.save_section
+    invoke     #vl_dem23.save_employ
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Form Events                                             */
+    /* **********                                                         */
+    /* ********** The timer acts as a layout manager emulator resizing    */
+    /* ********** components when the form is resized.                    */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#TIMR_1.Tick)
+    CHANGE     FIELD(#WHEIGHT) TO('#COM_OWNER.HEIGHT')
+    CHANGE     FIELD(#WWIDTH) TO('#COM_OWNER.WIDTH')
+    IF         COND('(#WWIDTH *NE #PWIDTH) *OR (#WHEIGHT *NE #PHEIGHT)')
+    CHANGE     FIELD(#PHEIGHT) TO(#WHEIGHT)
+    CHANGE     FIELD(#PWIDTH) TO(#WWIDTH)
+    CHANGE     FIELD(#WHEIGHT) TO('#WHEIGHT - #XHEIGHT')
+    CHANGE     FIELD(#WWIDTH) TO('#WWIDTH - #XWIDTH')
+    set        (#ltvw_1) width(#wwidth)
+    CHANGE     FIELD(#WWIDTH) TO('#WWIDTH + 4')
+    set        (#lsttl2) width(#wwidth)
+    set        (#ltvw_1 #treeview) height(#wheight)
+    CHANGE     FIELD(#WWIDTH) TO('#PWIDTH - 7')
+    set        #tools width(#wwidth)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** When closing the owner (top) form close all members as  */
+    /* ********** well.                                                   */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#COM_OWNER.CloseQuery)
+    EXECUTE    SUBROUTINE(CLOSEFORMS)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(CLOSEFORMS)
+    /* **********                                                         */
+    /* ********** The first close statement handles all instances of the  */
+    /* ********** named form. This form has been defined as a keyed       */
+    /* ********** collection (multi instance form).                       */
+    /* ********** The other forms are single instance forms.              */
+    /* ********** Rename these forms to your form names.                  */
+    /* **********                                                         */
+    invoke     #vl_dem21<>.close_save
+    invoke     #vl_dem22.close_save
+    invoke     #vl_dem23.close_save
+    invoke     #vl_dem27.udisconnect
+    invoke     #vl_dem28.closeform
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Monitor for the filter.                                 */
+    /* ********** Change the filter form name to the name of your filter. */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#VL_DEM28.ApplyFilter)
+    /* **********                                                         */
+    /* ********** Initialise the variables to hold the filter values.     */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(INIT_VALUE)
+    /* **********                                                         */
+    /* ********** Get the filter values.                                  */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_LEVEL) TO('#VL_DEM28.LEVEL_VALUE')
+    CHANGE     FIELD(#FLTRLVL1) TO('#VL_DEM28.DEPT_VALUE')
+    CHANGE     FIELD(#FLTRLVL2) TO('#VL_DEM28.SECT_VALUE')
+    CHANGE     FIELD(#STD_SORT) TO('#VL_DEM28.SORT_VALUE')
+    CHANGE     FIELD(#STD_DIRCT) TO('#VL_DEM28.DIRECTION_VALUE')
+    CHANGE     FIELD(#STD_DATE) TO('#VL_DEM28.DATE_VALUE')
+    CHANGE     FIELD(#STD_NUM) TO('#VL_DEM28.SALARY_VALUE')
+    CHANGE     FIELD(#STD_CMPAR) TO('#VL_DEM28.COMPARE_VALUE')
+    CHANGE     FIELD(#STD_FILTR) TO(Y)
+    /* **********                                                         */
+    /* ********** Set display to view the tree or list according filter   */
+    /* ********** choice and refresh the details.                         */
+    /* **********                                                         */
+    IF         COND('( #STD_LEVEL *EQ 1 ) OR ( #STD_LEVEL *EQ 2 )')
+    set        #treeview visible( true )
+    set        #lvl3lst visible( false )
+    set        #cmbx_1 enabled( True )
+    EXECUTE    SUBROUTINE(LOAD_LVL1)
+    ELSE
+    IF         COND('#STD_LEVEL *EQ 3')
+    set        #treeview visible( false )
+    set        #lvl3lst visible( true )
+    set        #cmbx_1 enabled( False )
+    EXECUTE    SUBROUTINE(LD_LVL3LST)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Close the filter form.                                  */
+    /* **********                                                         */
+    invoke     #vl_dem28.closeform
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(INIT_VALUE)
+    /* **********                                                         */
+    /* ********** Initialise the variables to hold the filter values.     */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_LEVEL #SAVLVL1 #SAVLVL2 #STD_SORT #STD_DIRCT #STD_DATE #STD_NUM #STD_CMPAR #STD_FILTR) TO(*NULL)
+    ENDROUTINE
+    /* **********                                                         */
+    @@ROUTEEND
+    END_COM
+    E99: @@LABEL
+
+  Help Panels:
+  - HELP010:
+      Description:        Business Object Browser help
+
+      Text: |
+        This template produces skeleton code for a Business Object Browser form. It can 
+        be used in conjunction with VL_BASEBOF Business Object Filter and VL_BASEBOD Bus
+        iness Object Detailer templates. You should create all Business Object Detailers
+         and Business Object Filter before trying to build and compile this form so that
+         they exsit when you add references to them in this form.                       
+                                                                                        
+        They are all based on th e Demonstation Personnel system and contain references 
+        to the personnel fields and files. These references should be replaced by the ob
+        jects you wish to use.                                                          
+                                                                                        
+         Read the comments in the code carefully and amend the code as required. While d
+        oing this keep the component tab open so that properties such as the souce field
+        s of columns can be changed in the property sheet.                              
+                                                                                        
+         The delete menu options and buttons in this skeleton are enabled and disabled b
+        y logic which checks for children of the current object in focus in the tree. If
+         you have defined validation rules in the repository this code can be removed an
+        d the options and button left enabled. The validation messages will be displayed
+         in the status bar.

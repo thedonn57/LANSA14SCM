@@ -1,0 +1,65 @@
+﻿Field:
+  Name:               DEPTDESC
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Description"
+      Label:              "Description...."
+      Heading1:           "Department"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Département"
+      Label:              "Description . ."
+      Heading1:           "Description"
+      Heading2:           "Département"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Description cannot be blank"
+      Condition:          "#deptdesc *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0003
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This is the full description of the department. It is up to
+          40 characters long and should contain the recognised corporate
+          description of the department.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Il s'agit de la description complète du département. Elle peut
+          comporter de 1 à 40 caractères, et doit être la description
+          officielle du département dans l'entreprise.

@@ -1,0 +1,34 @@
+﻿Reusable Part:
+  Name:               XSProductData
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Object"
+
+  - FRA:
+      Description:        "Product Object"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_objt *Listfields #ProductList)
+    
+    * Field values to be mapped in when the instance is created
+    Def_List Name(#ProductList) Fields(#XSProductID #XSProductLineID #XSProductCategoryID #XSProductDescription #XSProductModel #XSProductImageLink #XSProductStockStatus #XSProductPrice #XSProductDetail) Type(*Working) Entrys(1)
+    
+    * Available properties of the Product
+    Define_Pty Name(ID) Get(*auto #XSProductID)
+    Define_Pty Name(Category) Get(*auto #XSProductCategoryID)
+    Define_Pty Name(ProductDesc) Get(*auto #XSProductDescription)
+    Define_Pty Name(ProductModel) Get(*auto #XSProductModel)
+    Define_Pty Name(ImageLink) Get(*auto #XSProductImageLink)
+    Define_Pty Name(StockStatus) Get(*Auto #XSProductStockStatus)
+    Define_Pty Name(UnitPrice) Get(*Auto #XSProductPrice)
+    Define_Pty Name(ProductDetail) Get(*Auto #XSProductDetail)
+    
+    End_Com

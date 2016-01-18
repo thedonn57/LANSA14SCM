@@ -1,0 +1,78 @@
+﻿File:
+  Name:                           PSLDSE
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             PSLDSE
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DataStore Events"
+
+  - FRA:
+      Description:        "DataStore Events"
+
+  Real Fields:
+  - DSEEID:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - DSEEVT:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - DSEOID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - DSEOTP:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  Primary Keys:
+  - DSEEID
+
+  Logical Views:
+  - PSLDSE01:
+      Identifier:         PSLDSE01
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PSLDSE01
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Events reverse order"
+
+      - FRA:
+          Description:        "Events reverse order"
+
+      Keys:
+      - DSEEID:
+          Key Order:          Descending
+          Numeric Ordering:   Signed

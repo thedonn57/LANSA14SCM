@@ -1,0 +1,54 @@
+﻿Field:
+  Name:               LZPRCDPRD
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    LZPRCD
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Stock Product Code"
+      Label:              "Stock Product.."
+      Heading1:           "Stock"
+      Heading2:           "Product"
+      Heading3:           "Code"
+
+  - FRA:
+      Description:        "Code Produit Du Stock"
+      Label:              "Du Stock"
+      Heading1:           "Code"
+      Heading2:           "Produit"
+      Heading3:           "Du Stock"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %A Product Code uniquely identifies a Product.}
+      
+        A Product has to be entered in the Product file, before it
+        can be referred to in the Warehouse system.
+      
+        Standard LANSA repository functions will safeguard that:
+        -  Stock can only exist for Products defined in the Product file.
+        -  A Product can not be deleted if there is Stock for it.
+        -  Other Referential Integrity rules are adhered to.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le Code Produit est l'identifiant d'un Produit}
+      
+        Un Produit doit etre entre dans le fichier des Produits avant qu'il
+        ne puisse etre utilise dans le systeme Entrepot.
+      
+        Des fonctions standard du dictionaire de LANSA vont assurer que :
+        -  Un Stock ne peut exister que pour un Produit existant dans le
+           fichier des Produits.
+        -  Un Produit ne peut pas etre supprime si il est en stock.
+      $$NOAUTO

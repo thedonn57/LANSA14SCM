@@ -1,0 +1,243 @@
+﻿File:
+  Name:                           PSLTIMES
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             PSLTIMES
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 100000 10000 10) LVLCHK(*NO)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel time sheets"
+
+  - FRA:
+      Description:        "Feuilles de temps du personnel"
+
+  Real Fields:
+  - EMPNO:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - EMPTSYEAR:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - EMPTSWEEK:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - EMPTSTASK:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - EMPTSWSTR:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - EMPTSWEND:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+
+  - EMPTSTSAT:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTSUN:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTMON:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTTUE:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTWED:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTTHU:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSTFRI:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSVSAT:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVSUN:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVMON:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVTUE:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVWED:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVTHU:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSVFRI:
+      Type:               Packed
+      Length:             15
+      Decimals:           2
+
+  - EMPTSTOTH:
+      Type:               Packed
+      Length:             30
+      Decimals:           1
+
+  - EMPTSTOTV:
+      Type:               Packed
+      Length:             30
+      Decimals:           2
+
+  - EMPTSMAXH:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSMAXD:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - EMPTSMINH:
+      Type:               Packed
+      Length:             15
+      Decimals:           1
+
+  - EMPTSMIND:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  Primary Keys:
+  - EMPNO
+  - EMPTSYEAR
+  - EMPTSWEEK
+  - EMPTSTASK
+
+  Logical Views:
+  - PSLTIMESA:
+      Identifier:         PSLTIMESA
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      PSLTIMESA
+      Dynamic Select:     No
+      Parameters:         " LVLCHK(*NO)"
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLTIMES by year, week no, task"
+
+      - FRA:
+          Description:        "PSLTIMES par année, no semaine, tâche"
+
+      Keys:
+      - EMPTSYEAR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPTSWEEK:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPTSTASK:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPNO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PSLTIMESB:
+      Identifier:         PSLTIMESB
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      PSLTIMESB
+      Dynamic Select:     No
+      Parameters:         " LVLCHK(*NO)"
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PSLTIMES by task, year, week, employee"
+
+      - FRA:
+          Description:        "PSLTIMES par tâche, année, sem., salarié"
+
+      Keys:
+      - EMPTSTASK:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPTSYEAR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPTSWEEK:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - EMPNO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Triggers:
+  - EMPNO:
+    - Trigger for all events:
+        Function:           PSLTRG2
+        Trigger Points:
+        - Before Insert
+        - Before Update

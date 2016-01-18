@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03P#I
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition identifier"
+      Label:              "X03P#I"
+      Heading1:           "Partition"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Partition identifier"
+      Label:              "X03P#I"
+      Heading1:           "Partition"
+      Heading2:           "Identifier"
+      Heading3:           " "

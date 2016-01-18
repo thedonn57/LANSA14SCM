@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$AV
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Value of field to be validated (Alphanum"
+      Label:              "Alpha result"
+      Heading1:           "Field Value"
+      Heading2:           "(Alphanumeric)"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Valeur de la zone à valider (Alphanum.)"
+      Label:              "Résultat alpha"
+      Heading1:           "Valeur zone"
+      Heading2:           "(Alphanumérique)"
+      Heading3:           " "

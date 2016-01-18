@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_FLAG
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard FLAG"
+      Label:              "Flag"
+      Heading1:           "Flag"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Indicateur Standard"
+      Label:              "Indicateur"
+      Heading1:           "Indicateur"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must be Y or N"
+      Values:
+      - "'Y'"
+      - "'N'"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1078
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field contains a Flag. The Flag may be set to 'Y' or 'N'.
+      
+      
+        Validation Rules :  Must be 'Y' or 'N'.
+      
+        Maximum Length   :  1 character
+      
+      
+      
+      $$NOAUTO

@@ -1,0 +1,65 @@
+﻿Reusable Part:
+  Name:               XDXPopupPanels
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Popup Panels"
+
+  - FRA:
+      Description:        "Panneaux contextuels"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(536) Layoutmanager(#layout) Width(844)
+    
+    Define_Com Class(#prim_atlm) Name(#layout)
+    
+    Define_Com Class(#prim_Tile<#XDXTileDesign>) Name(#Tile) Displayposition(1) Height(536) Left(6) Parent(#COM_OWNER) Spacing(6) Spacingitems(6) Tabposition(1) Top(0) Width(832)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#Tile) Marginleft(6) Marginright(6) Parent(#layout)
+    
+    Define_Com Class(#prim_ppnl) Name(#HintPanel) Content(#HintPanelContent)
+    Define_Com Class(#XDXPopupPanelEmployeeDetails) Name(#HintPanelContent)
+    
+    Define_Com Class(#prim_ppnl) Name(#ContextMenu) Content(#ContextMenuContent)
+    Define_Com Class(#XDXPopupPanelContextMenu) Name(#ContextMenuContent)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    Select Fields(#Tile) From_File(PSLMST)
+    
+    Fetch Fields(#Deptdesc) From_File(Deptab) With_Key(#Deptment)
+    Fetch Fields(#secdesc) From_File(sectab) With_Key(#Deptment #Section)
+    
+    Add_Entry To_List(#Tile)
+    
+    * Attach popup and hint processors for each design instance
+    #Tile.CurrentItem.Design.Popup <= #ContextMenu
+    #Tile.CurrentItem.Design.HintPopup <= #HintPanel
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#HintPanel.Prepare) Context(#Context)
+    
+    * Mouse events cause currentitem to be updated
+    * The field values from list entry will have been updated in the code
+    #HintPanelContent.Prepare( #Empno )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ContextMenu.Prepare) Context(#Context)
+    
+    * Mouse events cause currentitem to be updated
+    * The field values from list entry will have been updated in the code
+    #ContextMenuContent.Prepare( #Empno )
+    
+    Endroutine
+    
+    End_Com

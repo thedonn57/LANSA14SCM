@@ -1,0 +1,79 @@
+﻿Field:
+  Name:               SECDESC
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Section Full Description"
+      Label:              "Description ..."
+      Heading1:           "Section"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description de la section"
+      Label:              "Description . ."
+      Heading1:           "Description"
+      Heading2:           "section"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Description cannot be blank"
+      Condition:          "#secdesc *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0012
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+          This field represents the full corporate description of the
+          company section. Note that all sections belong to a department.
+          A section is not an independently recognisable entity within
+          this company. For instance the LEGAL and SALES departments
+          both have ADMINISTRATIVE sections.
+      
+          Thus if you indicate that someone works for the ADMINISTRATIVE
+          section, you are not really telling anyone very much. In all
+          processes, the DEPARTMENT code or description is vital to
+          correctly identify where the person actually works.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          C'est la description officielle de la section dans l'entreprise
+          Notez que chaque section appartient à un département. Une section
+          n'est pas indépendamment reconnaissable dans cette entreprise.
+          Par exemple, les départements juridiques et commerciaux ont tous
+          des sections administratives.
+      
+          Aussi, si vous indiquez que quelqu'un travaille pour la section
+          administrative, le renseignement est incomplet. Dans tous les
+          process, le code ou la description du département sont absolument
+          indispensables pour savoir où une personne travaille.

@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               LZUNCOUNT
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    LZUNCO
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Unit Code"
+      Label:              "Product Unit..."
+      Heading1:           "Product"
+      Heading2:           "Unit"
+      Heading3:           "Code"
+
+  - FRA:
+      Description:        "Code Produit De L\"unite"
+      Label:              "De L\"unite"
+      Heading1:           "Code"
+      Heading2:           "Produit"
+      Heading3:           "De L\"unite"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+         %The Unit code uniquely identifies a unit of measurement.}
+      
+         Depending on the type of product, the measurement might be
+         expressed in units of: kilo, gram, meter, ton, piece, dozen,
+                                 liter, etc.
+         For each of those units of measurements it is adviced to use
+         a logical abreviation or an ISO standard code.
+
+  - FRA: |
+      $$USER
+         %Le code unite identifie une unite de mesure}
+      
+         Dependant du type de produit les mesures peuvent etre exprimees en
+         kilos, grammes, metres, tonnes, pieces, douzaines, litres, etc.
+         Pour chacune de ces unites de mesure il est reccommande d'utiliser
+         un code ISO ou une abreviation logique.

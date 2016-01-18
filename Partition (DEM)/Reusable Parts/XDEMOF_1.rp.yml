@@ -1,0 +1,70 @@
+﻿Reusable Part:
+  Name:               xDemoFieldVisSurnameAutoComplete
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual - Surname Auto Complete"
+
+  - FRA:
+      Description:        "Visual - Surname Auto Complete"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * Uses the iMonitorSubject and iContextualSubject interfaces to support use as a field visualization
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #Prim_dc.iMonitorSubject #Prim_dc.iContextualSubject) Defaultpty(Value) Displayposition(1) Height(19) Layoutmanager(#TableLayout_1) Left(0) Tabposition(1) Tabstop(False) Top(0) Width(418)
+    
+    * Surname AutoComplete visualization
+    
+    Define_Com Class(#Surname.Visualedit) Name(#Surname) Displayposition(1) Height(19) Marginleft(0) Parent(#COM_OWNER) Tabposition(1) Width(418)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Surname) Parent(#TableLayout_1) Row(#Row_1)
+    
+    * Default property of the Value to allow data values to beset/retrieved
+    Define_Pty Name(Value) Get(*auto #Surname) Set(*auto #Surname)
+    
+    Mthroutine Name(OnContextChanged) Options(*redefine)
+    
+    * If being hosted in a field
+    If (#Context *Is #prim_evp)
+    
+    * Match the edit to the component field state
+    #Surname.ReadOnly := (#Context *As #prim_evp).ReadOnly
+    
+    #Surname.ShowError := (#Context *As #prim_evp).ShowError
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Surname.Changed)
+    
+    Signal Event(ValueChanged)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Surname.AutoCompleting) Value(#Value)
+    
+    * Find the first record matching the entered value
+    Select Fields(#Surname) From_File(pslmst2) With_Key(#Value) Generic(*yes)
+    
+    #Value := #Surname
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    

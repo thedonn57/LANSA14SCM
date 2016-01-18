@@ -1,0 +1,78 @@
+﻿Reusable Part:
+  Name:               XDXPersonnelTreeDesign
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Personnel Tree Design Base Class"
+
+  - FRA:
+      Description:        "Classe de base d'arboresc. personnel"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel *implements #prim_Tree.iTreeDesign) Mouseoverstyle(#XDXStyles<MouseOver>)
+    
+    Define_Com Class(#Prim_Tree.TreeItem) Name(#gTreeItem) Reference(*dynamic) Focusedstyle(#XDXStyles<Focus>)
+    
+    Define_Pty Name(TreeItem) Get(*reference #gTreeItem)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    #gTreeItem <= #TreeItem
+    
+    Endroutine
+    
+    Mthroutine Name(OnFind) Options(*Redefine)
+    
+    * As the tree items use labels for display, we can iterate through the components looking for the required text
+    For Each(#Member) In(#Com_owner.ComponentMembers)
+    
+    * Ignore anything that isn't a label
+    Continue If(#Member *IsNot #Prim_labl)
+    
+    * If the caption contains the text
+    If ((#Member *As #Prim_labl).Caption.Contains( #Key ))
+    
+    (#Member *As #Prim_labl).Styles.Add( #XDXStyles<Found> )
+    
+    * #TreeItem.EnsureVisible := True
+    
+    Else
+    
+    (#Member *As #Prim_labl).Styles.Remove( #XDXStyles<Found> )
+    
+    Endif
+    
+    Endfor
+    
+    Endroutine
+    
+    * All expand/collapse processing has to be handled by the user
+    Mthroutine Name(ExpandCollapse) Access(*Protect)
+    
+    If (#gTreeItem.Expanded)
+    
+    #gTreeItem.Collapse
+    
+    Else
+    
+    #gTreeItem.Expand
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(OnDelete) Options(*Redefine)
+    
+    #gTreeItem <= *null
+    
+    Endroutine
+    
+    End_Com
+    

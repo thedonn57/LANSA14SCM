@@ -1,0 +1,72 @@
+﻿Reusable Part:
+  Name:               xDemoWebUDCTreeOnDemandDepartmentItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tree Department Design"
+
+  - FRA:
+      Description:        "Arborescence dépts"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #xDemoWebUDCTreeOnDemandBaseItem) Height(36) Width(454) Layoutmanager(#TableLayout_1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#prim_imag) Name(#ExpandCollapse) Displayposition(1) Height(12) Left(8) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Width(12) Top(12) Imagesizing(BestFit) Style(#Style1)
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(2) Height(36) Image(#xImageDepartment32) Left(34) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(32) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_LABL) Name(#lDepartment) Caption('Department Details') Displayposition(3) Ellipses(Word) Height(36) Left(70) Marginleft(2) Marginright(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(384) Dragstyle(Aggregated)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_2) Manage(#Image) Parent(#TableLayout_1) Row(#Row_1) Alignment(CenterLeft) Marginleft(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#lDepartment) Parent(#TableLayout_1) Row(#Row_1) Column(#Column_3) Alignment(CenterLeft)
+    
+    * Make department available to identify the item
+    Define_Pty Name(Department) Get(*auto #Deptment)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #ExpandCollapse.image <= #xImageCollapsed16
+    
+    Endroutine
+    
+    Mthroutine Name(Prepare)
+    Define_Map For(*Input) Class(#Deptment) Name(#Department)
+    Define_Map For(*Input) Class(#Deptdesc) Name(#Description)
+    
+    #Deptment := #Department
+    
+    #lDepartment := ("&1 (&2)").Substitute( #Description #Deptment )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ExpandCollapse.Click #Com_owner.DoubleClick)
+    
+    #Com_owner.ExpandCollapse
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemExpanding) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #xImageExpanded16
+    
+    Endroutine
+    
+    Mthroutine Name(OnItemCollapsed) Options(*Redefine)
+    
+    #ExpandCollapse.image <= #xImageCollapsed16
+    
+    Endroutine
+    
+    End_Com
+    

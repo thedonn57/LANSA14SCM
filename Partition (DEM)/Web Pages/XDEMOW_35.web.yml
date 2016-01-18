@@ -1,0 +1,118 @@
+﻿Web Page:
+  Name:               xDemoWebLazyLoadingScrollintoView
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Lazy Loading Scroll into View"
+
+  - FRA:
+      Description:        "Lazy Loading Scroll into View"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Green>)
+    
+    * Demonstration of "Lazy Loading" of images when they scroll in to view
+    * On a change oof scroll position the request to get the image is submitted.
+    * When it completes the image is updated
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Fontsize(22) Fontunits(Pixel)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(871) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopCenter) Column(#Column_2) Flow(Down) Manage(#Label11) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column_2) Manage(#Image1) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column_2) Manage(#Image2) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column_2) Manage(#Image3) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column_2) Manage(#Image4) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column_2) Manage(#Image5) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label11) Caption('Scroll down the page. The images will be loaded as they come in to view') Displayposition(1) Ellipses(Word) Height(45) Left(156) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(4) Width(871) Alignment(Center) Verticalalignment(Center) Themedrawstyle('DarkTitle') Style(#Style1)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(2) Left(424) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(59) Height(230) Width(335) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_IMAG) Name(#Image2) Displayposition(3) Left(424) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(299) Height(230) Width(335) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_IMAG) Name(#Image3) Displayposition(4) Left(424) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(539) Height(230) Width(335) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_IMAG) Name(#Image4) Displayposition(5) Left(424) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(779) Height(230) Width(335) Imagesizing(BestFit)
+    Define_Com Class(#PRIM_IMAG) Name(#Image5) Displayposition(6) Left(424) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(1019) Height(230) Width(335) Imagesizing(BestFit)
+    
+    * Collection of boolean keyed by the employee number
+    Define_Com Class(#prim_kcol<#prim_boln #Empno>) Name(#Requests)
+    
+    * At startup and on a scroll position change, try to load images
+    Evtroutine Handling(#Com_owner.Createinstance #Com_Owner.ScrollChanged)
+    
+    #Com_owner.LoadImages
+    
+    Endroutine
+    
+    Mthroutine Name(LoadImages) Access(*Private)
+    
+    * If the image scroll position is within the page viewport
+    If (#Image1.Scrolltop < #Com_owner.height)
+    
+    * Pass an identifier and the image to be updated in to the load routine
+    #Com_owner.LoadImage( A0070 #Image1 )
+    
+    Endif
+    
+    If (#Image2.Scrolltop < #Com_owner.height)
+    
+    #Com_owner.LoadImage( A0090 #Image2 )
+    
+    Endif
+    
+    If (#Image3.Scrolltop < #Com_owner.height)
+    
+    #Com_owner.LoadImage( A1003 #Image3 )
+    
+    Endif
+    
+    If (#Image4.Scrolltop < #Com_owner.height)
+    
+    #Com_owner.LoadImage( A1005 #Image4 )
+    
+    Endif
+    
+    If (#Image5.Scrolltop < #Com_owner.height)
+    
+    #Com_owner.LoadImage( A1008 #Image5 )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(LoadImage) Access(*Private)
+    Define_Map For(*Input) Class(#empno) Name(#EmployeeNumber)
+    Define_Map For(*input) Class(#Prim_imag) Name(#Image) Pass(*By_Reference)
+    
+    * Declaration of the GetEmployeeImage request
+    Define_Com Class(#xDemoDataServices.GetEmployeeImage) Name(#GetEmployeeImage)
+    
+    * If this employee number hasn't been requested before
+    If (*Not #Requests<#EmployeeNumber>)
+    
+    * Execute the request
+    #GetEmployeeImage.ExecuteAsync( #EmployeeNumber #empimg )
+    
+    * Flag the employeenumber as requested
+    #Requests<#EmployeeNumber> := True
+    
+    Endif
+    
+    * When the request completes, apply the returned blob to the image
+    Evtroutine Handling(#GetEmployeeImage.Completed)
+    
+    #Image.Image <= #sys_appln.CreateBitmap( #Empimg )
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

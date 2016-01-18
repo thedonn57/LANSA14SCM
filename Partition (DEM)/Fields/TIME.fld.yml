@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               TIME
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*TIME"
+  Edit Mask:          "'0 :  :  '"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current time (numeric)"
+      Label:              "Time"
+      Heading1:           "Time"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure en cours (numérique)"
+      Label:              "Heure . . . . ."
+      Heading1:           "Heure"
+      Heading2:           " "
+      Heading3:           " "

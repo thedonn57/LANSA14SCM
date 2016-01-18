@@ -1,0 +1,38 @@
+﻿Template:
+  Name:                    BBIF
+  Description:             "Build Block : IF/ENDIF Construct"
+
+  Source: |
+    @@QUESTION PROMPT('Describe what condition this IF command tests for') ANSWER(@@CANS001) EXTEND('The information you provide here is used to create a comment in your RDML' 'program. If you do not specify an answer, no comment will be generated.' 'Use the HELP function key for more details and/or examples.') HELPIDS(HELP010)
+    @@QUESTION PROMPT('Now, specify the actual condition to be tested by this IF command') ANSWER(@@CANS002) EXTEND('Specify the condition according to the normal rules for expression' 'formulation used by this product. Do NOT use quotes to surround the' 'expression. Use the HELP key to view examples of expressions.') HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(A10)
+    @@COMMENT  COMMENT('@@CANS001')
+    A10: @@LABEL
+    IF         COND('@@CANS002')
+    ENDIF
+
+  Help Panels:
+  - HELP010:
+      Description:        "        IF / ENDIF"
+
+      Text: |
+        <-
+                                                                                        
+         This application template constructs an simple IF / ENDIF construct into your  
+         RDML program. If you use it you will be asked 2 questions .....                
+                                                                                        
+         1. To specify a comment about what the IF command tests for. Your reply should 
+            be brief and concise. For example : "Customer is over the credit limit".    
+                                                                                        
+         2. To specify the actual condition that is to be tested by the IF command.     
+            Construct your condition according to the rules defined in the Technical    
+            Guide. Do NOT surround the condition with quotes. Some examples are :       
+                                                                                        
+            #AMOUNT *GT #CRDLMT  --> amount spent is greater than credit limit)         
+                                                                                        
+            #CUSTYPE = A --> customer type is an A                                      
+                                                                                        
+            (#CUSTYPE = A) *AND (#AMOUNT *GT #CRDLMT) --> customer type is an A and     
+                                           amount spent is greater than credit limit    
+                                                                                        
+            ((#A * #B) - #C) *GT 24.56   --> A times B minus C is greater than 24.56

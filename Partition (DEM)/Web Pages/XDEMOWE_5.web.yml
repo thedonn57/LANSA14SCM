@@ -1,0 +1,41 @@
+﻿Web Page:
+  Name:               xDemoWebListInput
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Input Capable List"
+
+  - FRA:
+      Description:        "Input Capable List"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(2) Parent(#TableLayout) Height(1.83)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Selection and data entry styles for input capable lists') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(44) Width(585) Marginleft(2) Themedrawstyle('Heading2')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(756) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(44) Width(1200)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row_5)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(1) Parent(#List) Source(#EMPNO) Columnreadonly(False) Columnwidth(143)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXDEMOW_5) Columnwidth(176) Design(#xDemoWebListInputGivename) Displayposition(2) Parent(#List) Columncaption('Givename')
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXDEMOW_3) Columnwidth(189) Design(#xDemoWebListInputSurname) Displayposition(3) Parent(#List) Columncaption('Surname')
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXDEMOW_1) Columnwidth(270) Design(#xDemoWebListInputDepartment) Displayposition(4) Parent(#List) Columncaption('Department')
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    Inz_List Named(#List) Num_Entrys(3)
+    
+    Endroutine
+    
+    
+    End_Com

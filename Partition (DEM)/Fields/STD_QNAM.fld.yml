@@ -1,0 +1,39 @@
+﻿Field:
+  Name:               STD_QNAM
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Query Expression Name"
+      Label:              "Express. Name"
+      Heading1:           "Expression Name"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom d´Expression Query"
+      Label:              "Nom Expression"
+      Heading1:           "Nom"
+      Heading2:           "Expression"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This is the name that a report query expression is saved with.
+      Any name up to 20 characters long may be specified for the name.
+      
+      Normally the name reflects the owner (ie: creator) of the expression
+      and some indictaion as to what information the expression selects.
+      
+      For example, if an expression created by Ian Smith that extracted a
+      list of all customers with credit limits of more than $100,000 was
+      to be saved, a name like "IS HIGH CREDIT LIMIT" might be a good choice.

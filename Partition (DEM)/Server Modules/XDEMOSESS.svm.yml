@@ -1,0 +1,72 @@
+﻿ServerModule:
+  Name:               xDemoSessionServices
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Demo Session Services"
+
+  - FRA:
+      Description:        "Demo Session Services"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_SRVM) Sessionidentifier('Session_1')
+    
+    * Sample Server Module to demonstrate session handling
+    * Default Session status for all webroutines is Active
+    * Session timeout will be set to 10 seconds. Default is 300 seconds
+    
+    Define Field(#gUserID) Type(*Char) Length(40)
+    
+    * Persistent session data variables restored everytime a Srvroutine is executed
+    * Available to all routines
+    Persist Fields(#gUserID)
+    
+    * Signin routine. If the user id is valid, the session will be activated
+    Srvroutine Name(Signin)
+    Field_Map For(*Input) Field(#User)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    #User := #User.Uppercase
+    
+    If (#Com_owner.VerifyUser( #User ))
+    
+    #Com_owner.StartSession Timeout(10)
+    
+    #io$sts := OK
+    #gUserID := #User
+    
+    Else
+    
+    #io$sts := ER
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(VerifyUser) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#User)
+    Define_Map For(*Result) Class(#xDemoBoolean) Name(#Result)
+    
+    #Result := (#User = LANSA)
+    
+    Endroutine
+    
+    Srvroutine Name(TestSessionState) Session(*Required)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    #io$sts := ok
+    
+    Endroutine
+    
+    Srvroutine Name(Signoff) Session(*Required)
+    
+    #Com_owner.EndSession
+    
+    Endroutine
+    
+    End_Com

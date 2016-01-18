@@ -1,0 +1,28 @@
+﻿Bitmap:
+  Name:               XSImage03
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Blue right arrow"
+
+  - FRA:
+      Description:        "IMage 03"
+
+  Source: |
+    * **************************************************
+    *                                                  *
+    *  COMPONENT:  STD_BTMAP
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_BMP)
+    End_Com
+
+  Data: |
+    89504E470D0A1A0A0000000D49484452000000080000000E080600000012565D960000001974455874536F66747761726500
+    41646F626520496D616765526561647971C9653C0000005F4944415478DA6214DEF8E63D030438BEF517B9C0800698A0B400
+    10EF072A36C0A6C011883FE052C40822A082FBA18A3E205BC70853894B1123B271D81431A23B0A5D11130301C044B415781D
+    89D79BF824616EC02989ECC80FB8220B20C000E2183C74FACB83180000000049454E44AE426082

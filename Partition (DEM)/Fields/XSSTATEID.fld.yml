@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XSStateID
+  Type:               Char
+  Length:             100
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "State"
+      Label:              "State"
+      Heading1:           "State"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "State ID"
+      Label:              "State"
+      Heading1:           "State"
+      Heading2:           " "
+      Heading3:           " "

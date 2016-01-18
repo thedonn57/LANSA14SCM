@@ -1,0 +1,80 @@
+﻿Reusable Part:
+  Name:               XCCContentArea
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Content Area - Manages Content Panels"
+
+  - FRA:
+      Description:        "Content Area - Manages Content Panels"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(400) Left(0) Tabposition(1) Top(0) Width(600) Layoutmanager(#AttachLayout)
+    
+    * Attachment Layout
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem) Attachment(Center) Manage(#DesignLabel) Parent(#AttachLayout)
+    
+    * A design time only label, so we can see where the content area is in the designer
+    Define_Com Class(#PRIM_LABL) Name(#DesignLabel) Caption('Content') Displayposition(1) Ellipses(Word) Height(400) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(600) Alignment(Center) Style(#DesignStyle) Opacity(40)
+    
+    * The style for the label
+    Define_Com Class(#PRIM_VS.Style) Name(#DesignStyle) Borderbottom(15) Borderbrush(#Brush_DesignStyleBorder) Borderleft(15) Borderright(15) Bordertop(15) Fontsize(18) Backgroundbrush(#Brush_DesignStyleBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_DesignStyleBackground) Color(189:189:189)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_DesignStyleBorder) Color(115:115:115)
+    
+    * We need a reference to the 'current' panel, which will initially be *NULL
+    Define_Com Class(#PRIM_PANL) Name(#CurrentPanel) Reference(*DYNAMIC)
+    
+    Evtroutine Handling(#COM_OWNER.CreateInstance)
+    
+    * At runtime, we start with NO content, the label was only there to help us at design time
+    #AttachItem.Manage <= *NULL
+    #DesignLabel.Parent <= *NULL
+    
+    Endroutine
+    
+    Mthroutine Name(ShowPanel)
+    Define_Map For(*Input) Class(#PRIM_PANL) Name(#Panel) Pass(*BY_REFERENCE)
+    
+    If (#CurrentPanel *IsNot *NULL)
+    
+    * Hide the current panel, fade out
+    #CurrentPanel.FadeOut
+    
+    Endif
+    
+    #CurrentPanel <= #Panel
+    
+    If (#CurrentPanel *IsNot *NULL)
+    
+    * Start managing the new panel
+    #AttachItem.Manage <= #CurrentPanel
+    
+    * Initialize the new panel
+    #CurrentPanel.Parent <= #COM_OWNER
+    
+    * Visualize it, initially it's invisible...
+    #CurrentPanel.Opacity := 0
+    
+    * And then it fades in (which animates the Opacity property until we're fully visible)
+    #CurrentPanel.FadeIn
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ClosePanel)
+    
+    #COM_OWNER.ShowPanel( *NULL )
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F26DES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "system description"
+      Label:              "F26DES"
+      Heading1:           "system"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "system description"
+      Label:              "F26DES"
+      Heading1:           "system"
+      Heading2:           "Description"
+      Heading3:           " "

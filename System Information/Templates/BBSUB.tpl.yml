@@ -1,0 +1,47 @@
+﻿Template:
+  Name:                    BBSUB
+  Description:             "Build Block : Basic subroutine layout"
+
+  Source: |
+    @@QUESTION PROMPT('Please enter a brief description of what this subroutine does') ANSWER(@@CANS001) EXTEND('For more information press the HELP function key.') HELPIDS(HELP010)
+    @@QUESTION PROMPT('Please specify the name of this subroutine') ANSWER(@@CANS002) EXTEND('For more information about valid subroutine names and naming rules use' 'the Help function key.') HELPIDS(HELP010)
+    @@QUESTION PROMPT('Will this subroutine receive or return parameter/argument values ?') ANSWER(@@CANS003) EXTEND('You must reply with a Y (yes) or an N (no) to this question.' 'For more information about this template use the Help function key.') LOWER(*NO) VALUES('Y' 'N') HELPIDS(HELP010)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: @@CANS002')
+    @@COMMENT  COMMENT('Description....: @@CANS001')
+    @@IF       COND((*IF @@CANS003 *NE 'Y')) GOTO(L10)
+    @@COMMENT  COMMENT('Parameters ....: Name      Typ Len  Description')
+    @@COMMENT  COMMENT('                 ----      --- ---  -----------')
+    @@COMMENT  COMMENT('                 #XXXXXX   XXX 99,9 XXXXXXXXXXXXXXXXXXX')
+    L10: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@IF       COND((*IF @@CANS003 *NE 'Y')) GOTO(L20)
+    SUBROUTINE NAME(@@CANS002) PARMS((#XXXXXX))
+    @@GOTO     LABEL(L30)
+    L20: @@LABEL
+    SUBROUTINE NAME(@@CANS002)
+    L30: @@LABEL
+    ENDROUTINE
+
+  Help Panels:
+  - HELP010:
+      Description:        "   Basic Subroutine Layout"
+
+      Text: |
+        <-
+                                                                                        
+         Use this building block when you wish to insert a subroutine into your RDML    
+         program. When invoked it will ask you 3 questions ...                          
+                                                                                        
+         1. To specify a brief description of what the subroutine does. This is used    
+            to generate a program comment. Be brief and concise. You must supply a      
+            description.                                                                
+                                                                                        
+         2. To specify the name of the subroutine ... you must specify a name and it    
+            must conform to the normal naming conventions (ie: first character alpha,   
+            following characters alpha or numeric, no imbedded blanks). Additionally    
+            the name must not be more than 10 characters long.                          
+                                                                                        
+         3. To indicate whether or not the subroutine has paramaters ... you must       
+            answer this question. Your answer governs the basic layout generated for    
+            subroutine, which presumably follows your installation standards.

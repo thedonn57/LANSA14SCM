@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               xEmployeeGender
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "'Male'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Gender"
+      Label:              "Gender"
+      Heading1:           "Employee"
+      Heading2:           "Gender"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Gender"
+      Label:              "Gender"
+      Heading1:           "Employee"
+      Heading2:           "Gender"
+      Heading3:           " "
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Height(19) Usepicklist(False) Width(245) Componentversion(1)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(ShowValue)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#Item_1) Caption('Male') Parent(#Picklist) Value('Male')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_2) Caption('Female') Parent(#Picklist) Value('Female')
+    Define_Com Class(#PRIM_PKIT) Name(#Item_3) Caption('Not Disclosed') Parent(#Picklist) Value('NoDisclose')
+    
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Appearance(DropDownList) Componentversion(1) Defaultvisual(True) Fixedheight(False) Height(20) Marginleft(120) Width(237)
+    
+    End_Com
+    End_Com
+    
+
+  Repository Help:
+  - ENG: |
+      $$USER
+            Gender is mandatory.
+      
+            Gender is the full text derived from the gender code.
+                Female
+                Male
+                Transexual
+                Undefined

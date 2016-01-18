@@ -1,0 +1,49 @@
+﻿Field:
+  Name:               LZWHPH
+  Type:               Alphanumeric
+  Length:             18
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_PHONE
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Fax Number"
+      Label:              "Fax Number"
+      Heading1:           "Fax"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains a fax number.}
+        %This is the (default) fax number used by the Fax application.}
+      
+        Validation Rules : Must be specified by the user.
+                           Should consist of numbers only for most countries.
+      
+        Maximum Length   : 18 characters
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient un numero de fax}
+        %C'est le numero de fax par default utilise par l'application.}
+      
+        Regles de validation : specifiees par l'utilisateur
+      
+        Longueur maximum : 18 characteres
+      $$NOAUTO

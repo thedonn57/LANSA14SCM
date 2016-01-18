@@ -1,0 +1,25 @@
+﻿Reusable Part:
+  Name:               STD_PANL
+  Enabled For RDMLX:  No
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                10
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard panel"
+
+  - FRA:
+      Description:        "Panneau standard"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_PANL
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL)
+    End_Com

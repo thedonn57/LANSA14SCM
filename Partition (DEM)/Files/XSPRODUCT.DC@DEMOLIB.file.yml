@@ -1,0 +1,121 @@
+﻿File:
+  Name:                           XSProduct
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             XSPRODUCT
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product"
+
+  - FRA:
+      Description:        "Product"
+
+  Real Fields:
+  - XSPRDID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDCTID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDLNID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDDSC:
+      Type:               Char
+      Length:             100
+      Decimals:           0
+
+  - XSPRDMDL:
+      Type:               Char
+      Length:             100
+      Decimals:           0
+
+  - XSPRDIMG:
+      Type:               Char
+      Length:             200
+      Decimals:           0
+
+  - XSPRDPRC:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSPRDDTL:
+      Type:               Char
+      Length:             100
+      Decimals:           0
+
+  - XSPRDSHP:
+      Type:               Signed
+      Length:             9
+      Decimals:           2
+
+  - XSPRDSTS:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDTAX:
+      Type:               Signed
+      Length:             5
+      Decimals:           2
+
+  Primary Keys:
+  - XSPRDID
+
+  Logical Views:
+  - XSProductV1:
+      Identifier:         XSPRODV1
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      XSPRODV1
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "by Line ID, Category ID, ProductID"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - XSPRDLNID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XSPRDCTID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XSPRDID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

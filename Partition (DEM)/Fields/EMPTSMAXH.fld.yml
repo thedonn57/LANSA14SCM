@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSMAXH
+  Type:               Packed
+  Length:             15
+  Decimals:           1
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Maximum daily hours worked"
+      Label:              "Maximum daily h"
+      Heading1:           "Maximum"
+      Heading2:           "daily"
+      Heading3:           "hours"
+
+  - FRA:
+      Description:        "Max heures travaillées par jour"
+      Label:              "Max par jour"
+      Heading1:           "Maximum"
+      Heading2:           "heures"
+      Heading3:           "par jour"

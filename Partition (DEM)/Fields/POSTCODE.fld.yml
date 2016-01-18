@@ -1,0 +1,71 @@
+﻿Field:
+  Name:               POSTCODE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Post / Zip Code"
+      Label:              "Post/zip code.."
+      Heading1:           "Post/zip"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code postal"
+      Label:              "Code postal . ."
+      Heading1:           "Code"
+      Heading2:           "Postal"
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Post/zip code range 2000-7999"
+      Ranges:
+      - From:               +2000
+        To:                 +7999
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0010
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the post code or zip code of the
+            area in which the employee lives.
+      
+            For instance, the following are valid post codes ....
+      
+                       2000 - Sydney Central Business District
+      
+                       2153 - Baulkham Hills
+      
+            All post codes must be in the range 2000 -> 7999.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      
+            Il s'agit du code postal de la ville de résidence de l'employé.
+      
+            Par exemple, les codes postaux suivant sont valides ...
+      
+                       2000 - Sydney Central Business District
+      
+                       2153 - Baulkham Hills
+      
+            Tous les codes postaux sont compris entre 2000 et 7999

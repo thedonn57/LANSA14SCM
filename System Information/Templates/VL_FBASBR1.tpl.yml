@@ -1,0 +1,20 @@
+﻿Template:
+  Name:                    VL_FBASBR1
+  Description:             Visual LANSA advanced parent browser
+  Extended Description 1:  Visual LANSA advanced parent/header
+  Extended Description 2:  browser
+
+  Source: |
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' This template is not available.            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' It is still under development.             ')
+    @@COMMENT  COMMENT('                                            ')
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of VL_BASEBR1
+
+      Text: |
+        This template is not available yet. It is still under development.

@@ -1,0 +1,98 @@
+﻿Reusable Part:
+  Name:               XDXRoutedEvents
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Routed Events"
+
+  - FRA:
+      Description:        "Evénements routés"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(597) Width(1099)
+    
+    * Understanding Routed Events
+    * Events follow the parent chain until
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Height(299) Layoutmanager(#ATLM_1) Left(40) Parent(#COM_OWNER) Style(#XDXStyles<Background>) Tabposition(2) Tabstop(False) Top(46) Width(336)
+    Define_Com Class(#PRIM_PANL) Name(#Panel2) Displayposition(2) Height(297) Layoutmanager(#ATLM_1) Left(280) Parent(#COM_OWNER) Style(#XDXStyles<Background>) Tabposition(1) Tabstop(False) Top(192) Width(336)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Alignment(Center) Caption('Label 1') Displayposition(1) Ellipses(Word) Height(87) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel1) Style(#XDXStyles<Item>) Tabposition(1) Tabstop(False) Top(8) Verticalalignment(Center) Width(320)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Alignment(Center) Caption('Label 2') Displayposition(2) Ellipses(Word) Height(91) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel1) Style(#XDXStyles<Item>) Tabposition(2) Tabstop(False) Top(103) Verticalalignment(Center) Width(320)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Alignment(Center) Caption('Label 3') Displayposition(3) Ellipses(Word) Height(88) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel1) Style(#XDXStyles<Item>) Tabposition(3) Tabstop(False) Top(202) Verticalalignment(Center) Width(320)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Alignment(Center) Caption('Label 4') Displayposition(1) Ellipses(Word) Height(88) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel2) Style(#XDXStyles<Item>) Tabposition(1) Tabstop(False) Top(8) Verticalalignment(Center) Width(320)
+    Define_Com Class(#PRIM_LABL) Name(#Label5) Alignment(Center) Caption('Label 5') Displayposition(2) Ellipses(Word) Height(88) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel2) Style(#XDXStyles<Item>) Tabposition(2) Tabstop(False) Top(104) Verticalalignment(Center) Width(320)
+    Define_Com Class(#PRIM_LABL) Name(#Label6) Alignment(Center) Caption('Label 6') Displayposition(3) Ellipses(Word) Height(88) Left(8) Marginleft(2) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#Panel2) Style(#XDXStyles<Item>) Tabposition(3) Tabstop(False) Top(200) Verticalalignment(Center) Width(320)
+    
+    Define_Com Class(#PRIM_CKBX) Name(#EventsHandled) Caption(*MTXTXDX078) Displayposition(3) Left(660) Parent(#COM_OWNER) Tabposition(3) Top(0) Width(169)
+    Define_Com Class(#PRIM_ATLM) Name(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Top) Manage(#Label1) Marginbottom(4) Marginleft(8) Marginright(8) Margintop(8) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#Label2) Marginbottom(4) Marginleft(8) Marginright(8) Margintop(4) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#Label3) Marginbottom(8) Marginleft(8) Marginright(8) Margintop(4) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Top) Manage(#Label4) Marginbottom(4) Marginleft(8) Marginright(8) Margintop(8) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Top) Manage(#Label5) Marginbottom(4) Marginleft(8) Marginright(8) Margintop(4) Parent(#ATLM_1)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_6) Attachment(Top) Manage(#Label6) Marginbottom(7) Marginleft(8) Marginright(8) Margintop(4) Parent(#ATLM_1)
+    
+    Define_Com Class(#PRIM_TREE<#XDXRoutedEventEventDetailsDesign>) Name(#Events) Displayposition(4) Height(545) Left(660) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(32) Width(333)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Label1.Cursor #Label2.Cursor #Label3.Cursor #Label4.Cursor #Label5.Cursor #Label6.Cursor #Panel1.Cursor #Panel2.Cursor <= #sys_appln.cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Click) Com_Sender(#Sender) Handled(#Handled) Origin(#Origin)
+    
+    #Handled := #Com_owner.HandleEvent( #Sender #Origin )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Panel1.Click #Panel2.Click) Com_Sender(#Sender) Handled(#Handled) Origin(#Origin)
+    
+    #Sender.DisplayPosition := 1
+    
+    #Handled := #Com_owner.HandleEvent( #Sender #Origin )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label1.Click #Label2.Click #Label3.Click #Label4.Click #Label5.Click #Label6.Click) Com_Sender(#Sender) Handled(#Handled) Origin(#Origin)
+    
+    #Handled := #Com_owner.HandleEvent( #Sender #Origin )
+    
+    Endroutine
+    
+    Mthroutine Name(HandleEvent) Access(*private)
+    Define_Map For(*Input) Class(#Prim_Ctrl) Name(#Sender) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_ctrl) Name(#Origin) Pass(*By_reference)
+    Define_Map For(*Result) Class(#Prim_boln) Name(#Result)
+    
+    If (#Origin *IsEqualTo #Sender)
+    
+    Clr_List Named(#Events)
+    
+    Endif
+    
+    #Result := (#EventsHandled.ButtonState = Checked)
+    
+    #Com_owner.AddEvent( #Sender.Name #Origin.Name )
+    
+    Endroutine
+    
+    Mthroutine Name(AddEvent) Access(*private)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Sender)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Origin)
+    
+    #XDXsender := #Sender
+    #XDXorigin := #Origin
+    
+    Add_Entry To_List(#Events)
+    
+    Endroutine
+    
+    End_Com

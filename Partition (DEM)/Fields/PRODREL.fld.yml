@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               PRODREL
+  Type:               Signed
+  Length:             3
+  Decimals:           1
+  Default Value:      "*PRODREL"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product release level"
+      Label:              "Release ......."
+      Heading1:           "Release"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Niveau de version du produit"
+      Label:              "Version . . . ."
+      Heading1:           "Version"
+      Heading2:           " "
+      Heading3:           " "

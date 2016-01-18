@@ -1,0 +1,99 @@
+﻿Reusable Part:
+  Name:               xDemoWebData
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Data Model"
+
+  - FRA:
+      Description:        "Data Model"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_objt)
+    
+    * Simple data model collecting Departments, Sections and Employees
+    
+    Define_Com Class(#prim_boln) Name(#gPrepared)
+    
+    * Collections of the individual data objects
+    Define_Com Class(#prim_acol<#xDemoWebDataDepartment>) Name(#gDepartments)
+    Define_Com Class(#prim_acol<#xDemoWebDataSection>) Name(#gSections)
+    Define_Com Class(#prim_acol<#xDemoWebDataEmployee>) Name(#gEmployees)
+    
+    * Publish the collections for simple access
+    Define_Pty Name(Departments) Get(*Collection #gDepartments)
+    Define_Pty Name(Sections) Get(*Collection #gSections)
+    Define_Pty Name(Employees) Get(*Collection #gEmployees)
+    
+    Define_Pty Name(isPrepared) Get(*auto #gPrepared)
+    
+    Define_Evt Name(Prepared)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Com_owner.PrepareData
+    
+    Endroutine
+    
+    Mthroutine Name(PrepareData) Access(*Private)
+    
+    * Define and execute the data load service
+    Define_Com Class(#xDemoDataServices.GetData) Name(#GetData)
+    
+    * Data is returned in working lists and mapped directly to the collections.
+    * This will automatically create the object instances and map field values in based on the *ListFields on the Begin_com of the data objects
+    #GetData.Executeasync( #gDepartments #gSections #gEmployees )
+    
+    Evtroutine Handling(#GetData.Completed)
+    
+    * As this is asynchoronous, signal that the load is complete.
+    Signal Event(Prepared)
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(FindDepartment) Help('Find a department based using the code')
+    Define_Map For(*Input) Class(#prim_alph) Name(#DepartmentCode)
+    Define_Map For(*Result) Class(#xDemoWebDataDepartment) Name(#Result) Pass(*by_reference)
+    
+    * Iterate through the department collection to find a match
+    For Each(#Department) In(#gDepartments)
+    
+    Continue If(#Department.ID <> #DepartmentCode)
+    
+    #Result <= #Department
+    
+    Leave
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(FindSection) Help('Find a section based using the department and section code')
+    Define_Map For(*Input) Class(#prim_alph) Name(#DepartmentCode)
+    Define_Map For(*Input) Class(#prim_alph) Name(#SectionCode)
+    Define_Map For(*Result) Class(#xDemoWebDataSection) Name(#Result) Pass(*by_reference)
+    
+    * Iterate through the section collection to find a match
+    For Each(#Section) In(#gSections)
+    
+    Continue If(#Section.Department.ID <> #DepartmentCode)
+    Continue If(#Section.ID <> #SectionCode)
+    
+    #Result <= #Section
+    
+    Leave
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

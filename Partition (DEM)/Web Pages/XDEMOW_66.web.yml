@@ -1,0 +1,56 @@
+﻿Web Page:
+  Name:               xDemoWebPopupDialog
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Popup as a Dialog"
+
+  - FRA:
+      Description:        "Popup as a Dialog"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(553) Width(1001) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.25)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(1.46)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Columnspan(3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Popup Dialogs - Double Click To Create a Dialog') Displayposition(1) Ellipses(Word) Height(60) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(1001) Marginleft(4) Themedrawstyle('Title+DarkTitle')
+    
+    Define_Com Class(#Prim_acol<#Prim_ppnl>) Name(#Dialogs)
+    
+    Evtroutine Handling(#Label1.DoubleClick)
+    
+    #Dialogs.Insert( (*New #Prim_ppnl) )
+    
+    #Dialogs.Last.Caption := ("Dialog &1").Substitute( #Dialogs.Itemcount.asstring )
+    #Dialogs.Last.TitleBar := True
+    #Dialogs.Last.AutoClose := False
+    #Dialogs.Last.TouchSize := All
+    #Dialogs.Last.TouchMove := Both
+    #Dialogs.Last.CloseButton := True
+    
+    #Dialogs.Last.ShowPopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#Dialogs<>.DoubleClick) Com_Sender(#Sender)
+    
+    (#Sender *As #prim_Ctrl).DisplayPosition := 0
+    
+    Endroutine
+    
+    End_Com
+    
+    

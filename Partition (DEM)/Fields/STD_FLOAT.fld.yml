@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               STD_FLOAT
+  Type:               Float
+  Length:             8
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Float field"
+      Label:              "Std Float field"
+      Heading1:           "Standard"
+      Heading2:           "Float"
+      Heading3:           "Field"
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           "?"

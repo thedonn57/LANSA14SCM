@@ -1,0 +1,87 @@
+﻿Reusable Part:
+  Name:               xDemoEditTimer
+  Enabled For RDMLX:  Yes
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Edit timer supporting delayed entry"
+
+  - FRA:
+      Description:        "Edit timer supporting delayed entry"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Define_Com Class(#Prim_timr) Name(#gTimer) Interval(300) Startup(Manual)
+    
+    Define_Com Class(#Prim_objt) Name(#gActiveControl) Reference(*Dynamic)
+    
+    Define_Pty Name(ActiveControl) Get(*Reference #gActiveControl) Set(SetActiveControl)
+    
+    Define_Evt Name(Ticked)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Control) Pass(*by_reference)
+    
+    Ptyroutine Name(SetActiveControl)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Control) Pass(*by_reference)
+    
+    If (#gActiveControl *IsNotEqualTo #Control)
+    
+    If (#gTimer.IsStarted)
+    
+    * Always fire a tick on a change of control to ensure that the previous control can update
+    #Com_owner.Tick
+    
+    * Restart the time
+    #Com_owner.Restart
+    
+    Endif
+    
+    * Store the active control
+    #gActiveControl <= #Control
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(Stop) Help('Stop the timer from running')
+    
+    #gTimer.Stop
+    
+    Endroutine
+    
+    Mthroutine Name(Start) Help('Start the timer')
+    
+    #gTimer.Start
+    
+    Endroutine
+    
+    Mthroutine Name(Restart) Help('Stop and start the timer')
+    
+    #gTimer.Stop
+    #gTimer.Start
+    
+    Endroutine
+    
+    Mthroutine Name(Tick) Help('Stop and start the timer')
+    
+    * Timer will be started again next time there is a key press and Restart is executed.
+    #gTimer.Stop
+    
+    * Fire a pick, making the control available the the using component to check which control it's used against.
+    Signal Event(Ticked) Control(#gActiveControl)
+    
+    Endroutine
+    
+    Evtroutine Handling(#gTimer.Tick)
+    
+    #com_owner.Tick
+    
+    Endroutine
+    
+    End_Com

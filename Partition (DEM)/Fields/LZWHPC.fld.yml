@@ -1,0 +1,48 @@
+﻿Field:
+  Name:               LZWHPC
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_ZIP
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Postal Code"
+      Label:              "Postal Code"
+      Heading1:           "Postal"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code Postal"
+      Label:              "Code Postal"
+      Heading1:           "Code"
+      Heading2:           "Postal"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field should contain a Postal (ZIP) code.}
+      
+        Validation Rules:  Must be specified by the user.
+                           Should consist of numbers only for most countries.
+      
+        Maximum Length:    5 characters
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable doit contenir un code postal}
+      
+        Regles de validation : a specifier par l'utilisateur
+      
+        longueur Maximum :    5 characteres
+      $$NOAUTO

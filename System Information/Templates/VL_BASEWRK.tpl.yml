@@ -1,0 +1,380 @@
+﻿Template:
+  Name:                    VL_BASEWRK
+  Description:             Visual LANSA work with object
+  Extended Description 1:  Visual LANSA work with object style
+  Extended Description 2:  maintenance form
+
+  Source: |
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes the type of object this function works with.') ANSWER(@@CANS001) EXTEND('123456789012345678' 'You should use ONE word only, use lowercase' 'characters and only use singular form (eg: "Customer", "Employee"' '"Order"). Do NOT use more than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010)
+    /* **********                                                         */
+    @@ROUTEDEF
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Work With @@cans001            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Tree view definition                    ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF JUST ONE FILE                               */
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('Enter the name of the file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of Visual LANSA applications it can create.') HELPIDS(HELP020)
+    /* **********                                                         */
+    /* ********** Load details of all fields in primary file into list 1  */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* **********                                                         */
+    /* ********** Load keys of base file                                  */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    @@CLR_LST  NUMBER(4)
+    /* **********                                                         */
+    @@QUESTION PROMPT('How many Key/levels do you wish to create?') ANSWER(@@NANS001) EXTEND('12' 'You can select a key field for each level of the tree structure and a non-' 'key field. If you select a non-key field the key field will be hidden.') HELPIDS(HELP030)
+    @@SET_IDX  IDX_NAME(DP) TO(1)
+    DEFINE_COM CLASS(#PRIM_TRVW) NAME(#TRVW_1) DISPLAYPOSITION(@@INDEXDP) HEIGHT(275) LEFT(16) LINESATROOT(True) PARENT(#@@PROCESS) TABPOSITION(1) TOP(16) WIDTH(177)
+    @@SET_IDX  IDX_NAME(KL) TO(1)
+    @@SET_IDX  IDX_NAME(LP) TO(0)
+    @@SET_IDX  IDX_NAME(TR) TO(10)
+    L10: @@LABEL
+    @@CMP_IDX  IDX_NAME(KL) IDX_VALUE(@@NANS001) IF_GT(A99)
+    F10: @@LABEL
+    @@INC_IDX  IDX_NAME(LP)
+    @@INC_IDX  IDX_NAME(DP)
+    /* **********                                                         */
+    /* ********** Select fields for current level                         */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((3 'Select flds' 'current' 'level')) HELPIDS(HELP040)
+    @@SET_IDX  IDX_NAME(FF) TO(@@LNE03)
+    @@CMP_IDX  IDX_NAME(FF) IDX_VALUE(0) IF_EQ(F99)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    @@SET_IDX  IDX_NAME(SP) TO(1)
+    F20: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@LNE03) IF_GT(F99)
+    /* **********                                                         */
+    /* ********** Define fields for current level                         */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_@@INDEXTR) DISPLAYPOSITION(@@INDEXDP) LEVEL(@@INDEXLP) PARENT(#TRVW_1)           SORTPOSITION(@@INDEXSP) SOURCE(#@@LEL03CF)
+    /* **********                                                         */
+    @@INC_IDX  IDX_NAME(CF)
+    @@SET_IDX  IDX_NAME(DP) TO(0)
+    @@INC_IDX  IDX_NAME(SP)
+    @@INC_IDX  IDX_NAME(TR)
+    @@GOTO     LABEL(F20)
+    F99: @@LABEL
+    /* **********                                                         */
+    /* ********** Select keys for current level                           */
+    /* **********                                                         */
+    K10: @@LABEL
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(2) INTO_LSTS((3 'Select key' 'current' 'level')) HELPIDS(HELP050)
+    @@SET_IDX  IDX_NAME(KK) TO(@@LNE03)
+    /* **********                                                         */
+    /* ********** If no fields or keys selected goto end of definition    */
+    /* **********                                                         */
+    @@IF       COND((*IF @@INDEXFF *EQ 0) (*AND @@INDEXKK *EQ 0)) GOTO(A99)
+    @@CMP_IDX  IDX_NAME(KK) IDX_VALUE(0) IF_EQ(K99)
+    @@SET_IDX  IDX_NAME(KP) TO(1)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    @@CMP_IDX  IDX_NAME(FF) IDX_VALUE(0) IF_GT(K20)
+    @@SET_IDX  IDX_NAME(DP) TO(1)
+    K20: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@LNE03) IF_GT(K99)
+    /* **********                                                         */
+    /* ********** Define keys for current level                           */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_@@INDEXTR) DISPLAYPOSITION(@@INDEXDP) KEYPOSITION(@@INDEXKP) LEVEL(@@INDEXLP) PARENT(#TRVW_1) SOURCE(#@@LEL03CF)
+    @@INC_IDX  IDX_NAME(CF)
+    @@SET_IDX  IDX_NAME(DP) TO(0)
+    @@INC_IDX  IDX_NAME(KP)
+    @@INC_IDX  IDX_NAME(TR)
+    @@GOTO     LABEL(K20)
+    K99: @@LABEL
+    @@INC_IDX  IDX_NAME(KL)
+    @@GOTO     LABEL(L10)
+    /* **********                                                         */
+    A99: @@LABEL
+    /* **********                                                         */
+    /* ********** Select fields for form                                  */
+    /* **********                                                         */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set default field position and size     ')
+    @@COMMENT  COMMENT('    Left margin to @@var_lmgn  = 140        ')
+    @@COMMENT  COMMENT('    Set left margin to  @@var_left  = 225   ')
+    @@COMMENT  COMMENT('    Set field top to    @@var_top = 16      ')
+    @@COMMENT  COMMENT('    Set field height to @@var_hgt = 20      ')
+    @@COMMENT  COMMENT('    Set field width to  @@var_fwtd = 300    ')
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    /* ********** Create tab folder                                       */
+    /* **********                                                         */
+    T10: @@LABEL
+    @@SET_IDX  IDX_NAME(ZZ) TO(0)
+    DEFINE_COM CLASS(#PRIM_TAB) NAME(#TAB_1) DISPLAYPOSITION(@@INDEXDP) HEIGHT(370) LEFT(230) PARENT(#@@PROCESS) TABPOSITION(@@INDEXDP) TOP(@@VAR_TOP + 0) WIDTH(385)
+    @@INC_IDX  IDX_NAME(DP)
+    @@QUESTION PROMPT('How many tab sheets do you wish to create?') ANSWER(@@NANS002) EXTEND('12' 'Select up to 10 logically grouped fields for each tab sheet to allow room ' 'to rearrange position or size of fields if required.') HELPIDS(HELP060)
+    @@SET_IDX  IDX_NAME(TB) TO(1)
+    T20: @@LABEL
+    @@CMP_IDX  IDX_NAME(TB) IDX_VALUE(@@NANS002) IF_GT(T99)
+    @@CLR_LST  NUMBER(5)
+    @@INC_IDX  IDX_NAME(ZZ)
+    @@QUESTION PROMPT('Supply a word that describes WHAT tab sheet @@INDEXZZ contains') ANSWER(@@CANS003) EXTEND('123456789012345678' 'The word you specify here is used as the caption on the tab sheet')
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((5 'Select flds' 'to display' 'on tab    '))
+    @@SET_IDX  IDX_NAME(TT) TO(@@LNE05)
+    @@CMP_IDX  IDX_NAME(TT) IDX_VALUE(0) IF_EQ(T99)
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    @@CANS003 - Tab sheet               .   ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Set left margin to @@var_left = 10      ')
+    @@COMMENT  COMMENT('    Set top margin to @@var_tbshtop  = 15   ')
+    @@COMMENT  COMMENT('    Set top margin to @@var_tsfltop  = 0    ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TBSH) NAME(#TBSH_@@INDEXZZ) CAPTION('@@CANS003') DISPLAYPOSITION(@@INDEXZZ) PARENT(#TAB_1)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    T30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@LNE05) IF_GT(T40)
+    DEFINE_COM CLASS(#@@LEL05CF.VISUAL ) NAME(#@@LEL05CF) DISPLAYPOSITION(@@INDEXDP) HEIGHT(@@VAR_HGT + 0) LABELHORALIGNMENT(Left) LEFT(@@VAR_LEFT + 0) MARGINLEFT(@@VAR_LMGN + 0)  PARENT(#TBSH_@@INDEXZZ) TABPOSITION(@@INDEXDP)         TOP(@@VAR_TSFLTOP + 30) WIDTH(@@VAR_FWTD + 0)
+    @@INC_IDX  IDX_NAME(DP)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(T30)
+    T40: @@LABEL
+    @@INC_IDX  IDX_NAME(TB)
+    @@GOTO     LABEL(T20)
+    T99: @@LABEL
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Buttons                                 ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#UPDATE) CAPTION(Update) DISPLAYPOSITION(@@INDEXDP) LEFT(16) PARENT(#@@PROCESS)        TABPOSITION(@@INDEXDP) TOP(320)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#DELETE) CAPTION(Delete) DISPLAYPOSITION(@@INDEXDP) LEFT(16) PARENT(#@@PROCESS)        TABPOSITION(@@INDEXDP) TOP(360)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#NEW) CAPTION(New      ) DISPLAYPOSITION(@@INDEXDP) LEFT(112) PARENT(#@@PROCESS)       TABPOSITION(@@INDEXDP) TOP(320)
+    @@INC_IDX  IDX_NAME(DP)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#INSERT) CAPTION(Insert) DISPLAYPOSITION(@@INDEXDP) LEFT(112) PARENT(#@@PROCESS)       TABPOSITION(@@INDEXDP) TOP(360)
+    @@INC_IDX  IDX_NAME(DP)
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Create a status bar for messages           ')
+    @@COMMENT  COMMENT('                                            ')
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) HEIGHT(30) MESSAGEPOSITION(1) PARENT(#@@PROCESS)
+    /* **********                                                         */
+    /* **********                                                         */
+    @@ROUTEBEG
+    BEGIN_COM  HEIGHT(450) LEFT(140) TOP(110) VISIBLE(False) VISUALSTYLE(#VS_NORM) WIDTH(650)
+    @@ROUTEDEF
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('     RDML Definitions                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    GROUP_BY   NAME(#ALLFLDS) FIELDS(@@LST01)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('         Events                             ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@ROUTERTN
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Initialise tree view.                      ')
+    EVTROUTINE HANDLING(#TRVW_1.Initialize)
+    SELECT     FIELDS(#ALLFLDS) FROM_FILE(@@FNAME01)
+    ADD_ENTRY  TO_LIST(#TRVW_1)
+    ENDSELECT
+    CHANGE     #ALLFLDS *NULL
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Retrieve current object                    ')
+    EVTROUTINE HANDLING(#TRVW_1.ItemGotFocus)
+    FETCH      FIELDS(#ALLFLDS) FROM_FILE(@@FNAME01) WITH_KEY(@@LST02)
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    EXECUTE    INITFLDS
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error retrieving @@CANS001')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Update                                  ')
+    EVTROUTINE HANDLING(#UPDATE.CLICK)
+    UPDATE     FIELDS(#ALLFLDS) IN_FILE(@@FNAME01) WITH_KEY(@@LST02) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    MESSAGE    MSGTXT('@@CANS001 updated successfully')
+    ELSE
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error updating @@CANS001')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Delete                                  ')
+    EVTROUTINE HANDLING(#DELETE.CLICK)
+    DELETE     FROM_FILE(@@FNAME01) WITH_KEY(@@LST02) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    DLT_ENTRY  FROM_LIST(#TRVW_1)
+    MESSAGE    MSGTXT('@@CANS001 deleted successfully')
+    EXECUTE    SUBROUTINE(INITFLDS)
+    ELSE
+    IF_STATUS  IS(*NORECORD)
+    MESSAGE    MSGTXT('@@CANS001 not found')
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error deleting @@CANS001')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    New                                     ')
+    EVTROUTINE HANDLING(#New.CLICK)
+    EXECUTE    INITFLDS
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Insert                                  ')
+    EVTROUTINE HANDLING(#INSERT.CLICK)
+    INSERT     FIELDS(#ALLFLDS) TO_FILE(@@FNAME01) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    MESSAGE    MSGTXT('@@CANS001 inserted successfully')
+    ELSE
+    IF_STATUS  IS(*ERROR)
+    MESSAGE    MSGTXT('Error inserting @@CANS001')
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Initialise fields                                       */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    SUBROUTINE NAME(INITFLDS)
+    CHANGE     #ALLFLDS *NULL
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Initialise tree                                         */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    SUBROUTINE NAME(INITTREE)
+    CLR_LIST   #TRVW_1
+    SELECT     FIELDS(#ALLFLDS) FROM_FILE(@@FNAME01)
+    ADD_ENTRY  #TRVW_1
+    ENDSELECT
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Status Message                          ')
+    SUBROUTINE STSMESSAGE ((#EX_ISSUE  *RECEIVED)(#EX_COUNT *BOTH)(#EX_NAME *RECEIVED))
+    define     #ex_issue *dec 15 0
+    define     #ex_count *dec 15 0
+    define     #ex_name  *char 20
+    define     #ex_remn  *dec 7 7
+    change     #ex_count '#ex_count + 1'
+    change     #ex_remn  '#ex_count / #ex_issue'
+    if         '#ex_remn = 0.0000000'
+    message    msgid(dcu0017) msgf(dc@m01) msgdta(#ex_count #ex_name) type(*status)
+    endif
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Information Message                     ')
+    SUBROUTINE INFMESSAGE ((#EX_TEXT *RECEIVED))
+    define     #ex_text  *char 132
+    message    msgid(dcm9992) msgf(dc@m01) msgdta(#ex_text *blanks)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    E99: @@LABEL
+    @@ROUTEEND
+    END_COM
+    /* **********                                                         */
+    /* ********** ------------------------------------------------        */
+    /* ********** CLEAN UP TEMPLATE PROCESSING                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(5)
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of this template
+
+      Text: |
+        This template creates a 'work with' form for a database file. It creates a tree 
+        view for a file with multiple keys.                                             
+                                                                                        
+        A tab folder and tab sheets are created to display the details of a selected    
+        record.
+
+  - HELP020:
+      Description:        File selection
+
+      Text: |
+        This template requests the name of the file to be used. A generic name can be   
+        entered which will cause a list to be displayed with the matching file names.   
+                                                                                        
+        As a tree view is used, it is expected that the file will have multiple keys    
+        which will be represented by each level of the tree.
+
+  - HELP030:
+      Description:        Number of tree levels
+
+      Text: |
+        The tree view is a hierarchical view of data. Each level requires at least one  
+        key field and optionally a descriptive non-key field. If the descriptive field  
+        is selected the key field will be hidden when the tree is displayed.            
+                                                                                        
+        For example a product code may be a five digit number and a key, but it may be  
+        preferable to display the short description of the product and hide the code.
+
+  - HELP040:
+      Description:        Selection of non-key fields
+
+      Text: |
+        You may select a non-key field to be displayed at the current level of the tree.
+         If you do the key for this level will be hidden on the tree.
+
+  - HELP050:
+      Description:        Selection of key fields
+
+      Text: |
+        Select a key field from the list to be used at the current level of the tree. If
+         a non-key field has been selected for this level, the key will be hidden. A key
+         must be selected for each level.
+
+  - HELP060:
+      Description:        Number of tab sheets required
+
+      Text: |
+        Up to 10 fields can be positioned on each tab sheet. This limit is for          
+        manageability of the form size and to allow space to resize or rearrange fields.
+         It applies to this template only.                                              
+                                                                                        
+        The number of tab sheets required can be calculated by considering how many     
+        logical groups of fields there are in the file definition. For example if the   
+        file contains address details, the street number, street name, town, and zip or 
+        postcode would logically be grouped together on the same tab sheet.             
+                                                                                        
+        You will be prompted for an appropriate name for each tab sheet.

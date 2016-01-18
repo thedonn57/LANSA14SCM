@@ -1,0 +1,89 @@
+﻿Field:
+  Name:               STARTDTE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Reference Field:    RETDAT
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Start Date (DDMMYY)"
+      Label:              "Start date....."
+      Heading1:           "Start"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date d´entrée, JJMMAA"
+      Label:              "Date d´entrée ."
+      Heading1:           "Date"
+      Heading2:           "d´entrée"
+      Heading3:           " "
+
+  Validation Rules:
+  - Date Check:
+      Description:        "Start date invalid or > today"
+      Date Format:        DDMMYY
+      Days After:         0
+      Days Before:        9999999
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0016
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(249)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual_Host #xDemoFieldVisNumberAsDate) Name(#DatePrompt) Height(21) Width(251)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the date on which the respective
+            employee started to work for the company.
+      
+      
+                  For instance .... 010288
+                                    261287
+      
+      
+            Note that the start date has to be in DDMMYY format, that
+            is, in the  Date-Month-Year order. Also, start date must be
+            before the current date.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient la date d'entrée dans la société de
+            l'employé concerné.
+      
+      
+                  Par exemple:
+                         010288
+                         260287
+      
+      
+            Cette date doit être dans le format JJMMAA, c'est à dire
+            Jour-Mois-Année. Attention également, la date d'entrée doit
+            être antérieure à la date d'aujourd'hui.

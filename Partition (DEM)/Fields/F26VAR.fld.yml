@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F26VAR
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System name"
+      Label:              "F26VAR"
+      Heading1:           "system"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "System name"
+      Label:              "F26VAR"
+      Heading1:           "system"
+      Heading2:           "Name"
+      Heading3:           " "

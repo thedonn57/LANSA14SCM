@@ -1,0 +1,165 @@
+﻿Reusable Part:
+  Name:               XDXBouncingBalls
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Bouncing Balls"
+
+  - FRA:
+      Description:        "Balles bondissantes"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Layoutmanager(#FlowLayout)
+    
+    * This was originally designed as a means of testing dynamic animation creation
+    * Animations are created whenever one is required and destroyed as soon they are complete.
+    
+    Define_Com Class(#prim_lcol<#Prim_labl>) Name(#Labels)
+    Define_Com Class(#prim_lcol<#Prim_fwli>) Name(#LayoutItems)
+    
+    Define_Com Class(#prim_fwlm) Name(#FlowLayout) Margintop(10) Spacing(0) Spacingitems(0)
+    
+    * All animation parts are identified by the label for simple access
+    Define_Com Class(#Prim_dcol<#prim_anim #prim_labl>) Name(#AnimationsDown)
+    Define_Com Class(#Prim_dcol<#prim_anim #prim_labl>) Name(#AnimationsUp)
+    
+    Define_Com Class(#Prim_dcol<#prim_anim.MoveTo #prim_labl>) Name(#MovementsDown)
+    Define_Com Class(#Prim_dcol<#prim_anim.MoveTo #prim_labl>) Name(#MovementsUp)
+    
+    * Radial brush to make the labels appear round
+    Define_Com Class(#prim_vs.Style) Name(#LabelStyle) Backgroundbrush(#LabelBrush) Bold(True) Textcolor(255:128:64)
+    Define_Com Class(#Prim_Vs.RadialBrush) Name(#LabelBrush) Colors(#Colors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#Colors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ActiveBrush1) At(40) Color(Black) Parent(#Colors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ActiveBrush2) At(100) Color(Transparent) Parent(#Colors)
+    
+    Evtroutine Handling(#com_owner.createInstance)
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Begin_Loop To(25)
+    
+    #Labels.Insert( #Com_owner.CreateLabel )
+    
+    End_Loop
+    
+    Endroutine
+    
+    Mthroutine Name(CreateLabel) Help('Create a label to look like a ball') Access(*private)
+    Define_Map For(*Result) Class(#Prim_labl) Name(#Result) Pass(*By_Reference)
+    
+    Define_Com Class(#prim_fwli) Name(#LayoutItem)
+    Define_Com Class(#prim_labl) Name(#Label) Verticalalignment(Center) Alignment(Center) Width(40) Height(40)
+    
+    #Label.Caption := (#Labels.itemCount + 1).asstring
+    
+    #Label.Parent <= #Com_Owner
+    
+    #LayoutItems.Insert( #LayoutItem )
+    
+    #LayoutItem.manage <= #Label
+    
+    #LayoutItem.Parent <= #FlowLayout
+    
+    #Label.Style <= #LabelStyle
+    
+    #Result <= #Label
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.MouseEnter) Com_Sender(#Label)
+    
+    * As soon as the mouse enters the label make animations to control the up and down motion.
+    #Com_owner.AddAnimationDown( #Label )
+    #Com_owner.AddAnimationUp( #Label )
+    
+    #AnimationsDown<#Label>.Start
+    
+    Endroutine
+    
+    Mthroutine Name(AddAnimationDown) Access(*private)
+    Define_Map For(*input) Class(#Prim_labl) Name(#Label) Pass(*By_Reference)
+    
+    Define_Com Class(#Prim_anim) Name(#Animation)
+    Define_Com Class(#Prim_anim.Moveto) Name(#Movement)
+    
+    * Store the animation and movement instances
+    #AnimationsDown.insert( #Animation #Label )
+    
+    #MovementsDown.insert( #Movement #Label )
+    
+    * Hookup to parent and label
+    #Movement.Parent <= #Animation
+    #Movement.Manage <= #Label
+    
+    * Set the extent of the movement
+    #Movement.Left := #Label.left
+    #Movement.Top := #Com_owner.Height - #Label.Height
+    #Movement.Duration := #Com_owner.GetDuration
+    
+    Endroutine
+    
+    Mthroutine Name(AddAnimationUp) Access(*private)
+    Define_Map For(*input) Class(#Prim_labl) Name(#Label) Pass(*By_Reference)
+    
+    Define_Com Class(#Prim_anim) Name(#Animation)
+    Define_Com Class(#Prim_anim.Moveto) Name(#Movement)
+    
+    * Store the animation and movement instances
+    #AnimationsUp.insert( #Animation #Label )
+    
+    #MovementsUp.insert( #Movement #Label )
+    
+    * Hookup to parent and label
+    #Movement.Parent <= #Animation
+    #Movement.Manage <= #Label
+    
+    * Set the extent of the movement
+    #Movement.Left := #Label.left
+    #Movement.Top := 0
+    #Movement.Duration := #Com_owner.GetDuration
+    
+    Endroutine
+    
+    Mthroutine Name(GetDuration) Help('Guesstimate the required time for the animation so that short drops seem quicker') Access(*Private)
+    Define_Map For(*Result) Class(#prim_nmbr) Name(#Result)
+    
+    Define_Com Class(#prim_nmbr) Name(#RelativeMousePos)
+    Define_Com Class(#prim_nmbr) Name(#Drop)
+    
+    #RelativeMousePos := #Sys_mouse.VerPosition - #Com_owner.Top
+    
+    #Drop := #Com_owner.Height - #RelativeMousePos
+    
+    #Result := #Drop / #Com_owner.Height * 1000
+    
+    Endroutine
+    
+    Evtroutine Handling(#AnimationsDown<>.Ended) Com_Sender(#Animation)
+    
+    * When the down animation is complete, destroy the animations and run the up animation
+    
+    #AnimationsUp<#AnimationsDown.KeyOf<#Animation>>.Start
+    
+    #MovementsDown.Remove( #AnimationsDown.KeyOf<#Animation> )
+    #AnimationsDown.Remove( #AnimationsDown.KeyOf<#Animation> )
+    
+    Endroutine
+    
+    Evtroutine Handling(#AnimationsUp<>.Ended) Com_Sender(#Animation)
+    
+    * When the down animation is complete, destroy the animations
+    
+    #MovementsUp.Remove( #AnimationsUp.KeyOf<#Animation> )
+    #AnimationsUp.Remove( #AnimationsUp.KeyOf<#Animation> )
+    
+    Endroutine
+    
+    End_Com

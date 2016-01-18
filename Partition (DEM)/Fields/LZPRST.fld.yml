@@ -1,0 +1,64 @@
+﻿Field:
+  Name:               LZPRST
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_CODES
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Status"
+      Label:              "Product Status"
+      Heading1:           "Product"
+      Heading2:           "Status"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Statut Du Produit"
+      Label:              "Du Produit"
+      Heading1:           "Statut"
+      Heading2:           "Du Produit"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Only Open, Closed or Deleted"
+      Values:
+      - "'O'"
+      - "'C'"
+      - "'D'"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message Text:       "Code entered is not from list of valid values for Product Status"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Product Status field indicates the status of the Product.}
+      
+        Currently the field is NOT checked or used in this DEMONSTRATION
+        Warehouse system.  Possible values:
+           O   Open   (All transactions allowed)
+           C   Closed (No incoming transactions allowed)
+           D   Marked for Deletion (No transactions allowed)
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable indique quel est le statut du Produit}
+      
+        Actuellement ce champ n'est pas utilise ni controle dans ce systeme
+        de demonstration. Les valeurs possibles sont :
+           O   Ouvert (Toutes les transactions sont autorisees)
+           C   Clos   (Pas de transactions d'entree autorisees)
+           D   Produit a supprimer (Aucune transaction n'est autorisee)
+      $$NOAUTO

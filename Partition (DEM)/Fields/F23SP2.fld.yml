@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23SP2
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "*DIRECT option indicator"
+      Label:              "F23SP2"
+      Heading1:           "*DIRECT"
+      Heading2:           "Option"
+      Heading3:           "Indicator"
+
+  - FRA:
+      Description:        "*DIRECT option indicator"
+      Label:              "F23SP2"
+      Heading1:           "*DIRECT"
+      Heading2:           "Option"
+      Heading3:           "Indicator"

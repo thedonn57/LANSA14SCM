@@ -1,0 +1,55 @@
+﻿Web Page:
+  Name:               xDemoWebImageViewerSample
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Image Viewer"
+
+  - FRA:
+      Description:        "Image Viewer"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015DeepPurple>)
+    
+    * Sample Image Viewer
+    * Shows all employee images
+    
+    * Sample data object. Scope(*Application) is used to enure that a single instance is shared between all the referrers
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column) Manage(#ImageViewer) Parent(#TableLayout) Row(#Row) Columnspan(5) Rowspan(5)
+    
+    Define_Com Class(#xDemoWebImageViewer) Name(#ImageViewer) Parent(#COM_OWNER) Height(800) Width(1200)
+    
+    * Data has been loaded
+    Evtroutine Handling(#gData.Prepared)
+    
+    * Loop through the employee instances
+    For Each(#Employee) In(#gData.Employees)
+    
+    #ImageViewer.Add( #Employee.Thumbnail )
+    
+    Endfor
+    
+    #ImageViewer.ActivateImage( 1 )
+    
+    Endroutine
+    
+    
+    End_Com

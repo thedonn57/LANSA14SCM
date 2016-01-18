@@ -1,0 +1,55 @@
+﻿Field:
+  Name:               LZINSS
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Reference Field:    STD_QTY
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Safety Stock"
+      Label:              "Safety Stock"
+      Heading1:           "Safety"
+      Heading2:           "Stock"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Stock De Securite"
+      Label:              "De Securite"
+      Heading1:           "Stock"
+      Heading2:           "De Securite"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Safety Stock field contains the miniumum Stock on Hand}
+        %quantity, which this Warehouse needs to keep for the specified}
+        %Product.}
+      
+         If the Quantity on Hand has reached or drops below the
+         Safety Stock level, an Alert will be triggered to remind the
+         Warehouse Manager.  The Warehouse Manager might then take action,
+         such as for instance, blocking outgoing transactions for the
+         product and speeding up the purchase/order process.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient la quantite en stock minimum que l'entrepot}
+        %doit conserver pour un produit specifique.}
+      
+         Si la Quantite en Stock a atteint ou est en dessous du niveau du
+         stock de securite, une alerte est declenchee pour prevenir le
+         Directeur de l'Entrepot. Le Directeur peut alors reagir, comme par
+         exemple bloquer les transactions de sortie du produit et accelerer
+         la procedure de commande du produit.
+      $$NOAUTO

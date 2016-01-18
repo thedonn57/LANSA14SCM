@@ -1,0 +1,287 @@
+﻿Template:
+  Name:                    VL_BASETRE
+  Description:             Visual LANSA simple tree list
+  Extended Description 1:  Visual LANSA simple tree list using a
+  Extended Description 2:  multi-key file
+
+  Source: |
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@QUESTION PROMPT('Supply a word that describes the type of object this function works with.') ANSWER(@@CANS001) EXTEND('123456789012345678' 'You should use ONE word only, use lowercase characters and only use ' 'singular form (eg: "Customer", "Employee", Order"). DO NOT use more ' 'than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010)
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@ROUTEBEG
+    BEGIN_COM  CAPTION('@@CANS001') VISUALSTYLE(#VS_NORM)
+    @@ROUTEDEF
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Work With @@cans001            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu definition                ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MBAR) NAME(#MBAR_1) PARENT(#@@PROCESS)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 1 - @@CANS001                      ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_1) CAPTION(&@@CANS001) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_1) PARENT(#MITM_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_2) CAPTION(&New) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_3) CAPTION('-') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_4) CAPTION(&Open) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_5) CAPTION(&Close) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_6) CAPTION('-') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_7) CAPTION(&Save) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_8) CAPTION('Save &As') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_9) CAPTION('-') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_10) CAPTION('Sen&d To') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_11) CAPTION(&Print) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_12) CAPTION('-') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_13) CAPTION(E&xit) PARENT(#SMNU_1)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 2 - Selected                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_14) CAPTION(&Selected) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_2) PARENT(#MITM_14)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_15) CAPTION(Dis&play) PARENT(#SMNU_2)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_16) CAPTION(&Delete) PARENT(#SMNU_2)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 3 - View                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_17) CAPTION(&View) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_3) PARENT(#MITM_17)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_18) CAPTION('&Full Screen')PARENT(#SMNU_3)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_19) CAPTION(&Zoom)  PARENT(#SMNU_3)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 4 - Help                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_20) CAPTION(&Help) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_4) PARENT(#MITM_20)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_21) CAPTION('&Help Topics')PARENT(#SMNU_4)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_22) CAPTION(&About) PARENT(#SMNU_4)
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* ********** GET NAME OF JUST ONE PHYSICAL FILE                      */
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('Enter the name of the file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of Visual LANSA applications it can create.') HELPIDS(HELP020)
+    /* **********                                                         */
+    /* ********** Load keys of base file                                  */
+    /* **********                                                         */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(1)
+    /* **********                                                         */
+    @@QUESTION PROMPT('How many Key/levels do you wish to create?') ANSWER(@@NANS001) EXTEND('12' 'If you do not request at least 1 level the tree will not be created.' 'You will be prompted for a key field for each level of the tree.') HELPIDS(HELP030)
+    @@IF       COND((*IF @@NANS001 *LT 1)) GOTO(A99)
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Tree view definition                    ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_TRVW) NAME(#TRVW_1) DISPLAYPOSITION(1) HEIGHT(200) LEFT(16) LINESATROOT(True) PARENT(#@@PROCESS) TABPOSITION(1) TOP(16) WIDTH(177)
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(KL) TO(1)
+    @@SET_IDX  IDX_NAME(LP) TO(0)
+    @@SET_IDX  IDX_NAME(TR) TO(10)
+    T10: @@LABEL
+    @@CMP_IDX  IDX_NAME(KL) IDX_VALUE(@@NANS001) IF_GT(A99)
+    @@INC_IDX  IDX_NAME(LP)
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Select key ' 'for next ' 'level    ')) HELPIDS(HELP040)
+    @@SET_IDX  IDX_NAME(TT) TO(@@LNE02)
+    @@CMP_IDX  IDX_NAME(TT) IDX_VALUE(0) IF_EQ(A99)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    T20: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@LNE02) IF_GT(T30)
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TVCL) NAME(#TVCL_@@INDEXTR) DISPLAYPOSITION(1) KEYPOSITION(1) LEVEL(@@INDEXLP) PARENT(#TRVW_1)    SOURCE(#@@LEL02CF)
+    /* **********                                                         */
+    @@INC_IDX  IDX_NAME(TR)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(T20)
+    T30: @@LABEL
+    @@INC_IDX  IDX_NAME(KL)
+    @@GOTO     LABEL(T10)
+    /* **********                                                         */
+    A99: @@LABEL
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT(' Create a status bar for messages           ')
+    @@COMMENT  COMMENT('                                            ')
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) HEIGHT(25) MESSAGEPOSITION(1) PARENT(#@@PROCESS)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('     RDML Definitions                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    GROUP_BY   NAME(#ALLFLDS) FIELDS(@@LST01)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu events                             ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 1 - Object                         ')
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu item - New                         ')
+    /* ********** ======================================================= */
+    @@ROUTERTN
+    EVTROUTINE HANDLING(#MITM_2.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Open                        ')
+    EVTROUTINE HANDLING(#MITM_4.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Close                       ')
+    EVTROUTINE HANDLING(#MITM_5.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Save                        ')
+    EVTROUTINE HANDLING(#MITM_7.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Save As                     ')
+    EVTROUTINE HANDLING(#MITM_8.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Send To                     ')
+    EVTROUTINE HANDLING(#MITM_10.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Print                       ')
+    EVTROUTINE HANDLING(#MITM_11.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Exit                        ')
+    EVTROUTINE HANDLING(#MITM_13.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 2 - Selected                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Display                     ')
+    EVTROUTINE HANDLING(#MITM_15.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Delete                      ')
+    EVTROUTINE HANDLING(#MITM_16.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 3 - View                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Full Screen                 ')
+    EVTROUTINE HANDLING(#MITM_18.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Zoom                        ')
+    EVTROUTINE HANDLING(#MITM_19.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 4 - Help                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Help Topics                 ')
+    EVTROUTINE HANDLING(#MITM_21.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - About                       ')
+    EVTROUTINE HANDLING(#MITM_22.CLICK)
+    ENDROUTINE
+    /* **********                                                         */
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Status Message                          ')
+    SUBROUTINE STSMESSAGE ((#EX_ISSUE  *RECEIVED)(#EX_COUNT *BOTH)(#EX_NAME *RECEIVED))
+    define     #ex_issue *dec 15 0
+    define     #ex_count *dec 15 0
+    define     #ex_name  *char 20
+    define     #ex_remn  *dec 7 7
+    change     #ex_count '#ex_count + 1'
+    change     #ex_remn  '#ex_count / #ex_issue'
+    if         '#ex_remn = 0.0000000'
+    message    msgid(dcu0017) msgf(dc@m01) msgdta(#ex_count #ex_name) type(*status)
+    endif
+    ENDROUTINE
+    /* **********                                                         */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Information Message                     ')
+    SUBROUTINE INFMESSAGE ((#EX_TEXT *RECEIVED))
+    define     #ex_text  *char 132
+    message    msgid(dcm9992) msgf(dc@m01) msgdta(#ex_text *blanks)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@IF       COND((*IF @@NANS001 *LT 1)) GOTO(E99)
+    @@COMMENT  COMMENT(' Initialise tree view.                      ')
+    EVTROUTINE HANDLING(#TRVW_1.Initialize)
+    SELECT     FIELDS(#ALLFLDS) FROM_FILE(@@FNAME01)
+    ADD_ENTRY  TO_LIST(#TRVW_1)
+    ENDSELECT
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    E99: @@LABEL
+    @@ROUTEEND
+    END_COM
+    /* **********                                                         */
+    /* ********** ------------------------------------------------        */
+    /* ********** CLEAN UP TEMPLATE PROCESSING                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+
+  Help Panels:
+  - HELP010:
+      Description:        Desription of Vl_basetre
+
+      Text: |
+        This template inserts a basic tree list into a Visual LANSA form. It asks for   
+        the file and key fields to create the definitions. It also incudes a standard   
+        menu structure and status bar for messages. Event routines are defined for each 
+        menu item and to initialise the tree.
+
+  - HELP020:
+      Description:        File request
+
+      Text: |
+        This template requests the name of the file to be used. A generic name can be   
+        entered which will cause a list to be displayed with the matching file names.   
+                                                                                        
+        As a tree view is used, it is expected that the file will have multiple keys    
+        which will be represented by each level of the tree.
+
+  - HELP030:
+      Description:        Number of tree levels
+
+      Text: |
+        The tree view is a hierarchical view of data. Each level requires at least one  
+        key field.
+
+  - HELP040:
+      Description:        Selection of keys
+
+      Text: |
+        Select a key field to be displayed at the current level of the tree.

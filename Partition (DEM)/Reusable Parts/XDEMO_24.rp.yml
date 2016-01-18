@@ -1,0 +1,74 @@
+﻿Reusable Part:
+  Name:               xDemoWebPromptingEmployeePopup
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Popup"
+
+  - FRA:
+      Description:        "Employee Popup"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(409) Left(0) Top(0) Width(593) Layoutmanager(#TableLayout1) Closebutton(True) Titlebar(True) Closeonclick(True) Autoclose(False) Shroudstyle(#Style1)
+    
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme900) Opacity(30)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(2) Height(377) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(30) Width(591) Rowlines(False) Columnlines(False)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnEMPIMG1) Displayposition(1) Parent(#List) Source(#EMPTHM) Columnwidth(48) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(2) Parent(#List) Source(#EMPNO) Columnwidth(120)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(3) Parent(#List) Source(#SURNAME) Columnwidth(1) Columnunits(Proportion)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(4) Parent(#List) Source(#GIVENAME) Columnunits(Proportion) Columnwidth(1)
+    
+    Define_Evt Name(Selected)
+    Define_Map For(*Input) Class(#Empno) Name(#ID)
+    Define_Map For(*Input) Class(#Surname) Name(#Surname)
+    Define_Map For(*Input) Class(#Givename) Name(#GivenName)
+    
+    Mthroutine Name(Show)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    If (#List.Items.ItemCount = 0)
+    
+    #GetEmployees.Executeasync( #Employees )
+    
+    Endif
+    
+    #Com_owner.ShowPopup
+    
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemClick)
+    
+    Signal Event(Selected) Surname(#surname) Givenname(#Givename) Id(#Empno)
+    
+    #Com_owner.ClosePopup
+    
+    Endroutine
+    
+    End_Com

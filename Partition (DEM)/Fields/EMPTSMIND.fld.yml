@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               EMPTSMIND
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Day on which minimum hours worked"
+      Label:              "Day on which mi"
+      Heading1:           "Day"
+      Heading2:           "on"
+      Heading3:           "which"
+
+  - FRA:
+      Description:        "Jour minimum heures travaillées"
+      Label:              "Jour min heures"
+      Heading1:           "Jour"
+      Heading2:           "min"
+      Heading3:           "heures"

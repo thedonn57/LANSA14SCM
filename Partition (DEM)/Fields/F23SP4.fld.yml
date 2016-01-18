@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23SP4
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Spare Field 4"
+      Label:              "F23SP4"
+      Heading1:           "Spare"
+      Heading2:           "Field 4"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Spare Field 4"
+      Label:              "F23SP4"
+      Heading1:           "Spare"
+      Heading2:           "Field 4"
+      Heading3:           " "

@@ -1,0 +1,42 @@
+﻿Field:
+  Name:               STD_COUNT
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard count"
+      Label:              "Standard count"
+      Heading1:           "Standard"
+      Heading2:           "count"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Dénombrement standard"
+      Label:              "Nombre standard"
+      Heading1:           "Nomnre"
+      Heading2:           "Standard"
+      Heading3:           " "
+
+  Repository Help:
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      
+        Cette zone peut contenir un montant. Un montant peut prendre         .
+        n'importe quelle valeur numérique : positive, négative ou nulle.
+      
+        Règles de validation :  Aucune
+      
+        Longueur maximale  :  9 nombres, dont 2 en partie décimale.
+      
+      
+      $$NOAUTO

@@ -1,0 +1,182 @@
+﻿Reusable Part:
+  Name:               XSHeader
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Heading"
+
+  - FRA:
+      Description:        "Heading"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * This is a common header used throughout the application.
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(100) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1) Style(#XSTheme01<BackgroundWhite>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * LAYOUT: 3 Columns, 3 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(2) Minwidth(300)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(3) Minwidth(240)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(2) Minwidth(260)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(3) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MyAccountItem1) Alignment(BottomRight) Column(#Column2) Manage(#lMyAccount) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Left) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LoginItem1) Alignment(BottomRight) Column(#Column2) Manage(#lLogin) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Left) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#RegisterItem1) Alignment(BottomRight) Column(#Column2) Manage(#lRegister) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Left) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SearchItem1) Column(#Column3) Manage(#Search) Marginbottom(10) Parent(#TableLayout1) Row(#Row2) Sizing(None) Alignment(BottomRight) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(BottomRight) Column(#Column3) Flow(Left) Parent(#TableLayout1) Row(#Row2) Sizing(None) Marginbottom(10) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Flow(Down) Manage(#LWelcome) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LogoutItem1) Alignment(BottomRight) Column(#Column2) Manage(#lLogout) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Left) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column3) Manage(#IShoppingCartSummary) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(CenterRight) Flow(Left) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(CenterRight) Column(#Column3) Flow(Left) Manage(#LShoppingCartSummary) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SearchValueItem1) Alignment(BottomRight) Column(#Column3) Manage(#SearchValue) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Left) Marginbottom(10)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#PopupItem1) Manage(#Popup) Parent(#TableLayout1) Row(#Row3) Sizing(None) Column(#Column1) Flow(Down) Columnspan(3) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lMyAccount) Caption('My Account') Displayposition(2) Ellipses(Word) Height(35) Left(505) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(62) Verticalalignment(Center) Width(120) Visible(False) Enabled(False) Themedrawstyle('HeaderOptions') Image(#XSMyAccountIcon) Imageheight(15)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lLogin) Caption('Login') Displayposition(4) Ellipses(Word) Height(35) Left(332) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(62) Verticalalignment(Center) Width(65) Themedrawstyle('HeaderOptions') Image(#XSLoginIcon) Imageheight(15)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lRegister) Caption('Register') Displayposition(3) Ellipses(Word) Height(35) Left(407) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(62) Verticalalignment(Center) Width(88) Themedrawstyle('HeaderOptions') Image(#XSRegisterIcon) Imageheight(15)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lLogout) Caption('Logout') Displayposition(1) Ellipses(Word) Height(35) Left(635) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(62) Verticalalignment(Center) Width(80) Visible(False) Enabled(False) Themedrawstyle('HeaderOptions') Image(#XSLogoutIcon) Imageheight(15)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Search) Caption('Go') Displayposition(5) Left(960) Parent(#COM_OWNER) Tabposition(5) Top(62) Width(40)
+    
+    Define_Com Class(#XSSearchValue.visual) Name(#SearchValue) Displayposition(6) Height(25) Left(745) Parent(#COM_OWNER) Tabposition(6) Usepicklist(False) Width(215) Top(62) Labeltype(Caption) Marginleft(0) Placeholder('Search') Editmouseoverstyle(#XSTheme01<BackgroundGrey00>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LWelcome) Displayposition(7) Ellipses(Word) Height(25) Left(300) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(12) Verticalalignment(Center) Width(420) Alignment(Center) Style(#XSTheme01<Text12BoldGn2>)
+    
+    Define_Com Class(#XSLogin) Name(#Popup) Parent(#COM_OWNER) Top(97) Left(49)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#IShoppingCartSummary) Displayposition(10) Image(#XSShoppingCartIconDark) Left(795) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(12) Width(24) Height(24)
+    Define_Com Class(#PRIM_LABL) Name(#LShoppingCartSummary) Caption('Shopping Cart  0 items') Displayposition(8) Ellipses(Word) Height(25) Left(824) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(12) Verticalalignment(Center) Width(176) Style(#XSTheme01<Text10AlmostBlack>)
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(11) Height(90) Image(#XSLansaTools) Left(0) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(3) Width(300)
+    
+    * References to SrvRoutines in Server Module
+    Define_Com Class(#XSServer.GotoHome) Name(#GotoHome)
+    Define_Com Class(#XSServer.GotoMyAccount) Name(#GotoMyAccount)
+    Define_Com Class(#XSServer.GotoShoppingCart) Name(#GotoShoppingCart)
+    Define_Com Class(#XSServer.GotoProducts) Name(#GotoProducts)
+    Define_Com Class(#XSServer.GotoSearch) Name(#GotoSearch)
+    Define_Com Class(#XSServer.Logout) Name(#Logout)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    * If already have an active session
+    If (#Sys_Web.SessionStorage<FirstName> *IsNot *null)
+    
+    #XSAccountFirstname := #Sys_Web.SessionStorage<FirstName>
+    
+    #lLogin.Visible #lLogin.Enabled := false
+    #lRegister.Visible #lRegister.Enabled := false
+    
+    #lMyAccount.Visible #lMyAccount.Enabled := true
+    #lLogout.Visible #lLogout.Enabled := true
+    
+    Endif
+    
+    #Com_owner.UpdateWelcome( #XSAccountFirstname )
+    
+    * update the cart details on the header
+    If (#Sys_Web.SessionStorage<CartQuantity> *IsNot *null)
+    
+    #XSCartTotalQuantity := #Sys_Web.SessionStorage<CartQuantity>.value.asnumber
+    
+    #com_owner.UpdateCartSummary( #XSCartTotalQuantity )
+    
+    Endif
+    
+    #lLogin.Cursor #lLogout.Cursor #lMyAccount.Cursor #lRegister.Cursor <= #sys_appln.Cursors<Hand>
+    #IShoppingCartSummary.Cursor #LShoppingCartSummary.cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.CartQuantityUpdated)
+    
+    * update the cart details on the header
+    #com_owner.UpdateCartSummary( #MySession.pCartQuantity )
+    
+    Endroutine
+    
+    Evtroutine Handling(#lMyAccount.Click)
+    
+    #GotoMyAccount.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#lLogin.Click)
+    
+    #Popup.ShowPopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#lRegister.Click)
+    
+    #GotoMyAccount.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#lLogout.Click)
+    
+    #MySession.ClearAllSessionValues
+    #Logout.execute
+    
+    #lLogin.Visible #lLogin.Enabled := true
+    #lRegister.Visible #lRegister.Enabled := true
+    
+    #lMyAccount.Visible #lMyAccount.Enabled := false
+    #lLogout.Visible #lLogout.Enabled := false
+    
+    #GotoHome.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#Search.Click #SearchValue.Enter)
+    
+    #GotoSearch.execute( #SearchValue )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LShoppingCartSummary.Click #IShoppingCartSummary.Click)
+    
+    #GotoShoppingCart.execute
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateCartSummary)
+    Define_Map For(*input) Class(#XSCartTotalQuantity) Name(#quantity)
+    
+    #LShoppingCartSummary := 'Shopping Cart  ' + #quantity.asstring + ' items'
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateWelcome)
+    Define_Map For(*input) Class(#XSAccountFirstname) Name(#FirstName)
+    
+    * When user is logged in show a greeting at the top of the page
+    If (#XSAccountFirstname <> *blank)
+    
+    #LWelcome := 'Welcome ' + #XSAccountFirstname
+    
+    Return
+    
+    Endif
+    
+    #LWelcome := *blank
+    
+    Endroutine
+    
+    End_Com

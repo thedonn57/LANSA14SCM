@@ -1,0 +1,155 @@
+﻿Template:
+  Name:                    VL_FBBMNUB
+  Description:             "Visual LANSA: Menu bar building block"
+  Extended Description 1:  "Visual LANSA: Menu bar building block"
+
+  Source: |
+    /* ********** =========================================================                                                      */
+    /* **********                                                         */
+    /* ********** This RDMLX code creates a menu bar with drop down menus */
+    /* **********                                                         */
+    /* ********** =========================================================                                                      */
+    @@ROUTEDEF
+    DEFINE_COM CLASS(#PRIM_MBAR) NAME(#MBAR_1) PARENT(#@@PROCESS)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 1 - Object                         ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_1) CAPTION(&Object) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_1) PARENT(#MITM_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_2) CAPTION(&New) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_3) CAPTION(-) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_4) CAPTION(&Open) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_5) CAPTION(&Close) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_6) CAPTION(-) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_7) CAPTION(&Save) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_8) CAPTION('Save &As') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_9) CAPTION(-) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_10) CAPTION('Sen&d To') PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_11) CAPTION(&Print) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_12) CAPTION(-) PARENT(#SMNU_1)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_13) CAPTION(E&xit) PARENT(#SMNU_1)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 2 - Selected                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_14) CAPTION(&Selected) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_2) PARENT(#MITM_14)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_15) CAPTION(Dis&play) PARENT(#SMNU_2)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_16) CAPTION(&Delete) PARENT(#SMNU_2)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 3 - View                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_17) CAPTION(&View) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_3) PARENT(#MITM_17)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_18) CAPTION('&Full Screen')PARENT(#SMNU_3)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_19) CAPTION(&Zoom)  PARENT(#SMNU_3)
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 4 - Help                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_20) CAPTION(&Help) PARENT(#MBAR_1)
+    DEFINE_COM CLASS(#PRIM_SMNU) NAME(#SMNU_4) PARENT(#MITM_20)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_21) CAPTION('&Help Topics')PARENT(#SMNU_4)
+    DEFINE_COM CLASS(#PRIM_MITM) NAME(#MITM_22) CAPTION(&About) PARENT(#SMNU_4)
+    /* ********** ======================================================= */
+    /* ********** Event Routines                                          */
+    /* ********** ======================================================= */
+    @@ROUTERTN
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 1 - Object                         ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - New                         ')
+    EVTROUTINE HANDLING(#MITM_2.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Open                        ')
+    EVTROUTINE HANDLING(#MITM_4.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Close                       ')
+    EVTROUTINE HANDLING(#MITM_5.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Save                        ')
+    EVTROUTINE HANDLING(#MITM_7.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Save As                     ')
+    EVTROUTINE HANDLING(#MITM_8.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Send To                     ')
+    EVTROUTINE HANDLING(#MITM_10.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Print                       ')
+    EVTROUTINE HANDLING(#MITM_11.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Exit                        ')
+    EVTROUTINE HANDLING(#MITM_13.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 2 - Selected                       ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Display                     ')
+    EVTROUTINE HANDLING(#MITM_15.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Delete                      ')
+    EVTROUTINE HANDLING(#MITM_16.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 3 - View                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Full Screen                 ')
+    EVTROUTINE HANDLING(#MITM_18.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - Zoom                        ')
+    EVTROUTINE HANDLING(#MITM_19.CLICK)
+    ENDROUTINE
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Menu 4 - Help                           ')
+    @@COMMENT  COMMENT('                                            ')
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('    Menu item - Help Topics                 ')
+    EVTROUTINE HANDLING(#MITM_21.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Menu item - About                       ')
+    EVTROUTINE HANDLING(#MITM_22.CLICK)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of Vl_basemnu
+
+      Text: |
+        This template inserts a basic menu structure into a Visual LANSA form. It       
+        creates the definitions automatically without asking any questions. Event       
+        routines are defined for each menu item.

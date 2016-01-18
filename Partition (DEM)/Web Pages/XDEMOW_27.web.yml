@@ -1,0 +1,240 @@
+﻿Web Page:
+  Name:               xDemoWebResponsivePersonnelLists
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Responsive Design Personnel Lists"
+
+  - FRA:
+      Description:        "Responsive Design Employee List"
+
+  Source: |
+    * META:Web Page,Theme,Table Layout,Responsive Design,List
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#PageLayout) Style(#Style_2)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_2) Facename('Verdana')
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_3) Foregroundbrush(#Brush) Fontsize(11)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush) Color(94:94:94)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_4) Foregroundbrush(#Brush_2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_2) Color(255:255:255)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_5) Backgroundbrush(#Brush_4)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_4) Color(23:23:23)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_6) Fontsize(22)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_7) Fontsize(14)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_8) Borderbottom(0) Bordertop(0) Borderleft(0) Borderright(0)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#PageLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#PageLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#PageLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_7) Displayposition(2) Parent(#PageLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gApplicationNameLayoutItem) Alignment(TopLeft) Column(#Column) Flow(Right) Manage(#gApplicationName) Parent(#gHeaderLayout) Row(#Row) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gEmployeesLayoutItem) Alignment(TopLeft) Column(#Column_2) Flow(Right) Manage(#gEmployees) Parent(#gHeaderLayout) Row(#Row_3) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gDepartmentsLayoutItem) Alignment(TopLeft) Column(#Column_2) Flow(Right) Manage(#gDepartments) Parent(#gHeaderLayout) Row(#Row_3) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gHeaderLayoutItem) Column(#Column) Manage(#gHeader) Parent(#PageLayout) Row(#Row) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gListLayoutItem) Column(#Column) Manage(#EmployeesList) Parent(#PageLayout) Row(#Row_7) Alignment(TopCenter) Marginleft(6) Marginright(6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DepartmentsListItem) Column(#Column) Manage(#DepartmentsList) Parent(#PageLayout) Row(#Row_7) Marginleft(6) Marginright(6)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#gHeaderLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(1) Parent(#gHeaderLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(1) Parent(#gHeaderLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#MobileMenu) Parent(#gHeaderLayout) Row(#Row_3) Sizing(None) Marginright(6) Margintop(6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#gSearchLayoutItem) Alignment(TopRight) Column(#Column_2) Flow(Left) Manage(#gSearch) Parent(#gHeaderLayout) Row(#Row_3) Sizing(FitToHeight) Marginright(6)
+    
+    Define_Com Class(#PRIM_LABL) Name(#gApplicationName) Displayposition(2) Ellipses(Word) Height(44) Left(0) Parent(#gHeader) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(170) Caption('Application Name') Style(#Style_3) Mouseoverstyle(#Style_4) Marginleft(10)
+    Define_Com Class(#PRIM_LABL) Name(#gEmployees) Caption('Employees') Displayposition(3) Ellipses(Word) Height(44) Left(170) Parent(#gHeader) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(120) Style(#Style_3) Mouseoverstyle(#Style_4) Marginleft(10)
+    Define_Com Class(#PRIM_LABL) Name(#gDepartments) Displayposition(4) Ellipses(Word) Height(44) Left(290) Parent(#gHeader) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(120) Caption('Departments') Style(#Style_3) Mouseoverstyle(#Style_4) Marginleft(10)
+    Define_Com Class(#PRIM_PANL) Name(#gHeader) Displayposition(1) Height(44) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(1200) Style(#Style_5) Layoutmanager(#gHeaderLayout)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#MobileMenu) Displayposition(1) Image(#xImageMobileMenu32) Left(1162) Parent(#gHeader) Tabposition(4) Tabstop(False) Top(6) Height(32) Width(32) Visible(False)
+    Define_Com Class(#xDemoAlpha128.Visual) Name(#gSearch) Displayposition(5) Height(44) Parent(#gHeader) Tabposition(5) Width(200) Left(956) Marginleft(6) Editstyle(#Style_3) Placeholder('Search...') Margintop(6) Marginbottom(6) Labeltype(Caption) Labelselectable(False)
+    
+    
+    Define_Com Class(#PRIM_LIST) Name(#EmployeesList) Displayposition(2) Height(756) Left(6) Parent(#COM_OWNER) Tabposition(3) Top(44) Width(1188) Style(#Style_8) Rowlines(False) Columnlines(False)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(30) Displayposition(1) Parent(#EmployeesList) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#EmployeesList) Source(#EMPNO) Columncaption('Employee #') Columncaptiontype(Caption) Columnwidth(98.85) Columnunits(Proportion) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(3) Parent(#EmployeesList) Source(#SURNAME) Columncaption('Surname') Columnunits(Proportion) Sortonclick(True) Columnwidth(156.23)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(4) Parent(#EmployeesList) Source(#GIVENAME) Columnwidth(152.71) Columncaption('Given Names') Columncaptiontype(Caption) Columnunits(Proportion) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS1) Displayposition(5) Parent(#EmployeesList) Source(#ADDRESS1) Columnwidth(176.64) Columncaption('Street') Columncaptiontype(Caption) Columnunits(Proportion) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS2) Displayposition(6) Parent(#EmployeesList) Source(#ADDRESS2) Columnwidth(175.87) Columncaption('Suburb/Town') Columncaptiontype(Caption) Columnunits(Proportion) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS3) Displayposition(7) Parent(#EmployeesList) Source(#ADDRESS3) Columnwidth(173.22) Columnunits(Proportion) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnPOSTCODE) Displayposition(8) Increment(1) Parent(#EmployeesList) Source(#POSTCODE) Wrap(False) Columnwidth(113) Columnunits(Proportion) Sortonclick(True)
+    
+    Define_Com Class(#PRIM_LIST) Name(#DepartmentsList) Displayposition(3) Height(756) Left(6) Parent(#COM_OWNER) Tabposition(2) Top(44) Width(1188) Style(#Style_8) Rowlines(False) Columnlines(False) Visible(False)
+    
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTMENT) Displayposition(1) Parent(#DepartmentsList) Source(#DEPTMENT) Columnwidth(118)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnDEPTDESC) Displayposition(2) Parent(#DepartmentsList) Source(#DEPTDESC) Columnwidth(1) Columnunits(Proportion)
+    
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    Def_List Name(#Departments) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working) Entrys(9999)
+    
+    Define_Com Class(#xDemoEditTimer) Name(#EditTimer)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Load
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    * Define the service instance and execute asynchornously
+    Define_Com Class(#xDemoDataServices.GetData) Name(#GetData)
+    
+    #GetData.ExecuteAsync( #Departments #Sections #Employees )
+    
+    * When the server returns
+    Evtroutine Handling(#GetData.Completed)
+    
+    * Load the employee data
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#EmployeesList)
+    
+    * Create the image form the thumbnail data
+    #ColumnImage.CurrentItem.Image <= #sys_appln.CreateBitmap( #Empthm )
+    
+    Endselect
+    
+    * Load the department data
+    Selectlist Named(#Departments)
+    
+    Add_Entry To_List(#DepartmentsList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#com_owner.SizeChanged)
+    
+    If (#Com_owner.Width > 768)
+    
+    #Com_owner.SizeToDesktop
+    
+    Else
+    
+    #Com_owner.SizeToMobile
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(SizeToDesktop)
+    
+    #gHeaderLayoutItem.Sizing := FitBoth
+    
+    * Menu items to be as tall as needed and flow left to right
+    #gDepartmentsLayoutItem.Sizing #gEmployeesLayoutItem.Sizing #gSearchLayoutItem.Sizing := FitToHeight
+    #gDepartmentsLayoutItem.flow #gEmployeesLayoutItem.flow #gApplicationNameLayoutItem.flow := Right
+    
+    #gSearchLayoutItem.Alignment := TopRight
+    
+    * Buttons are as wide as the device. Restore to suitable heading width
+    #gEmployees.Width #gDepartments.Width := 120
+    #gApplicationName.width := 170
+    #gSearch.width := 200
+    
+    #MobileMenu.Visible := False
+    
+    Endroutine
+    
+    Mthroutine Name(SizeToMobile)
+    
+    * Header can now change height, so only fit to width
+    #gHeaderLayoutItem.Sizing := FitToWidth
+    
+    * Menu items as wide as the page and flowing top to bottom
+    #gDepartmentsLayoutItem.Sizing #gEmployeesLayoutItem.Sizing #gSearchLayoutItem.Sizing := FitToWidth
+    #gDepartmentsLayoutItem.flow #gEmployeesLayoutItem.flow #gApplicationNameLayoutItem.flow #gSearchLayoutItem.Flow := Down
+    
+    #gSearchLayoutItem.Alignment := TopLeft
+    
+    #MobileMenu.Visible := true
+    
+    Endroutine
+    
+    Evtroutine Handling(#MobileMenu.Click)
+    
+    #Com_owner.ShowHideMenu
+    
+    Endroutine
+    
+    Mthroutine Name(ShowHideMenu)
+    
+    * Only applies if in mobile mode
+    If (#Com_owner.Width <= 768)
+    
+    If (#gHeader.Height = #gApplicationName.height)
+    
+    #gHeader.Height := #gSearch.Top + #gSearch.Height
+    
+    Else
+    
+    #gHeader.Height := #gApplicationName.height
+    
+    Endif
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#gSearch.Changed)
+    
+    #EditTimer.Restart
+    
+    Endroutine
+    
+    Evtroutine Handling(#EditTimer.Ticked)
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#EmployeesList)
+    
+    * Visible if any of the columns contain the search value
+    #EmployeesList.currentitem.visible := #Empno.lowercase.Contains( #gSearch.lowercase ) Or #Givename.lowercase.Contains( #gSearch.lowercase ) Or #Surname.lowercase.Contains( #gSearch.lowercase ) Or #Address1.lowercase.Contains( #gSearch.lowercase ) Or #Address2.lowercase.Contains( #gSearch.lowercase ) Or #Address3.lowercase.Contains( #gSearch.lowercase ) Or #postcode.asstring.Contains( #gSearch.lowercase ) Or (#gSearch = "")
+    
+    Endselect
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#DepartmentsList)
+    
+    * Visible if any of the columns contain the search value
+    #DepartmentsList.currentitem.visible := #Deptment.lowercase.Contains( #gSearch.lowercase ) Or #Deptdesc.lowercase.Contains( #gSearch.lowercase ) Or (gSearch = "")
+    
+    Endselect
+    
+    #Com_owner.ShowHideMenu
+    
+    Endroutine
+    
+    Evtroutine Handling(#gEmployees.Click)
+    
+    #EmployeesList.FadeIn
+    #DepartmentsList.FadeOut
+    
+    #Com_owner.ShowHideMenu
+    
+    Endroutine
+    
+    Evtroutine Handling(#gDepartments.Click)
+    
+    #DepartmentsList.FadeIn
+    #EmployeesList.FadeOut
+    
+    #Com_owner.ShowHideMenu
+    
+    Endroutine
+    
+    End_Com

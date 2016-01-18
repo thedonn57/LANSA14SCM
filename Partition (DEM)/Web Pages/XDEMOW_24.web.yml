@@ -1,0 +1,110 @@
+﻿Web Page:
+  Name:               xDemoWebDropDownTree
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drop Down Tree"
+
+  - FRA:
+      Description:        "Drop Down Tree"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB)
+    
+    * Demonstration of a drop down showing a tree of data
+    
+    * Sample data object. Scope(*Application) is used to enure that a single instance is shared between all the referrers
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_LIST.DropDown) Name(#List) Displayposition(1) Height(33) Left(32) Parent(#COM_OWNER) Tabposition(1) Top(24) Width(297) Selectionstyle(All) Rowheight(22) Rowlines(False) Columnlines(False) Checkboxes(True) Dropdownwidth(200) Dropdowncount(20) Columnheaderheight(0) Dropdownstyle(DropDown)
+    Define_Com Class(#PRIM_LIST.String) Name(#gColumn1) Displayposition(1) Parent(#List) Source(#xDemoUnicode128) Columnwidth(175) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#gColumn2) Displayposition(2) Parent(#List) Source(#xDemoUnicode128_2) Columnwidth(215) Columncaptiontype(Caption) Columnreadonly(False)
+    
+    * Utilities object providing external functionality
+    Define_Com Class(#xDemoWebUtilities) Name(#Utilities)
+    
+    * Once the data is ready, load the tree
+    Evtroutine Handling(#gData.Prepared)
+    
+    #com_owner.AddDepartments
+    
+    Endroutine
+    
+    * Add an entry for each Department, then Section items for the Department
+    Mthroutine Name(AddDepartments)
+    
+    For Each(#Department) In(#gData.Departments)
+    
+    #Com_owner.AddEntry( #Department.ID #Department.Description #xImageDepartment32 )
+    
+    #Com_Owner.AddSections( #Department #List.Currentitem )
+    
+    Endfor
+    
+    Endroutine
+    
+    * Add an entry for each Section, then Employees for the Section
+    Mthroutine Name(AddSections) Access(*private)
+    Define_Map For(*Input) Class(#xDemoWebDataDepartment) Name(#Department) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    For Each(#Section) In(#Department.Sections)
+    
+    #Com_owner.AddEntry( #Section.ID #Section.Description #xImageSection32 #ParentItem )
+    
+    #Com_Owner.AddEmployees( #Section #List.Currentitem )
+    
+    Endfor
+    
+    Endroutine
+    
+    * Add an entry for each Employee
+    Mthroutine Name(AddEmployees) Access(*private)
+    Define_Map For(*Input) Class(#xDemoWebDataSection) Name(#Section) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Pass(*by_reference)
+    
+    For Each(#Employee) In(#Section.Employees)
+    
+    #Com_owner.AddEntry( #Employee.ID (#Employee.GivenName + " " + #Employee.Surname) #xImageEmployee32 #ParentItem )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Column1)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column2) Mandatory("")
+    Define_Map For(*Input) Class(#prim_flbx) Name(#Image) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_list.ListItem) Name(#ParentItem) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_list.ListItem) Name(#Result) Mandatory(*null) Pass(*by_reference)
+    
+    * Populate column values
+    #xDemoUnicode128 := #Column1
+    #xDemoUnicode128_2 := #Column2
+    
+    Add_Entry To_List(#List)
+    
+    * Attach to the parent item
+    #List.Currentitem.ParentItem <= #ParentItem
+    
+    #List.Currentitem.Image <= #Image
+    
+    #Result <= #List.Currentitem
+    
+    Endroutine
+    
+    * When an item is changed, ensure the check boxes are correct
+    Evtroutine Handling(#List.ItemChanged)
+    
+    * Processes the whole tree to ensure all chck state is correct
+    #Utilities.UpdateCheckBoxesList( #List.Currentitem )
+    
+    Endroutine
+    
+    End_Com
+    

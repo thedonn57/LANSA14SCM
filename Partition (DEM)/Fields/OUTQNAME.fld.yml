@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               OUTQNAME
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*OUTQNAME"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current output queue name"
+      Label:              "Output queue .."
+      Heading1:           "Output"
+      Heading2:           "Queue"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Unité imprimante en cours"
+      Label:              "Unité impr. . ."
+      Heading1:           "Unité"
+      Heading2:           "Imprimante"
+      Heading3:           " "

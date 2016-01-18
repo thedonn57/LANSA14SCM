@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XPVIDN
+  Type:               Packed
+  Length:             9
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Identifier"
+      Label:              "XPVIDN"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Identifier"
+
+  - FRA:
+      Description:        "XML Property Identifier"
+      Label:              "XPVIDN"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Identifier"

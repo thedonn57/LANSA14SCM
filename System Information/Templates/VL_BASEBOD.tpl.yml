@@ -1,0 +1,267 @@
+﻿Template:
+  Name:                    VL_BASEBOD
+  Description:             Visual LANSA Business Object Detailer
+  Extended Description 1:  Base form for Business Object Detailer
+
+  Source: |
+    @@QUESTION PROMPT('Do you want to continue?') ANSWER(@@CANS001) EXTEND('This template produces a Business Object Detail skeleton.' 'It is based on the demonstration personnel system.' 'Please read the comments in the code and replace' 'the field and file names as required.' 'See help for further information.') LOWER(*NO) HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(E99)
+    @@ROUTEBEG
+    BEGIN_COM  BORDERICONS(Minimize+SystemMenu) FRAMESTYLE(Dialog) HEIGHT(426) LEFT(304) TOP(114) VISUALSTYLE(#VS_NORM) WIDTH(455)
+    @@ROUTEDEF
+    /* **********                                                         */
+    /* ********** Business Object Detail Template                         */
+    /* ********** Version  1.0                                            */
+    /* **********                                                         */
+    /* ********** Tabsheet                                                */
+    DEFINE_COM CLASS(#PRIM_TAB) NAME(#FOLDER) DISPLAYPOSITION(1) HEIGHT(321) LEFT(8) PARENT(#COM_OWNER) RAGGEDRIGHT(False) TABPOSITION(2) WIDTH(433)
+    /* **********                                                         */
+    /* ********** Change caption of tabsheet as required.                 */
+    /* ********** Replace surname and section fields on tabsheet.         */
+    /* ********** Add tabsheets for each logical group of fields to be    */
+    /* ********** displayed.                                              */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TBSH) NAME(#TBSH_1) CAPTION('&Detail 1') DISPLAYPOSITION(1) HEIGHT(295) LEFT(4) PARENT(#FOLDER) TABPOSITION(1) TABSTOP(False) TOP(22) WIDTH(425)
+    DEFINE_COM CLASS(#EMPNO.Visual) NAME(#EMPNO) DISPLAYPOSITION(2) HEIGHT(19) LEFT(24) PARENT(#TBSH_2) TABPOSITION(2) TOP(56) WIDTH(209)
+    DEFINE_COM CLASS(#SURNAME.Visual) NAME(#SURNAME) DISPLAYPOSITION(1) HEIGHT(19) LEFT(24) PARENT(#TBSH_1) TABPOSITION(1) TOP(64) WIDTH(185)
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_TBSH) NAME(#TBSH_2) CAPTION('&Detail 2') DISPLAYPOSITION(2) HEIGHT(295) LEFT(4) PARENT(#FOLDER) TABPOSITION(2) TABSTOP(False) TOP(22) WIDTH(425)
+    DEFINE_COM CLASS(#SECTION.Visual) NAME(#SECTION) DISPLAYPOSITION(1) HEIGHT(19) LEFT(24) PARENT(#TBSH_2) TABPOSITION(1) TOP(96) WIDTH(324)
+    DEFINE_COM CLASS(#SECDESC.Visual) NAME(#SECDESC) DISPLAYPOSITION(3) HEIGHT(19) LEFT(24) PARENT(#TBSH_2) TABPOSITION(3) TOP(137) WIDTH(324)
+    /* **********                                                         */
+    /* ********** The save button saves all outstanding changes on ALL    */
+    /* ********** tabsheets.                                              */
+    /* ********** The refresh button reloads all fields on the tabsheets  */
+    /* ********** from the data base which will clear all changes since   */
+    /* ********** the last save.                                          */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_SAV) CAPTION(&Save) DISPLAYPOSITION(3) LEFT(272) PARENT(#COM_OWNER) TABPOSITION(3) TOP(344)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_RFR) CAPTION(&Refresh) DISPLAYPOSITION(4) LEFT(360) PARENT(#COM_OWNER)TABPOSITION(4) TOP(344)
+    /* ********** Status bar definition.                                  */
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) DISPLAYPOSITION(2) HEIGHT(25) LEFT(0) MESSAGEPOSITION(1) PARENT(#COM_OWNER) TABPOSITION(1) TABSTOP(False) TOP(374) WIDTH(447)
+    /* **********                                                         */
+    DEFINE     FIELD(#UPDREQD) TYPE(*CHAR) LENGTH(1) DEFAULT(N)
+    DEFINE     FIELD(#INSREQD) TYPE(*CHAR) LENGTH(1) DEFAULT(N)
+    /* **********                                                         */
+    /* ********** Published properties set by owner form.                 */
+    /* ********** Replace empno with appropriate key field.               */
+    /* **********                                                         */
+    define_pty name(key_value) set(next_key) get(*auto #empno)
+    /* **********                                                         */
+    /* ********** Published events to indicate changed or new details     */
+    /* **********                                                         */
+    define_evt dtl_insert
+    define_evt dtl_chgd
+    /* **********                                                         */
+    @@ROUTERTN
+    EVTROUTINE HANDLING( #com_owner.Initialize )
+    /* **********                                                         */
+    /* ********** Initialise flags used to indicate pending updates and   */
+    /* ********** new details.                                            */
+    /* **********                                                         */
+    CHANGE     FIELD(#UPDREQD) TO(N)
+    CHANGE     FIELD(#INSREQD) TO(N)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Property routine to process next key.                   */
+    /* ********** Replace empno in the define_map with appropriate key    */
+    /* ********** field.                                                  */
+    /* **********                                                         */
+    ptyroutine name(next_key)
+    define_map *input class(#empno) name(#nxt_keyfld)
+    EXECUTE    SUBROUTINE(CHK_UPD)
+    /* **********                                                         */
+    /* ********** Replace empno with the appropriate key field.           */
+    /* **********                                                         */
+    CHANGE     FIELD(#EMPNO) TO('#NXT_KEYFLD.VALUE')
+    EXECUTE    SUBROUTINE(LOAD_KEY)
+    endroutine
+    /* **********                                                         */
+    SUBROUTINE NAME(LOAD_KEY)
+    /* **********                                                         */
+    /* ********** If no key has been provided set all fields to null and  */
+    /* ********** set flag to indicate a new record is to be inserted.    */
+    /* ********** Replace section with all the appropriate fields which   */
+    /* ********** may be updated.                                         */
+    /* ********** The key fields should be set to read only unless a new  */
+    /* ********** record is being created.                                */
+    /* **********                                                         */
+    IF         COND('#EMPNO *EQ *BLANKS')
+    CHANGE     FIELD(#INSREQD) TO(Y)
+    set        #empno readonly(false)
+    CHANGE     FIELD(#SECTION) TO(*NULL)
+    set        #phbn_sav enabled( true )
+    ELSE
+    /* **********                                                         */
+    /* ********** Else, set the key fields to read only.                  */
+    /* ********** Retrieve the details for the provided key.              */
+    /* ********** Replace file processing with appropriate file details.  */
+    /* **********                                                         */
+    set        #empno readonly( true )
+    set        #phbn_sav enabled( false )
+    FETCH      FIELDS(*ALL) FROM_FILE(PSLMST) WITH_KEY(#EMPNO)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Method routine to save pending changes.                 */
+    /* **********                                                         */
+    MTHROUTINE save_bus_obj
+    IF         COND('#UPDREQD *EQ Y')
+    EXECUTE    SUBROUTINE(UPD_BUSOBJ)
+    ENDIF
+    IF         COND('#INSREQD *EQ Y')
+    EXECUTE    SUBROUTINE(INS_BUSOBJ)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* ********** Changed details                                         */
+    /* ********** ======================================================= */
+    /* **********                                                         */
+    /* ********** Monitor all fields which can change.                    */
+    /* ********** Set flag to indicate update required if if this is not  */
+    /* ********** a new record.                                           */
+    /* ********** Enabled the save push button.                           */
+    /* **********                                                         */
+    EVTROUTINE ( #section.changed #secdesc.changed )
+    IF         COND('#INSREQD *NE Y')
+    CHANGE     FIELD(#UPDREQD) TO(Y)
+    ENDIF
+    set        #phbn_sav enabled(true)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** When the save push button is clicked call the           */
+    /* ********** appropriate routine to save the current details.        */
+    /* **********                                                         */
+    EVTROUTINE #phbn_sav.click
+    IF         COND('#UPDREQD *EQ Y')
+    EXECUTE    SUBROUTINE(UPD_BUSOBJ)
+    ENDIF
+    IF         COND('#INSREQD *EQ Y')
+    EXECUTE    SUBROUTINE(INS_BUSOBJ)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Insert a new record.                                    */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details.                                                */
+    /* ********** Signal to all interested forms that a new record has    */
+    /* ********** been added.                                             */
+    /* ********** Disabled save push button after record successfully     */
+    /* ********** saved.                                                  */
+    /* ********** Reset flag to indicate no pending new records exist.    */
+    /* **********                                                         */
+    SUBROUTINE NAME(INS_BUSOBJ)
+    CHECK_FOR  IN_FILE(PSLMST) WITH_KEY(#EMPNO) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*NOTEQUALKEY)
+    INSERT     FIELDS(#DEPTMENT #SECTION #SECDESC #SECADDR1 #SECADDR2 #SECADDR3 #SECPCODE #SECPHBUS) TO_FILE(SECTAB)
+    IF_STATUS  IS(*OKAY)
+    signal     event(dtl_insert)
+    CHANGE     FIELD(#INSREQD) TO(N)
+    set        #phbn_sav enabled(false)
+    MESSAGE    MSGTXT('Section successfully inserted') TYPE(*STATUS)
+    ENDIF
+    ELSE
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Update the current record.                              */
+    /* ********** Replace the file processing with the appropriate file   */
+    /* ********** details.                                                */
+    /* ********** Signal to all interested forms that a record has been   */
+    /* ********** updated.                                                */
+    /* ********** Disabled save push button after record successfully     */
+    /* ********** updated.                                                */
+    /* ********** Reset flag to indicate no pending changes exist.        */
+    /* **********                                                         */
+    SUBROUTINE NAME(UPD_BUSOBJ)
+    CHECK_FOR  IN_FILE(SECTAB) WITH_KEY(#DEPTMENT #SECTION) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*NOTEQUALKEY)
+    ELSE
+    UPDATE     FIELDS(#SECDESC #SECADDR1 #SECADDR2 #SECADDR3 #SECPCODE #SECPHBUS) IN_FILE(SECTAB) WITH_KEY(#DEPTMENT #SECTION) VAL_ERROR(*NEXT)
+    IF_STATUS  IS(*OKAY)
+    signal     event(dtl_chgd)
+    CHANGE     FIELD(#UPDREQD) TO(N)
+    set        #phbn_sav enabled(false)
+    MESSAGE    MSGTXT('Section successfully updated') TYPE(*STATUS)
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** This published method allows the owner form to force    */
+    /* ********** the save                                                */
+    /* ********** of pending details and close this form.                 */
+    /* **********                                                         */
+    MTHROUTINE close_save
+    EXECUTE    SUBROUTINE(CHK_UPD)
+    invoke     #com_owner.closeform
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** This routine checks for pending updates and new records */
+    /* ********** and displays a message box allowing them to be saved or */
+    /* ********** cancelled.                                              */
+    /* ********** This warning is issued when a new object is selected    */
+    /* ********** or a closeform is invoked, if there are pending changes.                                                       */
+    /* **********                                                         */
+    SUBROUTINE NAME(CHK_UPD)
+    IF         COND('( #UPDREQD *EQ Y ) OR ( #INSREQD *EQ Y )')
+    USE        BUILTIN(MESSAGE_BOX_CLEAR)
+    /* **********                                                         */
+    /* ********** Format the message box text using the following example */
+    /* ********** as a guide.                                             */
+    /* **********                                                         */
+    CHANGE     FIELD(#MSGBXTLE) TO('''Details Update Pending''')
+    CHANGE     FIELD(#MSGBXTXT) TO('''Changes have been made to the current details,''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO(''' ''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO('''               ---   ''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    /* **********                                                         */
+    /* ********** Replace the employee details with appropriate fields.   */
+    /* **********                                                         */
+    USE        BUILTIN(MESSAGE_BOX_APPEND) WITH_ARGS(#EMPNO '''-''' #GIVENAME #SURNAME)
+    CHANGE     FIELD(#MSGBXTXT) TO(''' ---''')
+    USE        BUILTIN(MESSAGE_BOX_APPEND) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO(''' ''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO('''                  but have not been saved.''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO(''' ''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXTXT) TO('''Press OK to save them now, or CANCEL to disregard them..''')
+    USE        BUILTIN(MESSAGE_BOX_ADD) WITH_ARGS(#MSGBXTXT)
+    CHANGE     FIELD(#MSGBXRTN) TO(*BLANKS)
+    USE        BUILTIN(MESSAGE_BOX_SHOW) WITH_ARGS(OKCANCEL OK WARNING #MSGBXTLE) TO_GET(#MSGBXRTN)
+    IF         COND('#MSGBXRTN *EQ OK')
+    IF         COND('#UPDREQD *EQ Y')
+    EXECUTE    SUBROUTINE(UPD_BUSOBJ)
+    ELSE
+    IF         COND('#INSREQD *EQ Y')
+    EXECUTE    SUBROUTINE(INS_BUSOBJ)
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    @@ROUTEEND
+    END_COM
+    E99: @@LABEL
+
+  Help Panels:
+  - HELP010:
+      Description:        Business Object Detailer
+
+      Text: |
+        This template produces skeleton code for a Business Object Detailer form. It can
+         be used in conjunction with VL_BASEBOB Business Object Browser and VL_BASEBOF B
+        usiness Object Filter templates.                                                
+                                                                                        
+        They are all based on the Demonstation Personnel system and contain references t
+        o the personnel fields and files. These references should be replaced by the obj
+        ects you wish to use.                                                           
+                                                                                        
+        Read the comments in the code carefully and amend the code as required. While do
+        ing this keep the component tab open so that properties such as the souce fields
+         of columns can be changed in the property sheet.

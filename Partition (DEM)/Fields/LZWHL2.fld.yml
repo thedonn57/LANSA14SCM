@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               LZWHL2
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_TEXTS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Address Line 2"
+      Label:              "Address Line 2"
+      Heading1:           "Address Line 2"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Deuxiene Ligne De L\"adresse"
+      Label:              "Deuxiene Ligne"
+      Heading1:           "Deuxiene"
+      Heading2:           "Ligne"
+      Heading3:           "De L\"adresse"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the second line of the Address where}
+        %the Warehouse is located. (Use for instance for Street Name)}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %This field contains the second line of the Address where}
+        %the Warehouse is located. (Use for instance for Street Name)}
+      $$NOAUTO

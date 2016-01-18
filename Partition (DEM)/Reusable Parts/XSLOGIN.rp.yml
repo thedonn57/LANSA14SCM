@@ -1,0 +1,316 @@
+﻿Reusable Part:
+  Name:               XSLogin
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Login"
+
+  - FRA:
+      Description:        "Login"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(400) Left(0) Top(0) Width(903) Layoutmanager(#TableLayout1) Style(#XSTheme01<BackgroundWhite>) Autoclose(False) Shroudstyle(#XSTheme01<BackgroundGrey00_50>)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 1 Row, 4 Columns
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(4) Parent(#TableLayout1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LoginTextItem1) Alignment(TopLeft) Column(#Column1) Manage(#LoginHeader) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Columnspan(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountEmailItem1) Alignment(TopLeft) Column(#Column1) Manage(#XSAccountEmail1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSPasswordItem1) Alignment(TopLeft) Column(#Column1) Manage(#XSPassword) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSPasswordEmailItem1) Alignment(TopLeft) Column(#Column1) Manage(#XSPasswordEmail) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Marginright(20) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(BottomLeft) Column(#Column1) Flow(Down) Manage(#LoginButton) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(20) Margintop(30) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Down) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LoginTextItem2) Alignment(TopLeft) Column(#Column1) Manage(#LoginQ) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Margintop(30) Marginleft(20) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#EmailLabel) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Margintop(15) Marginleft(20) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#XSPasswordLabel) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Margintop(10) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem1) Alignment(TopLeft) Column(#Column1) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Margintop(10) Marginright(10)
+    
+    * login
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#RegisterQ) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Margintop(50) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#RegisterQ) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(10) Marginright(10) Margintop(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(BottomLeft) Column(#Column2) Flow(Down) Manage(#CreateAccountButton) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(10) Margintop(20) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#RegisterText2Item1) Alignment(TopLeft) Column(#Column2) Manage(#RegisterText) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(20) Margintop(15)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column3) Flow(Down) Manage(#GuestQ) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(10) Marginright(10) Margintop(50)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(BottomLeft) Column(#Column3) Flow(Down) Manage(#GuestQ) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(10) Margintop(20) Marginbottom(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label2Item1) Alignment(TopLeft) Column(#Column3) Manage(#GuestText) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(10) Marginright(10) Margintop(15)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#EmailLabel2Item1) Manage(#EmailLabel2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column3) Alignment(TopLeft) Flow(Down) Marginleft(10) Marginright(20) Margintop(15)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountEmail2Item1) Column(#Column3) Manage(#XSAccountEmail2) Parent(#TableLayout1) Sizing(FitToWidth) Row(#Row1) Alignment(TopLeft) Flow(Down) Marginleft(10) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LoginTextItem3) Alignment(TopLeft) Column(#Column1) Manage(#LoginText) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20) Margintop(15) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SaveLoginItem1) Alignment(TopLeft) Column(#Column1) Manage(#SaveLogin) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(20) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column3) Flow(Down) Manage(#Message1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Margintop(10) Marginleft(10) Marginright(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem2) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem3) Column(#Column1) Manage(#Message) Parent(#TableLayout1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem4) Alignment(BottomLeft) Column(#Column1) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem5) Column(#Column1) Flow(Down) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem6) Manage(#Message) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#MessageItem7) Column(#Column1) Manage(#Message) Parent(#TableLayout1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#GuestButtonItem1) Alignment(BottomLeft) Column(#Column3) Manage(#GuestButton) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginbottom(20) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column4) Flow(Down) Manage(#Close) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LoginHeader) Caption('Secure Login') Displayposition(1) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(871) Left(0) Marginleft(20) Themedrawstyle('PanelHeader2')
+    
+    Define_Com Class(#PRIM_LABL) Name(#Close) Caption('X') Displayposition(21) Ellipses(Word) Height(25) Left(871) Parent(#COM_OWNER) Tabposition(21) Tabstop(False) Top(0) Verticalalignment(Center) Width(30) Themedrawstyle('PanelHeader2') Alignment(Center)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LoginQ) Caption('Have an account?') Displayposition(2) Ellipses(Word) Height(25) Left(20) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(55) Verticalalignment(Center) Width(251) Style(#XSTheme01<Text12BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LoginText) Caption('Login') Displayposition(3) Ellipses(Word) Height(30) Left(20) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(95) Width(251) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#EmailLabel) Caption('Email') Displayposition(4) Ellipses(Word) Height(25) Left(20) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(140) Verticalalignment(Center) Width(251) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#XSAccountEmail.Visual) Name(#XSAccountEmail1) Displayposition(5) Tabposition(5) Marginleft(0) Width(251) Parent(#COM_OWNER) Labelposition(None) Top(165) Left(20)
+    
+    Define_Com Class(#PRIM_LABL) Name(#XSPasswordLabel) Caption('Password') Displayposition(6) Ellipses(Word) Height(25) Left(20) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(196) Verticalalignment(Center) Width(271) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#XSPassword.Visual) Name(#XSPassword) Displayposition(7) Tabposition(7) Width(251) Marginleft(0) Parent(#COM_OWNER) Labelposition(None) Top(221) Left(20)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#LoginButton) Caption('Login') Displayposition(10) Left(20) Parent(#COM_OWNER) Tabposition(10) Top(348) Themedrawstyle('ButtonLook1') Height(30) Width(100)
+    
+    Define_Com Class(#PRIM_CKBX) Name(#SaveLogin) Displayposition(9) Left(20) Tabposition(9) Top(272) Caption('Remember me') Width(271) Parent(#COM_OWNER) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#XSPasswordEmail) Caption('Send me a password reminder') Displayposition(8) Ellipses(Word) Left(20) Tabposition(8) Tabstop(False) Top(247) Verticalalignment(Center) Width(251) Height(25) Style(#XSTheme01<Text10BoldBl3>) Parent(#COM_OWNER)
+    
+    * Register
+    Define_Com Class(#PRIM_LABL) Name(#RegisterQ) Caption('New Customer?') Displayposition(11) Ellipses(Word) Height(25) Left(301) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(50) Verticalalignment(Center) Width(270) Style(#XSTheme01<Text12BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#RegisterText) Caption('Create an account to enjoy faster checkout, multiple payment options and qualify for a line of credit.') Displayposition(12) Ellipses(Word) Left(301) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(90) Width(260) Style(#XSTheme01<Text10BoldAlmostBlack>) Height(70)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#CreateAccountButton) Caption('Create an Account') Displayposition(13) Parent(#COM_OWNER) Tabposition(13) Top(348) Width(200) Left(301) Themedrawstyle('ButtonLook1') Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#GuestQ) Caption('Prefer not to register?') Displayposition(14) Ellipses(Word) Height(25) Left(591) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(50) Verticalalignment(Center) Width(270) Style(#XSTheme01<Text12BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#GuestText) Caption('Shop as a Guest') Displayposition(15) Ellipses(Word) Height(30) Left(591) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(90) Width(270) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    
+    Define_Com Class(#PRIM_LABL) Name(#EmailLabel2) Caption('Email') Displayposition(16) Ellipses(Word) Height(25) Left(591) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(135) Verticalalignment(Center) Width(260) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#XSAccountEmail.Visual) Name(#XSAccountEmail2) Displayposition(17) Tabposition(17) Marginleft(0) Width(260) Parent(#COM_OWNER) Labelposition(None) Top(160) Left(591)
+    Define_Com Class(#PRIM_PHBN) Name(#GuestButton) Caption('Shop as Guest') Displayposition(18) Left(591) Parent(#COM_OWNER) Tabposition(18) Top(348) Width(200) Height(30) Themedrawstyle('ButtonLook1')
+    
+    Define_Com Class(#PRIM_LABL) Name(#Message) Displayposition(19) Ellipses(Word) Height(30) Left(20) Parent(#COM_OWNER) Tabposition(19) Tabstop(False) Top(307) Verticalalignment(Center) Width(261) Style(#XSTheme01<Text10Red>)
+    Define_Com Class(#PRIM_LABL) Name(#Message1) Displayposition(20) Ellipses(Word) Height(40) Left(591) Parent(#COM_OWNER) Tabposition(20) Tabstop(False) Top(191) Verticalalignment(Center) Width(260) Style(#XSTheme01<Text10Red>)
+    
+    Define_Com Class(#PRIM_TIMR) Name(#Timer) Startup(Manual) Interval(7000)
+    
+    Group_By Name(#AccountDetail) Fields(#XSAccountID #XSPassword #XSAccountStatus #XSAccountTitle #XSAccountLastname #XSAccountFirstname #XSBirthDate #XSAccountEmail #XSPhoneMobile #XSPhoneWork #XSPhoneHome #XSAccountAddress1 #XSAccountAddress2 #XSAccountCity #XSAccountState #XSAccountZip #XSAccountCountry #XSDeliveryAddress1 #XSDeliveryAddress2 #XSDeliveryCity #XSDeliveryState #XSDeliveryZip #XSDeliveryCountry #XSDeliveryInstructions #XSNewsletterCancelDate #XSNewsletterStatus #XSNewsletterSubscribeDate)
+    
+    Define_Com Class(#XSServer.login) Name(#Login)
+    Define_Com Class(#XSServer.SendReminder) Name(#EmailPassword)
+    Define_Com Class(#XSServer.SaveAccount) Name(#SaveAccount)
+    Define_Com Class(#XSServer.GotoHome) Name(#GotoHome)
+    Define_Com Class(#XSServer.GotoMyAccount) Name(#GotoMyAccount)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    * restore details used to signin
+    #XSAccountEmail := #MySession.RestoreLocalValue( Email )
+    
+    #XSPassword := #MySession.RestoreLocalValue( Password )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoginButton.Click)
+    
+    Define_Com Class(#XSCartID) Name(#LocalCartID)
+    
+    * check for a local shopping Cart
+    #XSCartID := #MySession.RestoreLocalValue( CartId )
+    #XSAccountEmail := #XSAccountEmail1
+    
+    * Use default value for encryption
+    #XSPasswordEncrypted := #XSPassword.Encrypt( #XSEncryptKey )
+    
+    #Login.execute( #XSAccountEmail #XSPasswordEncrypted #XSAccountFirstname #XSCartID #XSCartTotalQuantity #XSCartTotalPrice #XSStatus )
+    
+    Case (#XSStatus)
+    
+    When ('= NR')
+    
+    #Message := "This email is not registered.  Please register or try again."
+    
+    When ('= PW')
+    
+    #Message := "The password you entered is incorrect.  Please try again."
+    
+    When ('= ER')
+    
+    #Message := "Ensure you web server is running then try again."
+    
+    When ('= OK')
+    
+    #com_owner.HideMessage
+    
+    #MySession.SaveSessionValue( Email #XSAccountEmail )
+    
+    #MySession.SaveSessionValue( FirstName #XSAccountFirstname )
+    
+    If (#XSCartID <> #LocalCartID)
+    
+    #MySession.SaveLocalValue( CartID #XSCartID )
+    
+    #MySession.pCartQuantity := #XSCartTotalQuantity
+    #MySession.pCartPrice := #XSCartTotalPrice
+    
+    Endif
+    
+    #GotoHome.execute
+    
+    Return
+    
+    Endcase
+    
+    #com_owner.showMessage
+    
+    Endroutine
+    
+    Evtroutine Handling(#SaveLogin.Click)
+    
+    If (#SaveLogin.ButtonState = checked)
+    
+    #MySession.SaveLocalValue( Email #XSAccountEmail1 )
+    
+    #MySession.SaveLocalValue( Password #XSPassword )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSPasswordEmail.Click)
+    
+    Define Field(#WinRetCod) Type(*dec) Length(7) Decimals(0)
+    
+    If (#XSAccountEmail1 = *blank)
+    
+    #Message := 'Enter your email then request password again'
+    
+    #com_owner.showMessage
+    
+    Return
+    
+    Endif
+    
+    #EmailPassword.Execute( #XSAccountEmail1 #XSstatus #WinRetCod #XSPassword #XSEncryptKey )
+    
+    #sys_web.alert( (#xsstatus + ' ' + #WinRetCod.asstring + ' ' + #XSPassword + ' ' + #XSEncryptKey) )
+    If ((#XSstatus = OK) And (#WinRetCod = 0))
+    
+    #Message := 'Password request has been processed.'
+    
+    Else
+    
+    #Message := 'Password request has failed.  Check your email address and try again.'
+    
+    Endif
+    
+    #com_owner.showMessage
+    
+    Endroutine
+    
+    Mthroutine Name(showMessage)
+    
+    #Message.visible := true
+    #Message1.visible := true
+    #Timer.start
+    
+    Endroutine
+    
+    Mthroutine Name(HideMessage)
+    
+    #Message.visible := false
+    #Message1.visible := false
+    
+    #Message #Message1 := *blank
+    
+    Endroutine
+    
+    Evtroutine Handling(#CreateAccountButton.Click)
+    
+    #GotoMyAccount.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#GuestButton.Click)
+    
+    If (#XSAccountEmail2 = *blank)
+    
+    #Message1 := "An email must be provided to shop as a guest."
+    
+    #com_owner.ShowMessage
+    
+    Return
+    
+    Endif
+    
+    #XSAccountEmail := #XSAccountEmail2
+    
+    * Use default value for encryption
+    #XSPassword := 'GuestAcct'
+    #XSPasswordEncrypted := #XSPassword.Encrypt( #XSEncryptKey )
+    #XSPassword := #XSPasswordEncrypted
+    
+    #SaveAccount.Execute( #AccountDetail #XSStatus )
+    
+    * Confirm save ...
+    If (#XSstatus = OK)
+    
+    #MySession.SaveSessionValue( Email #XSAccountEmail )
+    
+    #MySession.SaveSessionValue( FirstName #XSAccountEmail )
+    
+    #GotoHome.execute
+    
+    Return
+    
+    Endif
+    
+    If (#sys_msgq.messages.itemcount > 0)
+    
+    * Show the first message
+    For Each(#Msg) In(#sys_msgq.Messages)
+    
+    #Message1 := #Msg.Text
+    
+    Leave
+    
+    Endfor
+    
+    #sys_msgq.ClearAll
+    
+    Else
+    
+    #Message1 := "Please verify the email and try again."
+    
+    Endif
+    
+    #com_owner.ShowMessage
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Tick)
+    
+    #Timer.stop
+    #com_owner.HideMessage
+    
+    Endroutine
+    
+    Evtroutine Handling(#Close.Click)
+    
+    * Close the popup window when X in top right of window is selected
+    #com_owner.ClosePopup
+    
+    Endroutine
+    
+    End_Com

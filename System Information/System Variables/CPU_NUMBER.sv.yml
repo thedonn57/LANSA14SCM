@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*CPU_NUMBER"
+  Description:        "CPU Serial Number"
+  Derivation:         Static
+  Data Type:          Numeric
+  Length:             7
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

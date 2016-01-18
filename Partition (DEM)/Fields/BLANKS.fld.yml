@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               BLANKS
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANK"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Blank / blanks variable"
+      Label:              "Blank ........"
+      Heading1:           "Blank"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Variable à blanc"
+      Label:              "Blanc . . . . ."
+      Heading1:           "Blanc"
+      Heading2:           " "
+      Heading3:           " "

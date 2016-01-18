@@ -1,0 +1,45 @@
+﻿Web Page:
+  Name:               xDemoWebDropDownSamples
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drop Down Samples"
+
+  - FRA:
+      Description:        "Drop Down Samples"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB)
+    
+    * Demonstration of using the generic sample dropdown
+    
+    * Sample data object. Scope(*Application) is used to enure that a single instance is shared between all the referrers
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#xDemoWebDropDown) Name(#DropDown) Left(24) Parent(#COM_OWNER) Top(24)
+    
+    * Populate the drop down when the data is ready
+    Evtroutine Handling(#gData.Prepared)
+    
+    For Each(#Employee) In(#gData.Employees)
+    
+    * Add an entry and set the item image
+    #DropDown.Add( #Employee.ID (#Employee.Surname + ", " + #Employee.GivenName) )
+    #DropDown.CurrentItem.Image <= #Employee.Thumbnail
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#DropDown.ItemGotFocus) Value(#Value) Caption(#Caption)
+    
+    #com_owner.caption := #Value + " " + #Caption
+    
+    Endroutine
+    
+    End_Com

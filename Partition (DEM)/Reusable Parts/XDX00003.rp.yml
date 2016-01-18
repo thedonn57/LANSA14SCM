@@ -1,0 +1,257 @@
+﻿Reusable Part:
+  Name:               XDXBrushes
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Brushes"
+
+  - FRA:
+      Description:        "Pinceaux"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(610) Layoutmanager(#TableLayout) Width(1011)
+    
+    Define_Com Class(#prim_tblo) Name(#TableLayout)
+    
+    Define_Com Class(#prim_tblo.Column) Name(#Column1) Parent(#TableLayout) Units(Pixels) Width(30)
+    Define_Com Class(#prim_tblo.Column) Name(#Column2) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Column3) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Column4) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Column) Name(#Column5) Parent(#TableLayout) Units(Pixels) Width(30)
+    
+    Define_Com Class(#prim_tblo.Row) Name(#Row1) Height(30) Parent(#TableLayout) Units(Pixels)
+    Define_Com Class(#prim_tblo.Row) Name(#Row2) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row3) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row4) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row5) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row6) Parent(#TableLayout)
+    Define_Com Class(#prim_tblo.Row) Name(#Row7) Height(80) Parent(#TableLayout) Units(Pixels)
+    
+    Define_Com Class(#prim_tblo.Item) Name(#Item1) Column(#Column2) Manage(#Style1) Parent(#TableLayout) Row(#Row2)
+    Define_Com Class(#prim_tblo.Item) Name(#Item2) Column(#Column3) Manage(#Style2) Parent(#TableLayout) Row(#Row2)
+    Define_Com Class(#prim_tblo.Item) Name(#Item3) Column(#Column4) Manage(#Style3) Parent(#TableLayout) Row(#Row2)
+    Define_Com Class(#prim_tblo.Item) Name(#Item4) Column(#Column2) Manage(#Style4) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#prim_tblo.Item) Name(#Item5) Column(#Column3) Manage(#Style5) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#prim_tblo.Item) Name(#Item6) Column(#Column4) Manage(#Style6) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#prim_tblo.Item) Name(#Item7) Column(#Column2) Manage(#Style7) Parent(#TableLayout) Row(#Row4)
+    Define_Com Class(#prim_tblo.Item) Name(#Item8) Column(#Column3) Manage(#Style8) Parent(#TableLayout) Row(#Row4)
+    Define_Com Class(#prim_tblo.Item) Name(#Item9) Column(#Column4) Manage(#Style9) Parent(#TableLayout) Row(#Row4)
+    Define_Com Class(#prim_tblo.Item) Name(#Item10) Column(#Column2) Manage(#Style10) Parent(#TableLayout) Row(#Row5)
+    Define_Com Class(#prim_tblo.Item) Name(#Item11) Column(#Column3) Manage(#Style11) Parent(#TableLayout) Row(#Row5)
+    Define_Com Class(#prim_tblo.Item) Name(#Item12) Column(#Column4) Manage(#Style12) Parent(#TableLayout) Row(#Row5)
+    Define_Com Class(#prim_tblo.Item) Name(#Item13) Column(#Column2) Manage(#Style13) Parent(#TableLayout) Row(#Row6)
+    Define_Com Class(#prim_tblo.Item) Name(#Item14) Column(#Column3) Manage(#Style14) Parent(#TableLayout) Row(#Row6)
+    Define_Com Class(#prim_tblo.Item) Name(#Item15) Column(#Column4) Manage(#Style15) Parent(#TableLayout) Row(#Row6)
+    
+    Define_Com Class(#Prim_labl) Name(#Style1) Alignment(Center) Displayposition(1) Height(100) Left(5) Opacity(50) Parent(#COM_OWNER) Style(#Horizontal) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style2) Alignment(Center) Displayposition(2) Height(100) Left(115) Opacity(50) Parent(#COM_OWNER) Style(#GrayLinear) Tabposition(5) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style3) Alignment(Center) Displayposition(3) Height(100) Left(224) Opacity(50) Parent(#COM_OWNER) Style(#Diagonal) Tabposition(14) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style4) Alignment(Center) Displayposition(4) Height(100) Left(335) Opacity(50) Parent(#COM_OWNER) Style(#Reflecting) Tabposition(3) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style5) Alignment(Center) Displayposition(6) Height(100) Left(555) Opacity(50) Parent(#COM_OWNER) Style(#CenterGlow) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style6) Alignment(Center) Displayposition(7) Height(100) Left(665) Opacity(50) Parent(#COM_OWNER) Style(#CornerGlowBottomRight) Tabposition(15) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style7) Alignment(Center) Displayposition(8) Height(100) Left(775) Opacity(50) Parent(#COM_OWNER) Style(#CornerGlowTopRight) Tabposition(13) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style8) Alignment(Center) Displayposition(5) Height(100) Left(445) Opacity(50) Parent(#COM_OWNER) Style(#Transparent) Tabposition(12) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style9) Alignment(Center) Displayposition(9) Height(100) Left(885) Opacity(50) Parent(#COM_OWNER) Style(#OpaqueWhite85) Tabposition(11) Tabstop(False) Top(0) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style10) Alignment(Center) Displayposition(10) Height(100) Left(5) Opacity(50) Parent(#COM_OWNER) Style(#Rainbow) Tabposition(10) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style11) Alignment(Center) Displayposition(11) Height(100) Left(115) Opacity(50) Parent(#COM_OWNER) Style(#XDXStyles<Background>) Tabposition(9) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style12) Alignment(Center) Displayposition(12) Height(100) Left(224) Opacity(50) Parent(#COM_OWNER) Style(#WhiteToTransparent) Tabposition(8) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style13) Alignment(Center) Displayposition(13) Height(100) Left(335) Opacity(50) Parent(#COM_OWNER) Style(#ImageCenter) Tabposition(7) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style14) Alignment(Center) Displayposition(14) Height(100) Left(445) Opacity(50) Parent(#COM_OWNER) Style(#ImageTiled) Tabposition(6) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    Define_Com Class(#Prim_labl) Name(#Style15) Alignment(Center) Displayposition(15) Height(100) Left(445) Opacity(50) Parent(#COM_OWNER) Style(#Visual) Tabposition(4) Tabstop(False) Top(110) Verticalalignment(Center) Width(100)
+    
+    Define_Com Class(#prim_lcol<#Prim_labl>) Name(#Labels)
+    
+    * Linear Horizontal
+    Define_Com Class(#prim_vs.Style) Name(#Horizontal) Backgroundbrush(#HorizontalBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#HorizontalBrush) Colors(#HorizontalColors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#HorizontalColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#HorizontalColor1) Color(255:255:255) Parent(#HorizontalColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(##HorizontalColors) At(100) Color(Red) Parent(#HorizontalColors)
+    
+    * GrayScale Linear
+    Define_Com Class(#prim_vs.Style) Name(#GrayLinear) Backgroundbrush(#GrayLinearBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#GrayLinearBrush) Colors(#GrayLinearColors) Endleft(100)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#GrayLinearColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#GrayLinearColor1) Color(240:240:240) Parent(#GrayLinearColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#GrayLinearColor2) At(100) Color(Silver) Parent(#GrayLinearColors)
+    
+    * Linear Diagonal
+    Define_Com Class(#prim_vs.Style) Name(#Diagonal) Backgroundbrush(#DiagonalBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#DiagonalBrush) Colors(#DiagonalColors) Endleft(100)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#DiagonalColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#DiagonalColor1) Color(255:255:255) Parent(#DiagonalColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#DiagonalColor2) At(100) Color(Black) Parent(#DiagonalColors)
+    
+    * Linear Horizontal Reflecting
+    Define_Com Class(#prim_vs.Style) Name(#Reflecting) Backgroundbrush(#ReflectingBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#ReflectingBrush) Colors(#ReflectingColors) Endtop(50) Spread(Reflect)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#ReflectingColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ReflectingColor1) Color(255:255:255) Parent(#ReflectingColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ReflectingColor2) At(100) Color(128:128:255) Parent(#ReflectingColors)
+    
+    * Radial Brush Center Glow
+    Define_Com Class(#prim_vs.Style) Name(#CenterGlow) Backgroundbrush(#CenterGlowBrush)
+    Define_Com Class(#Prim_Vs.RadialBrush) Name(#CenterGlowBrush) Colors(#CenterGlowColors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#CenterGlowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CenterGlowColor1) Color(255:255:255) Parent(#CenterGlowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CenterGlowColor2) At(100) Color(0:128:64) Parent(#CenterGlowColors)
+    
+    * Radial Brush Corner Glow Top Right
+    Define_Com Class(#prim_vs.Style) Name(#CornerGlowTopRight) Backgroundbrush(#CornerGlowBottomRightushTR)
+    Define_Com Class(#Prim_Vs.RadialBrush) Name(#CornerGlowBottomRightushTR) Colors(#CornerGlowTopRightColors) Originleft(100) Origintop(0)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#CornerGlowTopRightColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CornerGlowTopRightColor1) Color(255:255:255) Parent(#CornerGlowTopRightColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CornerGlowTopRightColor2) At(100) Color(255:128:64) Parent(#CornerGlowTopRightColors)
+    
+    * Radial Brush Corner Glow Bottom Right
+    Define_Com Class(#prim_vs.Style) Name(#CornerGlowBottomRight) Backgroundbrush(#CornerGlowBottomRightBrush)
+    Define_Com Class(#Prim_Vs.RadialBrush) Name(#CornerGlowBottomRightBrush) Colors(#CornerGlowBottomRightColors) Originleft(100) Origintop(100) Radiusleft(75) Radiustop(75)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#CornerGlowBottomRightColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CornerGlowBottomRightColor1) Color(255:255:255) Parent(#CornerGlowBottomRightColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#CornerGlowBottomRightColor2) At(100) Color(Blue) Parent(#CornerGlowBottomRightColors)
+    
+    * Transparent Solid Brush
+    Define_Com Class(#prim_vs.Style) Name(#Transparent) Backgroundbrush(#TransparentBrush)
+    Define_Com Class(#Prim_Vs.SOlidBrush) Name(#TransparentBrush) Color(Transparent)
+    
+    * 85% Opaque White
+    Define_Com Class(#prim_vs.Style) Name(#OpaqueWhite85) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#Prim_Vs.solidBrush) Name(#BackgroundBrush) Color(White) Opacity(85)
+    
+    * Rainbow Linear
+    Define_Com Class(#prim_vs.Style) Name(#Rainbow) Backgroundbrush(#RainbowBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#RainbowBrush) Colors(#RainbowColors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#RainbowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#RainbowColor1) Color(Red) Parent(#RainbowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#RainbowColor2) At(50) Color(Yellow) Parent(#RainbowColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#RainbowColor3) At(100) Color(Blue) Parent(#RainbowColors)
+    
+    * Visual
+    Define_Com Class(#prim_vs.Style) Name(#Visual) Backgroundbrush(#VisualBrush)
+    Define_Com Class(#Prim_Vs.VisualBrush) Name(#VisualBrush) Control(#Style1) Opacity(80) Sizing(BestFit)
+    
+    * White To Clear
+    Define_Com Class(#prim_vs.Style) Name(#WhiteToTransparent) Backgroundbrush(#WhiteToTransparentBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#WhiteToTransparentBrush) Colors(#WhiteToTransparentColors) Endleft(100)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#WhiteToTransparentColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#WhiteToTransparentColor1) Color(White) Parent(#WhiteToTransparentColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#WhiteToTransparentColor2) At(100) Color(Transparent) Parent(#WhiteToTransparentColors)
+    
+    * Image
+    Define_Com Class(#prim_vs.Style) Name(#ImageCenter) Backgroundbrush(#ImageCenterBrush)
+    Define_Com Class(#Prim_Vs.ImageBrush) Name(#ImageCenterBrush) Image(#XDXImageGlobe) Opacity(75) Sizing(BestFit)
+    
+    * Image Tiled
+    Define_Com Class(#prim_vs.Style) Name(#ImageTiled) Backgroundbrush(#ImageTiledBrush)
+    Define_Com Class(#Prim_Vs.ImageBrush) Name(#ImageTiledBrush) Height(10) Image(#XDXImageGlobe) Opacity(50) Sizing(BestFit) Tile(Tile) Width(10)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    For Each(#Member) In(#Com_owner.ComponentMembers)
+    
+    Continue If(#Member *IsNot #prim_labl)
+    
+    #Labels.Insert( (#Member *As #prim_labl) )
+    
+    (#Member *As #prim_labl).Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.MouseEnter) Com_Sender(#Sender)
+    
+    #Sender.Opacity := 100
+    
+    Case (#Sender.Style.Name.Uppercase)
+    
+    When (= Horizontal)
+    
+    #Sender.Caption := *MTXTXDX003 /* "Linear - Top to Bottom White To Red " */
+    
+    When (= GrayLinear)
+     
+    #Sender.Caption := *MTXTXDX004 /* "Linear - Right to Dark Gray To Silver" */
+    
+    When (= Diagonal)
+    
+    #Sender.Caption := *MTXTXDX005 /* "Linear - Top Left To Bottom Right White To Black" */
+    
+    When (= Reflecting)
+    
+    #Sender.Caption := *MTXTXDX006 /* "Linear - Top to Bottom White To Purple Reflecting" */
+    
+    When (= CenterGlow)
+    
+    #Sender.Caption := *MTXTXDX007 /* "Radial - Centered White To Green" */
+    
+    When (= CornerGlowBottomRight)
+    
+    #Sender.Caption := *MTXTXDX008 /* "Radial - Bottom Right To Top Left White To Blue" */
+    
+    When (= CornerGlowTopRight)
+    
+    #Sender.Caption := *MTXTXDX009 /* "Radial - Top Right To Bottom Left White To Orange" */
+    
+    When (= Transparent)
+    
+    #Sender.Caption := *MTXTXDX010 /* "Transparent - Nothing To See But The Background"*/
+    
+    When (= OpaqueWhite85)
+    
+    #Sender.Caption := *MTXTXDX011 /* "Solid - White 85% Opacity"*/
+    
+    When (= Rainbow)
+    
+    #Sender.Caption := *MTXTXDX012 /* "Linear - Top to Bottom Red To Yellow To Blue"*/
+    
+    When (= Visual)
+    
+    #Sender.Caption := *MTXTXDX013 /* "Visual - Image Of A Different Control"*/
+    
+    When (= WhiteToTransparent)
+    
+    #Sender.Caption := *MTXTXDX014 /* "Linear - Top Left To Bottom Right White To Transparent"*/
+    
+    When (= ImageCenter)
+    
+    #Sender.Caption := *MTXTXDX015 /* "Image - Centered Image Watermark 75% Opacity"*/
+    
+    When (= ImageTiled)
+    
+    #Sender.Caption := *MTXTXDX016 /* "Image - Tiled Image Watermark 50% Opacity"*/
+    
+    When (= "XDX00001<BACKGROUND>")
+    
+    #Sender.Caption := *MTXTXDX017 /* "Solid - Single Color White"*/
+    
+    Otherwise
+    
+    #Sender.caption := #Sender.Style.Name.Uppercase
+    
+    Endcase
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.MouseLeave) Com_Sender(#Sender)
+    
+    #Sender.Opacity := 30
+    
+    #Sender.Caption := ""
+    
+    Endroutine
+    
+    Evtroutine Handling(#Labels<>.Click) Com_Sender(#Sender)
+    
+    #Application.BackGround.BackgroundBrush <= #Sender.Style.BackgroundBrush
+    
+    Endroutine
+    
+    End_Com

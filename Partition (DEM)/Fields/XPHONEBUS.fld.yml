@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               xEmployeeBusinessTelephone
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Business Telephone"
+      Label:              "Business Phone"
+      Heading1:           "Business"
+      Heading2:           "Telephone"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Business Telephone"
+      Label:              "Business Phone"
+      Heading1:           "Business"
+      Heading2:           "Telephone"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(324) Componentversion(1) Marginleft(188)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_varchar.std_varchar') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

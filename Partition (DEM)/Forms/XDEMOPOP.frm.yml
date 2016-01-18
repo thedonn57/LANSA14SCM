@@ -1,0 +1,65 @@
+﻿Form:
+  Name:               xDemoPopups
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Popups for Hints and Context Menus"
+
+  - FRA:
+      Description:        "Using Popups for Hints and Context Menus"
+
+  Source: |
+    * META:Form,Popup,Hover,Menu,Table Layout,Hint, Mouse Over
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Height(456) Left(256) Top(240) Width(551) Clientwidth(535) Clientheight(417) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    * Simple demonstration of hint and menu Popups
+    * A Popup (prim_ppnl) can be used to replace the typical text based hint or the typical right click context menu
+    * Popups use other parts to provide the content
+    * In this example the same reusable part is used to show a simple picture with some text.
+    * However, being a reusable part, you can show almost anything.
+    
+    Define_Com Class(#PRIM_LABL) Name(#LabelHintPopup) Caption('Hover here to see a hint popup') Displayposition(2) Ellipses(Word) Left(160) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(135) Verticalalignment(Center) Height(74) Width(215) Alignment(Center) Hintpopup(#HintPopup) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#LabelContextPopup) Caption('Right click here to see a menu popup') Displayposition(1) Ellipses(Word) Left(160) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(209) Verticalalignment(Center) Height(74) Width(215) Alignment(Center) Popup(#MenuPopup) Themedrawstyle('DarkTitle')
+    
+    * Popup Panel being used as the hint
+    Define_Com Class(#xDemoPopup) Name(#HintPopup)
+    
+    * Popup Panel being used as the right-click context menu
+    Define_Com Class(#xDemoPopup) Name(#MenuPopup)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#LabelHintPopup) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(BottomCenter)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#LabelContextPopup) Parent(#TableLayout) Row(#Row_2) Sizing(None) Alignment(TopCenter) Column(#Column)
+    
+    Evtroutine Handling(#Com_Owner.Initialize)
+    
+    If (#sys_appln.RenderStyle <> DirectX)
+    
+    Use Builtin(MESSAGE_BOX_SHOW) With_Args(*Default *Default 'Error' 'DirectX only' 'Popups are only available when executing under DirectX or VL Web')
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#HintPopup.Prepare)
+    
+    #HintPopup.ImageCaption := "Hints can be whatever you want"
+    
+    Endroutine
+    
+    Evtroutine Handling(#MenuPopup.Prepare)
+    
+    #MenuPopup.ImageCaption := "Menus can be whatever you want"
+    
+    Endroutine
+    
+    End_Com

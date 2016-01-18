@@ -1,0 +1,105 @@
+﻿Web Page:
+  Name:               xDemoWebIdleTimeout
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Handling Idle Timeouts"
+
+  - FRA:
+      Description:        "Handling Idle Timeouts"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout)
+    
+    * Example of using application time outs
+    * UserID is prompted and the user "signs in"
+    * If the mouse and keyboard are untouched, the IDLE timer fires
+    * If no input for 15 seconds the user is focred to signin again
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style) Fontsize(18) Facename('Calibri')
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LabelItem) Column(#Column) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopRight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Flow(Down) Manage(#Label_3) Parent(#TableLayout) Row(#Row) Sizing(None) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label) Displayposition(1) Ellipses(Word) Left(881) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(57) Width(319) Style(#Style) Alignment(Right) Marginright(4)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_3) Caption('Page will timeout in 15 seconds if no user input') Displayposition(2) Ellipses(Word) Height(65) Left(221) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(759) Alignment(Center) Style(#Style)
+    
+    Define_Com Class(#prim_web.MessageBox) Name(#Messagebox)
+    
+    Define Field(#MessageResult) Type(*Char) Length(6)
+    Define Field(#TimedOut) Type(*Boolean)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Com_owner.Signin
+    
+    Endroutine
+    
+    Mthroutine Name(Signin)
+    
+    #xDemoCaption := ""
+    
+    * Display the signin prompt until a user name is entered
+    Begin_Loop
+    
+    #MessageResult := #sys_web.Prompt( "Enter a userID" #xDemoCaption )
+    
+    Leave If((#xDemoCaption <> "") Or (#MessageResult = Cancel))
+    
+    End_Loop
+    
+    * Close the webpage if signin is cancelled
+    If (#MessageResult = Cancel)
+    
+    #sys_web.Close
+    
+    Endif
+    
+    #Label := ("Signed in as &1").Substitute( #xDemoCaption )
+    
+    Endroutine
+    
+    * Idle timer fires once every 5 seconds of inactivity
+    Evtroutine Handling(#Sys_Appln.Idle) Seconds(#Seconds)
+    
+    * If no data entry for 15 seconds
+    If ((#Seconds = 15) *And (*Not #TimedOut))
+    
+    * Update the UI and show a time out message
+    #Label := ("&1 timed out").Substitute( #xDemoCaption )
+    
+    #TimedOut := True
+    
+    #Messagebox.Captions.RemoveAll
+    #Messagebox.Captions.Add( "Application timeout" )
+    #Messagebox.Captions.Add( "Sign in again" )
+    #Messagebox.show
+    
+    Endif
+    
+    Endroutine
+    
+    * User input detected
+    Evtroutine Handling(#Sys_Appln.IdleEnd)
+    
+    #TimedOut := False
+    
+    Endroutine
+    
+    Evtroutine Handling(#Messagebox.Closed)
+    
+    #Com_owner.Signin
+    
+    Endroutine
+    
+    End_Com
+    

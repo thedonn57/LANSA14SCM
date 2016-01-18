@@ -1,0 +1,74 @@
+﻿Field:
+  Name:               PHONEHME
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Home Phone Number"
+      Label:              "Home phone....."
+      Heading1:           "Home phone"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro de téléphone personnel"
+      Label:              "Tél. personnel"
+      Heading1:           "Téléphone"
+      Heading2:           "Personnel"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Home phone no. cannot be blank"
+      Condition:          "#phonehme *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0009
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+            This field represents the employee's home phone number.
+      
+            For instance ...
+                              (312) 799 5268
+                              (02) 820 0285
+                              (316) 674 4316
+      
+            are all valid phone numbers. Note that the corporate convention
+            is that the area/STD code is always show in brackets before the
+            number and the number does not ever contain "-" characters.
+      
+            In cases where no home phone number is available, or the
+            employee declines to provide one, the value "N/Avail" should
+            be specified as the phone number.
+
+  - FRA: |
+      $$TECH
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+            Il s'agit du numéro de téléphone personnel de l'employé.
+      
+            Par exemple ...
+                              (312) 799 5268
+                              (02) 820 0285
+                              (316) 674 4316
+      
+            sont tous des numéros valides. Notez que la convention dans
+            l'entreprise est de noter entre parenthèses le code d'appel
+            international, et de ne pas utiliser de "-"
+      
+            Dans le cas où il n'existe pas de téléphone personnel, ou que
+            l'employé refuse de le donner, la valeur "N/Avail" sera précisée
+            au lieu du numéro de téléphone.

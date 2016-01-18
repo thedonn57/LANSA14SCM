@@ -1,0 +1,234 @@
+﻿Form:
+  Name:               XDXSettingsDialog
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Settings Dialog"
+
+  - FRA:
+      Description:        "Paramétrages"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Bordericons(SystemMenu) Caption('Settings') Clientheight(201) Clientwidth(346) Formstyle(StayOnTopChild) Height(239) Left(666) Style(#XDXStyles<Background>) Top(366) Width(362)
+    
+    * Dialog providing options for the application appearance
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption(*MTXTXDX043) Displayposition(1) Ellipses(Word) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(8) Verticalalignment(Center) Width(105)
+    Define_Com Class(#PRIM_CMBX) Name(#Fonts) Comboboxstyle(DropDownList) Componentversion(1) Displayposition(2) Fixedheight(False) Left(120) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(2) Top(8) Width(217)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_1) Displayposition(1) Parent(#Fonts) Source(#XDXCaption) Usepicklist(False)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_2) Parent(#Fonts) Source(#XDXAlpha) Usepicklist(False) Visible(False)
+    Define_Com Class(#PRIM_LABL) Name(#lTextColor) Caption(*MTXTXDX044) Displayposition(3) Ellipses(Word) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(40) Verticalalignment(Center) Width(105)
+    Define_Com Class(#PRIM_LABL) Name(#TextColor) Displayposition(4) Ellipses(Word) Height(20) Left(120) Parent(#COM_OWNER) Style(#TextColorStyle) Tabposition(4) Tabstop(False) Top(40) Verticalalignment(Center) Width(217)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption(*MTXTXDX045) Displayposition(5) Ellipses(Word) Height(17) Left(8) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(72) Verticalalignment(Center) Width(109)
+    Define_Com Class(#PRIM_SPDT) Name(#TopLeft) Displayposition(6) Height(20) Left(120) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(6) Top(68) Value(6) Width(50)
+    Define_Com Class(#PRIM_SPDT) Name(#TopRight) Displayposition(7) Height(20) Left(176) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(7) Top(68) Value(6) Width(50)
+    Define_Com Class(#PRIM_SPDT) Name(#BottomLeft) Displayposition(8) Height(20) Left(120) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(8) Top(96) Value(6) Width(50)
+    Define_Com Class(#PRIM_SPDT) Name(#BottomRight) Displayposition(9) Height(20) Left(176) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(9) Top(96) Value(6) Width(50)
+    
+    Define_Com Class(#prim_vs.Style) Name(#TextColorStyle) Normbackcolor(Black)
+    
+    Define_Com Class(#prim_appl.ICommonDialogColor) Name(#ColorPicker) Reference(*dynamic)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Apply) Caption(*MTXTXDX047) Displayposition(10) Left(256) Parent(#COM_OWNER) Tabposition(10) Top(168)
+    Define_Com Class(#PRIM_CMBX) Name(#Transition) Comboboxstyle(DropDownList) Componentversion(1) Displayposition(11) Fixedheight(False) Left(120) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(11) Top(128) Width(217)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_3) Displayposition(1) Parent(#Transition) Source(#XDXCaption) Usepicklist(False)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_4) Parent(#Transition) Source(#XDXAlpha) Usepicklist(False) Visible(False)
+    Define_Com Class(#PRIM_LABL) Name(#LABL_3) Caption(*MTXTXDX046) Displayposition(12) Ellipses(Word) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(128) Verticalalignment(Center) Width(104)
+    
+    Define_Com Class(#prim_alph) Name(#ActiveTransition)
+    
+    Define_Com Class(#Prim_boln) Name(#StyleChanged)
+    
+    Define Field(#Open) Type(*Boolean)
+    
+    Define_Pty Name(TransitionType) Get(GetTransitionType)
+    
+    Ptyroutine Name(GetTransitionType)
+    Define_Map For(*output) Class(#Prim_alph) Name(#Property)
+    
+    #Property := #ActiveTransition
+    
+    Endroutine
+    
+    Mthroutine Name(GetActiveTransition)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    Selectlist Named(#Transition)
+    
+    Continue If(*Not #Transition.CurrentItem.Focus)
+    
+    #Result := #XDXalpha
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(GetFont)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    Selectlist Named(#Fonts)
+    
+    Continue If(*Not #Fonts.CurrentItem.Focus)
+    
+    #Result := #XDXalpha
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(Show)
+    
+    If (#Open)
+    
+    #Com_owner.RestoreForm
+    #Com_owner.ActivateForm
+    
+    Else
+    
+    #Com_owner.ShowForm
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Allowed fonts for the application
+    * Could alos be loaded from Windows font list
+    #Com_owner.AddFont( "Segoe UI" )
+    #Com_owner.AddFont( "Tahoma" )
+    #Com_owner.AddFont( "Courier New" )
+    #Com_owner.AddFont( "Arial" )
+    #Com_owner.AddFont( "Verdana" )
+    
+    Get_Entry Number(1) From_List(#Fonts)
+    #Fonts.CurrentItem.Focus := True
+    
+    * Allowable transition types used to manage change from sample to sample
+    #Com_owner.AddTransition( Blinds *MTXTXDX053 )
+    #Com_owner.AddTransition( Fade *MTXTXDX056 )
+    #ActiveTransition := #XDXalpha
+    #Com_owner.AddTransition( Flip *MTXTXDX057 )
+    #Com_owner.AddTransition( LinearFade *MTXTXDX058 )
+    #Com_owner.AddTransition( RadialBlur *MTXTXDX060 )
+    #Com_owner.AddTransition( RadialWiggle *MTXTXDX061 )
+    #Com_owner.AddTransition( RollDown *MTXTXDX062 )
+    #Com_owner.AddTransition( RollUp *MTXTXDX063 )
+    #Com_owner.AddTransition( RotateCrumble *MTXTXDX064 )
+    #Com_owner.AddTransition( Shrink *MTXTXDX065 )
+    #Com_owner.AddTransition( Wave *MTXTXDX066 )
+    
+    Get_Entry Number(2) From_List(#Transition)
+    #Transition.CurrentItem.Focus := True
+    
+    #TextColor.Style <= #TextColorStyle
+    #TextColor.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Mthroutine Name(AddFont) Access(*Private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Caption)
+    
+    #XDXAlpha := #Caption.UpperCase
+    #XDXCaption := #Caption
+    
+    Add_Entry To_List(#Fonts)
+    
+    Endroutine
+    
+    Mthroutine Name(AddTransition) Access(*Private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Name)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Caption)
+    
+    #XDXAlpha := #Name
+    #XDXCaption := #Caption
+    
+    Add_Entry To_List(#Transition)
+    
+    Endroutine
+    
+    Evtroutine Handling(#TextColor.Click)
+    
+    Define_Com Class(#prim_boln) Name(#OK)
+    
+    If (#ColorPicker *Is *null)
+    
+    #ColorPicker <= #sys_appln.CreateColorDialog
+    #ColorPicker.FullyOpen := true
+    
+    Endif
+    
+    #ColorPicker.ChosenColor := #TextColorStyle.TextColor
+    
+    #OK := #ColorPicker.Show
+    
+    If (#OK)
+    
+    #StyleChanged := True
+    
+    #TextColorStyle.NormBackColor := #ColorPicker.ChosenColor
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#TopLeft.Changed #TopRight.Changed #BottomLeft.Changed #BottomRight.Changed) Com_Sender(#Sender)
+    
+    #StyleChanged := True
+    
+    #Sender.Value := #Sender.Value.Bound( 0 20 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Fonts.ItemGotFocus)
+    
+    #StyleChanged := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#Apply.Click)
+    
+    Define_Com Class(#prim_vs.Style) Name(#PanelStyle)
+    Define_Com Class(#prim_vs.Style) Name(#ApplicationStyle)
+    
+    #ActiveTransition := #Com_owner.GetActiveTransition
+    
+    If (#StyleChanged)
+    
+    * Apply settings to the application
+    #ApplicationStyle.FaceName := #Com_owner.GetFont
+    #ApplicationStyle.TextColor := #TextColorStyle.NormBackColor
+    
+    #sys_appln.Style <= #ApplicationStyle
+    
+    #PanelStyle.CornerTopLeft := #TopLeft
+    #PanelStyle.CornerTopRight := #TopRight
+    #PanelStyle.CornerBottomLeft := #BottomLeft
+    #PanelStyle.CornerBottomRight := #BottomRight
+    
+    #sys_appln.Appearance.Panel <= #PanelStyle
+    
+    #StyleChanged := False
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Closing)
+    
+    #Open := False
+    
+    Endroutine
+    
+    
+    End_Com

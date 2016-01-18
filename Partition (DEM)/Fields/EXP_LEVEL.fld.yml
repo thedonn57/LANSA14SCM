@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               EXP_LEVEL
+  Type:               Packed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Level"
+      Label:              "Express. Level"
+      Heading1:           "Expression"
+      Heading2:           "Level"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Niveau"
+      Label:              "Niveau Express."
+      Heading1:           "Niveau"
+      Heading2:           "Expression"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               PRIFILRRN
+  Type:               Packed
+  Length:             15
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Primary File Relative Record Number"
+      Label:              "Prim RRN ......"
+      Heading1:           "Primary"
+      Heading2:           "  RRN"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Rang relatif enreg. du fichier primaire"
+      Label:              "RRN primaire  ."
+      Heading1:           "RRN"
+      Heading2:           " "
+      Heading3:           " "

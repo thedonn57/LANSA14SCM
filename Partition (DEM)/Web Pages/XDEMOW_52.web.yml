@@ -1,0 +1,159 @@
+﻿Web Page:
+  Name:               xDemoWebThemes
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Themes"
+
+  - FRA:
+      Description:        "Themes and Base Styles"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(473) Width(1049) Layoutmanager(#TableLayout1) Verticalscroll(False) Horizontalscroll(False) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Fontsize(72) Bold(True) Foregroundbrush(#Brush2)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(Theme900)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme200)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Highlight) Textcolor(White) Normbackcolor(Theme300)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(2) Parent(#TableLayout1) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(4) Parent(#TableLayout1) Height(1.71)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout1) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(5) Parent(#TableLayout1) Height(20) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(1) Parent(#TableLayout1) Height(20) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutList) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button1) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button2) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Button3) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Label3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(CenterRight) Column(#Column1) Flow(Down) Manage(#Find) Parent(#TableLayout1) Row(#Row3) Sizing(None) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutThemePicker) Column(#Column1) Manage(#xDemoWebThemePicker) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopRight) Marginleft(42)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label4) Parent(#TableLayout1) Row(#Row4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#PoweredByLANSA) Parent(#TableLayout1) Row(#Row5) Rowspan(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column1) Manage(#ThemeName) Parent(#TableLayout1) Row(#Row4) Sizing(FitToHeight)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Dark Title') Displayposition(3) Ellipses(Word) Height(45) Left(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Verticalalignment(Center) Width(160) Top(23) Themedrawstyle('DarkTitle') Alignment(Center)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(6) Height(333) Left(0) Parent(#COM_OWNER) Tabposition(4) Top(120) Width(1049) Rowlines(False) Columnlines(False) Rowheight(22) Selectionstyle(All) Columnstyle(#Style3)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(1) Parent(#List) Source(#EMPNO) Columnwidth(142)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(2) Parent(#List) Source(#SURNAME)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(3) Parent(#List) Source(#GIVENAME)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS11) Displayposition(4) Parent(#List) Source(#ADDRESS1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS21) Displayposition(5) Parent(#List) Source(#ADDRESS2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnADDRESS31) Displayposition(6) Parent(#List) Source(#ADDRESS3)
+    Define_Com Class(#PRIM_LIST.Number) Name(#ColumnPOSTCODE1) Displayposition(7) Increment(1) Parent(#List) Source(#POSTCODE) Wrap(False)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Caption('Default Button') Displayposition(7) Left(2) Parent(#COM_OWNER) Tabposition(7) Top(83) Width(103) Buttondefault(True)
+    Define_Com Class(#PRIM_PHBN) Name(#Button2) Caption('Button 2') Displayposition(8) Left(109) Parent(#COM_OWNER) Tabposition(6) Top(83) Width(96)
+    Define_Com Class(#PRIM_PHBN) Name(#Button3) Caption('Button 3') Displayposition(9) Left(209) Parent(#COM_OWNER) Tabposition(5) Top(83) Width(96)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('Medium Title') Displayposition(4) Ellipses(Word) Height(45) Left(166) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Verticalalignment(Center) Width(160) Top(23) Themedrawstyle('MediumTitle') Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Caption('Light Title') Displayposition(5) Ellipses(Word) Height(45) Left(330) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Verticalalignment(Center) Width(160) Top(23) Themedrawstyle('LightTitle') Alignment(Center)
+    Define_Com Class(#xDemoUnicode128.Visual) Name(#Find) Componentversion(1) Displayposition(10) Height(25) Parent(#COM_OWNER) Tabposition(8) Top(83) Usepicklist(False) Width(263) Left(782) Marginleft(50) Caption('Find') Labeltype(Caption) Labelselectable(False)
+    Define_Com Class(#xDemoWebThemePicker) Name(#xDemoWebThemePicker) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Left(1042) Top(20) Displayposition(2)
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(11) Left(0) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(0) Width(1049) Themedrawstyle('DarkTitle') Height(20)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Powered by LANSA') Displayposition(12) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(453) Verticalalignment(Center) Width(1049) Alignment(Right) Themedrawstyle('DarkTitle') Marginright(18)
+    Define_Com Class(#PRIM_LABL) Name(#PoweredByLANSA) Caption('Powered by LANSA') Displayposition(13) Ellipses(Word) Height(473) Left(0) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Top(0) Verticalalignment(Center) Width(1049) Alignment(Center) Rotation(345) Style(#Style2) Opacity(20)
+    Define_Com Class(#PRIM_LABL) Name(#ThemeName) Caption('2015Gray') Displayposition(1) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(453) Verticalalignment(Center) Width(177) Themedrawstyle('DarkTitle') Marginleft(4)
+    
+    Define_Com Class(#prim_anim) Name(#MoveLeft)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#MoveLeft1) Marginleft(0) Manage(#LayoutThemePicker) Parent(#MoveLeft) Duration(250)
+    
+    Define_Com Class(#prim_anim) Name(#MoveRight)
+    Define_Com Class(#prim_anim.TableLayoutItem) Name(#MoveRight1) Marginleft(42) Manage(#LayoutThemePicker) Parent(#MoveRight) Duration(500)
+    
+    Evtroutine Handling(#Com_Owner.CreateInstance)
+    
+    #Com_owner.LoadData
+    
+    Endroutine
+    
+    Mthroutine Name(LoadData)
+    
+    * Get some default Data
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #List )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Find.Changed)
+    
+    Define_Com Class(#xDemoUnicode128) Name(#Cell)
+    
+    * Show/hide items based on the value entered
+    Selectlist Named(#List)
+    
+    * Remove any styles already added
+    #List.currentItem.Styles.remove( #Highlight )
+    
+    * Loop through the columns inspecting each cell
+    For Each(#Column) In(#List.Columns)
+    
+    #Cell := #Com_owner.GetCellValue( #Column )
+    
+    * If the cell contains the value required, apply the highlight style
+    Continue If(#Find = "")
+    Continue If(*Not #Cell.lowercase.contains( #Find.lowercase ))
+    
+    #List.currentItem.Styles.Add( #Highlight )
+    
+    Leave
+    
+    Endfor
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(GetCellValue) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_list.Column) Name(#Column) Pass(*By_Reference)
+    Define_Map For(*Result) Class(#xDemoUnicode128) Name(#Result)
+    
+    * processing depends on column type
+    If (#Column *Is #Prim_list.String)
+    
+    #Result := (#Column *As #Prim_list.String).CurrentItem.Value
+    
+    Endif
+    
+    If (#Column *Is #Prim_list.Number)
+    
+    #Result := (#Column *As #Prim_list.Number).CurrentItem.Value.Asstring
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#xDemoWebThemePicker.MouseEnter)
+    
+    #MoveLeft.Start
+    
+    Endroutine
+    
+    Evtroutine Handling(#xDemoWebThemePicker.MouseLeave)
+    
+    #MoveRight.Start
+    
+    Endroutine
+    
+    Evtroutine Handling(#xDemoWebThemePicker.ThemeChanged) Name(#Name)
+    
+    #ThemeName := #Name
+    
+    Endroutine
+    
+    End_Com
+    

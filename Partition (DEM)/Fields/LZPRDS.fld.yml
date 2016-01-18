@@ -1,0 +1,62 @@
+﻿Field:
+  Name:               LZPRDS
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_DESCS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Description"
+      Label:              "Product"
+      Heading1:           "Product"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description"
+      Label:              "Produit"
+      Heading1:           "Description"
+      Heading2:           "Produit"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+       %The Product Description field is intended for a descriptive text}
+       %of the Product.}
+      
+       The Product Description may be displayed in "views" over files other
+       then the Product file: e.g. Stock and Inventory file, or other files
+       referencing the Product Code.
+      
+        Validation Rules : Must be specified by the user.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+       %La Description du Produit doit contenir un texte descriptif du }
+       %Produit}
+      
+        Les regles de validation sont a definir par l'utilisateur.
+      
+      $$NOAUTO

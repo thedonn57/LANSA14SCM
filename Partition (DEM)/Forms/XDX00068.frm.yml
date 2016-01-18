@@ -1,0 +1,110 @@
+﻿Form:
+  Name:               XDXStart
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "DirectX Examples Start Form"
+
+  - FRA:
+      Description:        "Formulaire de démarrage exemples DirectX"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBaseForm) Clientheight(1174) Clientwidth(1904) Formposition(ScreenCenter) Framestyle(None) Glass(#Glass) Height(1174) Left(8) Showintaskbar(No) Top(-7) Width(1904)
+    
+    Define_Com Class(#prim_form.Glass) Name(#Glass)
+    
+    * Application Start Form used as a means of initialising the app. and a splash screen
+    
+    Define_Com Class(#XDXExamples) Name(#Examples) Reference(*dynamic)
+    
+    Define_Com Class(#prim_panl) Name(#Background) Displayposition(3) Height(450) Left(0) Opacity(0) Parent(#COM_OWNER) Style(#XDXStyles<Background>) Tabposition(2) Top(0) Width(704)
+    Define_Com Class(#prim_labl) Name(#Copyright) Caption('© LANSA Pty. Ltd. 2012') Displayposition(1) Height(20) Left(566) Parent(#Background) Tabposition(1) Tabstop(False) Top(426) Width(130)
+    
+    Define_Com Class(#XDXBanner) Name(#Banner) Opacity(0) Parent(#COM_OWNER) Scaleheight(50) Scalewidth(50) Tabposition(3) Tabstop(False)
+    Define_Com Class(#PRIM_PANL) Name(#Globe) Displayposition(2) Height(292) Left(0) Opacity(0) Parent(#COM_OWNER) Style(#GlobeStyle) Tabposition(1) Tabstop(False) Top(144) Width(736)
+    
+    * Globe
+    Define_Com Class(#prim_vs.Style) Name(#GlobeStyle) Backgroundbrush(#GlobeBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#GlobeBrush) Image(#XDXImageGlobe) Sizing(BestFit)
+    
+    * A N I M A T I O N S
+    Define_Com Class(#prim_anim) Name(#Animation)
+    
+    * Phase 1 - Construct screen from basic pieces
+    Define_Com Class(#Prim_anim.Opacity) Name(#ShowBanner) Duration(2000) Manage(#Banner) Opacity(100) Parent(#Animation)
+    Define_Com Class(#Prim_anim.opacity) Name(#ShowGlobe) Duration(2000) Manage(#Globe) Opacity(100) Parent(#Animation)
+    Define_Com Class(#Prim_anim.opacity) Name(#ShowBackground) Duration(2000) Manage(#Background) Opacity(80) Parent(#Animation)
+    
+    Define_Com Class(#Prim_anim.MoveFrom) Name(#BannerInFromLeft) Duration(2000) Manage(#Banner) Parent(#Animation)
+    Define_Com Class(#Prim_anim.MoveFrom) Name(#GlobeInFromBelow) Duration(2000) Manage(#Globe) Parent(#Animation)
+    
+    * Phase 2 - Hide the background
+    Define_Com Class(#Prim_anim.opacity) Name(#HideBackground) Duration(2000) Manage(#Background) Opacity(0) Parent(#Animation) Starttime(4000)
+    Define_Com Class(#Prim_anim.Scale) Name(#ScaleBackground) Duration(2000) Manage(#Background) Parent(#Animation) Scaleheight(1) Scalewidth(1) Starttime(4000)
+    
+    * Phase 3 - Pause then scale and fade
+    Define_Com Class(#Prim_anim.Opacity) Name(#HideBanner) Duration(2000) Manage(#Banner) Opacity(0) Parent(#Animation) Starttime(4000)
+    Define_Com Class(#Prim_anim.Opacity) Name(#HideGlobe) Duration(2000) Manage(#Globe) Opacity(0) Parent(#Animation) Starttime(4000)
+    
+    Define_Com Class(#Prim_anim.Scale) Name(#ScaleBanner) Duration(2000) Manage(#Banner) Parent(#Animation) Scaleheight(1000) Scalewidth(1000) Starttime(4000)
+    Define_Com Class(#Prim_anim.Scale) Name(#ScaleGlobe) Duration(2000) Manage(#Globe) Parent(#Animation) Scaleheight(1000) Scalewidth(1000) Starttime(4000)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Screen could be any size, so calculate the positions prior to execution of the animation
+    
+    * Form bounds to screen height/width
+    #Com_owner.Height := #sys_appln.screenHeight
+    #Com_owner.Width := #sys_appln.screenwidth
+    
+    * Centre the background panel
+    #Background.Top := (#Com_owner.Height - #Background.Height) / 2
+    #Background.Left := (#Com_owner.Width - #Background.Width) / 2
+    
+    #Banner.Top := #Background.Top
+    #Banner.Left := (#Com_owner.Width - #Banner.Width) / 2
+    
+    * Set globe position adjusting for the scaled banner
+    #Globe.Top := #Background.Top + (#Banner.Height * #Banner.ScaleHeight / 100)
+    #Globe.Left := (#Com_owner.Width - #Globe.Width) / 2
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #BannerInFromLeft.Left := #Background.Left - #Banner.Width
+    #BannerInFromLeft.Top := #Background.Top
+    
+    #GlobeInFromBelow.Top := #Background.Top + #Background.Height + #Globe.Height
+    #GlobeInFromBelow.Left := #Globe.left
+    
+    * Start the animation
+    * Unlike most LANSA features, this will run in its own thread, so the code will no stop here and wait, it will just continue
+    #Animation.Start
+    
+    * Main form gets created now, but not shown until the animation has finished
+    * This allows the splash screen to animate while the load continues
+    #Examples <= *New #XDXExamples
+    
+    Endroutine
+    
+    Evtroutine Handling(#Animation.Ended)
+    
+    * Hides this form and show the main form
+    #Com_owner.HideForm
+    
+    #Examples.Showform
+    
+    * Once complete, this form can die.
+    #Com_owner.Closeform
+    
+    Endroutine
+    
+    End_Com
+    

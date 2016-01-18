@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F12ATD
+  Type:               Packed
+  Length:             12
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "TIME/DATE MADE ACTIVE"
+      Label:              "F12ATD"
+      Heading1:           "TIME/DATE"
+      Heading2:           "MADE ACTIVE"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

@@ -1,0 +1,42 @@
+﻿Field:
+  Name:               LZPHACVIR
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Fax/Phone Area Code"
+      Label:              "Area Code"
+      Heading1:           "Area Code"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code Telephonique Local"
+      Label:              "Code Tel. local"
+      Heading1:           "Code"
+      Heading2:           "Telephonique Local"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the telephone access number of a city/district.}
+      
+         This is a virtual field containing part of the Warehouse fax number.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient le code indicatif de la ville/district.}
+      
+         C'est un champ virtuel contenant une partie du numero de fax
+         de l'Entrepot.
+      $$NOAUTO

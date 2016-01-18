@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XDXOrigin
+  Type:               NChar
+  Length:             40
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event Origin"
+      Label:              "Event Origin"
+      Heading1:           "Event"
+      Heading2:           "Origin"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Event Origin"
+      Label:              "Event Origin"
+      Heading1:           "Event"
+      Heading2:           "Origin"
+      Heading3:           " "

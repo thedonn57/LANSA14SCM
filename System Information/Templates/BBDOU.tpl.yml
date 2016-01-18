@@ -1,0 +1,38 @@
+﻿Template:
+  Name:                    BBDOU
+  Description:             "Build block : DOUNTIL/ENDUNTIL Construct"
+
+  Source: |
+    @@QUESTION PROMPT('Describe the condition that causes this do UNTIL loop to stop looping') ANSWER(@@CANS001) EXTEND('The information you provide here is used to create a comment in your RDML' 'program. If you do not specify an answer, no comment will be generated.' 'Use the HELP function key for more details and/or examples.') HELPIDS(HELP010)
+    @@QUESTION PROMPT('Now, specify the actual condition to be tested by this DOUNTIL command') ANSWER(@@CANS002) EXTEND('Specify the condition according to the normal rules for expression' 'formulation used by this product. Do NOT use quotes to surround the' 'expression. Use the HELP key to view examples of expressions.') HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(A10)
+    @@COMMENT  COMMENT('@@CANS001')
+    A10: @@LABEL
+    DOUNTIL    COND('@@CANS002')
+    ENDUNTIL
+
+  Help Panels:
+  - HELP010:
+      Description:        "      DOUNTIL / ENDUNTIL"
+
+      Text: |
+        <-
+                                                                                        
+         This application template constructs an simple DOUNTIL / ENDUNTIL contruct into
+         your RDML program. If you use it you will be asked 2 questions .....           
+                                                                                        
+         1. To specify a comment about what the DOUNTIL command tests for. Your reply   
+            should be brief and concise. (eg: "Do until no errors exist in data").      
+                                                                                        
+         2. To specify the actual condition that is to be tested by the DOUNTIL command.
+            Construct your condition according to the rules defined in the Technical    
+            Guide. Do NOT surround the condition with quotes. Some examples are :       
+                                                                                        
+            #ERRORS = 0 -----------> no errors exist in input data                      
+                                                                                        
+            #CUSTYPE = A --> customer type is an A                                      
+                                                                                        
+            (#CUSTYPE = A) *AND (#AMOUNT *GT #CRDLMT) --> customer type is an A and     
+                                           amount spent is greater than credit limit    
+                                                                                        
+            ((#A * #B) - #C) *GT 24.56   --> A times B minus C is greater than 24.56

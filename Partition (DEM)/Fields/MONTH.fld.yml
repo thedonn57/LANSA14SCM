@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               MONTH
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*MONTH"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Month Number"
+      Label:              "Month ........."
+      Heading1:           "Month"
+      Heading2:           "-----"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mois en cours (numérique)"
+      Label:              "Mois  . . . . ."
+      Heading1:           "Mois"
+      Heading2:           " "
+      Heading3:           " "

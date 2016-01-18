@@ -1,0 +1,46 @@
+﻿Form:
+  Name:               xDemoColorPicker
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the Color Picker"
+
+  - FRA:
+      Description:        "Using the Color Picker"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(551) Clientheight(301) Left(165) Top(204) Width(567) Style(#Style1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:255:255)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Pick) Caption('Pick a Color') Displayposition(1) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(8) Width(129)
+    
+    Evtroutine Handling(#Pick.Click)
+    
+    #Com_owner.PickColor
+    
+    Endroutine
+    
+    Mthroutine Name(PickColor)
+    
+    Define_Com Class(#Prim_appl.ICommonDialogColor) Name(#ColorDialog) Reference(*Dynamic)
+    
+    #ColorDialog <= #sys_appln.CreateColorDialog
+    
+    If (#ColorDialog.Show)
+    
+    #Brush1.Color := #ColorDialog.ChosenColor
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com
+    

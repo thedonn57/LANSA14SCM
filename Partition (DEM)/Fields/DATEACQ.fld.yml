@@ -1,0 +1,71 @@
+﻿Field:
+  Name:               DATEACQ
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    CALENDR
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Date Skill Acquired (DDMMYY)"
+      Label:              "Acquire date..."
+      Heading1:           "    Date Skl"
+      Heading2:           "    Acquired"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date de formation, JJMMAA"
+      Label:              "Date formation"
+      Heading1:           "Date"
+      Heading2:           "Formation"
+      Heading3:           " "
+
+  Validation Rules:
+  - Date Check:
+      Description:        "Must be a valid date"
+      Date Format:        DDMMYY
+      Days After:         9999999
+      Days Before:        9999999
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0002
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Marginleft(191) Width(339)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+          This is the date on which an employee is officially recognised as
+          having acquired a particular skill. It is in format DDMMYY, but
+          another field normally accompanies this field that shows the same
+          information in the format YYMMDD.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Il s'agit de la date à laquelle on reconnait officiellement qu'un
+          employé a acquis une formation donnée, dans le format JJMMAA.
+          Il existe également une autre zone pour cette même date, dans le
+          format AAMMJJ.

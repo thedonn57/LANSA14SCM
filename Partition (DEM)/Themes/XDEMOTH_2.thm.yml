@@ -1,0 +1,220 @@
+﻿Theme:
+  Name:               xDemoTheme
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Demonstration Theme"
+
+  - FRA:
+      Description:        "Demonstration Theme"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_THM) Basetheme(2015Blue) Themetextcolor(33:18:46)
+    
+    * C O N T R O L   D R A W S T Y L E S
+    
+    * MenuBar
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#MenuBar) Style(#MenuBarStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#MenuBarStyle) Backgroundbrush(#MenubarBackgroundBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#MenubarBackgroundBrush) Color(Theme300)
+    
+    
+    * Menu Item
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#MenuItem) Mouseoverstyle(#MenuItemMouseOver)
+    Define_Com Class(#PRIM_VS.Style) Name(#MenuItemMouseOver) Backgroundbrush(#MenuItemMouseBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#MenuItemMouseBackground) Color(Theme200)
+    
+    
+    * Popup
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Popup) Style(#PopupStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#PopupStyle) Backgroundbrush(#PopupBackground) Borderbottom(1) Borderright(1) Borderleft(1) Bordertop(1) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0) Borderbrush(#PopupBorder) Effect(#PopupDropShadow)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PopupBorder) Color(ThemeBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PopupBackground) Color(White)
+    Define_Com Class(#PRIM_VS.DropShadow) Name(#PopupDropShadow)
+    
+    * PopupMenu
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#PopupMenu) Style(#PopupMenuStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#PopupMenuStyle) Backgroundbrush(#PopupMenuBackground) Borderbottom(1) Borderright(1) Borderleft(1) Bordertop(1) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0) Borderbrush(#PopupMenuBorder) Effect(#PopupMenuDropShadow)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PopupMenuBorder) Color(ThemeBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PopupMenuBackground) Color(White)
+    Define_Com Class(#PRIM_VS.DropShadow) Name(#PopupMenuDropShadow)
+    
+    * DropDown
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#DropDown) Style(#DropDownStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#DropDownStyle) Backgroundbrush(#DropDownBackground) Borderbottom(1) Borderright(1) Borderleft(1) Bordertop(1) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0) Borderbrush(#DropDownBorder) Effect(#DropDownDropShadow)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#DropDownBorder) Color(ThemeBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#DropDownBackground) Color(White)
+    Define_Com Class(#PRIM_VS.DropShadow) Name(#DropDownDropShadow)
+    
+    * Edit
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Edit)
+    
+    * List
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#List)
+    
+    
+    * ListColumn
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ListColumn) Style(#ListColumnStyle) Mouseoverstyle(#ListColumnMouseOver) Pressedstyle(#ListColumnPressed)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListColumnStyle) Backgroundbrush(#ListColumnBackground) Borderbottom(1) Borderright(1) Borderbrush(#ListColumnBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListColumnBorder) Color(ThemeBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListColumnBackground) Color(Theme100)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListColumnMouseOver) Backgroundbrush(#ListColumnMouseOverBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListColumnMouseOverBrush) Color(Theme200)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListColumnPressed) Backgroundbrush(#ListColumnPressedBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListColumnPressedBrush) Color(Theme300)
+    
+    
+    * List Item
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ListItem) Focusedinactivestyle(#ListItemFocusedInactiveStyle) Selectedinactivestyle(#ListItemSelectedInactiveStyle) Focusedstyle(#ListItemFocusStyle) Mouseoverstyle(#ListItemMouseOverStyle) Selectedstyle(#ListItemSelectedStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListItemFocusedInactiveStyle) Borderbrush(#ListItemFocusedInactiveBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemFocusedInactiveBorder) Color(ThemeInactive)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListItemSelectedInactiveStyle) Backgroundbrush(#ListItemSelectedInactiveBackground) Borderbrush(#ListItemSelectedInactiveBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemSelectedInactiveBorder) Color(ThemeInactive)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemSelectedInactiveBackground) Color(ThemeInactive)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListItemFocusStyle) Backgroundbrush(#ListItemFocusBackground) Borderbrush(#ListItemFocusBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemFocusBorder) Color(Theme100)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemFocusBackground) Color(Theme100)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListItemSelectedStyle) Backgroundbrush(#ListItemSelectedBackground) Borderbrush(#ListItemSelectedBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemSelectedBorder) Color(Theme200)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemSelectedBackground) Color(Theme200)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ListItemMouseOverStyle) Backgroundbrush(#ListItemMouseOverBackground) Borderbrush(#ListItemMouseOverBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemMouseOverBorder) Color(Theme100)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ListItemMouseOverBackground) Color(Theme100)
+    
+    
+    * Push Button
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#PushButton) Mouseoverstyle(#PushButtonMouseover) Pressedstyle(#PushButtonPressed) Style(#PushButtonStyle) Focusedstyle(#PushButtonFocused)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#PushButtonStyle) Backgroundbrush(#PushButtonBackground) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1) Borderbrush(#PushButtonBorder) Cornerbottomleft(0) Cornerbottomright(0) Cornertopleft(0) Cornertopright(0)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonBackground) Color(234:234:234)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonBorder) Color(Silver)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#PushButtonMouseover) Backgroundbrush(#PushButtonMouseoverBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonMouseoverBackground) Color(Theme200)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#PushButtonFocused) Backgroundbrush(#PushButtonFocusBackground) Borderbrush(#PushButtonFocusBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonFocusBackground) Color(Theme200)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonFocusBorder) Color(Theme300)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#PushButtonPressed) Backgroundbrush(#PushButtonPressedBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PushButtonPressedBackground) Color(Theme300)
+    
+    
+    * ToolbarButton
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ToolbarButton) Mouseoverstyle(#ToolbarButtonMouseover) Focusedstyle(#ToolbarButtonFocused) Pressedstyle(#ToolbarButtonPressed)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ToolbarButtonMouseover) Backgroundbrush(#ToolbarButtonMouseoverBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ToolbarButtonMouseoverBackground) Color(Theme200)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ToolbarButtonFocused) Backgroundbrush(#ToolbarButtonFocusBackground) Borderbrush(#ToolbarButtonFocusBorder)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ToolbarButtonFocusBackground) Color(Theme200)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ToolbarButtonFocusBorder) Color(Theme300)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#ToolbarButtonPressed) Backgroundbrush(#ToolbarButtonPressedBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#ToolbarButtonPressedBackground) Color(Theme300)
+    
+    
+    
+    * D R A W   S T Y L E S
+    * Title
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Title) Style(#TitleStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#TitleStyle) Foregroundbrush(#TitleStyleForeground) Fontsize(250) Fontunits(Percent)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#TitleStyleForeground) Color(Theme900)
+    
+    
+    * Heading1
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading1) Style(#Heading1Style)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading1Style) Foregroundbrush(#Heading1Foreground) Fontsize(160) Fontunits(Percent)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Heading1Foreground) Color(Theme900)
+    
+    
+    * Heading2
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading2) Style(#Heading2Style)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading2Style) Foregroundbrush(#Heading2Foreground) Fontsize(140) Fontunits(Percent)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Heading2Foreground) Color(Theme900)
+    
+    
+    * Heading3
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading3) Style(#Heading3Style)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading3Style) Fontsize(120) Fontunits(Percent) Foregroundbrush(#Heading3Foreground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Heading3Foreground) Color(Theme900)
+    
+    
+    * Strong
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Strong) Style(#StrongStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StrongStyle) Bold(True)
+    
+    
+    * Emphasis
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Emphasis) Style(#EmphasisStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#EmphasisStyle) Italic(True)
+    
+    
+    * Light Title
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#LightTitle) Style(#LightTitleStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#LightTitleStyle) Backgroundbrush(#LightTitleBackground) Foregroundbrush(#LightTitleForeground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#LightTitleBackground) Color(Theme300)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#LightTitleForeground) Color(Theme700)
+    
+    
+    * Medium Title
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#MediumTitle) Style(#MediumTitleStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#MediumTitleStyle) Foregroundbrush(#MediumTitleForeground) Backgroundbrush(#MediumTitleBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#MediumTitleBackground) Color(Theme500)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#MediumTitleForeground) Color(White)
+    
+    
+    * Dark Title
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#DarkTitle) Style(#DarkTitleStyle)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#DarkTitleStyle) Backgroundbrush(#DarkTitleBackground) Foregroundbrush(#DarkTitleForeground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#DarkTitleForeground) Color(White)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#DarkTitleBackground) Color(Theme700)
+    
+    
+    * Fixed Font
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#FixedFont) Style(#FixedFontForeground)
+    Define_Com Class(#PRIM_VS.Style) Name(#FixedFontForeground) Facename('Courier New')
+    
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Good) Style(#GoodStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#GoodStyle) Backgroundbrush(#GoodBackground) Foregroundbrush(#GoodForeground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#GoodForeground) Color(White)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#GoodBackground) Color(0:128:0)
+    
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Average) Style(#AverageStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#AverageStyle) Backgroundbrush(#AverageBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#AverageBackground) Color(255:255:0)
+    
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Poor) Style(#PoorStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#PoorStyle) Backgroundbrush(#PoorBackground)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#PoorBackground) Color(255:0:0)
+    
+    
+    
+    
+    
+    
+    
+    End_Com

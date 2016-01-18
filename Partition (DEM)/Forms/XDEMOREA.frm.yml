@@ -1,0 +1,61 @@
+﻿Form:
+  Name:               xDemoReadOnlyDisabledInputFields
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Read Only, Disabled and Input Fields"
+
+  - FRA:
+      Description:        "Read Only, Disabled and Input Fields"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Read Only, Disabled and Input Fields') Clientheight(183) Clientwidth(478) Height(222) Left(443) Top(198) Width(494)
+    
+    * Example of conditioning controls behaviour
+    
+    Define_Com Class(#EMPNO.Visual) Name(#Empno) Displayposition(1) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(8) Width(209) Usepicklist(False)
+    Define_Com Class(#DEPTMENT.Visual) Name(#Deptment) Displayposition(2) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(2) Top(36) Width(201)
+    Define_Com Class(#SECTION.Visual) Name(#Section) Displayposition(3) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(3) Top(64) Width(185)
+    Define_Com Class(#ADDRESS1.Visual) Name(#Address1) Displayposition(4) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(4) Top(92) Usepicklist(False) Width(363)
+    Define_Com Class(#ADDRESS2.Visual) Name(#Address2) Displayposition(5) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(5) Top(120) Usepicklist(False) Width(363)
+    Define_Com Class(#ADDRESS3.Visual) Name(#Address3) Displayposition(6) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(6) Top(151) Usepicklist(False) Width(363)
+    Define_Com Class(#PRIM_PHBN) Name(#Read) Caption('Read Only') Displayposition(7) Left(392) Parent(#COM_OWNER) Tabposition(7) Top(8)
+    Define_Com Class(#PRIM_PHBN) Name(#Disable) Caption('Disabled') Displayposition(8) Left(392) Parent(#COM_OWNER) Tabposition(8) Top(40)
+    Define_Com Class(#PRIM_PHBN) Name(#Input) Caption('Input') Displayposition(9) Left(392) Parent(#COM_OWNER) Tabposition(9) Top(72)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    * REad the first record from the file to get sample data
+    Fetch Fields(*All) From_File(Pslmst)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Read.Click)
+    
+    Set Com(#Empno #Deptment #Section) Readonly(True) Enabled(True) Tabstop(false)
+    #Address1.SetFocus
+    
+    Endroutine
+    
+    Evtroutine Handling(#Disable.Click)
+    
+    Set Com(#Empno #Deptment #Section) Readonly(True) Enabled(False)
+    #Address1.SetFocus
+    
+    Endroutine
+    
+    Evtroutine Handling(#Input.Click)
+    
+    Set Com(#Empno #Deptment #Section) Readonly(False) Enabled(True) Tabstop(true)
+    #Empno.SetFocus
+    
+    Endroutine
+    
+    End_Com
+    

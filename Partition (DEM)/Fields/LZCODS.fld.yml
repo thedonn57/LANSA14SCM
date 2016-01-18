@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               LZCODS
+  Type:               Alphanumeric
+  Length:             15
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_DESCS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country Description"
+      Label:              "Country"
+      Heading1:           "Country"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description Du Pays"
+      Label:              "Du Pays"
+      Heading1:           "Description"
+      Heading2:           "Du Pays"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      %This field should contain the text to describe a country.}
+      %Usualy the Country Name will be used for this description.}
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+      
+      %La Description du Pays decrit le Pays. Habituellememt le nom du Pays
+      %est utilise pour sa description.}
+      
+      $$NOAUTO

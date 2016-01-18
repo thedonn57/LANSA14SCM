@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W11IMG
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Image Identifier"
+      Label:              "W11IMG"
+      Heading1:           "Image"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Image Identifier"
+      Label:              "W11IMG"
+      Heading1:           "Image"
+      Heading2:           "Identifier"
+      Heading3:           " "

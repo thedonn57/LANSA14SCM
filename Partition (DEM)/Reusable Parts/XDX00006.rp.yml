@@ -1,0 +1,52 @@
+﻿Reusable Part:
+  Name:               XDXTile
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tile Control"
+
+  - FRA:
+      Description:        "Mosaïque"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(265) Layoutmanager(#Layout) Width(454)
+    
+    * User Designed Control - Tile
+    * Individual tiles are made by adding entries as per typical LANSA list processing
+    * Fields in the list are defined by the *ListFields parameter of the Design being made
+    
+    Define_Com Class(#prim_Tile<#XDXTileDesign>) Name(#Tile) Designcreation(Immediate) Displayposition(1) Height(265) Left(6) Parent(#COM_OWNER) Showpartialitem(True) Spacing(6) Spacingitems(6) Tabposition(1) Top(0) Width(448)
+    
+    Define_Com Class(#prim_atlm) Name(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Center) Manage(#Tile) Marginleft(6) Parent(#Layout)
+    
+    Group_By Name(#Fields) Fields(#Empno #Surname #Givename #Deptment #Section #Deptdesc #Secdesc)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Load
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    Select Fields(#Fields) From_File(Pslmst)
+    
+    Fetch Fields(#Fields) From_File(deptab) With_Key(#Deptment)
+    Fetch Fields(#Fields) From_File(sectab) With_Key(#Deptment #Section)
+    
+    Add_Entry To_List(#Tile)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    

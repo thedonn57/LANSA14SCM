@@ -1,0 +1,457 @@
+﻿Template:
+  Name:                    FRMNT02
+  Description:             Browse / Enquire / Maintain Style
+  Extended Description 1:  Maintains one file but can display from
+  Extended Description 2:  other files. Uses page at a time logic
+  Extended Description 3:  and CHECK_AUTHORITY
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** START OF TEMPLATE CODE                                  */
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE "OBJECT"                                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes what "object" this program will work with') ANSWER(@@CANS001) EXTEND('123456789012345' 'The word you specify here is used to build messages that appear on the' 'screen panels. You should use ONE word only, use upper and lower case' 'characters, and only use singular form (eg: "Customer", "Employee",' '"Order"). Do NOT use more than 15 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** GET FILES TO WORK WITH                                  */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the base file to be used by this application.') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' 'After choosing the base file, choose ALL OTHER RELATED FILES that' 'will be used in the DETAILED DISPLAY routine. Use the HELP key for more' 'details of this template and the type of applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 51  */
+    /* ********** LOAD FIELDS FROM OTHER THAN BASE FILE INTO LIST 57      */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(51)
+    @@CLR_LST  NUMBER(57)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    D10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(D12)
+    @@CLR_LST  NUMBER(52)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(52)
+    @@MRG_LSTS FROM_LSTS((52)) INTO_LST(51)
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(1) IF_EQ(D11)
+    @@MRG_LSTS FROM_LSTS((52)) INTO_LST(57)
+    D11: @@LABEL
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(D10)
+    D12: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** PUT ALL FIELDS FOR BROWSE INTO LIST 52                  */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(52)
+    @@MAK_LSTS FROM_LSTS(51) INTO_LSTS((52 'Fields for' 'Browse' 'Panel')) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE KEYS FOR ALL FILES USED INTO LISTS             */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    @@SET_IDX  IDX_NAME(FK) TO(1)
+    D20: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(D22)
+    @@CLR_LST  NUMBER(FK)
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(1) IF_GT(D2A)
+    @@RTV_KEYS OF_FILE(CF) INTO_LST(FK)
+    @@GOTO     LABEL(D2B)
+    D2A: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE KEYS FROM ACCESS ROUTE KEY FIELDS              */
+    /* ********** ======================================================= */
+    @@RTV_RELN OF_FILE(CF) INTO_LST(FK)
+    D2B: @@LABEL
+    @@INC_IDX  IDX_NAME(CF)
+    @@INC_IDX  IDX_NAME(FK)
+    @@GOTO     LABEL(D20)
+    D22: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE KEYS FOR ALL FILES USED INTO LISTS             */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    @@SET_IDX  IDX_NAME(FK) TO(1)
+    @@CLR_LST  NUMBER(56)
+    @@MRG_LSTS FROM_LSTS((52)) INTO_LST(56)
+    D30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(D32)
+    @@MRG_LSTS FROM_LSTS((FK *HIDDEN)) INTO_LST(52)
+    @@INC_IDX  IDX_NAME(CF)
+    @@INC_IDX  IDX_NAME(FK)
+    @@GOTO     LABEL(D30)
+    D32: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** SET UP FIELDS TO BE ADDED AND UPDATED                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(53)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(53)
+    @@MAK_LSTS FROM_LSTS(53) INTO_LSTS((54 'Fields' 'to be' 'added')) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@CLR_LST  NUMBER(55)
+    @@CLR_LST  NUMBER(56)
+    @@MAK_LSTS FROM_LSTS(51) INTO_LSTS((55 'Fields' 'to be' 'updated') (56 '  Other' 'fields to' ' display')) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@CLR_LST  NUMBER(58)
+    @@CLR_LST  NUMBER(59)
+    @@MRG_LSTS FROM_LSTS((55) (56 *OUT)) INTO_LST(58)
+    @@MRG_LSTS FROM_LSTS((58) (1 *OUT)) INTO_LST(59)
+    /* ********** ======================================================= */
+    /* ********** THE LISTS THAT HAVE BEEN SET UP CONTAIN THE FOLLOWING:  */
+    /* **********                                                         */
+    /* ********** LIST #  CONTENTS                                        */
+    /* ********** ------  --------                                        */
+    /* ********** 1 - 50  KEY VALUES FOR ALL FILES USED (UP TO 50 FILES)  */
+    /* ********** 51      ALL FIELDS FROM ALL FILES USED                  */
+    /* ********** 52      FIELDS TO APPEAR ON BROWSE                      */
+    /* ********** 53      ALL FIELDS FROM THE BASE FILE                   */
+    /* ********** 54      FIELDS TO BE ADDED TO THE BASE FILE             */
+    /* ********** 55      FIELDS TO BE UPDATED IN THE BASE FILE           */
+    /* ********** 56      FIELDS FROM OTHER THAN BASE FILE TO DISPLAY     */
+    /* ********** 57      ALL FIELDS FROM ALL OTHER FILES                 */
+    /* ********** 58      FIELDS TO DISPLAY ON UPDATE SCREEN (LESS KEYS)  */
+    /* ********** 59      ALL FIELDS TO DISPLAY ON UPDATE SCREEN          */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    /* ********** END OF TEMPLATE CODE                                    */
+    /* ********** ======================================================= */
+    /* ********** START TO GENERATE THE RDML PROGRAM                      */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Options, work variables, conditions and browselists')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    DEFINE     FIELD(#ALLOWADD) TYPE(*CHAR) LENGTH(1)
+    DEFINE     FIELD(#ALLOWCHG) REFFLD(#ALLOWADD)
+    DEFINE     FIELD(#ALLOWDLT) REFFLD(#ALLOWADD)
+    DEF_COND   NAME(*ALLOWADD) COND('#ALLOWADD *EQ Y')
+    DEF_COND   NAME(*ALLOWCHG) COND('#ALLOWCHG *EQ Y')
+    DEF_COND   NAME(*ALLOWDLT) COND('#ALLOWDLT *EQ Y')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('PROGRAM MAINLINE')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Determine if the user can maintain the file')
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD AD) TO_GET(#ALLOWADD)
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD CH) TO_GET(#ALLOWCHG)
+    USE        BUILTIN(CHECK_AUTHORITY) WITH_ARGS(@@FBASP01 '''*LIBL''' FD DL) TO_GET(#ALLOWDLT)
+    EXECUTE    SUBROUTINE(OBJ_BROWSE)
+    @@COMMENT  COMMENT('Perform the loop that handles the command keys used')
+    DOWHILE    COND('#IO$KEY *NE ''12''')
+    CASE       OF_FIELD(#IO$KEY)
+    @@COMMENT  COMMENT('When the ADD key is used')
+    WHEN       VALUE_IS('= ''06''')
+    EXECUTE    SUBROUTINE(ADD$DATA)
+    @@COMMENT  COMMENT('When maintenance is required')
+    WHEN       VALUE_IS('= RA')
+    IF         COND('#LISTENTRY *GT *ZERO')
+    EXECUTE    SUBROUTINE(WORK$DATA)
+    ENDIF
+    ENDCASE
+    @@COMMENT  COMMENT('Select and display a list of records')
+    EXECUTE    SUBROUTINE(OBJ_BROWSE)
+    ENDWHILE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_BROWSE')
+    @@COMMENT  COMMENT('Description ...: Browse from @@FBASP01 (page at a time)')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_BROWSE)
+    @@COMMENT  COMMENT('Work fields and lists used in this subroutine')
+    DEF_LIST   NAME(#OBJLIST) FIELDS(@@LST52 (#PRIFILRRN *HIDDEN))   COUNTER(#LISTCOUNT) PAGE_SIZE(#LISTPAGE) TOP_ENTRY(#LISTTOP) SEL_ENTRY(#LISTENTRY) SCROLL_TXT(#LISTPOS)
+    DEF_LIST   NAME(#LASTREQ) FIELDS(@@LST01) TYPE(*WORKING) ENTRYS(1)
+    GROUP_BY   NAME(#CLRLIST) FIELDS(@@LST58)
+    @@COMMENT  COMMENT('Repeat until records found and selection made')
+    DOUNTIL    COND('((#LISTENTRY *GT 0) *AND (#IO$KEY *EQ RA)) *OR ((#IO$KEY *EQ ''06'') *OR (#IO$KEY *EQ ''12''))')
+    IF         COND('#LISTCOUNT *GT 0')
+    CHANGE     FIELD(#LISTTOP) TO('#LISTTOP - #LISTPAGE')
+    GET_ENTRY  NUMBER(#LISTTOP) FROM_LIST(#OBJLIST)
+    CLR_LIST   NAMED(#LASTREQ)
+    ADD_ENTRY  TO_LIST(#LASTREQ)
+    CHANGE     FIELD(#CLRLIST) TO(*DEFAULT)
+    GET_ENTRY  NUMBER(1) FROM_LIST(#LASTREQ)
+    ENDIF
+    CLR_LIST   NAMED(#OBJLIST)
+    CHANGE     FIELD(#CLRLIST) TO(*NAVAIL)
+    CHANGE     FIELD(@@LST01) TO(*NULL)
+    @@COMMENT  COMMENT('Display list of selected records a page at a time')
+    CHANGE     FIELD(#IO$KEY) TO(UP)
+    SELECT     FIELDS((#OBJLIST)) FROM_FILE(@@FNAME01) WHERE('#IO$KEY *EQ UP') WITH_KEY(@@LST01) NBR_KEYS(*COMPUTE) RETURN_RRN(#PRIFILRRN) OPTIONS(*ENDWHERE *STARTKEY)
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    @@SET_IDX  IDX_NAME(FK) TO(2)
+    D40: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(D42)
+    FETCH      FIELDS((#OBJLIST)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LSTFK) KEEP_LAST(1)
+    @@INC_IDX  IDX_NAME(CF)
+    @@INC_IDX  IDX_NAME(FK)
+    @@GOTO     LABEL(D40)
+    D42: @@LABEL
+    EXECUTE    SUBROUTINE(OBJDISP) WITH_PARMS('''More...''')
+    IF         COND('#IO$KEY *EQ ''12''')
+    RETURN
+    ENDIF
+    ADD_ENTRY  TO_LIST(#OBJLIST) WITH_MODE(*DISPLAY)
+    CHANGE     FIELD(#CLRLIST) TO(*NAVAIL)
+    ENDSELECT
+    @@COMMENT  COMMENT('When there are no more records to be read . . . .')
+    IF         '(#IO$KEY = UP)'
+    IF         '(#LISTCOUNT *EQ 0)'
+    EXECUTE    SUBROUTINE(SHOWLIST)
+    ELSE
+    EXECUTE    SUBROUTINE(OBJDISP) WITH_PARMS('''Bottom''')
+    ENDIF
+    ENDIF
+    ENDUNTIL
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJDISP')
+    @@COMMENT  COMMENT('Description ...: Browse from @@FBASP01 (page at a time)')
+    @@COMMENT  COMMENT('Parameters ...: Name      Typ Len  Description')
+    @@COMMENT  COMMENT('                ----      --- ---  -----------')
+    @@COMMENT  COMMENT('                #LISTPOS   A    7  Browse position')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJDISP) PARMS((#LISTPOS))
+    @@COMMENT  COMMENT('Display if at bottom of list or on a page boundary')
+    CHANGE     FIELD(#LISTREMN) TO('#LISTCOUNT / #LISTPAGE')
+    IF         COND('(#IO$KEY *EQ UP) *AND ((#LISTPOS *EQ ''Bottom'') *OR ((#LISTREMN *EQ 0) *AND (#LISTCOUNT *GT 0)))')
+    EXECUTE    SUBROUTINE(SHOWLIST)
+    DOWHILE    COND('((#IO$KEY *EQ RA) *AND (#LISTENTRY *EQ 0)) *OR ((#LISTPOS *EQ ''Bottom'') *AND (#IO$KEY *EQ UP))')
+    EXECUTE    SUBROUTINE(SHOWLIST)
+    ENDWHILE
+    @@COMMENT  COMMENT('Set up the top of the next page')
+    CHANGE     FIELD(#LISTTOP) TO('#LISTTOP + #LISTPAGE')
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: ADD$DATA')
+    @@COMMENT  COMMENT('Description ...: Add new data to @@FBASP01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(ADD$DATA)
+    @@COMMENT  COMMENT('Groups used in this subroutine')
+    GROUP_BY   NAME(#ADD$DATA) FIELDS(@@LST54)
+    @@COMMENT  COMMENT('Issue initial data entry display, prepare display')
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    CHANGE     FIELD(#ADD$DATA) TO(*DEFAULT)
+    SET_MODE   TO(*ADD)
+    @@COMMENT  COMMENT('Display the screen to ADD records')
+    POP_UP     FIELDS((#ADD$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(7 14) PANEL_TITL('Create New @@CANS001') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CURSOR_LOC(*ATFIELD #@@LEL5301)
+    INSERT     FIELDS(#ADD$DATA) TO_FILE(@@FBASP01)
+    CHANGE     FIELD(#ADD$DATA) TO(*DEFAULT)
+    MESSAGE    MSGTXT('@@CANS001 successfully added')
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: WORK$DATA')
+    @@COMMENT  COMMENT('Description ...: Work with detailed data from @@FBASP01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(WORK$DATA)
+    @@COMMENT  COMMENT('Groups and work fields used in this subroutine')
+    GROUP_BY   NAME(#WORK$DATA) FIELDS(@@LST59)
+    @@COMMENT  COMMENT('Fetch full record details from file @@FNAME01')
+    CHANGE     FIELD(#WORK$DATA) TO(*NAVAIL)
+    GET_ENTRY  NUMBER(#LISTENTRY) FROM_LIST(#OBJLIST)
+    FETCH      FIELDS((#WORK$DATA)) FROM_FILE(@@FBASP01) WITH_RRN(#PRIFILRRN)
+    IF_STATUS  IS_NOT(*OKAY)
+    MESSAGE    MSGID(DCU0016) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    RETURN
+    ENDIF
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    @@SET_IDX  IDX_NAME(FK) TO(2)
+    D50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(D52)
+    FETCH      FIELDS((#WORK$DATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LSTFK) KEEP_LAST(1)
+    @@INC_IDX  IDX_NAME(CF)
+    @@INC_IDX  IDX_NAME(FK)
+    @@GOTO     LABEL(D50)
+    D52: @@LABEL
+    SET_MODE   TO(*DISPLAY)
+    @@COMMENT  COMMENT('Display full record details')
+    POP_UP     FIELDS((#WORK$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(8 14) PANEL_TITL('Maintain @@CANS001s') EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CHANGE_KEY(*YES *NEXT *ALLOWCHG) DELETE_KEY(*YES *NEXT *ALLOWDLT) CURSOR_LOC(*ATFIELD #@@LEL5401)
+    IF_MODE    IS(*CHANGE)
+    UPDATE     FIELDS(#WORK$DATA) IN_FILE(@@FBASP01)
+    ENDIF
+    IF_MODE    IS(*DELETE)
+    DELETE     FROM_FILE(@@FBASP01)
+    ENDIF
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: SHOWLIST')
+    @@COMMENT  COMMENT('Description ...: Display the browselist')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(SHOWLIST)
+    IF         '(#LISTCOUNT = 0)'
+    MESSAGE    MSGTXT('No records found in file @@FNAME01. Use F6 to ADD.')
+    ELSE
+    MESSAGE    MSGTXT('Select section to review/change/delete or ADD key to add a new @@CANS001')
+    ENDIF
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    REQUEST    BROWSELIST(#OBJLIST) ADD_KEY(*YES *NEXT *ALLOWADD) USER_KEYS((*ROLLUP)) PANEL_TITL('Choose @@CANS001s')
+    @@GOTO     LABEL(L92)
+    L91: @@LABEL
+    REQUEST    BROWSELIST(#OBJLIST) ADD_KEY(*YES *NEXT *ALLOWADD) USER_KEYS((*ROLLUP)) PANEL_TITL('Choose @@CANS001s') CURSOR_LOC(*ATFIELD #@@LEL5201)
+    L92: @@LABEL
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** END OF RDML CODE                                        */
+    /* ********** ======================================================= */
+    /* ********** CLEAR OUT ALL THE LISTS USED                            */
+    @@SET_IDX  IDX_NAME(FK) TO(1)
+    D60: @@LABEL
+    @@CMP_IDX  IDX_NAME(FK) IDX_VALUE(@@TFMX) IF_GT(D62)
+    @@CLR_LST  NUMBER(FK)
+    @@INC_IDX  IDX_NAME(FK)
+    @@GOTO     LABEL(D60)
+    D62: @@LABEL
+    @@CLR_LST  NUMBER(51)
+    @@CLR_LST  NUMBER(52)
+    @@CLR_LST  NUMBER(53)
+    @@CLR_LST  NUMBER(54)
+    @@CLR_LST  NUMBER(55)
+    @@CLR_LST  NUMBER(56)
+    @@CLR_LST  NUMBER(57)
+    @@CLR_LST  NUMBER(58)
+    @@CLR_LST  NUMBER(59)
+
+  Help Panels:
+  - HELP010:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a maintenance function on one file and     
+         display data from other files. Typically this template would be used to        
+         maintain code files or tables or files with less than 100 records. The         
+         browselist of records will be displayed immediately, no search value is        
+         requested. The browselist can contain information from other files. The user   
+         then has the option to add a record or select a record from the browselist to  
+         display, change or delete. These functions will be performed via pop-up        
+         windows. The browselist will be displayed a page at a time. The add, change and
+         delete functions are conditioned by CHECK_AUTHORITY so their related command   
+         keys will not appear if the user is not authorised to maintain the file. The   
+         questions that will be presented to the user of this template are as follows:  
+                                                                                        
+         1. To specify a word that describes the object to be worked with. The word     
+            supplied will be displayed in the panel title of the pop up windows and     
+            substituted into messages. Use both upper and lower case characters,        
+            restrict the word to no more than 15 characters and use only the singular   
+            version of the object (eg. Employee, Customer).
+
+  - HELP020:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+         2. Specify the name of the file to be worked with. The file can either be a    
+            physical or logical file. The name of the file can be specified in full,    
+            partially (to cause a partial list of files to be displayed) or left blank  
+            (to cause a full list of files to be displayed). When the list is displayed 
+            the user will be able to select the file they require from the list.        
+                                                                                        
+            After choosing the base file, choose any related files from which additional
+            data will be displayed (ie. details that are to be displayed on the         
+            browselist or in the update window).                                        
+                                                                                        
+         3. Next, you must choose the fields that are to be displayed in the browselist.
+            Remember that a good looking window (ie: one without line wrap around) has  
+            a finite width. So only select fields that the user really needs to see in  
+            the list. Do not fill the list up with extraneous information.
+
+  - HELP030:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+        4. Next, you must choose the fields that are to be displayed for add. Only the  
+           fields from the base file will be displayed. These are the fields to be      
+           displayed in the pop-up window for add.                                      
+                                                                                        
+        5. Next you should select the fields to be updated. Two columns will be         
+           presented, from the first column choose the fields that you actually want to 
+           update. From the second column chose any extra fields that you want to be    
+           displayed in the same panel. The fields that you choose from the second      
+           column will be displayed protected. If you do not choose the key fields they 
+           will be added to the change group with the display attribute *OUT.           
+                                                                                        
+           The panel that is presented to the user for delete will contain the same     
+           fields as the update panel but all fields will be protected.
+
+  - HELP040:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+         Employee Employee                 Home                                         
+         Number                            Phone    State              Classification   
+         A0001    Black, Jan               957-3188 New South Wales    Clerk Grade 1    
+         A0063    Bloggs, Joseph           613-1234 New South Wales    Inspector        
+         A0101    Bloggs, William          654-1234 Victoria           Assistant        
+         A5447    Bloggsy, Marsha          854-7894 Victoria           Clerk Grade 1    
+         A3345    Bliss, Roger             548-7412 South Australia    Manager          
+         A0009    Bond, James              957-0007 Tasmania           Coordinator      
+         A2255    Brown, Will                                                Grade 4    
+         A1555    Brown, Sall  This is an example of the browselist that    t           
+         A6582    Byron, Jill  is displayed after records were selected     ephonist    
+         A4700    Campbell, P  from a Personnel File. The Employee number,  t           
+         A3698    Carmichael,  name and home phone are from the base file   tary        
+         A1201    Carpenter,   and the other details are taken from          Grade 1    
+         A5452    Clarke, Dav  related files. The user selects an entry     er          
+         A1585    Cooper, Hen  for display or maintenance by moving the     ammer       
+         A0032    Darcy, Mich  cursor to it and pressing enter, or adds a    Grade 4    
+         A1474    Davies, Gar  record by using function key 6.               Grade 1    
+         A5600    Davis, Cher                                               t         +
+
+  - HELP050:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                            ................................................            
+                            :             Create New Employee              :            
+                            :                                              :            
+                            : Employee Number . . .                        :            
+                            : Employee Name . . . .                        :            
+                            : Address 1 . . . . . .                        :            
+         This is an example of an   s 2 . . . . . .                        :            
+         ADD screen for an          Code  . . . . .                        :            
+         Personnel file. After a    ng Date . . . .                        :            
+         record is successfully     ate Date  . . .                        :            
+         added the user is passed                                          :            
+         back to the list.                                                 :            
+                            :                                              :            
+                            : F1=Help  F14=Msgs  F15=Exit                  :            
+                            :..............................................:
+
+  - HELP060:
+      Description:        Flat Screen Maint (multi file)
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                            ................................................            
+                            : MNT0203     Maintain Employee                :            
+                            :                                              :            
+                            : Employee Number . . . A0001                  :            
+                            : Employee Name . . . . Black, Janice          :            
+                                  ess 1 . . . . . . 122 Arthur Street      :            
+         This is an example of a  ess 2 . . . . . . North Sydney           :            
+         MAINTAIN screen of a     e Code  . . . . . NSW                    :            
+         Personnel file. After a  ting Date . . . . 15/02/90               :            
+         record is successfully   inate Date. . . .                        :            
+         changed or deleted the   e . . . . . . . : New South Wales        :            
+         user is passed back to                                            :            
+         the list.                                                         :            
+                                  elp  F3=Exit  F14=Msgs                   :            
+                            :..............................................:

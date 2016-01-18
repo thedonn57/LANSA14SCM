@@ -1,0 +1,63 @@
+﻿Web Page:
+  Name:               xDemoWebContextualMessages
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Contextual Messages"
+
+  - FRA:
+      Description:        "Contextual Messages"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(448) Width(721) Theme(#SYS_THEME<2015LightGreen>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Messages) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    
+    Define_Com Class(#xDemoPassword.Visual) Name(#gPassword) Displayposition(1) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(40) Width(385) Height(25) Labelselectable(False)
+    Define_Com Class(#xDemoAlpha128.Visual) Name(#gUserID) Displayposition(2) Left(8) Parent(#COM_OWNER) Tabposition(2) Top(8) Width(385) Height(25) Caption('UserID') Labeltype(Caption) Labelselectable(False)
+    Define_Com Class(#PRIM_PHBN) Name(#OK) Displayposition(4) Left(312) Parent(#COM_OWNER) Tabposition(4) Top(80) Caption('OK')
+    Define_Com Class(#xDemoWebMessagesPopup) Name(#Messages) Height(248) Parent(#COM_OWNER) Width(393) Left(164) Top(100)
+    
+    Evtroutine Handling(#OK.Click)
+    
+    #Com_owner.Validate
+    
+    Endroutine
+    
+    Mthroutine Name(Validate)
+    
+    #sys_msgq.Clearall
+    
+    If (#gUserID.uppercase <> USER)
+    
+    #sys_msgq.Add( "Username is invalid" #gUserID )
+    
+    Endif
+    
+    If (#gUserID = "")
+    
+    #sys_msgq.Add( "Password cannot be blank" #gPassword )
+    
+    Endif
+    
+    If (#gUserID.uppercase <> PASSWORD)
+    
+    #sys_msgq.Add( ("Password is invalid for user &1").Substitute( #gUserID ) #gPassword )
+    
+    Endif
+    
+    #Messages.Show
+    
+    Endroutine
+    
+    End_Com
+    
+    

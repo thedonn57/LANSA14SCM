@@ -1,0 +1,114 @@
+﻿Web Page:
+  Name:               xDemoWebUDCTree
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "UDC Tree (Prim_tree)"
+
+  - FRA:
+      Description:        "UDC Tree (Prim_tree)"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    
+    * Global scoped reference to the Data Model Object
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Tree1Item1) Column(#Column1) Manage(#Tree) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Sort) Parent(#TableLayout1) Row(#Row1) Alignment(TopRight) Sizing(None) Flow(Left) Margintop(4) Marginright(20)
+    
+    Define_Com Class(#PRIM_TREE<#xDemoWebUDCTreeBaseItem>) Name(#Tree) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Height(800) Width(1200)
+    
+    Define_Com Class(#xDemoWebDropDown) Name(#Sort) Height(25) Parent(#COM_OWNER) Tabposition(2) Width(210) Left(970) Top(4)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Sort.Add( EMPNO "Sort by employee number" )
+    #Sort.Add( GIVENAME "Sort by given name" )
+    #Sort.Add( SURNAME "Sort by surname" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    #Com_owner.AddDepartments
+    
+    #Com_owner.Sort( EMPNO )
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    For Each(#Department) In(#gData.Departments)
+    
+    #Com_owner.AddDepartment( #Department )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartment)
+    Define_Map For(*Input) Class(#xDemoWebDataDepartment) Name(#Department) Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    #Result <= #Tree.add( #xDemoWebUDCTreeDepartmentItem )
+    
+    #Result.RelatedReference <= #Department
+    
+    #Com_owner.AddEmployees( #Department #Result )
+    
+    Endroutine
+     
+    Mthroutine Name(AddEmployees)
+    Define_Map For(*Input) Class(#xDemoWebDataDepartment) Name(#Department) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    
+    For Each(#Employee) In(#Department.Employees)
+    
+    #Com_owner.AddEmployee( #Employee #ParentItem )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployee)
+    Define_Map For(*Input) Class(#xDemoWebDataEmployee) Name(#Employee) Pass(*by_reference)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_tree.TreeItem) Name(#Result) Pass(*by_reference)
+    
+    #Result <= #Tree.add( #xDemoWebUDCTreeEmployeeItem )
+    
+    #Result.RelatedReference <= #Employee
+    #Result.parentitem <= #ParentItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Sort.ItemGotFocus) Value(#Value)
+    
+    #Com_owner.Sort( #Value.AsNativeString )
+    
+    Endroutine
+    
+    Mthroutine Name(Sort)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Key)
+    
+    #Tree.Sort( #Key )
+    #Sort.Find( #Key )
+    
+    Selectlist Named(#Tree)
+    
+    (#Tree.CurrentItem.Design *As #xDemoWebUDCTreeBaseItem).UpdateName( #Key )
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

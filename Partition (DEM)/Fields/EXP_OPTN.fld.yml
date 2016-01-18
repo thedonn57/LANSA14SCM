@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_OPTN
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Option Field"
+      Label:              "Option Number"
+      Heading1:           "Option"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Numéro d´Option"
+      Label:              "Numéro d´Option"
+      Heading1:           "Numéro"
+      Heading2:           "Option"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

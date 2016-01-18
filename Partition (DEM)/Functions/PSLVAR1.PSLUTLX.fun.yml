@@ -1,0 +1,15 @@
+﻿Function:
+  Enabled For RDMLX:  Yes
+
+  Source: |
+    Function Options(*DIRECT *NOMESSAGES *HEAVYUSAGE *MLOPTIMISE *NUM_SYSTEM_VARIABLE)
+    
+    Case Of_Field(#SYSVAR$NM)
+    
+    When (*EQ '*DMX_HOURLY_RATE')
+    
+    #SYSVAR$NV := 50
+    
+    Endcase
+    
+    Return

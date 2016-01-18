@@ -1,0 +1,45 @@
+﻿Field:
+  Name:               DATEACQR
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Date Skill Acquired (YYMMDD)"
+      Label:              "Acquire date..."
+      Heading1:           "Acquire"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date de formation, AAMMJJ"
+      Label:              "Date formation"
+      Heading1:           "Date"
+      Heading2:           "Formation"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+          This is the date on which an employee is officially recognised as
+          having acquired a particular skill. It is in format YYMMDD, but
+          another field normally accompanies this field that shows the same
+          information in the format DDMMYY.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+          Il s'agit de la date à laquelle on reconnait officiellement qu'un
+          employé a acquis une formation donnée, dans le format AAMMJJ.
+          Il existe également une autre zone pour cette même date, dans le
+          format JJMMAA.

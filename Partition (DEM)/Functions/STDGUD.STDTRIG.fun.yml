@@ -1,0 +1,66 @@
+﻿Function:
+  Enabled For RDMLX:  No
+
+  Source: |
+    * =======================================================
+    * Copyright .....: (C) LANSA PTY LTD, 2010
+    * Process .......: STDTRIG
+    * Function ......: STDGUD
+    * Type ..........: STD_GUID Field Level Trigger
+    * Created by ....: LANSA
+    * Created on ....: 10/06/09 at 17:34:23
+    * Description ...: STD_GUID Field Level Trigger
+    * =======================================================
+    Function Options(*DIRECT *NOMESSAGES *LIGHTUSAGE *MLOPTIMISE) Rcv_List(#TRIG_LIST) Trigger(*FIELD #STD_GUID)
+    * =======================================================
+    * Working fields, lists and groups
+    * =======================================================
+    * At entry #TRIG_LIST will contain 0,1 or 2
+    * entries representing current and previous
+    * values of field STD_GUID. Refer to the
+    * Technical Guide for details and examples.
+    * Do NOT define any fields in this list. They
+    * are automatically included by the compiler.
+    Def_List Name(#TRIG_LIST) Type(*WORKING) Entrys(2)
+    
+    Define Field(#BEF_GUID) Reffld(#STD_GUID)
+    
+    * =======================================================
+    * Function Mainline : FGUID
+    * =======================================================
+    * Assume a "good" return initially
+    Change Field(#TRIG_RETC) To(OK)
+    
+    * >>> DELETE all "not defined" events from the  <<<
+    * >>> the following CASE construct. (ie: Remove <<<
+    * >>> WHEN VALUE_IS commands that are not part  <<<
+    * >>> of the definition of this trigger BEFORE  <<<
+    * >>> specifying details of the events that are <<<
+    * >>> part of the definition of this trigger).  <<<
+    * >>> This simplifies logic in this function    <<<
+    * >>> and ensures an ABORT if someone attempts  <<<
+    * >>> to cause it to be invoked during an event <<<
+    * >>> that it has not been set up to handle.    <<<
+    
+    Case Of_Field(#TRIG_OPER)
+    * Handle a before insert event
+    When Value_Is('= BEFINS')
+    Get_Entry Number(1) From_List(#TRIG_LIST)
+    Change Field(#STD_GUID) To(*GUID)
+    Upd_Entry In_List(#TRIG_LIST)
+    
+    * Handle an after insert event
+    When Value_Is('= BEFUPD')
+    Get_Entry Number(2) From_List(#TRIG_LIST)
+    Change Field(#BEF_GUID) To(#STD_GUID)
+    Get_Entry Number(1) From_List(#TRIG_LIST)
+    
+    If Cond('#BEF_GUID *NE #STD_GUID')
+    Abort Msgtxt('Field STD_GUID has changed but it must not be modified.')
+    Endif
+    
+    Otherwise
+    Abort Msgtxt('Field STD_GUID trigger function invalidly invoked/ used.')
+    Endcase
+    * Return control to the invoker
+    Return

@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*USER_AUTHENTICATED"
+  Description:        "Current authenticated user name"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             256
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

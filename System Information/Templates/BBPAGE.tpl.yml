@@ -1,0 +1,239 @@
+﻿Template:
+  Name:                    BBPAGE
+  Description:             "Build Block : Page at a time browse list"
+  Extended Description 1:  Simple page at a time routine which can
+  Extended Description 2:  only roll forward
+
+  Source: |
+    /* ********** ------------------------------------------------        */
+    /* ********** START OF TEMPLATE CODE                                  */
+    /* ********** ------------------------------------------------        */
+    /* ********** GET PREFIX FOR RDML VARIABLES                           */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Enter a 1 to 4 character prefix for variables declared by this template') ANSWER(@@CANS001) EXTEND('Use from 1 to 4 alphabetic characters only. Do not use the name LIST.' 'Try to make the name reflect what the browse list will contain.' 'For example : CUST, PROD, SUPP, ITEM, etc.' 'For more information and examples use the HELP function key.') LOWER(*NO) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ------------------------------------------------        */
+    /* ********** GET FILE TO WORK WITH                                   */
+    /* ********** ------------------------------------------------        */
+    @@GET_FILS TO(1) PHY_ONLY(*NO) SGL_ONLY(*NO) PROMPT('Enter the name of the file to be browsed by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ------------------------------------------------        */
+    /* ********** SET UP BROWSE LIST                                      */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(01) INTO_LST(1)
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'Display' 'in List' *SEQUENCE)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(01) INTO_LST(3)
+    /* ********** ------------------------------------------------        */
+    /* ********** ASK WHETHER OR NOT A SELECTOR FIELD IS REQUIRED         */
+    /* ********** ------------------------------------------------        */
+    @@QUESTION PROMPT('Do you want a "selector" field to be included into the browse list ?') ANSWER(@@CANS002) EXTEND('Reply Y or N only to this question.' 'Reply Y to cause a selector field to be included into the browse list.' 'Reply N to omit a selector field from the browse list.' 'For more information and examples use the HELP function key.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ------------------------------------------------        */
+    /* ********** START OF GENERATED CODE                                 */
+    /* ********** ------------------------------------------------        */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Work variables and browse list that are used by the')
+    @@COMMENT  COMMENT('@@CANS001BROWSE and @@CANS001DISP subroutines')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    DEFINE     FIELD(#@@CANS001COUNT) REFFLD(#LISTCOUNT)
+    DEFINE     FIELD(#@@CANS001PAGE) REFFLD(#LISTPAGE)
+    DEFINE     FIELD(#@@CANS001TOP) REFFLD(#LISTTOP)
+    DEFINE     FIELD(#@@CANS001POS) REFFLD(#LISTPOS)
+    @@IF       ((*IF @@CANS002 *EQ Y)) GOTO(S05)
+    DEFINE     FIELD(#@@CANS001ENTRY) REFFLD(#LISTENTRY)
+    S05: @@LABEL
+    DEFINE     FIELD(#@@CANS001REMN) REFFLD(#LISTREMN)
+    @@IF       ((*IF @@CANS002 *EQ Y)) GOTO(S20)
+    DEF_LIST   #@@CANS001LIST FIELDS(@@LST02) PAGE_SIZE(#@@CANS001PAGE) COUNTER(#@@CANS001COUNT) TOP_ENTRY(#@@CANS001TOP) SCROLL_TXT(#@@CANS001POS) SEL_ENTRY(#@@CANS001ENTRY)
+    @@GOTO     S30
+    S20: @@LABEL
+    DEF_LIST   #@@CANS001LIST FIELDS((#SELECTOR *SELECT) @@LST02) PAGE_SIZE(#@@CANS001PAGE) COUNTER(#@@CANS001COUNT) TOP_ENTRY(#@@CANS001TOP) SCROLL_TXT(#@@CANS001POS)
+    S30: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: @@CANS001BROWSE')
+    @@COMMENT  COMMENT('Description....: Browse from @@FNAME01 (page at a time)')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(@@CANS001BROWSE)
+    @@COMMENT  COMMENT('Repeat until records found and selection made')
+    @@IF       ((*IF @@CANS002 *EQ Y)) GOTO(X10)
+    DOUNTIL    COND('(#@@CANS001COUNT *GT 0) *AND (#IO$KEY *EQ RA) *AND (#@@CANS001ENTRY *GT 0)')
+    @@GOTO     X20
+    X10: @@LABEL
+    DOUNTIL    COND('(#@@CANS001COUNT *GT 0) *AND (#IO$KEY *EQ RA)')
+    X20: @@LABEL
+    @@COMMENT  COMMENT('Request search criteria')
+    SET_MODE   TO(*CHANGE)
+    POP_UP     FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(7 7) WITH_SIZE(45 12) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    @@COMMENT  COMMENT('Build list of matching records')
+    @@COMMENT  COMMENT('and display using page at a time logic')
+    CLR_LIST   NAMED(#@@CANS001LIST)
+    CHANGE     FIELD(#IO$KEY) TO(UP)
+    SELECT     FIELDS((#@@CANS001LIST)) FROM_FILE(@@FNAME01) WHERE('#IO$KEY *EQ UP') WITH_KEY(@@LST03) NBR_KEYS(*COMPUTE) GENERIC(*YES) OPTIONS(*ENDWHERE)
+    EXECUTE    SUBROUTINE(@@CANS001DISP) WITH_PARMS('''More...''')
+    ADD_ENTRY  TO_LIST(#@@CANS001LIST) WITH_MODE(*DISPLAY)
+    ENDSELECT
+    IF         '(#@@CANS001COUNT = 0)'
+    MESSAGE    'No details found matching search request'
+    ELSE
+    EXECUTE    SUBROUTINE(@@CANS001DISP) WITH_PARMS('''Bottom''')
+    ENDIF
+    ENDUNTIL
+    @@COMMENT  COMMENT(' ')
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: @@CANS001DISP')
+    @@COMMENT  COMMENT('Description....: Browse from @@FNAME01 (page at a time)')
+    @@COMMENT  COMMENT('Parameters ....: Name      Typ Len  Description')
+    @@COMMENT  COMMENT('                 ----      --- ---  -----------')
+    @@COMMENT  COMMENT('                 @@CANS001POS   A   7   Browse position')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(@@CANS001DISP) PARMS((#@@CANS001POS))
+    @@COMMENT  'Display if at bottom of list or on a page boundary'
+    CHANGE     FIELD(#@@CANS001REMN) TO('#@@CANS001COUNT / #@@CANS001PAGE')
+    IF         COND('(#IO$KEY *EQ UP) *AND ((#@@CANS001POS *EQ ''Bottom'') *OR ((#@@CANS001REMN *EQ 0) *AND (#@@CANS001COUNT *NE 0)))')
+    DOUNTIL    COND('(#@@CANS001POS *NE ''Bottom'') *OR (#IO$KEY *NE UP)')
+    @@IF       ((*IF @@CANS002 *EQ Y)) GOTO(S50)
+    POP_UP     BROWSELIST(#@@CANS001LIST) USER_KEYS((*ROLLUP)) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) AT_LOC(3 20)  CURSOR_LOC(*ATFIELD #@@LEL0201) DESIGN(*DOWN)
+    @@GOTO     S60
+    S50: @@LABEL
+    POP_UP     BROWSELIST(#@@CANS001LIST) USER_KEYS((*ROLLUP)) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) AT_LOC(3 20) DESIGN(*DOWN) CURSOR_LOC(*ATFIELD #@@LEL0201)
+    S60: @@LABEL
+    ENDUNTIL
+    CHANGE     #@@CANS001TOP '#@@CANS001TOP + #@@CANS001PAGE'
+    ENDIF
+    ENDROUTINE
+    /* ********** ------------------------------------------------        */
+    /* ********** CLEAN UP TEMPLATE PROCESSING                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+
+  Help Panels:
+  - HELP010:
+      Description:        "Build Block : Page at a Time"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create the basic subroutines required to support  
+         full "page at a time" logic. The generated RDML code can be modified to        
+         exactly match your requirements. If you elect to use this template you will    
+         be asked the following things .....                                            
+                                                                                        
+         1. To specify a program variable prefix so that variable names used in the     
+            generated RDML code are unique within your programs. Examples would include 
+            "COMP", "CUST", "EMP". Note that only one word names are used, and the name 
+            LIST is not allowed. Additionally no name is more than 4 characters long.   
+            Only use letters from the alphabet in variable prefix names.                
+                                                                                        
+         2. To nominate the file that contains the data you wish to build the list from.
+            You can enter the full file name, a partial file name (to get a partial     
+            list of available files), or leave the name blank (to get a full list       
+            of available files). When a list of files is displayed the one required     
+            may be chosen from the list.
+
+  - HELP020:
+      Description:        "Build Block : Page at a Time"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         3. Next, you must choose and order the fields that are to appear in the browse 
+            list. You can choose as many or as few as you require, but remember that    
+            only so many fields will fit across one screen line. If you choose more     
+            then will fit on one screen line they will "wrap" onto the next line. This  
+            can ruin the appearance of your panel. Do not place extraneous details in   
+            the browse list.                                                            
+                                                                                        
+         4. Finally you will be asked whether or not you want to include a "selector"   
+            field into the browse list. Only reply Y (yes) or N (no) to this question.  
+                                                                                        
+            If you reply Y, a selector field will be included into the browse list.     
+            Use this option is you wish to process multiple entries from the list       
+            by using a SELECTLIST GET_ENTRYS(*SELECT) / ENDSELECT loop.                 
+                                                                                        
+            If you reply N, no selector field will be included. In this case it is      
+            assumed that you want to select from the list by cursor, so the required    
+            logic is included to return #<<PREFIX>>ENTRY to the calling routine. This   
+            variable will never be returned as zero. See next HELP panel for details.
+
+  - HELP030:
+      Description:        "Build Block : Page at a time"
+
+      Text: |
+        <-
+                                                                                        
+         This template creates 2 subroutines into your RDML program. The first is called
+         <<PREFIX>>BROWSE and the second is called <<PREFIX>>DISP where <<PREFIX>> is   
+         the 1 to 4 character prefix you nominate as an answer to the first question    
+         asked by this template. The actual browse list is called <<PREFIX>>LIST.       
+                                                                                        
+         Only use subroutine <<PREFIX>>BROWSE from other points in your program. The    
+         second routine is used internally by the <<PREFIX>>BROWSE routine.             
+                                                                                        
+            Use the subroutine like this (example has a prefix of CUST) .....           
+                                                                                        
+                          EXECUTE SUBROUTINE(CUSTBROWSE)                                
+                          IF COND('#IO$KEY = RA')                                       
+                            << You have a browse list to process,              >>       
+                            << probably by a SELECTLIST loop (selector field), >>       
+                            << or a GET_ENTRY command (cursor selection) and   >>       
+                            << use variable #<<PREFIX>>ENTRY to get the entry. >>       
+                          ELSE                                                          
+                            << The user cancelled the browse request          >>        
+                          ENDIF
+
+  - HELP040:
+      Description:        "Build Block : Page at a time"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+             ..........................................                                 
+             : BRW01     Choose Employees             :                                 
+             :                                        :                                 
+             : Department . . . ADM                   :                                 
+             : Section  . . . .                       :                                 
+             : Name . . . . . .                       :                                 
+             :                                        :                                 
+             :                                        :                                 
+             :                                        :      This is an example of the  
+             :                                        :      first pop up presented by  
+             :                                        :      this template. It requests 
+             : F1=Help F12=Cancel F14=Msgs            :      that the search key(s) be  
+             :                                        :      input. Full, partial and   
+             :........................................:      generic searching is       
+                                                             supported. This user has   
+                                                             asked to see all employees 
+                                                             in the ADM department.
+
+  - HELP050:
+      Description:        "Build block : page at a time"
+
+      Text: |
+        <-
+                                                                                        
+                                 .....................................................  
+                                 : BRW02            Select Employee                  :  
+             ....................:                                                   :  
+             : BRW01     Choose  : Employee                                          :  
+             :                   :  Number   Surname              First Name         :  
+             : Department . . . .:  019293   ABLE                 TOM                :  
+             : Section  . . . . .:  838383   BAKER                SUSAN              :  
+             : Name . . . . . . .:  378387   CHARLE                                  :  
+             :                   :  362181   DEERST  This is the resulting panel.    :  
+             :                   :  118171   EGAN    The user can select an employee :  
+             :                   :  171671   HITTLE  or cancel the window to react-  :  
+             :                   :  181676   JONES   ivate the previous window.      :  
+             :                   :  181781   KNIGHT                                  :  
+             : F1=Help  F12=Cance:  187817   LAMINGTON            MARY               :  
+             :                   :  181781   MERCURY              FREDDIE          + :  
+             :...................:                                                   :  
+                                 :  F1=Help  F12=Cancel  F14=Msgs                    :  
+                                 :                                                   :  
+                                 :...................................................:

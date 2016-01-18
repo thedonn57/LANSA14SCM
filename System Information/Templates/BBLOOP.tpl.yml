@@ -1,0 +1,26 @@
+﻿Template:
+  Name:                    BBLOOP
+  Description:             "Build Block : BEGIN/END_LOOP Construct"
+
+  Source: |
+    @@QUESTION PROMPT('Describe what this loop is used for') ANSWER(@@CANS001) EXTEND('The information you provide here is used to create a comment in your RDML' 'program. If you do not specify an answer, no comment will be generated.' 'Use the HELP function key for more details and/or examples.') HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(A10)
+    @@COMMENT  COMMENT('@@CANS001')
+    A10: @@LABEL
+    BEGIN_LOOP
+    END_LOOP
+
+  Help Panels:
+  - HELP010:
+      Description:        "   BEGIN_LOOP / END_LOOP"
+
+      Text: |
+        <-
+                                                                                        
+         This application template constructs an simple BEGIN_LOOP / END_LOOP construct 
+         into your RDML program. If you use it you will be asked 1 question only ....   
+                                                                                        
+         1. To specify a comment about what the loop is used for. Your reply should     
+            be brief and concise. For example : "Loop until user EXITs or CANCELs".     
+            Your reply is used to generate a comment into your RDML porgram. If you     
+            do not give a reply, no comment will be generated.

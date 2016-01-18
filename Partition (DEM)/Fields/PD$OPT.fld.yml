@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PD$OPT
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Pull Down Option"
+      Label:              "Pull Down Opt"
+      Heading1:           "Pull Down"
+      Heading2:           " Option"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Option menu déroulant"
+      Label:              "Option menu . ."
+      Heading1:           "Option Menu"
+      Heading2:           " Déroulant"
+      Heading3:           " "

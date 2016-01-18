@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               FULLNAME
+  Type:               Alphanumeric
+  Length:             41
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee full name"
+      Label:              "Employee name"
+      Heading1:           "Employee name"
+      Heading2:           "-------------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom complet de l´employE"
+      Label:              "Nom employE"
+      Heading1:           "Nom de l´employE"
+      Heading2:           "----------------"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(673)
+    
+    End_Com
+    
+    End_Com

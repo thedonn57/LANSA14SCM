@@ -1,0 +1,81 @@
+﻿ServerModule:
+  Name:               XEDServer
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Server Module"
+
+  - FRA:
+      Description:        "Employee Server Module"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_SRVM)
+    
+    Def_List Name(#xEmployeeList) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xEmployeeDepartment #xEmployeeImageThumbnail) Counter(#ListCount) Type(*Working) Entrys(*Max)
+    
+    Group_By Name(#EmployeeDetails) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    Srvroutine Name(GetEmployees)
+    List_Map For(*Output) List(#xEmployeeList)
+    
+    Select Fields(#xEmployeeList) From_File(xEmployee)
+    
+    Fetch Fields(#xEmployeeImageThumbnail) From_File(xEmployeeImages) With_Key(#xEmployeeIdentification)
+    Add_Entry To_List(#xEmployeeList)
+    
+    Endselect
+    
+    Endroutine
+    
+    Srvroutine Name(FetchEmployee)
+    Field_Map For(*Input) Field(#xEmployeeIdentification)
+    Group_Map For(*Output) Group(#EmployeeDetails)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Return all data for the keys provided
+    Fetch Fields(#EmployeeDetails) From_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    If_Status Is(*okay)
+    
+    Fetch Fields(#xEmployeeImage) From_File(xEmployeeImages) With_Key(#xEmployeeIdentification)
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(SaveEmployee)
+    Group_Map For(*Input) Group(#EmployeeDetails)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Look for an existing record
+    Check_For In_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    * Update the record if found, otherwise create a new one
+    If_Status Is(*Equalkey)
+    
+    Update Fields(#EmployeeDetails) In_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    Else
+    
+    Insert Fields(#EmployeeDetails) To_File(xEmployee)
+    
+    Endif
+    
+    Endroutine
+    
+    Srvroutine Name(DeleteEmployee)
+    Field_Map For(*Input) Field(#xEmployeeIdentification)
+    Field_Map For(*Output) Field(#io$sts) Parameter_Name(Status)
+    
+    * Delete a record using the key value
+    Delete From_File(xEmployee) With_Key(#xEmployeeIdentification)
+    
+    Endroutine
+    
+    End_Com

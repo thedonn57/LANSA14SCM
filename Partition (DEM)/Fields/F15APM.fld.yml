@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F15APM
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "ACCESS PATH MAINT."
+      Label:              "F15APM"
+      Heading1:           "ACCPTH"
+      Heading2:           "MAINTENANCE"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

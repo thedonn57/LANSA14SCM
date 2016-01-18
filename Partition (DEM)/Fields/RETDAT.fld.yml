@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               RETDAT
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    CALENDR
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Returned Calendar Date"
+      Label:              "Returned"
+      Heading1:           "Returned"
+      Heading2:           "Calendar"
+      Heading3:           "Date"
+
+  - FRA:
+      Description:        "Date retournée"
+      Label:              "Date retournée"
+      Heading1:           "Date"
+      Heading2:           "retournée"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(266)
+    
+    End_Com
+    
+    End_Com

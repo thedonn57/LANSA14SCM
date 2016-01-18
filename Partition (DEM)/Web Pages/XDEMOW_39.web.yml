@@ -1,0 +1,44 @@
+﻿Web Page:
+  Name:               xDemoWebImageCapture
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Capture an Image"
+
+  - FRA:
+      Description:        "Uploading a file"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#SYS_THEME<2015DeepOrange>)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Fontsize(14)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(185) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(1.7)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#FilePicker1Item1) Alignment(TopCenter) Column(#Column1) Manage(#FilePicker) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image1Item1) Column(#Column2) Manage(#Image) Parent(#TableLayout1) Row(#Row1) Margintop(6) Marginright(6) Marginbottom(6) Marginleft(6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label1Item1) Alignment(BottomCenter) Column(#Column2) Manage(#Filename) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginbottom(12) Marginright(12) Marginleft(12)
+    
+    Define_Com Class(#PRIM_WEB.FilePicker) Name(#FilePicker) Displayposition(2) Ellipses(Word) Height(56) Left(8) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(6) Verticalalignment(Center) Width(169) Image(#xImageCamera32) Caption('Select an Image') Marginleft(8) Themedrawstyle('PushButton')
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(3) Left(191) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(6) Height(788) Width(1003)
+    Define_Com Class(#PRIM_LABL) Name(#Filename) Displayposition(1) Ellipses(Word) Height(55) Left(197) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(733) Verticalalignment(Center) Width(991) Alignment(Center) Style(#Style2)
+    
+    Evtroutine Handling(#FilePicker.FileSelected) File(#File)
+    
+    #Filename := #File.Name
+    #Image.FileName #xDemoblob := #File.Blob
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    
+    

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               STD_ENTRY
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard list entry number"
+      Label:              "List entry"
+      Heading1:           "Standard"
+      Heading2:           "list"
+      Heading3:           "entry"
+
+  - FRA:
+      Description:        "Numéro d´entrée de liste"
+      Label:              "entrée de liste"
+      Heading1:           "Numéro"
+      Heading2:           "Entrée"
+      Heading3:           "Liste"

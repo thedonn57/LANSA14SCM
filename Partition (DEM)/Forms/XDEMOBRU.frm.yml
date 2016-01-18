@@ -1,0 +1,455 @@
+﻿Form:
+  Name:               xDemoBrushesLinear
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Understanding Linear Brushes"
+
+  - FRA:
+      Description:        "Understanding Linear Brushes"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Understanding Linear Brushes') Clientheight(599) Clientwidth(904) Height(638) Left(244) Top(192) Width(920) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    * Demonstration of a Style using a Linear Brush
+    * Set the properties and see how they affect the behaviour of the image
+    * Sample code will be generated to demonstrate the generated RDMLX
+    
+    Define_Com Class(#prim_vs.Style) Name(#HeadingStyle) Bold(True) Fontsize(11)
+    
+    Define_Com Class(#prim_vs.Style) Name(#BrushStyle) Backgroundbrush(#Brush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#Brush) Colors(#BrushColors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#BrushColors)
+    
+    Define_Com Class(#prim_vs.Style) Name(#ActiveColor)
+    
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#ActiveBrushColor) Reference(*dynamic)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style3) Cursor(Hand)
+    
+    
+    
+    
+    
+    Define_Com Class(#PRIM_PANL) Name(#BrushSample) Displayposition(12) Height(390) Left(2) Parent(#COM_OWNER) Style(#BrushStyle) Tabposition(16) Tabstop(False) Top(38) Width(418)
+    Define_Com Class(#PRIM_labl) Name(#OpacityText) Alignment(Center) Caption('This text becomes clearer as the opacity of the brush decreases') Displayposition(13) Height(394) Left(0) Parent(#COM_OWNER) Tabposition(20) Tabstop(False) Top(36) Verticalalignment(Center) Width(422)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(19) Componentversion(2) Displayposition(3) Fullrowselect(True) Hasbuttons(False) Height(217) Keyboardpositioning(SortColumn) Left(424) Linesatroot(False) Parent(#COM_OWNER) Tabposition(7) Top(211) Viewstyle(UnLevelled) Width(314)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Caption('Color') Captiontype(Caption) Displayposition(2) Level(1) Parent(#Tree) Source(#xDemoColor) Widthtype(Remainder)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Caption('At') Captiontype(Caption) Displayposition(1) Level(1) Parent(#Tree) Sortposition(1) Source(#xDemoColorAt) Width(31)
+    
+    Define_Com Class(#PRIM_LABL) Name(#GeneratedSource) Caption('Generated Source') Displayposition(19) Ellipses(Word) Height(34) Left(0) Marginleft(2) Parent(#COM_OWNER) Tabposition(21) Tabstop(False) Top(430) Verticalalignment(Center) Width(422) Themedrawstyle('Heading2')
+    Define_Com Class(#prim_memo) Name(#Memo) Currentline(1) Displayposition(21) Height(131) Left(2) Marginleft(2) Maximumlinelength(128) Parent(#COM_OWNER) Readonly(True) Tabposition(14) Top(466) Width(900) Wordwrap(True) Themedrawstyle('FixedFont')
+    Define_Com Class(#PRIM_MECL) Name(#MECL_1) Columnrole(Data) Displayposition(1) Parent(#Memo) Source(#xDemoAlpha128)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lBrushSample) Caption('Linear Brush Sample') Displayposition(2) Height(36) Left(0) Marginleft(2) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(0) Verticalalignment(Center) Width(422) Themedrawstyle('Heading2')
+    
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#StartLeft) Caption('Start Coordinate % (Left, Top)') Displayalignment(Right) Displayposition(4) Height(25) Labeltype(Caption) Left(422) Marginleft(176) Parent(#COM_OWNER) Tabposition(1) Top(36) Width(241)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#StartTop) Displayalignment(Right) Displayposition(6) Height(25) Left(670) Marginleft(0) Parent(#COM_OWNER) Tabposition(2) Top(36) Width(68)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#EndLeft) Caption('End Coordinate % (Left, Top)') Displayalignment(Right) Displayposition(5) Height(25) Labeltype(Caption) Left(422) Marginleft(176) Parent(#COM_OWNER) Tabposition(3) Top(65) Width(241)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#EndTop) Displayalignment(Right) Displayposition(8) Height(25) Left(670) Marginleft(0) Parent(#COM_OWNER) Tabposition(4) Top(65) Width(68)
+    Define_Com Class(#PRIM_LABL) Name(#lDefinition) Caption('Brush Definition') Displayposition(1) Height(36) Left(422) Marginleft(2) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(0) Verticalalignment(Center) Width(318) Themedrawstyle('Heading2')
+    
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Opacity) Caption('Opacity') Displayalignment(Right) Displayposition(7) Height(25) Labeltype(Caption) Left(422) Marginleft(176) Parent(#COM_OWNER) Tabposition(5) Top(94) Width(241)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lColors) Caption('Colors') Displayposition(10) Height(36) Left(422) Marginleft(2) Parent(#COM_OWNER) Tabposition(19) Tabstop(False) Top(173) Verticalalignment(Center) Width(318) Themedrawstyle('Heading2')
+    Define_Com Class(#xDemoBrushSpread.Picklist) Name(#Spread) Displayposition(14) Height(25) Left(422) Marginleft(176) Parent(#COM_OWNER) Tabposition(6) Top(123) Width(316)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#BrushAt) Caption('At') Componentversion(1) Displayalignment(Right) Displayposition(15) Editalignment(Right) Height(25) Labeltype(Caption) Left(742) Marginleft(80) Parent(#COM_OWNER) Tabposition(8) Top(343) Width(160)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Red) Caption('Red') Componentversion(1) Displayalignment(Right) Displayposition(18) Editalignment(Right) Height(25) Labeltype(Caption) Left(742) Marginleft(80) Parent(#COM_OWNER) Tabposition(9) Top(256) Width(160)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Green) Caption('Green') Componentversion(1) Displayalignment(Right) Displayposition(17) Editalignment(Right) Height(25) Labeltype(Caption) Left(742) Marginleft(80) Parent(#COM_OWNER) Tabposition(10) Top(285) Width(160)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Blue) Caption('Blue') Componentversion(1) Displayalignment(Right) Displayposition(16) Editalignment(Right) Height(25) Labeltype(Caption) Left(742) Marginleft(80) Parent(#COM_OWNER) Tabposition(11) Top(314) Width(160)
+    
+    Define_Com Class(#PRIM_PANL) Name(#ColorSample) Displayposition(20) Height(25) Left(742) Parent(#COM_OWNER) Style(#ActiveColor) Tabposition(18) Tabstop(False) Top(229) Width(160) Mouseoverstyle(#Style1)
+    Define_Com Class(#PRIM_PHBN) Name(#Add) Caption('Add a Color') Displayposition(11) Left(742) Parent(#COM_OWNER) Tabposition(12) Top(372) Width(160) Mouseoverstyle(#Style3)
+    Define_Com Class(#PRIM_PHBN) Name(#Delete) Caption('Delete a Color') Displayposition(9) Left(742) Parent(#COM_OWNER) Tabposition(13) Top(403) Width(160) Mouseoverstyle(#Style2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(36) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(2.95)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout) Height(36) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout) Width(2.71)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(318) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout) Width(164) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column) Manage(#GeneratedSource) Parent(#TableLayout) Row(#Row_3) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column) Manage(#Memo) Parent(#TableLayout) Row(#Row1) Columnspan(3) Marginbottom(2) Marginleft(2) Marginright(2) Flow(Down) Alignment(TopCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Column(#Column) Manage(#BrushSample) Parent(#TableLayout) Row(#Row_2) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Column(#Column) Manage(#OpacityText) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Column(#Column) Manage(#lBrushSample) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Column(#Column_2) Manage(#lDefinition) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_7) Alignment(BottomCenter) Column(#Column_2) Manage(#Tree) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginright(2) Marginleft(2) Flow(Up)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_8) Alignment(BottomCenter) Column(#Column_2) Manage(#lColors) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_9) Alignment(BottomCenter) Column(#Column_3) Manage(#ColorSample) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_10) Alignment(BottomCenter) Column(#Column_3) Manage(#BrushAt) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Marginbottom(4) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_11) Alignment(BottomCenter) Column(#Column_3) Manage(#Red) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Marginbottom(4) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_12) Alignment(BottomCenter) Column(#Column_3) Manage(#Green) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Marginbottom(4) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_13) Alignment(BottomCenter) Column(#Column_3) Manage(#Blue) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Marginbottom(4) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_14) Alignment(BottomCenter) Column(#Column_3) Manage(#Add) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Marginbottom(4) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_15) Alignment(BottomCenter) Column(#Column_3) Manage(#Delete) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Up) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_16) Alignment(TopLeft) Column(#Column_2) Manage(#StartLeft) Parent(#TableLayout) Row(#Row_2) Sizing(None) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_17) Alignment(TopLeft) Column(#Column_2) Manage(#EndLeft) Parent(#TableLayout) Row(#Row_2) Sizing(None) Flow(Down) Margintop(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_18) Alignment(TopLeft) Column(#Column_2) Manage(#Opacity) Parent(#TableLayout) Row(#Row_2) Sizing(None) Flow(Down) Margintop(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_19) Alignment(TopLeft) Column(#Column_2) Manage(#Spread) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Flow(Down) Margintop(4) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_20) Alignment(TopRight) Column(#Column_2) Manage(#StartTop) Parent(#TableLayout) Row(#Row_2) Sizing(None) Flow(Down) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_21) Alignment(TopRight) Column(#Column_2) Manage(#EndTop) Parent(#TableLayout) Row(#Row_2) Sizing(None) Flow(Down) Margintop(4) Marginright(2)
+    
+    Define_Com Class(#xDemoUtilities) Name(#Utilities)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Populate defaults
+    #StartLeft.Value := #Brush.StartLeft
+    #StartTop.Value := #Brush.StartTop
+    #EndLeft.Value := #Brush.EndLeft
+    #EndTop.Value := #Brush.EndTop
+    #Opacity.Value := #Brush.Opacity
+    #Spread := #Brush.Spread
+    
+    * Add default colors
+    #Com_owner.UpdatetreeItem( #Com_owner.AddColor( 0 255:0:0 ) )
+    #Com_owner.UpdatetreeItem( #Com_owner.AddColor( 50 0:255:0 ) )
+    #Com_owner.UpdateTreeItem( #Com_owner.AddColor( 100 0:0:255 ) )
+    
+    #Com_owner.ActivateBrushColor( (#Tree.Items<1>.RelatedReference *As #Prim_vs.BrushColor) )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.Initialize)
+    
+    If (#sys_appln.RenderStyle <> DirectX)
+    
+    Use Builtin(MESSAGE_BOX_SHOW) With_Args(*Default *Default 'Error' 'DirectX only' 'Brushes are only available when executing under DirectX or VL Web')
+    
+    Endif
+    
+    Endroutine
+    
+    * Create a brush color instance and show in the list of colors
+    Mthroutine Name(AddColor) Access(*private)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#At)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Color)
+    Define_Map For(*Result) Class(#Prim_Vs.BrushColor) Name(#Result) Pass(*By_Reference)
+    
+    #Result <= *New #Prim_Vs.BrushColor
+    
+    #Result.Parent <= #BrushColors
+    
+    #Result.At := #At
+    #Result.Color := #Color
+    
+    Add_Entry To_List(#Tree)
+    
+    #Tree.CurrentItem.RelatedReference <= #Result
+    
+    Endroutine
+    
+    * Apply Spread parameter change to brush and update the sample source
+    Evtroutine Handling(#Spread.Changed)
+    
+    #Brush.Spread := #Spread
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply StartLeft parameter change to brush and update the sample source
+    Evtroutine Handling(#StartLeft.Changed)
+    
+    #Brush.StartLeft := #StartLeft.Value
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply StartTop parameter change to brush and update the sample source
+    Evtroutine Handling(#StartTop.Changed)
+    
+    #Brush.StartTop := #StartTop.Value
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply EndLeft parameter change to brush and update the sample source
+    Evtroutine Handling(#EndLeft.Changed)
+    
+    #Brush.EndLeft := #EndLeft.Value
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply EndTop parameter change to brush and update the sample source
+    Evtroutine Handling(#EndTop.Changed)
+    
+    #Brush.EndTop := #EndTop.Value
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Opacity parameter change to brush and update the sample source
+    Evtroutine Handling(#Opacity.Changed)
+    
+    #Opacity.Value := #Opacity.Value.Bound( 0 100 )
+    
+    #Brush.Opacity := #Opacity
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Red parameter change to brushcolor and update the sample source
+    Evtroutine Handling(#Red.Changed)
+    
+    #Red.value := #Red.Value.Bound( 0 255 )
+    
+    #Com_owner.UpdateBrushColor( #ActiveBrushColor )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Green parameter change to brushcolor and update the sample source
+    Evtroutine Handling(#Green.Changed)
+    
+    #Green.value := #Green.Value.Bound( 0 255 )
+    
+    #Com_owner.UpdateBrushColor( #ActiveBrushColor )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply Blue parameter change to brushcolor and update the sample source
+    Evtroutine Handling(#Blue.Changed)
+    
+    #Blue.value := #Blue.Value.Bound( 0 255 )
+    
+    #Com_owner.UpdateBrushColor( #ActiveBrushColor )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Apply At parameter change to brushcolor and update the sample source
+    Evtroutine Handling(#BrushAt.Changed)
+    
+    #Com_owner.UpdateBrushColor( #ActiveBrushColor )
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemGotSelection)
+    
+    #Com_owner.ActivateBrushColor( (#Tree.Currentitem.RelatedReference *As #Prim_vs.BrushColor) )
+    
+    Endroutine
+    
+    * Update the screen with the selected color
+    Mthroutine Name(ActivateBrushColor) Access(*private)
+    Define_Map For(*input) Class(#Prim_Vs.BrushColor) Name(#BrushColor) Pass(*by_reference)
+    
+    #ActiveBrushColor <= #BrushColor
+    
+    #ActiveColor.NormBackColor := #ActiveBrushColor.color
+    
+    #sys_appln.ColorToRGB( #ActiveBrushColor.Color #Red #Green #Blue )
+    
+    #BrushAt := #ActiveBrushColor.At
+    
+    #Com_owner.SetTreeCurrentItem( #BrushColor )
+    
+    Endroutine
+    
+    * Update the color item in the list of colors
+    Mthroutine Name(UpdateBrushColor) Access(*private)
+    Define_Map For(*input) Class(#Prim_Vs.BrushColor) Name(#BrushColor) Pass(*by_reference)
+    
+    #BrushColor.Color := ("&1:&2:&3").substitute( #Red.asstring #Green.asstring #Blue.asstring )
+    #BrushColor.At := #BrushAt
+    #ActiveColor.NormBackColor := #BrushColor.color
+    
+    #Com_owner.UpdateTreeItem( #BrushColor )
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateTreeItem) Access(*Private)
+    Define_Map For(*input) Class(#Prim_Vs.BrushColor) Name(#BrushColor) Pass(*by_reference)
+    
+    #Com_owner.SetTreeCurrentItem( #BrushColor )
+    
+    #xDemoColorAt := #BrushColor.At
+    #xDemoColor := #BrushColor.Color
+    
+    Upd_Entry In_List(#Tree)
+    
+    Endroutine
+    
+    Mthroutine Name(SetTreeCurrentItem) Access(*Private)
+    Define_Map For(*input) Class(#Prim_Vs.BrushColor) Name(#BrushColor) Pass(*by_reference)
+    
+    Selectlist Named(#Tree)
+    
+    Continue If(#Tree.CurrentItem.RelatedReference *IsNotEqualTo #BrushColor)
+    
+    #Tree.CurrentItem.Selected := True
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    * Add a color
+    Evtroutine Handling(#Add.Click)
+    
+    #Com_owner.UpdateTreeItem( #Com_owner.AddColor( 0 255:0:0 ) )
+    
+    #Com_owner.ActivateBrushColor( (#Tree.CurrentItem.RelatedReference *As #Prim_vs.BrushColor) )
+    
+    #Delete.Enabled := #Tree.Items.ItemCount > 1
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    Evtroutine Handling(#Delete.Click)
+    
+    Dlt_Entry Number(#Tree.FocusItem.Entry) From_List(#Tree)
+    
+    #Delete.Enabled := #Tree.Items.ItemCount > 1
+    
+    #Com_owner.UpdateSource
+    
+    Endroutine
+    
+    * Show the color selector and set the color based on selection
+    Evtroutine Handling(#ColorSample.Click)
+    
+    #Utilities.ColorPicker.ChosenColor := #ActiveBrushColor.Color
+    
+    If (#Utilities.ColorPicker.Show)
+    
+    #ActiveBrushColor.Color := #Utilities.ColorPicker.ChosenColor
+    
+    #sys_appln.ColorToRGB( #ActiveBrushColor.Color #Red.value #Green.value #Blue.value )
+    
+    #Com_owner.UpdateBrushColor( #ActiveBrushColor )
+    
+    #Com_owner.UpdateSource
+    
+    Endif
+    
+    Endroutine
+    
+    * Update the source memo with the latest definition
+    Mthroutine Name(UpdateSource) Access(*private)
+    
+    Clr_List Named(#Memo)
+    
+    #Com_owner.AddSourceLine( "Define_Com Class(#prim_vs.Style) Name(#BrushStyle) Backgroundbrush(#Brush)" )
+    
+    #Com_owner.AddSourceLine( #Com_owner.GetBrushLine )
+    
+    #Com_owner.AddSourceLine( "Define_Com Class(#Prim_Vs.BrushColors) Name(#BrushColors)" )
+    
+    For Each(#Item) In(#Tree.Items)
+    
+    #Com_owner.AddSourceLine( #Com_owner.GetBrushColorLine( (#Item.RelatedReference *As #prim_vs.BrushColor) ) )
+    
+    Endfor
+    
+    Endroutine
+    
+    * Convert the brush to a line of RDMLX
+    Mthroutine Name(GetBrushLine) Access(*private)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    #Result := "Define_Com Class(#Prim_Vs.LinearBrush) Name(#Brush) Colors(#BrushColors) "
+    
+    If (#Brush.EndLeft <> 100)
+    
+    #Result += ("EndLeft(&1) ").Substitute( #Brush.EndLeft.Asstring )
+    
+    Endif
+    
+    If (#Brush.EndTop <> 100)
+    
+    #Result += ("EndTop(&1) ").Substitute( #Brush.EndTop.Asstring )
+    
+    Endif
+    
+    If (#Brush.StartLeft <> 0)
+    
+    #Result += ("StartLeft(&1) ").Substitute( #Brush.StartLeft.Asstring )
+    
+    Endif
+    
+    If (#Brush.StartTop <> 0)
+    
+    #Result += ("StartTop(&1) ").Substitute( #Brush.StartTop.Asstring )
+    
+    Endif
+    
+    If (#Brush.Opacity <> 100)
+    
+    #Result += ("Opacity(&1) ").Substitute( #Brush.Opacity.asstring )
+    
+    Endif
+    
+    If (#Brush.Spread <> Pad)
+    
+    #Result += ("Spread(&1) ").Substitute( #Brush.Spread )
+    
+    Endif
+    
+    Endroutine
+    
+    * Convert a brush color to a line of RDMLX
+    Mthroutine Name(GetBrushColorLine) Access(*private)
+    Define_Map For(*Input) Class(#Prim_vs.BrushColor) Name(#Color) Pass(*by_reference)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    #Result := ("Define_Com Class(#Prim_Vs.BrushColor) Name(#Color&1) ").Substitute( #Memo.Entries.AsString )
+    
+    If (#Color.At <> 0)
+    
+    #Result += ("At(&1) ").Substitute( #Color.At.AsString )
+    
+    Endif
+    
+    If (#Color.Color <> Window)
+    
+    #Result += ("Color(&1) ").Substitute( #Color.Color )
+    
+    Endif
+    
+    #Result += "Parent(#BrushColors)"
+    
+    Endroutine
+    
+    Mthroutine Name(AddSourceLine) Access(*private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Text)
+    
+    #xDemoAlpha128 := #Text
+    
+    Add_Entry To_List(#Memo)
+    
+    Endroutine
+    
+    End_Com
+    

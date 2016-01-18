@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*PARTDTALIB"
+  Description:        "Current partition's data/file library"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             10
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

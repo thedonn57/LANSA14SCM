@@ -1,0 +1,99 @@
+﻿Reusable Part:
+  Name:               XSSearchView2
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Search View 2"
+
+  - FRA:
+      Description:        "Products View 2"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(1170) Left(0) Tabposition(1) Top(0) Width(1170) Layoutmanager(#TableLayout1)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 1 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TileItem1) Manage(#Tile) Parent(#TableLayout1) Row(#Row2) Column(#Column1) Marginbottom(10) Alignment(TopLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row1) Marginbottom(10) Alignment(TopLeft)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LCurrentSelectionItem1) Manage(#LCurrentSelection) Parent(#TableLayout2) Row(#Row3) Column(#Column2) Alignment(CenterLeft)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(1170) Style(#XSTheme01<PanelBorders1>) Layoutmanager(#TableLayout2)
+    
+    * Text to identify the current search
+    Define_Com Class(#PRIM_LABL) Name(#LCurrentSelection) Caption('SEARCH :') Displayposition(1) Ellipses(Word) Height(48) Parent(#Panel1) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(1168) Style(#XSTheme01<Text12BoldAlmostBlack>) Left(0) Marginleft(10)
+    
+    Define_Com Class(#PRIM_TILE<#XSProductTile2>) Name(#Tile) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(60) Width(1170) Height(1100)
+    
+    * Reference to SrvRoutine in Server Module
+    Define_Com Class(#XSServer.LoadProductsSearch) Name(#LoadSearch)
+    
+    Define_Com Class(#prim_acol<#XSProductData>) Name(#Products)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    #com_owner.SetProductSelection
+    
+    #com_owner.ProcessSearch( #MySession.pProductSearch )
+    
+    Endroutine
+    
+    Mthroutine Name(SetProductSelection)
+    
+    #LCurrentSelection := 'SEARCH : ' + #MySession.pProductSearch.uppercase
+    
+    Endroutine
+    
+    Mthroutine Name(ProcessSearch)
+    Define_Map For(*input) Class(#XSSearchValue) Name(#Search)
+    
+    #LoadSearch.ExecuteAsync( #Search #Products #std_qsel )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadSearch.completed)
+    
+    Case (#Products.ItemCount)
+    
+    When ('< 4')
+    
+    #com_owner.height := 430
+    
+    When ('< 8')
+    
+    #com_owner.height := 800
+    
+    Otherwise
+    
+    #com_owner.height := 1170
+    
+    Endcase
+    
+    For Each(#Product) In(#Products)
+    
+    Add_Entry To_List(#Tile)
+    
+    #Tile.CurrentItem.RelatedReference <= #Product
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

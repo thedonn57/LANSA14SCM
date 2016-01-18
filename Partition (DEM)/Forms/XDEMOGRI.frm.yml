@@ -1,0 +1,74 @@
+﻿Form:
+  Name:               xDemoGridStyles
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grid Styles"
+
+  - FRA:
+      Description:        "Grid Styles"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(412) Clientwidth(584) Height(451) Layoutmanager(#TableLayout_1) Left(253) Top(208) Width(600) Theme(#xDemoTheme)
+    
+    * Using styles to highlight grid cells
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_GRID) Name(#Grid) Captionnoblanklines(True) Columnbuttonheight(24) Columnscroll(False) Componentversion(1) Displayposition(1) Height(412) Left(0) Parent(#COM_OWNER) Rowheight(20) Showselection(True) Showselectionhilight(False) Showsortarrow(True) Tabposition(1) Top(0) Width(584)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#Grid) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_1) Displayposition(1) Parent(#Grid) Source(#EMPNO)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_2) Displayposition(2) Parent(#Grid) Source(#SURNAME) Width(27)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_3) Displayposition(3) Parent(#Grid) Source(#GIVENAME) Width(26)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_4) Columnalign(Right) Displayposition(4) Parent(#Grid) Readonly(False) Source(#SALARY)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Populate the grid using employee data
+    Select Fields(#Grid) From_File(pslmst)
+    
+    Add_Entry To_List(#Grid)
+    
+    #Com_owner.ApplyStyle( #Salary )
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(ApplyStyle) Help('Apply an appropriate style based on the value of the salary') Access(*Private)
+    Define_Map For(*Input) Class(#Salary) Name(#EmployeeSalary)
+    
+    Case (#EmployeeSalary)
+    
+    When (>= 120000)
+    
+    #Grid.CurrentItem.Style <= #xDemoStyles<Good>
+    
+    When (>= 80000)
+    
+    #Grid.CurrentItem.Style <= #xDemoStyles<Average>
+    
+    When (>= 0)
+    
+    #Grid.CurrentItem.Style <= #xDemoStyles<Poor>
+    
+    Endcase
+    
+    Endroutine
+    
+    * Salary is editable. Update after the change
+    Evtroutine Handling(#Grid.ItemChanged)
+    
+    #Com_owner.ApplyStyle( #Salary )
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               W08TIM
+  Type:               Packed
+  Length:             11
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Timeout"
+      Label:              "W08TIM"
+      Heading1:           "Timeout"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Timeout"
+      Label:              "W08TIM"
+      Heading1:           "Timeout"
+      Heading2:           " "
+      Heading3:           " "

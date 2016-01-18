@@ -1,0 +1,86 @@
+﻿Web Page:
+  Name:               xDemoWebOnOff
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using the On/Off switch"
+
+  - FRA:
+      Description:        "Using the On/Off switch"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#On) Fontsize(16) Foregroundbrush(#OnBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#OnBrush) Color(31:31:31)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Off) Fontsize(16) Foregroundbrush(#OffBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#OffBrush) Color(190:190:190)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(326) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(40) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label4) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label5) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Switch2Item1) Manage(#Switch2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Flow(Down) Alignment(TopRight) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Switch3Item1) Manage(#Switch3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Flow(Down) Alignment(TopRight) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Switch4Item1) Manage(#Switch4) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Flow(Down) Alignment(TopRight) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Switch5Item1) Manage(#Switch5) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Flow(Down) Alignment(TopRight) Margintop(2) Marginleft(2) Marginbottom(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Switch1Item1) Manage(#Switch1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Flow(Down) Alignment(TopRight) Margintop(40) Marginleft(2) Marginbottom(2) Marginright(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Setting #1') Displayposition(6) Ellipses(Word) Height(30) Left(437) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(40) Verticalalignment(Center) Width(228) Style(#Off)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Caption('Setting #2') Displayposition(7) Ellipses(Word) Height(30) Left(437) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(74) Verticalalignment(Center) Width(228) Style(#Off)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Caption('Setting #3') Displayposition(8) Ellipses(Word) Height(30) Left(437) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(108) Verticalalignment(Center) Width(228) Style(#Off)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Setting #4') Displayposition(9) Ellipses(Word) Height(30) Left(437) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(142) Verticalalignment(Center) Width(228) Style(#Off)
+    Define_Com Class(#PRIM_LABL) Name(#Label5) Caption('Setting #5') Displayposition(10) Ellipses(Word) Height(30) Left(437) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(176) Verticalalignment(Center) Width(228) Style(#Off)
+    
+    Define_Com Class(#xDemoOnOff) Name(#Switch1) Parent(#COM_OWNER) Tabposition(5) Top(40) Left(703) Height(30)
+    Define_Com Class(#xDemoOnOff) Name(#Switch2) Parent(#COM_OWNER) Displayposition(2) Tabposition(4) Top(74) Left(703) Height(30)
+    Define_Com Class(#xDemoOnOff) Name(#Switch3) Parent(#COM_OWNER) Displayposition(3) Tabposition(3) Top(108) Left(703) Height(30)
+    Define_Com Class(#xDemoOnOff) Name(#Switch4) Parent(#COM_OWNER) Displayposition(4) Tabposition(2) Top(142) Left(703) Height(30)
+    Define_Com Class(#xDemoOnOff) Name(#Switch5) Parent(#COM_OWNER) Left(703) Top(176) Height(30) Displayposition(5)
+    
+    Define_Com Class(#Prim_dcol<#Prim_labl #xDemoOnOff>) Name(#Labels)
+    Define_Com Class(#Prim_lcol<#xDemoOnOff>) Name(#Switches)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Labels.Insert( #Label1 #Switch1 )
+    #Labels.Insert( #Label2 #Switch2 )
+    #Labels.Insert( #Label3 #Switch3 )
+    #Labels.Insert( #Label4 #Switch4 )
+    #Labels.Insert( #Label5 #Switch5 )
+    
+    #Switches.insert( #Switch1 )
+    #Switches.insert( #Switch2 )
+    #Switches.insert( #Switch3 )
+    #Switches.insert( #Switch4 )
+    #Switches.insert( #Switch5 )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Switches<>.Changed) Com_Sender(#Sender)
+    
+    If (#Sender.On)
+    
+    #Labels<#Sender>.Style <= #On
+    
+    Else
+    
+    #Labels<#Sender>.Style <= #Off
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

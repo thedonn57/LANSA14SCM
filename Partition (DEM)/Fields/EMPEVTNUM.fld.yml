@@ -1,0 +1,51 @@
+﻿Field:
+  Name:               EMPEVTNUM
+  Type:               Packed
+  Length:             15
+  Decimals:           0
+  Default Value:      "*AUTONUM15EVENTNUM"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event number"
+      Label:              "Event number"
+      Heading1:           "Event number"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro d´évènement"
+      Label:              "No d´évènement"
+      Heading1:           "Numéro d´évènement"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "must be > *ZERO"
+      Values:
+      - "*ZERO"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DEM0048
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(478)
+    
+    End_Com
+    
+    End_Com

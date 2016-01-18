@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03PEN
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Primary Extension Name"
+      Label:              "X03PEN"
+      Heading1:           "Primary"
+      Heading2:           "Extension"
+      Heading3:           "Name"
+
+  - FRA:
+      Description:        "Primary Extension Name"
+      Label:              "X03PEN"
+      Heading1:           "Primary"
+      Heading2:           "Extension"
+      Heading3:           "Name"

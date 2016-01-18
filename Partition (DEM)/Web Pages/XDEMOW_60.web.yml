@@ -1,0 +1,103 @@
+﻿Web Page:
+  Name:               xDemoWebMenus
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Menus"
+
+  - FRA:
+      Description:        "Menus"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(608) Width(864) Layoutmanager(#TableLayout1) Style(#Style1)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Facename('vErdana') Fontsize(9)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Manage(#MenuBar1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#Label2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#Label4) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Manage(#Label3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column1) Manage(#Label5) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Column(#Column1) Manage(#Button2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Flow(Down) Alignment(TopLeft) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Column(#Column1) Manage(#Button3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(4) Marginleft(4) Flow(Down) Alignment(TopLeft)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label6) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Column(#Column1) Manage(#Label7) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label8) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#Label9) Parent(#TableLayout2) Row(#Row2) Sizing(None) Margintop(4) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(BottomRight) Column(#Column2) Flow(Down) Manage(#Button1) Parent(#TableLayout2) Row(#Row2) Sizing(None) Marginbottom(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Column(#Column1) Manage(#Label10) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(TopLeft) Flow(Down) Margintop(4) Marginleft(4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label11Item1) Column(#Column3) Manage(#Label11) Parent(#TableLayout3) Row(#Row3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Column(#Column3) Manage(#Button4) Parent(#TableLayout3) Row(#Row3) Sizing(None) Alignment(BottomRight) Marginbottom(4) Marginright(4)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Displayposition(1) Ellipses(Word) Height(49) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(864) Themedrawstyle('Title+DarkTitle') Caption('Using Menus') Marginleft(4)
+    Define_Com Class(#PRIM_PPNL.MenuBar) Name(#MenuBar1) Displayposition(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(864) Top(49)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem1) Caption('MenuItem1') Displayposition(1) Height(30) Menupopup(#PopupMenu1) Parent(#MenuBar1) Tabposition(1) Tabstop(False) Width(145)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem2) Caption('MenuItem2') Displayposition(2) Height(30) Left(145) Menupopup(#PopupMenu2) Parent(#MenuBar1) Tabposition(2) Tabstop(False) Width(145)
+    Define_Com Class(#PRIM_PPNL.Menu) Name(#PopupMenu1) Top(79) Height(130)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem3) Caption('MenuItem1') Displayposition(1) Parent(#PopupMenu1) Tabposition(1) Tabstop(False) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem4) Caption('MenuItem2') Displayposition(2) Parent(#PopupMenu1) Tabposition(2) Tabstop(False) Top(25) Width(148)
+    Define_Com Class(#PRIM_PPNL.Menu) Name(#PopupMenu2) Left(145) Top(79) Height(186) Width(109) Menusizing(Popup)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem5) Caption('MenuItem1') Displayposition(1) Parent(#PopupMenu2) Tabposition(1) Tabstop(False) Width(107)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem6) Caption('MenuItem2') Displayposition(2) Parent(#PopupMenu2) Tabposition(5) Tabstop(False) Top(25) Width(107) Menupopup(#PopupMenu3)
+    Define_Com Class(#PRIM_LABL) Name(#Label2) Displayposition(3) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(83) Width(597) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('Drag and drop a menu item on to the menu bar to get a new menu item')
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem7) Caption('MenuItem3') Displayposition(3) Parent(#PopupMenu2) Tabposition(4) Tabstop(False) Top(50) Width(107)
+    Define_Com Class(#PRIM_RDBN) Name(#RadioButton1) Caption('RadioButton1') Displayposition(3) Left(0) Marginleft(4) Parent(#PopupMenu1) Tabposition(3) Top(50) Width(148)
+    Define_Com Class(#PRIM_RDBN) Name(#RadioButton2) Caption('RadioButton2') Displayposition(4) Left(0) Marginleft(4) Parent(#PopupMenu1) Tabposition(4) Top(75) Width(148)
+    Define_Com Class(#PRIM_RDBN) Name(#RadioButton3) Caption('RadioButton3') Displayposition(5) Left(0) Marginleft(4) Parent(#PopupMenu1) Tabposition(5) Top(100) Width(148)
+    Define_Com Class(#PRIM_CKBX) Name(#CheckBox1) Caption('CheckBox1') Displayposition(4) Left(0) Parent(#PopupMenu2) Tabposition(7) Top(75) Width(107) Marginleft(4)
+    Define_Com Class(#PRIM_CKBX) Name(#CheckBox2) Caption('CheckBox2') Displayposition(5) Left(0) Parent(#PopupMenu2) Tabposition(6) Top(100) Width(107) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Displayposition(4) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(117) Width(717) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('Drag and drop a popup menu on to the menu bar or menu item to get a new sub menu')
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem8) Caption('MenuItem3') Displayposition(3) Height(30) Left(290) Menupopup(#Popup1) Parent(#MenuBar1) Tabposition(3) Tabstop(False) Width(145)
+    Define_Com Class(#PRIM_PPNL) Name(#Popup1) Closebutton(True) Closeonclick(True) Height(194) Width(513) Left(290) Top(79) Layoutmanager(#TableLayout2)
+    Define_Com Class(#PRIM_LABL) Name(#Label3) Displayposition(5) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(151) Width(685) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('Menus are composite controls just like a panel, so you can add other controls them ')
+    Define_Com Class(#PRIM_LABL) Name(#Label5) Displayposition(6) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(185) Width(701) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('MenuItem1 has radio button and MenuItem2 has check boxes and a further submenu')
+    Define_Com Class(#PRIM_LABL) Name(#Label6) Caption('This is a popup panel acting as a submenu') Displayposition(1) Ellipses(Word) Height(30) Left(4) Parent(#Popup1) Tabposition(3) Tabstop(False) Top(4) Verticalalignment(Center) Width(453) Marginleft(4) Themedrawstyle('Heading2+DarkTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label7) Displayposition(7) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(219) Width(461) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('MenuItem3 has a popup panel instead of a popup menu')
+    Define_Com Class(#PRIM_PPNL.Menu) Name(#PopupMenu3) Height(56) Left(256) Top(97)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem9) Caption('MenuItem1') Displayposition(1) Parent(#PopupMenu3) Tabposition(1) Tabstop(False) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem10) Caption('MenuItem2') Displayposition(2) Parent(#PopupMenu3) Tabposition(2) Tabstop(False) Top(25) Width(148)
+    Define_Com Class(#PRIM_LABL) Name(#Label8) Caption('This is can be formatted however you like') Displayposition(2) Ellipses(Word) Height(30) Left(4) Parent(#Popup1) Tabposition(2) Tabstop(False) Top(38) Verticalalignment(Center) Width(349) Marginleft(4) Themedrawstyle('Heading2+DarkTitle')
+    Define_Com Class(#PRIM_EDIT) Name(#Edit1) Displayposition(3) Left(136) Parent(#Popup1) Showselection(False) Showselectionhilight(False) Tabposition(4) Top(112)
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(5) Left(456) Parent(#Popup1) Tabposition(6) Tabstop(False) Top(96) Image(#xImageHelp32)
+    Define_Com Class(#PRIM_LABL) Name(#Label9) Displayposition(6) Ellipses(Word) Height(30) Left(4) Parent(#Popup1) Tabposition(1) Tabstop(False) Top(72) Verticalalignment(Center) Width(325) Themedrawstyle('Heading2+LightTitle') Marginleft(4) Caption('Edits, images, buttons or any control')
+    Define_Com Class(#PRIM_SPDT) Name(#SpinEdit1) Displayposition(7) Left(8) Parent(#Popup1) Showselection(False) Showselectionhilight(False) Tabposition(7) Top(112)
+    Define_Com Class(#PRIM_IMAG) Name(#Image2) Displayposition(4) Left(456) Parent(#Popup1) Tabposition(5) Tabstop(False) Top(40) Image(#xImageHelp32)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Caption('Button') Displayposition(8) Left(427) Parent(#Popup1) Tabposition(8) Top(163)
+    Define_Com Class(#PRIM_LABL) Name(#Label10) Displayposition(8) Ellipses(Word) Height(30) Left(4) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(253) Width(340) Themedrawstyle('Heading2+MediumTitle') Marginleft(4) Verticalalignment(Center) Caption('This label has a right click context menu') Popup(#PopupMenu4)
+    Define_Com Class(#PRIM_PPNL.Menu) Name(#PopupMenu4) Left(344) Top(245) Height(132)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem11) Caption('MenuItem1') Displayposition(1) Parent(#PopupMenu4) Tabposition(1) Tabstop(False) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem12) Caption('MenuItem2') Displayposition(2) Parent(#PopupMenu4) Tabposition(5) Tabstop(False) Top(25) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem13) Caption('MenuItem3') Displayposition(3) Parent(#PopupMenu4) Tabposition(4) Tabstop(False) Top(50) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem14) Caption('MenuItem4') Displayposition(4) Parent(#PopupMenu4) Tabposition(3) Tabstop(False) Top(75) Width(148)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem15) Caption('MenuItem5') Displayposition(5) Parent(#PopupMenu4) Tabposition(2) Tabstop(False) Top(100) Width(148)
+    Define_Com Class(#PRIM_PHBN) Name(#Button2) Caption('This button has a menu') Displayposition(9) Left(4) Parent(#COM_OWNER) Tabposition(9) Top(287) Width(285) Menupopup(#PopupMenu5) Themedrawstyle('Heading2') Height(30)
+    Define_Com Class(#PRIM_PPNL.Menu) Name(#PopupMenu5) Height(105) Width(285) Left(4) Top(317)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem16) Caption('MenuItem1') Displayposition(1) Parent(#PopupMenu5) Tabposition(1) Tabstop(False) Width(283)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem17) Caption('MenuItem2') Displayposition(2) Parent(#PopupMenu5) Tabposition(4) Tabstop(False) Top(25) Width(283)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem18) Caption('MenuItem3') Displayposition(3) Parent(#PopupMenu5) Tabposition(3) Tabstop(False) Top(50) Width(283)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem19) Caption('MenuItem4') Displayposition(4) Parent(#PopupMenu5) Tabposition(2) Tabstop(False) Top(75) Width(283)
+    Define_Com Class(#PRIM_PHBN) Name(#Button3) Caption('This button has a popup panel') Displayposition(10) Left(4) Parent(#COM_OWNER) Tabposition(10) Top(321) Width(285) Menupopup(#Popup2) Themedrawstyle('Heading2') Height(30)
+    Define_Com Class(#PRIM_PPNL) Name(#Popup2) Closebutton(True) Left(4) Top(343) Height(124) Width(285) Layoutmanager(#TableLayout3)
+    Define_Com Class(#PRIM_LABL) Name(#Label11) Caption('Drag and drop a popup panel from the Controls view on the the button') Displayposition(2) Ellipses(Word) Height(124) Left(0) Parent(#Popup2) Tabposition(1) Tabstop(False) Top(0) Width(285) Themedrawstyle('MediumTitle+Heading2') Marginleft(4) Marginright(4) Margintop(4)
+    Define_Com Class(#PRIM_PHBN) Name(#Button4) Caption('OK') Displayposition(1) Left(201) Parent(#Popup2) Tabposition(2) Top(95)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem20) Caption('MenuItem3') Displayposition(6) Parent(#PopupMenu2) Tabposition(3) Tabstop(False) Top(125) Width(107)
+    Define_Com Class(#PRIM_PPNL.MenuItem) Name(#MenuItem21) Caption('MenuItem3') Displayposition(7) Parent(#PopupMenu2) Tabposition(2) Tabstop(False) Top(150) Width(107)
+    
+    
+    End_Com

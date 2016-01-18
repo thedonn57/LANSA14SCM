@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               YYYY
+  Type:               Signed
+  Length:             4
+  Decimals:           0
+  Default Value:      "*YYYY"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Year Number"
+      Label:              "Year .........."
+      Heading1:           "Year"
+      Heading2:           "----"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Année"
+      Label:              "Année"
+      Heading1:           "Année"
+      Heading2:           " "
+      Heading3:           " "

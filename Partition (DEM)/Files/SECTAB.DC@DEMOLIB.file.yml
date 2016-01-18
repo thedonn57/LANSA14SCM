@@ -1,0 +1,110 @@
+﻿File:
+  Name:                           SECTAB
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             SECTAB
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                Yes
+  Secure From File Overrides:     No
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE(10000     2000      3         ) LVLCHK(*YES)  SHARE(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Section code table"
+
+  - FRA:
+      Description:        "Table des codes section"
+
+  Real Fields:
+  - DEPTMENT:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - SECTION:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - SECDESC:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - SECADDR1:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - SECADDR2:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - SECADDR3:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - SECPCODE:
+      Type:               Signed
+      Length:             6
+      Decimals:           0
+
+  - SECPHBUS:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  Primary Keys:
+  - DEPTMENT
+  - SECTION
+
+  Access Routes:
+  - SECTAB01:
+      Description:        People who work in this section
+      File:               PSLMST1
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DEPTMENT
+      - SECTION
+
+  - SECTAB02:
+      Description:        Associated department details
+      File:               DEPTAB
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Abort
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DEPTMENT

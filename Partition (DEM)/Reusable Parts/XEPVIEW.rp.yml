@@ -1,0 +1,97 @@
+﻿Reusable Part:
+  Name:               XEPViewer
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Viewer"
+
+  - FRA:
+      Description:        "Employee Viewer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(569) Left(0) Tabposition(1) Top(0) Width(500) Layoutmanager(#TableLayout) Style(#Style_WhiteBackground)
+    
+    * Style
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_WhiteBackground) Normbackcolor(White)
+    
+    * Layout
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Height(48) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterLeft) Column(#Column1) Parent(#TableLayout) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#ImageBack) Parent(#TableLayout) Row(#Row1) Sizing(FitToHeight) Alignment(CenterLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Manage(#EmployeeDetails) Parent(#TableLayout) Row(#Row3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#ImageDelete) Parent(#TableLayout) Row(#Row1) Sizing(FitToHeight) Alignment(TopRight) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#ImageEdit) Parent(#TableLayout) Row(#Row1) Sizing(FitToHeight) Alignment(TopRight) Flow(Left)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#PanelHeadingItem1) Column(#Column1) Manage(#PanelHeading) Parent(#TableLayout) Row(#Row1)
+    
+    * A Heading Panel, with a LABEL and Back/Edit/Delete buttons on it
+    Define_Com Class(#PRIM_PANL) Name(#PanelHeading) Displayposition(2) Height(48) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(500) Themedrawstyle('MediumTitle') Layoutmanager(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#LabelHeading) Displayposition(4) Ellipses(Word) Height(48) Left(0) Parent(#PanelHeading) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(500) Themedrawstyle('Heading1+MediumTitle') Marginleft(50) Caption('New Employee')
+    Define_Com Class(#PRIM_IMAG) Name(#ImageBack) Displayposition(3) Left(0) Parent(#PanelHeading) Tabstop(False) Top(0) Height(48) Tabposition(2) Image(#XEPBM004) Width(48)
+    Define_Com Class(#PRIM_IMAG) Name(#ImageDelete) Displayposition(1) Left(452) Parent(#PanelHeading) Tabposition(3) Tabstop(False) Top(0) Height(48) Width(48) Image(#XEPBM005) Hint('Delete Employee Details')
+    Define_Com Class(#PRIM_IMAG) Name(#ImageEdit) Displayposition(2) Left(404) Parent(#PanelHeading) Tabposition(4) Tabstop(False) Top(0) Height(48) Width(48) Image(#XEPBM006) Hint('Edit Employee Details')
+    
+    * A Reusable Part to show all employee details
+    Define_Com Class(#XEPDetails) Name(#EmployeeDetails) Height(521) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(48)
+    
+    * A reference to the employee we are viewing, published as a property
+    Define_Com Class(#XEPData) Name(#CurrentEmployee) Reference(*DYNAMIC)
+    Define_Pty Name(CurrentEmployee) Get(*REFERENCE #CurrentEmployee)
+    
+    * ****** *
+    * Events *
+    * ****** *
+    
+    Define_Evt Name(BackClicked)
+    
+    Define_Evt Name(EditClicked)
+    
+    Define_Evt Name(DeleteClicked)
+    
+    * ************** *
+    * Event Handlers *
+    * ************** *
+    
+    Evtroutine Handling(#ImageBack.Click)
+    
+    Signal Event(BackClicked)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageEdit.Click)
+    
+    Signal Event(EditClicked)
+    
+    Endroutine
+    
+    Evtroutine Handling(#ImageDelete.Click)
+    
+    Signal Event(DeleteClicked)
+    
+    Endroutine
+    
+    * ******* *
+    * Methods *
+    * ******* *
+    
+    Mthroutine Name(ViewEmployee)
+    Define_Map For(*INPUT) Class(#XEPData) Name(#Employee) Pass(*BY_REFERENCE)
+    
+    #CurrentEmployee <= #Employee
+    
+    #LabelHeading := #Employee.DisplayName
+    
+    #EmployeeDetails.ViewEmployee( #CurrentEmployee )
+    
+    Endroutine
+    
+    End_Com

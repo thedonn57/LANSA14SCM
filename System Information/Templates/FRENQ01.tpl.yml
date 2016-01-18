@@ -1,0 +1,206 @@
+﻿Template:
+  Name:                    FRENQ01
+  Description:             Flat Screen Enquiry
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 20 1:1 RELATED FILES                 */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(20) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the base file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 1   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(1)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO MAKE A LIST OF ALL FIELDS IN LIST 2     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'Appear on' 'Display' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER HOW TO DESIGN THE PANELS                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the enquiry panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS002) EXTEND('Reply DOWN or ACROSS only.' 'If your enquiry panel contains 17 (or less) fields, DOWN is the   ' 'recommended value. If your enquiry panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP020 HELP030 HELP040)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 2 AS *HIDDEN     */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(2)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  'Function control options'
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    @@COMMENT  'Group and field definitions'
+    GROUP_BY   NAME(#PANELDATA) FIELDS(@@LST02)
+    @@COMMENT  'Loop until user EXITs or CANCELs'
+    BEGIN_LOOP
+    /* ********** ======================================================= */
+    /* ********** REQUEST KEYS OF THE BASE FILE BE INPUT AND GET DATA     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@COMMENT  'Request user inputs keys to locate base file details'
+    @@IF       COND((*IF @@CANS002 *NE DOWN)) GOTO(R01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC)
+    @@GOTO     LABEL(R02)
+    L91: @@LABEL
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    @@GOTO     LABEL(R02)
+    R01: @@IF       COND((*IF @@CANS002 *NE ACROSS)) GOTO(R02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L93)
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*ACROSS) IDENTIFY(*LABEL)
+    @@GOTO     LABEL(R02)
+    L93: @@LABEL
+    R10: REQUEST    FIELDS(@@LST03) DESIGN(*ACROSS) IDENTIFY(*LABEL)    CURSOR_LOC(*ATFIELD #@@LEL0301)
+    R02: @@COMMENT  COMMENT('Fetch file @@FNAME01 details     ')
+    FETCH      FIELDS((#PANELDATA)) FROM_FILE(@@FNAME01) WITH_KEY(@@LST03) NOT_FOUND(R10) ISSUE_MSG(*YES)
+    /* ********** ======================================================= */
+    /* ********** FETCH DETAILS FROM ALL SECONDARY FILES                  */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#PANELDATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** DISPLAY DETAILS                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Display results to the user      ')
+    @@IF       COND((*IF @@CANS002 *NE DOWN)) GOTO(D01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L94)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*DOWN) IDENTIFY(*DESC)
+    @@GOTO     LABEL(D02)
+    L94: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*DOWN) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0201)
+    @@GOTO     LABEL(D02)
+    D01: @@IF       COND((*IF @@CANS002 *NE ACROSS)) GOTO(R02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L95)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*ACROSS) IDENTIFY(*LABEL)
+    @@GOTO     LABEL(D02)
+    L95: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*ACROSS) IDENTIFY(*LABEL) CURSOR_LOC(*ATFIELD #@@LEL0201)
+    D02: CHANGE     FIELD(#PANELDATA) TO(*DEFAULT)
+    END_LOOP
+
+  Help Panels:
+  - HELP010:
+      Description:        "      Flat Screen Enquiry"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple flat screen enquiry program.      
+                                                                                        
+         The use of the term "flat screen" means that no list of information will appear
+         on the screen. This implies that all files used by the enquiry are related in  
+         1 : 1 relationships. If you elect to use this template you will be asked ....  
+                                                                                        
+         1. To nominate the base file upon which the enquiry will be based. You can     
+            enter the full file name, a partial file name (to get a partial list of     
+            available files), or leave the name blank (to get a list of all available   
+            files). When a list of files is displayed the one required can be chosen    
+            from the list.                                                              
+                                                                                        
+            Once the base file has been nominated you will be given the option to choose
+            other related files from which information to appear on the enquiry panel   
+            should be fetched. You will only be given the option to choose from files   
+            that are related to the base file in a 1:1 relationship.
+
+  - HELP020:
+      Description:        "      Flat Screen Enquiry"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+         2. Next, you must choose and order the fields that are to appear on the enquiry
+            panel. None of the fields chosen will be input capable because this template
+            is creating an enquiry (rather than a maintenance) program.                 
+                                                                                        
+                                                                                        
+         3. Finally, you will be asked whether fields on the enquiry panel are to be    
+            designed across the screen or down the screen. If you have 17 (or less)     
+            fields it is recommended that you use down the screen. If you have more     
+            than 17, it is recommended that you use across the screen.
+
+  - HELP030:
+      Description:        "      Flat Screen Enquiry"
+
+      Text: |
+        <-
+                                                                                        
+         Product no . . . 628384                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                             This is an example of the type of initial  
+                                             panel created by this template over a      
+                                             PRODUCTS file. It is requesting that the   
+                                             user specify the key of the base file.     
+                                                                                        
+                                             In this case the user has indicated that   
+                                             product 628384 is to be enquired upon.
+
+  - HELP040:
+      Description:        "     Flat Screen Enquiry"
+
+      Text: |
+        <-
+                                                                                        
+         Product no . . . . . 628384                                                    
+         Description  . . . . 1" HEXAGONAL BOLT (GALVANIZED)                            
+         Stock unit . . . . . BOX                                                       
+         Unit price . . . . .   1.14                                                    
+         Stock on hand  . . .  20,000                                                   
+         Supplier number  . . A4356                                                     
+         *Supplier name       ACME BOLT AND NUT SUPPLIES                                
+         *Supplier address    121 Smith Street                                          
+                              Anytown                                                   
+                              Anywhere      This is an example of the type of enquiry   
+         *Supplier Zip        32543         panel that would result from using this     
+         Product Category . . FEQ           template over a PRODUCTS file.              
+         *Description         FASTENING EQUIPM                                          
+                                            * Note : The supplier details and the       
+                                              product category details have come from   
+                                              other related files such as the supplier  
+                                              master and the product category table.

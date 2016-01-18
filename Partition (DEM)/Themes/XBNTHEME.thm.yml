@@ -1,0 +1,56 @@
+﻿Theme:
+  Name:               XBNTheme
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Theme - The Bank of North Sydney"
+
+  - FRA:
+      Description:        "Theme - The Bank of North Sydney"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_THM) Style(#ThemeStyle) Themetextcolor(82:82:82)
+    
+    * Theme style
+    Define_Com Class(#PRIM_VS.Style) Name(#ThemeStyle) Fontsize(11) Facename('Arial')
+    
+    * OVERWRITE: Edit
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Edit) Style(#EditStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#EditStyle) Cornerbottomleft(5) Cornerbottomright(5) Cornertopleft(5) Cornertopright(5)
+    
+    * OVERWRITE: ListColumn
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ListColumn) Style(#ListColumnStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#ListColumnStyle) Normbackcolor(Theme100) Fontsize(12) Borderright(2) Borderbottom(1)
+    
+    * Heading1
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading1) Style(#Heading1Style)
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading1Style) Fontsize(20)
+    
+    * Heading2
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading2) Style(#Heading2Style)
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading2Style) Fontsize(15)
+    
+    * Heading2 as Link
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Heading2AsLink) Style(#Heading2AsLinkStyle) Mouseoverstyle(#Heading2AsLinkMouseOverStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading2AsLinkStyle) Fontsize(15) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#Heading2AsLinkMouseOverStyle) Underline(True)
+    
+    * Login/Logout
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Login) Style(#LoginStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#LoginStyle) Underline(True) Fontsize(14) Cursor(Hand)
+    
+    * Background Picture
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#Background) Style(#BackgroundStyle)
+    Define_Com Class(#Prim_vs.Style) Name(#BackgroundStyle) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#BackgroundBrush) Image(#XBNIMG01) Sizing(BestFit)
+    
+    * LoginButton
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#LoginButton) Style(#LoginButtonStyle)
+    Define_Com Class(#PRIM_VS.Style) Name(#LoginButtonStyle) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1) Cornerbottomleft(12) Cornerbottomright(12) Cornertopleft(12) Cornertopright(12) Cursor(Hand) Bordercolor(Theme700) Normbackcolor(Theme200)
+    
+    End_Com

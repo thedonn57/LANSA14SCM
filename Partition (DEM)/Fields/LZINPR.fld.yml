@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               LZINPR
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    STD_AMNT
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Unit Value"
+      Label:              "Unit Value"
+      Heading1:           "Unit"
+      Heading2:           "Value"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Prix Unitaire"
+      Label:              "Prix Unitaire"
+      Heading1:           "Prix"
+      Heading2:           "Unitaire"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Unit Value contains the price/value of one unit of this}
+        %Inventory Item.}
+      
+         The Unit value/price is for the specified unit of measurement.      .
+         If the unit of measurement is for instance "Kilo", then the
+         Unit Value is for One Kilo of this Item.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable indique le prix unitaire d'un article de}
+        %Linventaire.}
+      
+      $$NOAUTO

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XAPSEN
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Secondary Extension Name"
+      Label:              "XAPSEN"
+      Heading1:           "Secondary"
+      Heading2:           "Extension"
+      Heading3:           "Name"
+
+  - FRA:
+      Description:        "Secondary Extension Name"
+      Label:              "XAPSEN"
+      Heading1:           "Secondary"
+      Heading2:           "Extension"
+      Heading3:           "Name"

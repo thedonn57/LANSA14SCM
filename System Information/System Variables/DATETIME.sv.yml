@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*DATETIME"
+  Description:        "Current date and time (numeric)"
+  Derivation:         Dynamic
+  Data Type:          Numeric
+  Length:             14
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

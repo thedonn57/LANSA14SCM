@@ -1,0 +1,53 @@
+﻿Reusable Part:
+  Name:               XDXTouchGestures
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Touch - Image Viewer"
+
+  - FRA:
+      Description:        "Touch - Image Viewer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(270) Width(500)
+    
+    Define_Com Class(#prim_lcol<#XDXTouchEmployeeImage>) Name(#Images)
+    
+    Evtroutine Handling(#Com_owner.Initialize) /* Delayed so that the size of panel is known */
+    
+    Select Fields(*all) From_File(pslimg)
+    
+    #Images.Insert( (*New #XDXTouchEmployeeImage.Construct( #sys_appln.CreateBitmap( #Empimg.FileName ) )) )
+    
+    If (#Images.Itemcount > 1)
+    
+    #Images.Last.rotation := #Images<(#Images.Itemcount - 1)>.rotation + 9
+    
+    Endif
+    
+    #Images.last.parent <= #com_owner
+    
+    #Images.Last.Left := (#Com_owner.Width - #Images.Last.Width) / 2
+    
+    #Images.Last.Top := (#Com_owner.Height - #Images.Last.Height) / 2
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Images<>.TouchChange) Com_Sender(#Image)
+    
+    #Image.Top := #Image.Top.Bound( 0 (#Com_owner.Height - #Image.Height) )
+    #Image.Left := #Image.Left.Bound( 0 (#com_owner.Width - #Image.Width) )
+    
+    
+    Endroutine
+    
+    End_Com

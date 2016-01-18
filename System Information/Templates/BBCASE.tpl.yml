@@ -1,0 +1,72 @@
+﻿Template:
+  Name:                    BBCASE
+  Description:             "Build block : CASE / ENDCASE Construct"
+
+  Source: |
+    @@QUESTION PROMPT('Describe what this entire CASE construct is used for') ANSWER(@@CANS001) EXTEND('The information you provide here is used to create a comment in your RDML' 'program. If you do not specify an answer, no comment will be generated.' 'Use the HELP function key for more details and/or examples.') HELPIDS(HELP010 HELP020)
+    @@QUESTION PROMPT('Specify the name of the field that is to be tested by this CASE construct') ANSWER(@@CANS002) EXTEND('Precede the field name with a "#" sign as you do in all RDML programming.' 'Use the HELP function key for more details and/or examples.') LOWER(*NO) HELPIDS(HELP010 HELP020)
+    @@QUESTION PROMPT('Now, specify how many conditions will be tested by this case construct') ANSWER(@@NANS001) EXTEND('For example, your CASE block might want to test for when field @@CANS002' 'is an "A", a "B" and a "C". This would be 3 separate conditions.' 'Use the HELP key to view examples and for further information.') LOWER(*YES) RANGE((1 20)) HELPIDS(HELP010 HELP020)
+    @@IF       COND((*IF @@CANS001 *EQ ' ')) GOTO(A10)
+    @@COMMENT  COMMENT('@@CANS001')
+    A10: @@LABEL
+    CASE       OF_FIELD(@@CANS002)
+    @@SET_IDX  IDX_NAME(CX) TO(1)
+    A30: @@CMP_IDX  IDX_NAME(CX) IDX_VALUE(@@NANS001) IF_GT(A40)
+    @@QUESTION PROMPT('Specify a value to be compared with field @@CANS002') ANSWER(@@CANS003) EXTEND('You will get this question repeated for each separate condition that is to' 'be tested. For instance, if you specified that the CASE construct tests' '3 separate conditions, then this question will be repeated 3 times.' 'On each repetition, specify the next value that is to be compared with' '@@CANS002. For more information and examples use the HELP function key.') LOWER(*NO) HELPIDS(HELP010 HELP020)
+    WHEN       VALUE_IS('= @@CANS003')
+    @@INC_IDX  IDX_NAME(CX)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    OTHERWISE
+    ENDCASE
+
+  Help Panels:
+  - HELP010:
+      Description:        "       CASE / ENDCASE"
+
+      Text: |
+        <-
+                                                                                        
+         This application template constructs an CASE/WHEN/OTHERWISE/ENDCASE construct  
+         into your RDML program. Initially you will be asked 3 questions ....           
+                                                                                        
+         1. To specify a description of what the CASE construct does. This is used to   
+            generate a comment into your RDML program. If you do not specify a value    
+            no comment will be generated. Be brief and concise (eg: "Handle each        
+            individual customer type separately").                                      
+                                                                                        
+         2. To nominate the actual field that is to be tested by the CASE construct.    
+            Precede the field name with a "#" sign like you do in all RDML programs.    
+            (eg: #CUSTYP is the name of the customner type field). You must nominate    
+            a valid field name.                                                         
+                                                                                        
+         3. To specify how many separate conditions are to be tested by the CASE        
+            construct. The answer must be a number in the range 1 - 20. In the example  
+            being used here, you might what to individually test the "Customer type"    
+            for values A, S, V and P, so you would reply 4 to this question.
+
+  - HELP020:
+      Description:        "       CASE / ENDCASE"
+
+      Text: |
+        <-
+                                                                                        
+         After specifying how many separate conditions are to be tested, you will then  
+         be asked the same question repetetively. This question asks you to specify a   
+         value that is to be compared with the field previously nominated.              
+                                                                                        
+         In the example being used, 4 separate conditions were to be tested, so the     
+         same question would be asked 4 times.                                          
+                                                                                        
+                      On the first  occurence you would answer A                        
+                       "  "  second     "      "    "     "    S                        
+                       "  "  third      "      "    "     "    V                        
+                       "  "  fourth     "      "    "     "    P                        
+                                                                                        
+         About field types : In the example given it is assumed that field #CUSTYP is   
+         alphanumeric. Note that all the comparison values are also alphanumeric, so    
+         the generated RDML code should work just fine. However, if field #CUSTYP was   
+         still alphanumeric, but the comparison values were 1,2,3 and 4, you should     
+         surround the value with 2 single quotes to ensure that the RDML compiler       
+         understands that it is using an alphanumeric '2', rather than the number 2.    
+         Example replies in this case would be ''1'', ''2'', ''3'', and ''4''.

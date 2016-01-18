@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               LZPR12
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    LZPERD
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "December"
+      Label:              "December......."
+      Heading1:           "December"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Decembre"
+      Label:              "Decembre......."
+      Heading1:           "Decembre"
+      Heading2:           " "
+      Heading3:           " "

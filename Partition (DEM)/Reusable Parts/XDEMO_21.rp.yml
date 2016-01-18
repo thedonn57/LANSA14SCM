@@ -1,0 +1,33 @@
+﻿Reusable Part:
+  Name:               xDemoWebSplashScreenPopup
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Splash Screen Popup"
+
+  - FRA:
+      Description:        "Splash Screen Content"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(193) Left(0) Top(0) Width(345) Layoutmanager(#TableLayout)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme50) Opacity(50)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(1.01)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(0.99)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#VisualLANSA) Caption('Visual LANSA') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(137) Width(343) Alignment(Center) Themedrawstyle('Title+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#VisualLANSA) Parent(#TableLayout) Row(#Row) Rowspan(2) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_LABL) Name(#PleaseWait) Caption('Loading data...') Displayposition(2) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(97) Verticalalignment(Center) Height(94) Width(343) Alignment(Center) Themedrawstyle('Heading1+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#PleaseWait) Parent(#TableLayout) Row(#Row_2)
+    
+    End_Com

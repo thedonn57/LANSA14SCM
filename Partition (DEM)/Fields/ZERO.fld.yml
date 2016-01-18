@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               ZERO
+  Type:               Signed
+  Length:             1
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Zero (0) variable"
+      Label:              "Zero .........."
+      Heading1:           "Zero"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Variable à valeur zéro (0)"
+      Label:              "Zéro  . . . . ."
+      Heading1:           "Zéro"
+      Heading2:           " "
+      Heading3:           " "

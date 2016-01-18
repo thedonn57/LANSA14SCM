@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               YYMMDDC
+  Type:               Alphanumeric
+  Length:             6
+  Decimals:           0
+  Default Value:      "*YYMMDDC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Character date in format YYMMDD"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date alphanumérique, AAMMJJ"
+      Label:              "Date  . . . . ."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

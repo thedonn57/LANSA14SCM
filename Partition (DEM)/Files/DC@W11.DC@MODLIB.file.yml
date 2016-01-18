@@ -1,0 +1,150 @@
+﻿File:
+  Name:                           DC@W11
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@W11
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "L4W3 - Banner Details"
+
+  - FRA:
+      Description:        "L4W3 - Banner Details"
+
+  Real Fields:
+  - W11P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - W11CMP:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - W11SET:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - W11IMG:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - W11DES:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - W11URL:
+      Type:               Alphanumeric
+      Length:             255
+      Decimals:           0
+
+  - W11SP1:
+      Type:               Alphanumeric
+      Length:             100
+      Decimals:           0
+
+  - W11CLK:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  Logical Views:
+  - DC@W11V1:
+      Identifier:         DC@W11V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W11V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@W11     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@W11     /NOEDLO"
+
+      Fields:
+      - W11P#I
+      - W11CMP
+      - W11SET
+      - W11IMG
+      - W11DES
+      - W11URL
+      - W11SP1
+      - W11CLK
+
+      Keys:
+      - W11P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W11CMP:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W11SET:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+  - DC@W11V2:
+      Identifier:         DC@W11V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@W11V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@W11     /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@W11     /NOEDLO"
+
+      Fields:
+      - W11P#I
+      - W11CMP
+      - W11SET
+      - W11IMG
+      - W11DES
+      - W11URL
+      - W11SP1
+      - W11CLK
+
+      Keys:
+      - W11P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W11CMP:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - W11SET:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed

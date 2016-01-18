@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_FILTR
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "'N'"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard apply filter Y/N"
+      Label:              "Standard apply"
+      Heading1:           "Standard"
+      Heading2:           "apply filter"
+      Heading3:           "Y/N"
+
+  - FRA:
+      Description:        "Appliquer filtre Y/N"
+      Label:              "Appliq. filtre"
+      Heading1:           "Appliquer"
+      Heading2:           "Filtre std"
+      Heading3:           "Y/N"

@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               COMMENT
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Comment on skills acquired"
+      Label:              "Comment........"
+      Heading1:           "Comment"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Commentaire sur les formations suivies"
+      Label:              "Commentaire . ."
+      Heading1:           "Commentaire"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(324)
+    
+    End_Com
+    
+    End_Com

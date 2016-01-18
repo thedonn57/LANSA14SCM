@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               xDemoReturnCode
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Return Code"
+      Label:              "Return Code"
+      Heading1:           "Return"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Return Code"
+      Label:              "Return Code"
+      Heading1:           "Return"
+      Heading2:           "Code"
+      Heading3:           " "

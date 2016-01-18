@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               xDemoUnicode128_3
+  Type:               NChar
+  Length:             128
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Unicode 128"
+      Label:              "Unicode 128"
+      Heading1:           "Unicode"
+      Heading2:           "128"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Unicode 128"
+      Label:              "Unicode 128"
+      Heading1:           "Unicode"
+      Heading2:           "128"
+      Heading3:           " "

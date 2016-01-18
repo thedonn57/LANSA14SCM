@@ -1,0 +1,534 @@
+﻿Template:
+  Name:                    VL_BASEBOF
+  Description:             Visual LANSA Business Object Filter
+  Extended Description 1:  Base form for Business Object Filter
+
+  Source: |
+    @@QUESTION PROMPT('Do you want to continue?') ANSWER(@@CANS001) EXTEND('This template produces a Business Object Filter.' 'It is based on the demonstration personnel system.' 'Please read the comments in the code and replace' 'the field and file names as required.' 'See help for further information.') LOWER(*NO) HELPIDS(HELP010)
+    @@IF       COND((*IF @@CANS001 *EQ N)) GOTO(E99)
+    @@ROUTEBEG
+    BEGIN_COM  BORDERICONS(Minimize+SystemMenu) CAPTION('Business Object Filter') FRAMESTYLE(Dialog) HEIGHT(491) LEFT(347) TOP(21) VISUALSTYLE(#VS_NORM) WIDTH(321)
+    @@ROUTEDEF
+    /* **********                                                         */
+    /* ********** Business Object Filter Template                         */
+    /* ********** Version  1.0                                            */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** Open the component tab of editor.                       */
+    /* ********** If required change the captions for the view radio      */
+    /* ********** buttons in the property sheet.                          */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_1) CAPTION(Views) DISPLAYPOSITION(1) HEIGHT(57) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(1) TABSTOP(False) TOP(8) WIDTH(313)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RDBN_LVL1) BUTTONCHECKED(True) CAPTION('By Level 1/level 2') DISPLAYPOSITION(1) LEFT(12) PARENT(#GPBX_1) TABPOSITION(1) TOP(20) WIDTH(141)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RDBN_LVL3) CAPTION('By Level 3') DISPLAYPOSITION(2) LEFT(184) PARENT(#GPBX_1) TABPOSITION(2) TOP(22) WIDTH(87)
+    /* **********                                                         */
+    /* ********** Level 1 group box.                                      */
+    /* ********** If required change caption of group box.                */
+    /* ********** The combo box columns use the key and descriptive       */
+    /* ********** fields of the first level file.                         */
+    /* ********** Change the source field property to the correct names.  */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_LVL1) CAPTION('Level 1') DISPLAYPOSITION(4) HEIGHT(57) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(4) TABSTOP(False) TOP(72) WIDTH(313)
+    DEFINE_COM CLASS(#PRIM_CKBX) NAME(#CKBX_LVL1) BUTTONSTATE(Checked) CAPTION('All Level 1') DISPLAYPOSITION(2) LEFT(8) PARENT(#GPBX_LVL1) TABPOSITION(2) TOP(23)
+    DEFINE_COM CLASS(#PRIM_CMBX) NAME(#CMBX_LVL1) DISPLAYPOSITION(1) ENABLED(False) HEIGHT(22) LEFT(128) PARENT(#GPBX_LVL1) TABPOSITION(1) TOP(24) WIDTH(177)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBL1_1) PARENT(#CMBX_LVL1) SOURCE(#DEPTMENT) VISIBLE(False) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBL1_2) DISPLAYPOSITION(1) PARENT(#CMBX_LVL1) SORTPOSITION(1) SOURCE(#DEPTDESC) WIDTH(20)
+    /* **********                                                         */
+    /* ********** Level 2 group box.                                      */
+    /* ********** If required change caption of group box.                */
+    /* ********** The combo box columns use the key and descriptive       */
+    /* ********** fields of the second level file.                        */
+    /* ********** Change the source field property to the correct names.  */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_LVL2) CAPTION('Level 2') DISPLAYPOSITION(6) HEIGHT(57) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(6) TABSTOP(False) TOP(136) WIDTH(313)
+    DEFINE_COM CLASS(#PRIM_CKBX) NAME(#CKBX_LVL2) BUTTONSTATE(Checked) CAPTION('All Level 2') DISPLAYPOSITION(2) ENABLED(False) PARENT(#GPBX_LVL2) TABPOSITION(2) TOP(20 )
+    DEFINE_COM CLASS(#PRIM_CMBX) NAME(#CMBX_LVL2) DISPLAYPOSITION(1) ENABLED(False) HEIGHT(22) LEFT(128) PARENT(#GPBX_LVL2) TABPOSITION(1) TOP(22) WIDTH(177)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBL2_2) PARENT(#CMBX_LVL2) SOURCE(#SECTION) VISIBLE(False) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBL2_3) DISPLAYPOSITION(1) PARENT(#CMBX_LVL2) SOURCE(#SECDESC) WIDTH(20)
+    /* **********                                                         */
+    /* ********** Level 3 group box.                                      */
+    /* ********** If required change caption of group box.                */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_LVL3) CAPTION('Level 3') DISPLAYPOSITION(2) HEIGHT(217) LEFT(0) PARENT(#COM_OWNER) TABPOSITION(2) TABSTOP(False) TOP(200) WIDTH(313)
+    /* **********                                                         */
+    /* ********** If required change caption of group box and radio       */
+    /* ********** buttons.                                                */
+    /* ********** These buttons indicate how the data should be sorted.   */
+    /* ********** How buttons are required will be determined by what     */
+    /* ********** data will be displayed at the third level.              */
+    /* ********** If changing the names of these buttons also change      */
+    /* ********** the names of the associated events.                     */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_4) CAPTION(Sort) DISPLAYPOSITION(2) HEIGHT(81) LEFT(8) PARENT(#GPBX_LVL3) TABPOSITION(2) TABSTOP(False) TOP(16) WIDTH(297)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_ALP) BUTTONCHECKED(True) CAPTION('By Name') DISPLAYPOSITION(2) LEFT(160) PARENT(#GPBX_4) TABPOSITION(2) TOP(16) WIDTH(92)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_SAL) CAPTION('By Value') DISPLAYPOSITION(1) LEFT(160) PARENT(#GPBX_4) TABPOSITION(1) TOP(48) WIDTH(100)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_DAT) BUTTONCHECKED(True) CAPTION('By Date') DISPLAYPOSITION(3) LEFT(8) PARENT(#GPBX_4) TABPOSITION(3) TOP(48)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_NBR) CAPTION('By Code') DISPLAYPOSITION(4) LEFT(8) PARENT(#GPBX_4) TABPOSITION(4) TOP(19)
+    /* **********                                                         */
+    /* ********** If required change caption of group box and radio       */
+    /* ********** buttons.                                                */
+    /* ********** These buttons indicate the order of the sorted data.    */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_5) CAPTION(Direction) DISPLAYPOSITION(3) LEFT(8) PARENT(#GPBX_LVL3) TABPOSITION(3) TABSTOP(False) TOP(104) WIDTH(297)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_ASC) BUTTONCHECKED(True) CAPTION(Ascending) DISPLAYPOSITION(1) LEFT(16) PARENT(#GPBX_5) TABPOSITION(1) TOP(16)
+    DEFINE_COM CLASS(#PRIM_RDBN) NAME(#RB_DSC) CAPTION(Descending) DISPLAYPOSITION(2) LEFT(160) PARENT(#GPBX_5) TABPOSITION(2) TOP(16)
+    /* **********                                                         */
+    /* ********** If required change caption of group box.                */
+    /* ********** This group box can be hidden/shown depending on what    */
+    /* ********** type of field is used to sort the data.                 */
+    /* ********** Appropriate fields can be added to save the comparison  */
+    /* ********** value.                                                  */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_GPBX) NAME(#GPBX_6) CAPTION(Date) DISPLAYPOSITION(1) LEFT(8) PARENT(#GPBX_LVL3) TABPOSITION(1) TABSTOP(False) TOP(160) VISIBLE(False) WIDTH(297)
+    DEFINE_COM CLASS(#PRIM_CMBX) NAME(#CMBX_CMP) DISPLAYPOSITION(1) HEIGHT(22) LEFT(5) PARENT(#GPBX_6) TABPOSITION(1) TOP(20)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBCL_CMP) DISPLAYPOSITION(1) PARENT(#CMBX_CMP) SOURCE(#STD_DESCS) WIDTH(20)
+    DEFINE_COM CLASS(#PRIM_CBCL) NAME(#CBCL_CDE) PARENT(#CMBX_CMP) SOURCE(#STD_CMPAR) VISIBLE(False) WIDTH(20)
+    DEFINE_COM CLASS(#STD_NUM.Visual) NAME(#STD_NUM) DISPLAYPOSITION(3) HEIGHT(19) LEFT(128) MARGINLEFT(0) PARENT(#GPBX_6) TABPOSITION(3) TOP(20) VISIBLE(False) WIDTH(150)
+    DEFINE_COM CLASS(#STD_DATE.Visual) NAME(#STD_DATE) CAPTION(YYMMDD) DISPLAYPOSITION(2) HEIGHT(19) LABELTYPE(Caption) LEFT(136) MARGINLEFT(60) PARENT(#GPBX_6) TABPOSITION(2) TOP(24) VISIBLE(False) WIDTH(150)
+    /* **********                                                         */
+    /* ********** If required change caption of these buttons.            */
+    /* ********** The 'apply' button signals that a choice has been made. */
+    /* ********** The 'cancel' button closes the filter form without      */
+    /* ********** signalling any choices.                                 */
+    /* ********** The 'clear choice' button resets the all radio buttons  */
+    /* ********** and values to the last saved choice or default if       */
+    /* ********** never saved.                                            */
+    /* ********** The 'save choice' button saves the current choice as    */
+    /* ********** remembered values for the form which will be used on    */
+    /* ********** first opening the filter and when the clear choice      */
+    /* ********** button is used.                                         */
+    /* **********                                                         */
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_APLY) CAPTION(Apply) DISPLAYPOSITION(3) LEFT(8) PARENT(#COM_OWNER) TABPOSITION(3) TOP(432) WIDTH(70)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_CNCL) CAPTION(Cancel) DISPLAYPOSITION(5) LEFT(85) PARENT(#COM_OWNER) TABPOSITION(5) TOP(432) WIDTH(70)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_CLR) CAPTION('Clear Choice') DISPLAYPOSITION(8) HINT('Using this button will restore the selection details to the last saved choice, or if no choice has been saved, to the default setting.') LEFT(162) PARENT(#COM_OWNER) TABPOSITION(8) TOP(432) WIDTH(70)
+    DEFINE_COM CLASS(#PRIM_PHBN) NAME(#PHBN_SAV) CAPTION('Save Choice') DISPLAYPOSITION(7) HINT('This button will save the current selection. These choices will be restored when the form is next executed.') LEFT(240) PARENT(#COM_OWNER) TABPOSITION(7) TOP(432) WIDTH(70)
+    /* **********                                                         */
+    /* ********** These work fields are used to remember the current      */
+    /* ********** choices.                                                */
+    /* ********** Change the deptment and section names to the            */
+    /* ********** appropriate key fields for the first and second level   */
+    /* ********** keys.                                                   */
+    /* ********** The field #rmv_saved indicates if a choice has been     */
+    /* ********** saved or not.                                           */
+    /* **********                                                         */
+    DEFINE     FIELD(#RMV_DEPT) REFFLD(#DEPTMENT)
+    DEFINE     FIELD(#RMV_SECT) REFFLD(#SECTION)
+    DEFINE     FIELD(#RMV_LEVEL) REFFLD(#STD_LEVEL)
+    DEFINE     FIELD(#RMV_SORT) REFFLD(#STD_SORT)
+    DEFINE     FIELD(#RMV_DIRCT) REFFLD(#STD_DIRCT)
+    DEFINE     FIELD(#RMV_DATE) REFFLD(#STD_DATE)
+    DEFINE     FIELD(#RMV_VALUE) REFFLD(#STD_NUM)
+    DEFINE     FIELD(#RMV_CMPAR) REFFLD(#STD_CMPAR)
+    DEFINE     FIELD(#RMV_SAVED) TYPE(*CHAR) LENGTH(1) DEFAULT(N)
+    /* **********                                                         */
+    /* ********** These are the published properties used to pass the     */
+    /* ********** filter choices to calling forms.                        */
+    /* ********** Change the deptment and section names to the            */
+    /* ********** appropriate key fields for the first and second level   */
+    /* ********** keys.                                                   */
+    /* **********                                                         */
+    define_pty name( dept_value ) get( *auto #deptment )
+    define_pty name( sect_value ) get( *auto #section )
+    define_pty name( level_value ) get( *auto #std_level )
+    define_pty name( sort_value ) get( *auto #std_sort )
+    define_pty name( direction_value ) get( *auto #std_dirct )
+    define_pty name( date_value ) get( *auto #std_date )
+    define_pty name( salary_value ) get( *auto #std_num )
+    define_pty name( compare_value ) get( *auto #std_cmpar)
+    /* **********                                                         */
+    /* ********** This is the published event used to signal that filter  */
+    /* ********** choices have been made.                                 */
+    /* **********                                                         */
+    define_evt name( ApplyFilter )
+    /* **********                                                         */
+    @@QUESTION PROMPT('END OF DEFINITION      ') ANSWER(@@CANS001)
+    @@ROUTERTN
+    EVTROUTINE #com_owner.Initialize
+    /* **********                                                         */
+    /* ********** This statement establishes which values are to be       */
+    /* ********** remembered.                                             */
+    /* ********** Change the deptment and section names to the            */
+    /* ********** appropriate key fields for the first and second level   */
+    /* ********** keys.                                                   */
+    /* **********                                                         */
+    CHANGE     FIELD(#RMV_SAVED #RMV_DEPT #RMV_SECT #RMV_LEVEL #RMV_SORT #RMV_DIRCT #RMV_DATE #RMV_VALUE #RMV_CMPAR) TO('*REMEMBERED_VALUE_FOR_FUNCTION')
+    /* **********                                                         */
+    /* ********** Load combo box with required comparison operators.      */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(ADD_CMP) WITH_PARMS('''Greater than''' '''GT''')
+    EXECUTE    SUBROUTINE(ADD_CMP) WITH_PARMS('''Less than''' '''LT''')
+    EXECUTE    SUBROUTINE(ADD_CMP) WITH_PARMS('''Equal to''' '''EQ''')
+    /* **********                                                         */
+    /* ********** Prefill the level one combo box with the appropriate    */
+    /* ********** details.                                                */
+    /* **********                                                         */
+    SELECT     FIELDS(*ALL) FROM_FILE(DEPTAB)
+    ADD_ENTRY  TO_LIST(#CMBX_LVL1)
+    ENDSELECT
+    /* **********                                                         */
+    /* ********** Initialise all radio buttons and values.                */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(INIT_VALUE)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Add the comarison operators to combo box.               */
+    /* **********                                                         */
+    SUBROUTINE NAME(ADD_CMP) PARMS((#STD_DESCS *RECEIVED) (#STD_CMPAR *RECEIVED))
+    ADD_ENTRY  TO_LIST(#CMBX_CMP)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#PHBN_CLR.Click)
+    /* **********                                                         */
+    /* ********** Reset all radio buttons and values.                     */
+    /* **********                                                         */
+    EXECUTE    SUBROUTINE(INIT_VALUE)
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(INIT_VALUE)
+    /* **********                                                         */
+    /* ********** If choices have been saved                              */
+    /* ********** Map from remembered fields/values into visual entities. */
+    /* **********                                                         */
+    IF         COND('#RMV_SAVED *EQ Y')
+    /* **********                                                         */
+    /* ********** Set level to filter by.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_LEVEL) TO('#RMV_LEVEL')
+    IF         COND('#STD_LEVEL *EQ 3')
+    set        #rdbn_lvl3 buttonchecked( true )
+    ELSE
+    set        #rdbn_lvl1 buttonchecked( true )
+    ENDIF
+    /* **********                                                         */
+    /* ********** Set level 1 check box and combo box.                    */
+    /* **********                                                         */
+    IF         COND('#RMV_DEPT *EQ *BLANK')
+    set        ( #ckbx_lvl1 #ckbx_lvl2 ) buttonstate( checked )
+    set        ( #cmbx_lvl1 #gpbx_lvl2 #cmbx_lvl2 #ckbx_lvl2 ) enabled( false )
+    ELSE
+    CLR_LIST   NAMED(#CMBX_LVL1)
+    /* **********                                                         */
+    /* ********** Replace department file processing with the appropriate */
+    /* ********** first level file details.                               */
+    /* **********                                                         */
+    SELECT     FIELDS(*ALL) FROM_FILE(DEPTAB)
+    ADD_ENTRY  TO_LIST(#CMBX_LVL1)
+    IF         COND('#DEPTMENT *EQ #RMV_DEPT')
+    set        #cmbx_lvl1.currentitem focus( true )
+    ENDIF
+    ENDSELECT
+    CHANGE     FIELD(#DEPTMENT) TO('#RMV_DEPT')
+    set        #ckbx_lvl1 buttonstate( unchecked )
+    set        ( #cmbx_lvl1 #gpbx_lvl2 ) enabled( true )
+    /* **********                                                         */
+    /* ********** Set the second level check box and combo box.           */
+    /* ********** Replace the section file processing with the            */
+    /* ********** appropriate second level file details.                  */
+    /* **********                                                         */
+    IF         COND('#RMV_SECT *EQ *BLANK')
+    set        #ckbx_lvl2 buttonstate( checked )
+    set        #cmbx_lvl2 enabled( false )
+    ELSE
+    CLR_LIST   NAMED(#CMBX_LVL2)
+    SELECT     FIELDS(*ALL) FROM_FILE(SECTAB) WITH_KEY(#DEPTMENT)
+    ADD_ENTRY  TO_LIST(#CMBX_LVL2)
+    IF         COND('#SECTION *EQ #RMV_SECT')
+    set        #cmbx_lvl2.currentitem focus( true )
+    ENDIF
+    ENDSELECT
+    CHANGE     FIELD(#SECTION) TO('#RMV_SECT')
+    set        ( #ckbx_lvl1 #ckbx_lvl2 ) buttonstate( unchecked )
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Set the appropriate radio button and if appropriate the */
+    /* ********** comparison details.                                     */
+    /* ********** Replace field names as required.                        */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_SORT) TO('#RMV_SORT')
+    set        ( #gpbx_6 #cmbx_cmp #std_date #std_num ) visible( false )
+    IF         COND('#STD_SORT *EQ N')
+    set        #rb_nbr buttonchecked( true )
+    ELSE
+    IF         COND('#STD_SORT *EQ A')
+    set        #rb_alp buttonchecked( true )
+    ELSE
+    set        ( #gpbx_6 #cmbx_cmp ) visible( true )
+    IF         COND('#STD_SORT *EQ D')
+    set        #rb_dat buttonchecked( true )
+    set        #std_date visible( true )
+    CHANGE     FIELD(#STD_DATE) TO('#RMV_DATE')
+    ELSE
+    IF         COND('#STD_SORT *EQ V')
+    set        #rb_sal buttonchecked( true )
+    set        #std_num visible( true )
+    CHANGE     FIELD(#STD_NUM) TO('#RMV_VALUE')
+    ENDIF
+    ENDIF
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Set the direction of the sorted data.                   */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_DIRCT) TO('#RMV_DIRCT')
+    IF         COND('#STD_DIRCT *EQ A')
+    set        #rb_asc buttonchecked( true )
+    ELSE
+    IF         COND('#STD_DIRCT *EQ D')
+    set        #rb_dsc buttonchecked( true )
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Set focus to the correct comparison operator.           */
+    /* **********                                                         */
+    SELECTLIST NAMED(#CMBX_CMP)
+    IF         COND('#STD_CMPAR *EQ #RMV_CMPAR')
+    set        #cmbx_cmp.currentitem focus( true )
+    LEAVE
+    ENDIF
+    ENDSELECT
+    CHANGE     FIELD(#STD_CMPAR) TO('#RMV_CMPAR')
+    /* **********                                                         */
+    /* ********** Else if no chioces were saved, use defaults.            */
+    /* **********                                                         */
+    ELSE
+    EXECUTE    SUBROUTINE(SETDEFAULT)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    SUBROUTINE NAME(SETDEFAULT)
+    /* **********                                                         */
+    /* ********** Replace the deptment, section and comparison fields     */
+    /* ********** with the appropriate fields.                            */
+    /* **********                                                         */
+    CHANGE     FIELD(#DEPTMENT #SECTION #STD_DATE #STD_NUM) TO(*NULL)
+    set        #rdbn_lvl1 buttonchecked( true )
+    CHANGE     FIELD(#STD_LEVEL) TO(1)
+    set        #ckbx_lvl1 buttonstate( checked )
+    set        #ckbx_lvl2 buttonstate( checked ) enabled( false )
+    set        ( #cmbx_lvl1 #cmbx_lvl2 ) enabled( false )
+    set        #rb_nbr buttonchecked( true )
+    CHANGE     FIELD(#STD_SORT) TO(N)
+    set        #rb_asc buttonchecked( true )
+    CHANGE     FIELD(#STD_DIRCT) TO(A)
+    set        #gpbx_6 visible( false )
+    CHANGE     FIELD(#STD_CMPAR) TO(GT)
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Level 1                                                 */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RDBN_lvl1.Click)
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_LEVEL) TO(1)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#ckbx_lvl1.Click)
+    IF         COND('#CKBX_LVL1.BUTTONSTATE *EQ CHECKED')
+    set        #cmbx_lvl1 enabled( false )
+    set        #ckbx_lvl2 buttonstate( checked ) enabled( false )
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* ********** Replace deptment with appropriate first level key field.                                                       */
+    /* **********                                                         */
+    CHANGE     FIELD(#DEPTMENT) TO(*BLANK)
+    ELSE
+    set        ( #cmbx_lvl1 #gpbx_lvl2 ) enabled( true )
+    set        #ckbx_lvl2 buttonstate( checked ) enabled( true )
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Level 2                                                 */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#CKBX_LVL2.Click)
+    IF         COND('#CKBX_LVL2.BUTTONSTATE *EQ CHECKED')
+    set        #cmbx_lvl2 enabled( false )
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* ********** Replace section with appropriate second level key field.                                                       */
+    /* **********                                                         */
+    CHANGE     FIELD(#SECTION) TO(*BLANK)
+    ELSE
+    set        #cmbx_lvl2 enabled( true )
+    CLR_LIST   NAMED(#CMBX_LVL2)
+    /* **********                                                         */
+    /* ********** Replace section file processing with appropriate second */
+    /* ********** level file details.                                     */
+    /* **********                                                         */
+    SELECT     FIELDS(*ALL) FROM_FILE(SECTAB) WITH_KEY(#DEPTMENT)
+    ADD_ENTRY  TO_LIST(#CMBX_LVL2)
+    ENDSELECT
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    /* ********** Level 3                                                 */
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RDBN_lvl3.Click)
+    set        ( #cmbx_lvl1 #cmbx_lvl2 #ckbx_lvl2 #gpbx_lvl2 ) enabled( false )
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_LEVEL) TO(3)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#PHBN_APLY.Click)
+    IF         COND('#CKBX_LVL1.BUTTONSTATE *EQ CHECKED')
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* ********** Replace deptment with appropriate first level key field.                                                       */
+    /* **********                                                         */
+    CHANGE     FIELD(#DEPTMENT) TO(*BLANK)
+    ENDIF
+    IF         COND('#CKBX_LVL2.BUTTONSTATE *EQ CHECKED')
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* ********** Replace section with appropriate second level key field.                                                       */
+    /* **********                                                         */
+    CHANGE     FIELD(#SECTION) TO(*BLANK)
+    ENDIF
+    signal     event( ApplyFilter )
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RB_DAT.Click)
+    set        #std_num visible( false )
+    set        ( #cmbx_cmp #std_date ) visible( true )
+    set        #gpbx_6 caption( 'Date' ) visible( true )
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_SORT) TO(D)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RB_SAL.Click)
+    set        #std_date visible( false )
+    set        ( #cmbx_cmp #std_num ) visible( true )
+    set        #gpbx_6 caption( 'Value' ) visible( true )
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_SORT) TO(V)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RB_ASC.Click)
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_DIRCT) TO(A)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RB_DSC.Click)
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_DIRCT) TO(D)
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#rb_nbr.Click)
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_SORT) TO(C)
+    set        #gpbx_6 visible( false )
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#RB_ALP.Click)
+    /* **********                                                         */
+    /* ********** Set published property.                                 */
+    /* **********                                                         */
+    CHANGE     FIELD(#STD_SORT) TO(N)
+    set        #gpbx_6 visible( false )
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#PHBN_CNCL.Click)
+    invoke     #com_owner.closeform
+    ENDROUTINE
+    /* **********                                                         */
+    EVTROUTINE HANDLING(#PHBN_SAV.Click)
+    /* ********** Map from visual entities into remembered fields/values. */
+    /* **********                                                         */
+    /* ********** Set indicator that choice has been saved.               */
+    /* **********                                                         */
+    CHANGE     FIELD(#RMV_SAVED) TO(Y)
+    /* **********                                                         */
+    /* ********** Save level of filter.                                   */
+    /* **********                                                         */
+    IF         COND('#RDBN_LVL1.BUTTONCHECKED *EQ TRUE')
+    CHANGE     FIELD(#RMV_LEVEL) TO(1)
+    ELSE
+    CHANGE     FIELD(#RMV_LEVEL) TO(3)
+    ENDIF
+    /* **********                                                         */
+    /* ********** Save key values.                                        */
+    /* ********** Replace deptment and section with appropriate fields.   */
+    /* **********                                                         */
+    IF         COND('#CKBX_LVL1.BUTTONSTATE *EQ CHECKED')
+    CHANGE     FIELD(#RMV_DEPT) TO(*BLANK)
+    CHANGE     FIELD(#RMV_SECT) TO(*BLANK)
+    ELSE
+    CHANGE     FIELD(#RMV_DEPT) TO(#DEPTMENT)
+    IF         COND('#CKBX_LVL2.BUTTONSTATE *EQ CHECKED')
+    CHANGE     FIELD(#RMV_SECT) TO(*BLANK)
+    ELSE
+    CHANGE     FIELD(#RMV_SECT) TO(#SECTION)
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Save comparison values.                                 */
+    /* ********** Replace date and value with appropriate fields.         */
+    /* **********                                                         */
+    CHANGE     FIELD(#RMV_DATE) TO(*ZERO)
+    CHANGE     FIELD(#RMV_VALUE) TO(*ZERO)
+    IF         COND('#RB_NBR.BUTTONCHECKED *EQ TRUE')
+    CHANGE     FIELD(#RMV_SORT) TO(N)
+    ELSE
+    IF         COND('#RB_ALP.BUTTONCHECKED *EQ TRUE')
+    CHANGE     FIELD(#RMV_SORT) TO(A)
+    ELSE
+    IF         COND('#RB_DAT.BUTTONCHECKED *EQ TRUE')
+    CHANGE     FIELD(#RMV_SORT) TO(D)
+    CHANGE     FIELD(#RMV_DATE) TO('#STD_DATE')
+    ELSE
+    CHANGE     FIELD(#RMV_SORT) TO(V)
+    CHANGE     FIELD(#RMV_VALUE) TO('#STD_NUM')
+    ENDIF
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    /* ********** Save sort direction.                                    */
+    /* **********                                                         */
+    IF         COND('#RB_ASC.BUTTONCHECKED *EQ TRUE')
+    CHANGE     FIELD(#RMV_DIRCT) TO(A)
+    ELSE
+    CHANGE     FIELD(#RMV_DIRCT) TO(D)
+    ENDIF
+    /* **********                                                         */
+    /* ********** Save comparison operator.                               */
+    /* **********                                                         */
+    IF         COND('#GPBX_6.ENABLED *EQ TRUE')
+    CHANGE     FIELD(#RMV_CMPAR) TO('#STD_CMPAR')
+    ELSE
+    CHANGE     FIELD(#RMV_CMPAR) TO(*BLANK)
+    ENDIF
+    ENDROUTINE
+    /* **********                                                         */
+    @@ROUTEEND
+    END_COM
+    E99: @@LABEL
+
+  Help Panels:
+  - HELP010:
+      Description:        Business Object Filter help
+
+      Text: |
+        This template produces skeleton code for a Business Object Filter form. It can b
+        e used in conjunction with VL_BASEBOB Business Object Browser and VL_BASEBOD Bus
+        iness Object Detailer templates.                                                
+                                                                                        
+        They are all based on the Demonstation Personnel system and contain references t
+        o the personnel fields and files. These references should be replaced by the obj
+        ects you wish to use.                                                           
+                                                                                        
+        Read the comments in the code carefully and amend the code as required. While do
+        ing this keep the component tab open so that properties such as the souce fields
+         of columns can be changed in the property sheet.

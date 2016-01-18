@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               LISTTOP
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Top of list control field"
+      Label:              "Top of List...."
+      Heading1:           "Top Of"
+      Heading2:           "List"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, 1ère ligne de la liste"
+      Label:              "Haut de liste ."
+      Heading1:           "Haut de"
+      Heading2:           " Liste"
+      Heading3:           " "

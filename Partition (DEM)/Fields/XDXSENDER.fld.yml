@@ -1,0 +1,37 @@
+﻿Field:
+  Name:               XDXSender
+  Type:               NChar
+  Length:             40
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event Sender"
+      Label:              "Event Sender"
+      Heading1:           "Event"
+      Heading2:           "Sender"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Event Sender"
+      Label:              "Event Sender"
+      Heading1:           "Event"
+      Heading2:           "Sender"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(661)
+    
+    End_Com
+    
+    End_Com

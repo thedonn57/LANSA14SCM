@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               DATE8
+  Type:               Signed
+  Length:             8
+  Decimals:           0
+  Default Value:      "*DATE8"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "8 digit DATE in installation format"
+      Label:              "Date ENG"
+      Heading1:           "DATE ENG"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date numérique (8) format d´installation"
+      Label:              "Date"
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

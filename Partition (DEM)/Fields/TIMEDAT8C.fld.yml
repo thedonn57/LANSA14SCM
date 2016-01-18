@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               TIMEDAT8C
+  Type:               Alphanumeric
+  Length:             14
+  Decimals:           0
+  Default Value:      "*TIMEDATE8C"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current time and date (character)"
+      Label:              "Time / date ..."
+      Heading1:           "Time / date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure et date en cours (alphanumérique)"
+      Label:              "Heure / date"
+      Heading1:           "Heure / date"
+      Heading2:           " "
+      Heading3:           " "

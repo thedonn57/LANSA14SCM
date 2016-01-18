@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               xDemoWindowState
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "'NORMAL'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Window State"
+      Label:              "Window State"
+      Heading1:           "Window"
+      Heading2:           "State"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Windows State"
+      Label:              "Windows State"
+      Heading1:           "Windows"
+      Heading2:           "State"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(298)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Caption('Minimized') Parent(#Picklist) Value('MINIMIZED')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Caption('Normal') Default(True) Parent(#Picklist) Value('NORMAL')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_3) Caption('Maximized') Parent(#Picklist) Value('MAXIMIZED')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#DropDown) Appearance(DropDownList) Componentversion(1) Fixedheight(False) Height(19) Width(237)
+    
+    End_Com
+    End_Com

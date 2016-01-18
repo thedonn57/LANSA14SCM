@@ -1,0 +1,138 @@
+﻿Theme:
+  Name:               XSTheme01
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Theme"
+
+  - FRA:
+      Description:        "Theme"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_THM)
+    
+    * ************
+    * Colour palette
+    Define_Com Class(#prim_vs.SolidBrush) Name(#White) Color(255:255:255)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#AlmostBlack) Color(34:34:34)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Grey00) Color(233:233:233)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Grey00_50) Color(233:233:233) Opacity(50)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Blue3) Color(19:177:236)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Blue2) Color(92:203:244)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Green3) Color(110:195:13)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Green2) Color(122:215:15)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Green2_50) Color(122:215:15) Opacity(50)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Orange3) Color(255:100:13)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Orange2) Color(255:119:1)
+    
+    Define_Com Class(#prim_vs.SolidBrush) Name(#Red) Color(217:11:11)
+    
+    * **********
+    * Backgrounds
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGrey00) Backgroundbrush(#Grey00)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGrey00BorderWh) Backgroundbrush(#Grey00) Borderbrush(#White) Borderleft(1) Borderright(2) Bordertop(1) Borderbottom(1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundBlue3) Backgroundbrush(#Blue3)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundBlue2) Backgroundbrush(#Blue2)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGreen3) Backgroundbrush(#Green3)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGreen2) Backgroundbrush(#Green2)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundOrange3) Backgroundbrush(#Orange3)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundOrange2) Backgroundbrush(#Orange2)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundWhite) Backgroundbrush(#White)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGrey00_50) Backgroundbrush(#Grey00_50)
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundGreen2_50) Backgroundbrush(#Green2_50)
+    
+    * Panel Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#PanelBorders1) Bordertop(1) Borderbottom(1) Borderleft(1) Borderright(1) Borderbrush(#Grey00) Backgroundbrush(#White)
+    Define_Com Class(#PRIM_VS.Style) Name(#PanelBorders2) Bordertop(1) Borderbottom(1) Borderleft(1) Borderright(1) Borderbrush(#Green3) Backgroundbrush(#White)
+    Define_Com Class(#PRIM_VS.Style) Name(#PanelBorders3) Bordertop(1) Borderbottom(1) Borderleft(1) Borderright(1) Borderbrush(#Blue3) Backgroundbrush(#White)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#PanelBorders1Bottom) Borderbottom(1) Borderbrush(#Grey00) Backgroundbrush(#White)
+    Define_Com Class(#PRIM_VS.Style) Name(#PanelBorders2Bottom) Borderbottom(1) Borderbrush(#Green3) Backgroundbrush(#White)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#RightWhBorder) Borderright(1) Borderbottom(0) Bordercolor(White) Borderleft(0) Bordertop(0)
+    
+    Define_Com Class(#prim_vs.style) Name(#Text10AlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(10) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text10Red) Foregroundbrush(#Red) Fontsize(10) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text10Wh) Foregroundbrush(#White) Fontsize(10) Facename('Verdana, Geneva, sans-serif')
+    
+    * This style is used for non-editable fields and specifically nominates no borders to override the default style uses to display a field which puts a box around the value.
+    Define_Com Class(#prim_vs.style) Name(#Text10BoldAlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(10) Bold(True) Facename('Verdana, Geneva, sans-serif') Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    Define_Com Class(#prim_vs.style) Name(#Text10BoldBl3) Foregroundbrush(#Blue3) Fontsize(10) Bold(True) Facename('Verdana, Geneva, sans-serif') Cursor(Hand)
+    Define_Com Class(#prim_vs.style) Name(#Text10BoldWh) Foregroundbrush(#White) Fontsize(10) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text08BoldAlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(8) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text08AlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(8) Facename('Verdana, Geneva, sans-serif')
+    
+    Define_Com Class(#prim_vs.style) Name(#Text11BoldAlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(11) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text11BoldGn2) Foregroundbrush(#Green2) Fontsize(11) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text11BoldBl3) Foregroundbrush(#Blue3) Fontsize(11) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text11BoldWh) Foregroundbrush(#White) Fontsize(11) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Text11BoldAlmostBlackBackgroundGy00) Fontsize(11) Foregroundbrush(#AlmostBlack) Backgroundbrush(#Grey00) Facename('Verdana, Geneva, sans-serif') Bold(True)
+    Define_Com Class(#PRIM_VS.Style) Name(#Text11BoldWhiteBackgroundBl3) Fontsize(11) Textcolor(White) Backgroundbrush(#Blue3) Facename('Verdana, Geneva, sans-serif') Bold(True)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Text11AlmostBlackBackgroundWh) Fontsize(11) Backgroundbrush(#White) Facename('Verdana, Geneva, sans-serif') Foregroundbrush(#AlmostBlack)
+    
+    Define_Com Class(#prim_vs.style) Name(#Text12Wh) Textcolor(White) Fontsize(12) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text12BoldOr3) Foregroundbrush(#Orange3) Fontsize(12) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text12BoldGn2) Foregroundbrush(#Green2) Fontsize(12) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    Define_Com Class(#prim_vs.style) Name(#Text12BoldAlmostBlack) Foregroundbrush(#AlmostBlack) Fontsize(12) Bold(True) Facename('Verdana, Geneva, sans-serif') Fontunits(Point)
+    
+    Define_Com Class(#prim_vs.style) Name(#Text14BoldWh) Foregroundbrush(#White) Fontsize(14) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    
+    Define_Com Class(#prim_vs.style) Name(#Text30BoldWh) Foregroundbrush(#White) Fontsize(30) Bold(True) Facename('Verdana, Geneva, sans-serif')
+    
+    * HRef
+    Define_Com Class(#PRIM_VS.Style) Name(#Href08AlmostBlack) Underline(True) Bold(True) Fontsize(8) Facename('Verdana, Geneva, sans-serif') Foregroundbrush(#AlmostBlack) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#Href10Green3) Underline(True) Bold(True) Fontsize(10) Facename('Verdana, Geneva, sans-serif') Foregroundbrush(#Green3) Cursor(Hand)
+    
+    * ********
+    * BUTTONS
+    
+    * White buttons blue writing
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonWhBl3) Fontsize(12) Backgroundbrush(#White) Facename('Verdana, Geneva, sans-serif') Cursor(Hand) Foregroundbrush(#Blue3) Borderbottom(2) Borderleft(2) Borderright(2) Bordertop(2) Bold(True) Borderbrush(#Blue3)
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonWhBl2) Fontsize(12) Backgroundbrush(#White) Facename('Verdana, Geneva, sans-serif') Cursor(Hand) Foregroundbrush(#Blue2) Borderbottom(2) Borderleft(2) Borderright(2) Bordertop(2) Bold(True) Borderbrush(#Blue2)
+    
+    * White buttons green writing
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonWhGn3) Fontsize(12) Backgroundbrush(#White) Facename('Verdana, Geneva, sans-serif') Cursor(Hand) Foregroundbrush(#Green3) Borderbottom(2) Borderleft(2) Borderright(2) Bordertop(2) Bold(True) Borderbrush(#Green3)
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonWhGn2) Fontsize(12) Backgroundbrush(#White) Facename('Verdana, Geneva, sans-serif') Cursor(Hand) Foregroundbrush(#Green2) Borderbottom(2) Borderleft(2) Borderright(2) Bordertop(2) Bold(True) Borderbrush(#Green2)
+    
+    * Green 3 Buttons
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonGn3Wh) Fontsize(12) Textcolor(White) Backgroundbrush(#Green3) Facename('Verdana, Geneva, sans-serif') Cursor(Hand)
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonGn3Gy00) Fontsize(12) Backgroundbrush(#Green3) Facename('Verdana, Geneva, sans-serif') Foregroundbrush(#Grey00)
+    
+    * Green 2 Buttons
+    Define_Com Class(#PRIM_VS.Style) Name(#ButtonGn2Wh) Fontsize(12) Textcolor(White) Backgroundbrush(#Green2) Facename('Verdana, Geneva, sans-serif')
+    
+    * ***********
+    * THEME STYLES
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#ButtonLook1) Style(#ButtonGn3Wh) Mouseoverstyle(#ButtonGn2Wh) Pressedstyle(#ButtonGn3Gy00) Focusedstyle(#ButtonGn3Gy00)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#ButtonLook2) Style(#ButtonWhBl3) Mouseoverstyle(#ButtonWhBl2) Focusedstyle(#ButtonWhBl3)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#ButtonLook3) Style(#ButtonWhGn3) Mouseoverstyle(#ButtonWhGn2) Focusedstyle(#ButtonWhGn3)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#HeaderOptions) Style(#Text11BoldAlmostBlack) Mouseoverstyle(#Text11BoldGn2) Pressedstyle(#Text11BoldAlmostBlack)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#MenuOptions) Style(#Text11BoldWh) Mouseoverstyle(#Text11BoldGn2) Pressedstyle(#Text11BoldAlmostBlack)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#Panel1) Style(#PanelBorders1) Mouseoverstyle(#PanelBorders3)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#PanelHeader1) Style(#Text11BoldAlmostBlackBackgroundGy00) Mouseoverstyle(#Text11BoldAlmostBlackBackgroundGy00)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#PanelHeader2) Style(#Text11BoldWhiteBackgroundBl3) Mouseoverstyle(#Text11BoldWhiteBackgroundBl3)
+    
+    Define_Com Class(#Prim_thm.DrawStyle) Name(#DropDown) Style(#Text11AlmostBlackBackgroundWh) Mouseoverstyle(#Text11AlmostBlackBackgroundWh) Focusedstyle(#BackgroundBlue3) Selectedstyle(#BackgroundBlue2) Selectedinactivestyle(#BackgroundOrange2) Pressedstyle(#BackgroundOrange3) Focusedinactivestyle(#BackgroundGrey00)
+    
+    End_Com

@@ -1,0 +1,159 @@
+﻿Web Page:
+  Name:               XBNMain
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Web Page - The Bank of North Sydney"
+
+  - FRA:
+      Description:        "Web Page - The Bank of North Sydney"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Caption('The Bank of North Sydney') Icon(#XBNIMG02) Theme(#XBNTheme)
+    
+    * Table Layout: 1 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout) Minwidth(600)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Units(Pixels) Height(120)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#HeadingItem) Manage(#HeadingLabel) Parent(#TableLayout) Row(#Row1) Column(#Column1) Marginleft(150) Marginright(150) Sizing(FitToWidth) Alignment(TopCenter) Margintop(30)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Logo) Parent(#TableLayout) Row(#Row1) Sizing(None) Alignment(TopLeft) Margintop(15) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopRight) Column(#Column1) Flow(Down) Manage(#LogInLabel) Parent(#TableLayout) Row(#Row1) Sizing(None) Margintop(30) Marginright(50)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#LogInControl) Parent(#TableLayout) Row(#Row2) Alignment(TopRight) Sizing(None) Marginright(30) Marginbottom(30)
+    
+    * The dynamic layout item, that manages content changes
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ContentItem) Column(#Column1) Manage(#WelcomePanel) Parent(#TableLayout) Row(#Row2)
+    
+    * Logo / Heading / Log in
+    Define_Com Class(#PRIM_IMAG) Name(#Logo) Displayposition(4) Image(#XBNIMG02) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Height(63) Width(113) Imagesizing(BestFit) Top(15)
+    Define_Com Class(#PRIM_LABL) Name(#HeadingLabel) Caption('The Bank of North Sydney') Displayposition(3) Ellipses(Word) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(30) Width(900) Alignment(Center) Themedrawstyle('Heading1') Height(189) Left(150)
+    Define_Com Class(#PRIM_LABL) Name(#LogInLabel) Caption('Log in') Displayposition(2) Ellipses(Word) Height(38) Left(1060) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(30) Verticalalignment(Center) Width(90) Themedrawstyle('Login') Alignment(Center)
+    
+    * Login Control
+    Define_Com Class(#XBNLogin) Name(#LogInControl) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Width(224) Left(946) Top(90)
+    
+    * Logged in state
+    Define_Com Class(#PRIM_BOLN) Name(#LoggedIn)
+    
+    * WELCOME panel
+    Define_Com Class(#PRIM_PANL) Name(#WelcomePanel) Displayposition(5) Height(680) Left(0) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Width(1200) Themedrawstyle('Background') Top(120)
+    
+    * ACCOUNTS Panel, *DEFFERED so it doesn't get created until needed
+    Define_Com Class(#XBNAccounts) Name(#AccountsPanel) Reference(*DEFERRED)
+    
+    * TRANSACTION Panel, *DEFFERED so it doesn't get created until needed
+    Define_Com Class(#XBNTRANS) Name(#TransactionsPanel) Reference(*DEFERRED)
+    
+    Evtroutine Handling(#COM_OWNER.Initialize)
+    
+    * Hide the login control until requested
+    #LogInControl.Visible := False
+    
+    Endroutine
+    
+    Evtroutine Handling(#LogInLabel.Click)
+    
+    If (#LoggedIn)
+    
+    * Log out
+    #COM_OWNER.LogOut
+    
+    Else
+    
+    * Show the login control
+    #LogInControl.FadeIn
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#LogInControl.LoginSucceeded) Clientname(#ClientName)
+    
+    * The login control can fade out now
+    #LogInControl.FadeOut
+    
+    * Change the header
+    #HeadingLabel := "Welcome, " + #ClientName
+    
+    * Remember we're logged in
+    #LoggedIn := True
+    
+    * Change the label
+    #LogInLabel.Caption := "Log Out"
+    
+    * Load the accounts for this particular user
+    #AccountsPanel.LoadAccounts
+    
+    * And finally, show the account panel
+    #COM_OWNER.Show( #AccountsPanel )
+    
+    Endroutine
+    
+    Evtroutine Handling(#AccountsPanel.AccountSelected) Accountname(#AccountName) Accountdescription(#AccountDescription)
+    
+    #TransactionsPanel.LoadTransactions( #AccountName #AccountDescription )
+    
+    * And show the transactions panel
+    #COM_OWNER.Show( #TransactionsPanel )
+    
+    Endroutine
+    
+    Evtroutine Handling(#TransactionsPanel.AccountsClicked)
+    
+    * And show the transactions panel
+    #COM_OWNER.Show( #AccountsPanel )
+    
+    Endroutine
+    
+    Evtroutine Handling(#SYS_WEB.RequestFailed) Reason(#Reason) Handled(#Handled)
+    
+    Case Of_Field(#Reason)
+    
+    When (= SessionInvalid)
+    
+    #SYS_WEB.Alert( "Your session has expired, please log in again" )
+    
+    #COM_OWNER.LogOut
+    
+    #LogInControl.FadeIn
+    
+    #Handled := True
+    
+    Endcase
+    
+    Endroutine
+    
+    Mthroutine Name(LogOut)
+    
+    * Log out
+    #LoggedIn := False
+    #LogInLabel.Caption := "Log In"
+    #HeadingLabel := "The Bank of North Sydney"
+    
+    #COM_OWNER.Show( #WelcomePanel )
+    
+    Endroutine
+    
+    Mthroutine Name(Show)
+    Define_Map For(*Input) Class(#PRIM_PANL) Name(#Panel) Pass(*BY_REFERENCE)
+    
+    * Check if we're already managing a panel in our content area.
+    If (#ContentItem.Manage *IsNot *null)
+    
+    * Unparent the the previous panel, it will disappear of the screen.
+    #ContentItem.Manage.Parent <= *NULL
+    
+    Endif
+    
+    * Parent the new panel and manage it, so it's part of our layout
+    #ContentItem.Manage <= #Panel
+    #Panel.Parent <= #COM_OWNER
+    
+    Endroutine
+    
+    End_Com

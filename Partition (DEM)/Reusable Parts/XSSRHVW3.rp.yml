@@ -1,0 +1,65 @@
+﻿Reusable Part:
+  Name:               XSSearchView3
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Search View 3"
+
+  - FRA:
+      Description:        "Search View 3"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(1000) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 1 Row, 1 Column
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LProductInformationItem1) Alignment(TopCenter) Column(#Column1) Manage(#LProductInformation) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TileItem1) Alignment(TopCenter) Column(#Column1) Manage(#Tile) Parent(#TableLayout1) Row(#Row1) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LProductInformation) Caption('Product Information') Displayposition(1) Ellipses(Word) Height(35) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Marginleft(20) Width(1000) Themedrawstyle('PanelHeader1')
+    
+    Define_Com Class(#PRIM_TILE<#XSProductTile2>) Name(#Tile) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(45) Width(1000) Height(990)
+    
+    * Reference to SrvRoutine in Server Module
+    Define_Com Class(#XSServer.LoadProductsSearch) Name(#LoadSearch)
+    
+    Define_Com Class(#prim_acol<#XSProductData>) Name(#Products)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #com_owner.ProcessSearch( #MySession.pProductSearch )
+    
+    Endroutine
+    
+    Mthroutine Name(ProcessSearch)
+    Define_Map For(*input) Class(#XSSearchValue) Name(#Search)
+    
+    #LoadSearch.ExecuteAsync( #Search #Products #std_qsel )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LoadSearch.completed)
+    
+    For Each(#Product) In(#Products)
+    
+    Add_Entry To_List(#Tile)
+    
+    #Tile.CurrentItem.RelatedReference <= #Product
+    
+    Endfor
+    
+    Endroutine
+    
+    End_Com

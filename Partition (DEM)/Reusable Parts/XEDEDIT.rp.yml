@@ -1,0 +1,249 @@
+﻿Reusable Part:
+  Name:               XEDEditor
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Editor Popup"
+
+  - FRA:
+      Description:        "Employee Editor Popup"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Caption('Caption') Closebutton(True) Left(0) Height(800) Titlebar(True) Top(0) Width(450) Layoutmanager(#AttachLayout) Autoclose(False) Titlebarthemedrawstyle('Heading1+MediumTitle')
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleReadOnly) Foregroundbrush(#BrushReadOnlyText)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BrushReadOnlyText) Color(ThemeDisabled)
+    
+    * Layout: Main
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem1) Attachment(Bottom) Manage(#MessagesPanel) Parent(#AttachLayout)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem2) Attachment(Center) Manage(#TabControl) Parent(#AttachLayout)
+    
+    * Layout: Image tab page
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutImagePage)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayoutImagePage)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayoutImagePage)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#EmployeeImage) Parent(#TableLayoutImagePage) Row(#Row1) Margintop(4) Marginleft(4) Marginright(4) Marginbottom(4)
+    
+    * Layout: Details tab page
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutDetailsPage)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayoutDetailsPage)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayoutDetailsPage)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeIdentification) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeTitle) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeSurname) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeGivenNames) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeDateofBirth) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginbottom(3) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeGender) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeStreet) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginbottom(3) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeCity) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeState) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeePostalCode) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeCountry) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeHomeTelephone) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeBusinessTelephone) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeMobilePhone) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeSalary) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeStartDate) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem18) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xEmployeeTerminationDate) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem19) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#xDepartmentCode) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Margintop(2) Marginleft(10) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem20) Alignment(BottomRight) Column(#Column2) Flow(Left) Manage(#SaveButton) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Marginbottom(10) Marginleft(10) Marginright(15)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DeleteButtonItem1) Manage(#DeleteButton) Parent(#TableLayoutDetailsPage) Row(#Row2) Sizing(None) Column(#Column2) Alignment(BottomRight) Flow(Left) Marginleft(20) Marginbottom(10) Marginright(15)
+    
+    * Controls: Tab control with its 2 tab sheets
+    Define_Com Class(#PRIM_TAB) Name(#TabControl) Componentversion(2) Displayposition(3) Height(743) Left(0) Parent(#COM_OWNER) Tabposition(3) Top(30) Toplayoutpriority(3) Width(448) Leftlayoutpriority(4) Rightlayoutpriority(1)
+    Define_Com Class(#PRIM_TBSH) Name(#SheetDetails) Caption('Details') Displayposition(1) Height(720) Left(0) Parent(#TabControl) Tabposition(1) Tabstop(False) Top(23) Width(448) Layoutmanager(#TableLayoutDetailsPage)
+    Define_Com Class(#PRIM_TBSH) Name(#SheetImage) Caption('Photo') Displayposition(2) Height(720) Left(0) Parent(#TabControl) Tabposition(2) Tabstop(False) Top(23) Width(448) Layoutmanager(#TableLayoutImagePage)
+    
+    * An image control on the 'Photo' tab sheet
+    Define_Com Class(#PRIM_IMAG) Name(#EmployeeImage) Displayposition(1) Left(4) Parent(#SheetImage) Tabposition(1) Tabstop(False) Top(4) Imagesizing(BestFit) Height(712) Width(440)
+    
+    * And all the fields on the 'Details' tab sheet
+    Define_Com Class(#xEmployeeIdentification.Visual) Name(#xEmployeeIdentification) Displayposition(1) Parent(#SheetDetails) Tabposition(1) Top(2) Left(10) Width(260) Height(30)
+    Define_Com Class(#xEmployeeTitle.Visual) Name(#xEmployeeTitle) Displayposition(2) Parent(#SheetDetails) Tabposition(2) Top(37) Left(10) Height(30) Fixedheight(False) Width(260)
+    Define_Com Class(#xEmployeeSurname.Visual) Name(#xEmployeeSurname) Displayposition(3) Parent(#SheetDetails) Tabposition(3) Top(72) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeeGivenNames.Visual) Name(#xEmployeeGivenNames) Displayposition(4) Parent(#SheetDetails) Tabposition(4) Top(107) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeeDateofBirth.Visual) Name(#xEmployeeDateofBirth) Displayposition(5) Parent(#SheetDetails) Tabposition(5) Top(142) Left(10) Height(30) Width(260)
+    Define_Com Class(#xEmployeeGender.Visual) Name(#xEmployeeGender) Displayposition(6) Parent(#SheetDetails) Tabposition(6) Top(177) Left(10) Marginleft(150) Height(30) Width(260)
+    Define_Com Class(#xEmployeeStreet.Visual) Name(#xEmployeeStreet) Displayposition(7) Parent(#SheetDetails) Tabposition(7) Top(212) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeeCity.Visual) Name(#xEmployeeCity) Componentversion(1) Displayposition(8) Parent(#SheetDetails) Tabposition(8) Top(247) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeeState.Visual) Name(#xEmployeeState) Displayposition(9) Parent(#SheetDetails) Tabposition(9) Top(282) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeePostalCode.Visual) Name(#xEmployeePostalCode) Displayposition(10) Parent(#SheetDetails) Tabposition(10) Top(317) Left(10) Height(30) Width(260)
+    Define_Com Class(#xEmployeeCountry.Visual) Name(#xEmployeeCountry) Displayposition(11) Parent(#SheetDetails) Tabposition(11) Top(352) Left(10) Width(400) Height(30)
+    Define_Com Class(#xEmployeeHomeTelephone.Visual) Name(#xEmployeeHomeTelephone) Displayposition(12) Parent(#SheetDetails) Tabposition(12) Top(387) Left(10) Height(30) Width(400)
+    Define_Com Class(#xEmployeeBusinessTelephone.Visual) Name(#xEmployeeBusinessTelephone) Displayposition(13) Parent(#SheetDetails) Tabposition(13) Top(422) Left(10) Marginleft(150) Height(30) Width(400)
+    Define_Com Class(#xEmployeeMobilePhone.Visual) Name(#xEmployeeMobilePhone) Displayposition(14) Parent(#SheetDetails) Tabposition(14) Top(457) Left(10) Height(30) Width(400)
+    Define_Com Class(#xEmployeeSalary.Visual) Name(#xEmployeeSalary) Displayposition(15) Parent(#SheetDetails) Tabposition(15) Top(492) Left(10) Height(30) Width(400)
+    Define_Com Class(#xEmployeeStartDate.Visual) Name(#xEmployeeStartDate) Displayposition(16) Parent(#SheetDetails) Tabposition(16) Top(527) Left(10) Height(30) Width(260)
+    Define_Com Class(#xEmployeeTerminationDate.Visual) Name(#xEmployeeTerminationDate) Displayposition(17) Parent(#SheetDetails) Tabposition(17) Top(562) Left(10) Height(30) Width(260)
+    Define_Com Class(#xDepartmentCode.Visual) Name(#xDepartmentCode) Displayposition(18) Parent(#SheetDetails) Tabposition(18) Top(597) Left(10) Height(30) Width(260)
+    Define_Com Class(#PRIM_PHBN) Name(#SaveButton) Caption('Save') Displayposition(19) Parent(#SheetDetails) Tabposition(19) Top(680) Height(30) Width(150) Left(283)
+    Define_Com Class(#PRIM_PHBN) Name(#DeleteButton) Caption('Delete') Displayposition(20) Parent(#SheetDetails) Tabposition(20) Top(680) Height(30) Width(150) Left(108)
+    
+    * And a panel to handle messages
+    Define_Com Class(#XEDMessages) Name(#MessagesPanel) Displayposition(2) Parent(#COM_OWNER) Tabstop(False) Top(773) Width(448)
+    
+    * *****************
+    * Event definitions
+    * *****************
+    
+    Define_Evt Name(EmployeeSaved)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    Define_Evt Name(EmployeeDeleted)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    * ************************************************************
+    * Group the Employee details for communicating with the server
+    * ************************************************************
+    
+    Group_By Name(#EmployeeDetails) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    * **************
+    * Event Handlers
+    * **************
+    
+    Evtroutine Handling(#SaveButton.Click)
+    
+    #COM_OWNER.SaveEmployee
+    
+    Endroutine
+    
+    Evtroutine Handling(#DeleteButton.Click)
+    
+    #COM_OWNER.DeleteEmployee
+    
+    Endroutine
+    
+    * **************
+    * Public Methods
+    * **************
+    
+    Mthroutine Name(CreateEmployee)
+    
+    * Initialize the editor
+    #COM_OWNER.InitializeEditor
+    
+    * Update our caption
+    #COM_OWNER.Caption := 'New Employee'
+    
+    * When creating an employee, you CAN change the ID
+    #xEmployeeIdentification.ReadOnly := False
+    #xEmployeeIdentification.Style <= *null
+    
+    * When creating an employee, you are NOT allowed to delete
+    #DeleteButton.Visible := False
+    
+    Endroutine
+    
+    Mthroutine Name(EditEmployee)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    Define_Com Class(#XEDServer.FetchEmployee) Name(#FetchEmployeeFromServer)
+    
+    * Initialize the editor
+    #COM_OWNER.InitializeEditor
+    
+    * When editing, you can't change the ID
+    #xEmployeeIdentification.ReadOnly := True
+    #xEmployeeIdentification.EditStyle <= #StyleReadOnly
+    
+    * When editing, you ARE allowed to delete
+    #DeleteButton.Visible := True
+    
+    * We're about to do an asynchronous request, make sure we're disabled until it completes.
+    #COM_OWNER.Enabled := False
+    
+    * Request the employee details from the server
+    #FetchEmployeeFromServer.ExecuteAsync( #ID #EmployeeDetails )
+    
+    Evtroutine Handling(#FetchEmployeeFromServer.Completed)
+    
+    * Update our caption
+    #COM_OWNER.Caption := ("&1 &2").Substitute( #xEmployeeGivenNames #xEmployeeSurname )
+    
+    * Update the image
+    #EmployeeImage.FileName := #xEmployeeImage
+    
+    * Now we can enable the editor
+    #COM_OWNER.Enabled := True
+    
+    Endroutine
+    
+    Endroutine
+    
+    * ***************
+    * Private Methods
+    * ***************
+    
+    Mthroutine Name(SaveEmployee) Access(*PRIVATE)
+    Define_Com Class(#XEDServer.SaveEmployee) Name(#SaveEmployeeOnServer)
+    
+    #sys_msgq.ClearAll
+    
+    #SaveEmployeeOnServer.ExecuteAsync( #EmployeeDetails #io$sts )
+    
+    Evtroutine Handling(#SaveEmployeeOnServer.Completed)
+    
+    If (#io$sts = OK)
+    
+    #COM_OWNER.ClosePopup
+    
+    Signal Event(EmployeeSaved) Id(#xEmployeeIdentification)
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(DeleteEmployee) Access(*PRIVATE)
+    
+    Define_Com Class(#XEDServer.DeleteEmployee) Name(#DeleteEmployeeOnServer)
+    
+    If (#sys_web.Confirm( 'Confirm delete?' ) = OK)
+    
+    #DeleteEmployeeOnServer.ExecuteAsync( #xEmployeeIdentification )
+    
+    Endif
+    
+    Evtroutine Handling(#DeleteEmployeeOnServer.Completed)
+    
+    If (#io$sts = OK)
+    
+    #COM_OWNER.ClosePopup
+    
+    Signal Event(EmployeeDeleted) Id(#xEmployeeIdentification)
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(InitializeEditor) Access(*PRIVATE)
+    
+    * Empty all the edit fields
+    #xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xDepartmentCode #xEmployeeImage := *null
+    #xEmployeeDateofBirth #xEmployeeStartDate #xEmployeeTerminationDate := *sqlnull
+    
+    * Clear the image
+    #EmployeeImage.FileName := *NULL
+    
+    * Clear the message queue
+    #sys_msgq.ClearAll
+    
+    * Start by showing the details tab
+    #SheetDetails.Opened := True
+    
+    Endroutine
+    
+    End_Com

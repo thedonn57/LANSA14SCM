@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_SPBN
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard spin button"
+      Label:              "Std spin button"
+      Heading1:           "Standard"
+      Heading2:           "spin"
+      Heading3:           "button"
+
+  - FRA:
+      Description:        "Zone de sélection numérique standard"
+      Label:              "Zon sél num std"
+      Heading1:           "Zone"
+      Heading2:           "sélection"
+      Heading3:           "numérique"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_SPBN
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    End_Com

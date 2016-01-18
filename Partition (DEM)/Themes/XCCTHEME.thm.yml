@@ -1,0 +1,70 @@
+﻿Theme:
+  Name:               XCCTheme
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Theme - Clara's Cupcakes"
+
+  - FRA:
+      Description:        "Theme - Clara's Cupcakes"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    Begin_Com Role(*EXTENDS #PRIM_THM) Style(#Style_Background) Basetheme(2015Pink) Themetextcolor(230:102:177)
+    
+    * Background
+    Define_Com Class(#Prim_vs.Style) Name(#Style_Background) Backgroundbrush(#WhiteImageBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#WhiteImageBrush) Image(#XCCIMG03) Sizing(FitBoth)
+    
+    * Menu
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#MenuLabel) Style(#Style_Menu)
+    Define_Com Class(#Prim_vs.Style) Name(#Style_Menu) Fontsize(16) Borderleft(2) Borderbottom(0) Borderbrush(#Brush_MenuBorder) Borderright(0) Bordertop(0) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_MenuBorder) Color(176:176:176)
+    
+    * Logo
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#LogoLabel) Style(#Style_Logo)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_Logo) Facename('Impact') Fontsize(48) Textcolor(254:158:204)
+    
+    * Content Panel
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ContentPanel) Style(#Style_ContentPanel)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_ContentPanel) Backgroundbrush(#BackgroundBrush_ContentPanel) Borderbottom(3) Borderleft(3) Borderright(3) Bordertop(3) Cornerbottomleft(20) Cornerbottomright(20) Cornertopleft(20) Cornertopright(20) Borderbrush(#BorderBrush_ContentPanel)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BorderBrush_ContentPanel) Color(204:192:224)
+    Define_Com Class(#PRIM_VS.LinearBrush) Name(#BackgroundBrush_ContentPanel) Colors(#BackgroundColors_ContentPanel) Opacity(90)
+    Define_Com Class(#PRIM_VS.BrushColors) Name(#BackgroundColors_ContentPanel)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BackgroundColor1_ContentPanel) Color(255:198:241) Parent(#BackgroundColors_ContentPanel)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BackgroundColor2_ContentPanel) At(25) Color(251:241:205) Parent(#BackgroundColors_ContentPanel)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BackgroundColor3_ContentPanel) At(75) Color(251:241:205) Parent(#BackgroundColors_ContentPanel)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#BackgroundColor4_ContentPanel) At(100) Color(255:198:241) Parent(#BackgroundColors_ContentPanel)
+    
+    * Content Caption
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ContentCaption) Style(#Style_ContentCaption)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_ContentCaption) Fontsize(20) Italic(True) Textcolor(255:49:157)
+    
+    * Close Button
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#CloseButton) Style(#Style_CloseButton)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_CloseButton) Fontsize(12) Cursor(Hand)
+    
+    * Details Label
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#DetailsLabel) Style(#Style_DetailsLabel)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_DetailsLabel) Fontsize(18)
+    
+    * Details Edit
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#DetailsEdit) Style(#Style_DetailsEdit)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_DetailsEdit) Borderleft(1) Bordertop(1) Borderright(1) Borderbottom(1) Backgroundbrush(#InputField_BackgroundBrush) Fontsize(12)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#InputField_BackgroundBrush) Color(Transparent)
+    
+    * Button Send
+    Define_Com Class(#PRIM_THM.DrawStyle) Name(#ButtonSend) Style(#Style_ButtonSend)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_ButtonSend) Cornerbottomleft(10) Cornerbottomright(10) Cornertopleft(10) Cornertopright(10) Backgroundbrush(#Brush_ButtonBackground) Borderbottom(2) Borderbrush(#Brush_ButtonBorder) Borderleft(1) Borderright(2) Bordertop(1) Fontsize(14) Foregroundbrush(#Brush_ButtonText) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_ButtonText) Color(251:241:205)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_ButtonBorder) Color(189:189:189)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush_ButtonBackground) Color(255:49:157) Opacity(80)
+    
+    End_Com
+    

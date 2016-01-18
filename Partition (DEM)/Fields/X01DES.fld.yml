@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X01DES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Page Description"
+      Label:              "X01DES"
+      Heading1:           "Page"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Page Description"
+      Label:              "X01DES"
+      Heading1:           "Page"
+      Heading2:           "Description"
+      Heading3:           " "

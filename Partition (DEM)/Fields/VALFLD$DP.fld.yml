@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$DP
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "No. of decimals of field to be validated"
+      Label:              "Field Decimals"
+      Heading1:           "No. of Decimals"
+      Heading2:           "of field to"
+      Heading3:           "be validated"
+
+  - FRA:
+      Description:        "Nbre de décimales de la zone à valider"
+      Label:              "Nbre décimales"
+      Heading1:           "Nbre décimales"
+      Heading2:           "zone à valider"
+      Heading3:           " "

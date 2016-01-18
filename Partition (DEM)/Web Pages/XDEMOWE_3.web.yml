@@ -1,0 +1,106 @@
+﻿Web Page:
+  Name:               xDemoWebLayout3ColumnDynamicWithStaticHeader
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "3 Column Layout Dynamic Static Header"
+
+  - FRA:
+      Description:        "3 Column Layout Dynamic Static Header"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015LightGreen>)
+    
+    * Using Layouts to control size and position of controls
+    * This example shows 3 columns of controls with a non scrolling header that spans the page
+    * The middle column has a fixed 800 pixel width.
+    * The 2 outer columns occupy the remaining space
+    * Control within each column flow down the page
+    * The controls in the center column are created at runtime
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(56) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(800) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Layout - Uses whole row Sizing(FitBoth)') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(1200) Alignment(Center) Height(54) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopCenter) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Marginbottom(2) Columnspan(3)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_20) Displayposition(1) Ellipses(Word) Left(0) Parent(#Body) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(187) Height(233) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_20) Alignment(TopCenter) Column(#BodyColumn_1) Flow(Down) Manage(#Label_20) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Marginright(4) Marginbottom(4)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Body) Displayposition(2) Height(744) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(56) Width(1200) Layoutmanager(#BodyLayout) Verticalscroll(True)
+    Define_Com Class(#PRIM_TBLO) Name(#BodyLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#BodyRow) Displayposition(1) Parent(#BodyLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#BodyColumn_1) Displayposition(1) Parent(#BodyLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#BodyColumn_2) Displayposition(2) Parent(#BodyLayout) Width(800) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#BodyColumn_3) Displayposition(3) Parent(#BodyLayout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label_21) Displayposition(2) Ellipses(Word) Left(0) Parent(#Body) Tabposition(2) Tabstop(False) Top(237) Verticalalignment(Center) Width(187) Height(154) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_22) Displayposition(3) Ellipses(Word) Left(0) Parent(#Body) Tabposition(3) Tabstop(False) Top(395) Verticalalignment(Center) Width(187) Height(164) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_23) Displayposition(4) Ellipses(Word) Left(0) Parent(#Body) Tabposition(4) Tabstop(False) Top(563) Verticalalignment(Center) Width(187) Height(204) Alignment(Center) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_24) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(5) Ellipses(Word) Left(995) Parent(#Body) Tabposition(5) Tabstop(False) Top(0) Verticalalignment(Center) Width(187) Height(89) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_25) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(6) Ellipses(Word) Left(995) Parent(#Body) Tabposition(6) Tabstop(False) Top(93) Verticalalignment(Center) Width(187) Height(132) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_26) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(7) Ellipses(Word) Left(995) Parent(#Body) Tabposition(7) Tabstop(False) Top(229) Verticalalignment(Center) Width(187) Height(68) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Label_27) Caption('Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)') Displayposition(8) Ellipses(Word) Left(995) Parent(#Body) Tabposition(8) Tabstop(False) Top(301) Verticalalignment(Center) Width(187) Height(380) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Manage(#Label_21) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_1) Alignment(TopCenter) Flow(Down) Marginbottom(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Manage(#Label_22) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_1) Alignment(TopCenter) Flow(Down) Marginbottom(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Manage(#Label_23) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_1) Alignment(TopCenter) Flow(Down) Marginbottom(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Manage(#Label_24) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_3) Alignment(TopCenter) Flow(Down) Marginleft(4) Marginbottom(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Manage(#Label_25) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_3) Alignment(TopCenter) Flow(Down) Marginleft(4) Marginbottom(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Manage(#Label_26) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_3) Alignment(TopCenter) Flow(Down) Marginleft(4) Marginbottom(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_7) Manage(#Label_27) Parent(#BodyLayout) Row(#BodyRow) Sizing(FitToWidth) Column(#BodyColumn_3) Alignment(TopCenter) Flow(Down) Marginleft(4) Marginbottom(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_8) Manage(#Body) Parent(#TableLayout) Row(#Row_2) Column(#Column) Columnspan(3)
+    Define_Com Class(#PRIM_PANL) Name(#Panel) Displayposition(9) Height(744) Left(191) Parent(#Body) Tabposition(9) Tabstop(False) Top(0) Width(800) Verticalscroll(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Column(#BodyColumn_2) Manage(#Panel) Parent(#BodyLayout) Row(#BodyRow)
+    
+    * Collections of labels and layout items being created
+    Define_Com Class(#Prim_acol<#Prim_labl>) Name(#Labels)
+    Define_Com Class(#Prim_acol<#Prim_tblo.Item>) Name(#LayoutItems)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    Begin_Loop To(25)
+    
+    #Com_Owner.CreateLabel
+    
+    End_Loop
+    
+    Endroutine
+    
+    Mthroutine Name(CreateLabel)
+    
+    * Create a new label instance and attach to the page
+    #Labels.Insert( (*New #Prim_labl) )
+    #Labels.Last.Parent <= #Body
+    
+    * Configure the appearance of the label
+    #Labels.Last.Caption := 'Layout - Alignment(TopCenter) Sizing(FitToWidth) Flow(Down)'
+    #Labels.Last.Alignment := Center
+    #Labels.Last.VerticalAlignment := Center
+    #Labels.Last.ThemeDrawStyle := LightTitle
+    
+    * Create a layout item to control the label
+    #LayoutItems.insert( (*New #Prim_tblo.Item) )
+    #LayoutItems.Last.Parent <= #BodyLayout
+    
+    * Configure the layout item
+    #LayoutItems.Last.Sizing := FitToWidth
+    #LayoutItems.Last.Alignment := TopCenter
+    #LayoutItems.Last.Flow := Down
+    #LayoutItems.Last.MarginBottom := 2
+    #LayoutItems.Last.Row <= #BodyRow
+    #LayoutItems.Last.Column <= #BodyColumn_2
+    
+    #LayoutItems.Last.Manage <= #Labels.Last
+    
+    Endroutine
+    
+    End_Com
+    

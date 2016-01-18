@@ -1,0 +1,45 @@
+﻿Form:
+  Name:               xDemoSQLSubSelectAny
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - Sub-select  ANY"
+
+  - FRA:
+      Description:        "SELECT_SQL - Sub-select  ANY"
+
+  Source: |
+    * META:Form,List,Database,SQL
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(258) Clientwidth(433) Height(297) Layoutmanager(#TableLayout_1) Left(264) Top(200) Width(449)
+    
+    * SQL Select and subselect Any
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption('Select all employees with at least one skill. This examples uses the subselect parameter ANY. A subselection of all employees in PSLSKL is made and an internal table is created. PSLMST is then compared with the internal table, and PSLMST records with ANY matching record on the internal table are selected.') Displayposition(1) Height(61) Left(4) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(4) Width(425)
+    Define_Com Class(#PRIM_LTVW) Name(#List) Displayposition(2) Height(185) Left(2) Parent(#COM_OWNER) Tabposition(2) Top(71) Width(429)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#List) Source(#EMPNO) Widthtype(Remainder)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Height(69) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#List) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Column(#Column_1) Manage(#LABL_1) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #com_owner.Caption := *component_desc
+    
+    Select_Sql Fields(#EMPNO) From_Files((PSLMST)) Where('EMPNO = ANY (SELECT EMPNO FROM "XDEMOLIB"."PSLSKL")')
+    
+    Add_Entry To_List(#List)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com

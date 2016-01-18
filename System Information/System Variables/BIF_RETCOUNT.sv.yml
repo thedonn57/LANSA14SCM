@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*BIF_RETCOUNT"
+  Description:        "BIF Function - Number of Return Values"
+  Derivation:         Dynamic
+  Data Type:          Numeric
+  Length:             7
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       F@SYSVAR

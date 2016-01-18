@@ -1,0 +1,44 @@
+﻿Field:
+  Name:               xDemoMemo
+  Type:               NChar
+  Length:             65535
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Memo"
+      Label:              "Memo"
+      Heading1:           "Memo"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Memo"
+      Label:              "Memo"
+      Heading1:           "Memo"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Usepicklist(False) Componentversion(1) Height(21) Width(895)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_char.std_char') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVEM) Name(#VisualMultiLineEdit) Componentversion(1) Height(244) Width(581) Defaultvisual(True) Memomarginleft(2)
+    
+    End_Com
+    End_Com

@@ -1,0 +1,73 @@
+﻿Web Page:
+  Name:               xDemoWebTile
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tiles"
+
+  - FRA:
+      Description:        "Tiles"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Define_Com Class(#xDemoWebData) Name(#gData) Scope(*Application)
+    
+    Define_Com Class(#PRIM_TILE<#xDemoWebTileEmployeeItem>) Name(#Tile) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(44) Height(756) Width(1200)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#Tile) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.81)
+    Define_Com Class(#xDemoWebDropDown) Name(#Direction) Parent(#COM_OWNER) Width(317) Height(28) Top(8) Left(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Parent(#TableLayout) Row(#Row) Alignment(CenterLeft) Sizing(None) Marginleft(4) Flow(Right) Manage(#Direction)
+    Define_Com Class(#PRIM_CKBX) Name(#ShowPartialItems) Displayposition(3) Left(341) Parent(#COM_OWNER) Tabposition(3) Width(200) Caption('Show Partial Items') Height(27) Top(9)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(CenterLeft) Column(#Column) Flow(Right) Manage(#ShowPartialItems) Parent(#TableLayout) Row(#Row) Sizing(None) Marginleft(20)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Direction.Add( LeftToRight "Left to Right" )
+    #Direction.Add( RightToLeft "Right to Left" )
+    #Direction.Add( TopToBottom "Top to Bottom" )
+    #Direction.Add( BottomToTop "Bottom to Top" )
+    
+    #Direction.Find( #Tile.Direction True )
+    
+    If (#Tile.ShowPartialItem)
+    
+    #ShowPartialItems.ButtonState := Checked
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Direction.ItemGotFocus) Value(#Value)
+    
+    #Tile.Direction := #Value
+    
+    Endroutine
+    
+    Evtroutine Handling(#gData.Prepared)
+    
+    For Each(#Employee) In(#gData.Employees)
+    
+    Add_Entry To_List(#Tile)
+    
+    #Tile.CurrentItem.RelatedReference <= #Employee
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowPartialItems.Click)
+    
+    #Tile.ShowPartialItem := (#ShowPartialItems.buttonState = Checked)
+    
+    Endroutine
+    
+    End_Com

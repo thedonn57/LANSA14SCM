@@ -1,0 +1,53 @@
+﻿Field:
+  Name:               xEmployeeTitle
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "'Mr'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Title"
+      Label:              "Title"
+      Heading1:           "Employee"
+      Heading2:           "Title"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Title"
+      Label:              "Title"
+      Heading1:           "Employee"
+      Heading2:           "Title"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Height(19) Usepicklist(False) Width(247) Componentversion(1)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_varchar.std_varchar') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(ShowValue)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Value('Mr') Caption('Mr') Parent(#Picklist)
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Value('Mrs') Caption('Mrs') Parent(#Picklist)
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_3) Value('Miss') Caption('Miss') Parent(#Picklist)
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_4) Value('Ms') Caption('Ms') Parent(#Picklist)
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_5) Value('Dr') Caption('Dr') Parent(#Picklist)
+    
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Appearance(DropDownList) Height(19) Componentversion(1) Width(251) Defaultvisual(True)
+    
+    End_Com
+    End_Com

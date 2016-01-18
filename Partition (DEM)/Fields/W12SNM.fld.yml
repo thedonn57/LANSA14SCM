@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12SNM
+  Type:               Alphanumeric
+  Length:             50
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Name"
+      Label:              "W12SNM"
+      Heading1:           "System Name"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "System Name"
+      Label:              "W12SNM"
+      Heading1:           "System Name"
+      Heading2:           " "
+      Heading3:           " "

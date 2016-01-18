@@ -1,0 +1,82 @@
+﻿Form:
+  Name:               xDemoStringArrayHandling
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Convert an Array to Array items"
+
+  - FRA:
+      Description:        "Convert an Array to Array items"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Convert an Array to items') Clientheight(419) Clientwidth(912) Height(458) Layoutmanager(#TableLayout_1) Left(98) Top(197) Width(928)
+    
+    * String array handling
+    * Split a string based on a separators into a collection of "words"
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(1.37)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(3) Parent(#TableLayout_1) Width(0.63)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Column(#Column_2) Manage(#WordList) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider_1) Displayposition(2) Parent(#TableLayout_1) Width(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#ArrayString) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#WordList) Columnbuttonheight(19) Columnheaders(False) Componentversion(2) Displayposition(1) Fullrowselect(True) Height(419) Keyboardpositioning(SortColumn) Left(626) Linesatroot(False) Parent(#COM_OWNER) Tabposition(1) Top(0) Viewstyle(UnLevelled) Width(286)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Captiontype(Caption) Displayposition(1) Level(1) Parent(#WordList) Source(#xDemoUnicode128) Width(97) Widthtype(Remainder)
+    
+    Define_Com Class(#xDemoUnicode4K.MultiLineEdit) Name(#ArrayString) Displayposition(2) Height(419) Marginleft(0) Parent(#COM_OWNER) Tabposition(2) Width(622)
+    
+    * Utilities - Variety of commonly used methods
+    Define_Com Class(#xDemoUtilities) Name(#Utilities)
+    
+    * Edit timer used to delay updates until a pause
+    Define_Com Class(#xDemoEditTimer) Name(#Timer)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    * Initialize the form
+    #ArrayString := "AAAA,BBBB,,DDDD,EEEE,FFFF,GGGG,HHHH,IIII,JJJJ,KKKK,LLLL,MMMM,NNNN,OOOO,PPPP,QQQQ,RRRR,SSSS,TTTT,UUUU,VVVV,WWWW,XXXX,YYYY,ZZZZ"
+    #Timer.Restart
+    
+    Endroutine
+    
+    Evtroutine Handling(#ArrayString.Changed)
+    
+    * When the user stops making changes for long enough the timer will fire
+    #Timer.Restart
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Ticked)
+    
+    Clr_List Named(#WordList)
+    
+    * Iterate through the items in the array string, using a comma as the separator and including blank items.
+    For Each(#Word) In(#Utilities.SplitString( #ArrayString "," True ))
+    
+    #Com_Owner.AddWordListEntry( #Word )
+    
+    Endfor
+    
+    * Add a count as the top item
+    #Com_Owner.AddWordListEntry( ("&1 Items").Substitute( #WordList.Entries.Asstring ) )
+    #WordList.CurrentItem.Position := 1
+    
+    Endroutine
+    
+    Mthroutine Name(AddWordListEntry) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Word)
+    
+    #xDemoUnicode128 := #Word
+    Add_Entry To_List(#WordList)
+    
+    Endroutine
+    
+    End_Com

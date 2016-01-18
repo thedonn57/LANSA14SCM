@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_EMSG
+  Type:               Alphanumeric
+  Length:             100
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Error Message"
+      Label:              "Message"
+      Heading1:           "Message(s)"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Message"
+      Label:              "Message"
+      Heading1:           "Message(s)"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

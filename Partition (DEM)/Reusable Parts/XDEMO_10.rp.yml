@@ -1,0 +1,49 @@
+﻿Reusable Part:
+  Name:               xDemoTouchRotationAndMoveImage
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Touch Rotation and Move Image"
+
+  - FRA:
+      Description:        "Touch Rotation and Move Image"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(300) Left(0) Tabposition(1) Top(0) Width(300) Touchmove(Both) Touchrotate(Yes) Touchscale(Yes) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#gImage) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#gImage) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(300) Width(300) Imagesizing(ShrinkToFit)
+    
+    Mthroutine Name(Construct) Options(*Constructor *Required)
+    Define_Map For(*Input) Class(#prim_bmp) Name(#Image) Pass(*By_reference)
+    
+    #gImage.image <= #Image
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.TouchStart)
+    
+    #Com_owner.DisplayPosition := 1
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.DoubleClick)
+    
+    #Com_owner.Rotation := 0
+    #Com_owner.height #Com_owner.height := 300
+    
+    Endroutine
+    
+    End_Com
+    

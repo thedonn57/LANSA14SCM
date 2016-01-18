@@ -1,0 +1,501 @@
+﻿Reusable Part:
+  Name:               XSAccountInformation2
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Account Information 2"
+
+  - FRA:
+      Description:        "Account Information 2"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(630) Left(0) Tabposition(1) Top(0) Width(1000) Layoutmanager(#TableLayout1)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    * Table Layout: 3 Column, 2 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column13) Displayposition(3) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row9) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row11) Parent(#TableLayout1) Displayposition(2) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#PDeliveryItem1) Column(#Column13) Manage(#PDelivery) Parent(#TableLayout1) Row(#Row9) Alignment(TopCenter) Flow(Down) Marginleft(7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#PAddressItem1) Column(#Column2) Manage(#PAddress) Parent(#TableLayout1) Row(#Row9) Alignment(TopCenter) Flow(Down) Marginleft(3) Marginright(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#PPersonalItem1) Alignment(TopCenter) Column(#Column1) Manage(#PPersonal) Parent(#TableLayout1) Row(#Row9) Flow(Down) Marginright(7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SaveAccountItem1) Manage(#SaveAccount2) Parent(#TableLayout1) Row(#Row11) Sizing(None) Column(#Column2) Marginright(5)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout3)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(1) Parent(#TableLayout4)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(1) Parent(#TableLayout4)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(1) Parent(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(1) Parent(#TableLayout5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel5Item1) Alignment(TopLeft) Column(#Column6) Manage(#PPersonal) Parent(#TableLayout5) Row(#Row5) Sizing(None) Flow(Down) Margintop(5) Marginleft(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel6Item1) Alignment(TopLeft) Column(#Column6) Manage(#PAddress) Parent(#TableLayout5) Row(#Row5) Sizing(None) Flow(Down) Margintop(5) Marginleft(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Panel7Item1) Alignment(TopLeft) Column(#Column6) Manage(#PDelivery) Parent(#TableLayout5) Row(#Row5) Sizing(None) Flow(Down) Margintop(5) Marginleft(5)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column7) Displayposition(1) Parent(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column8) Displayposition(2) Parent(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(1) Parent(#TableLayout6)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LPersonalDetails) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LEmail) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSAccountEmail) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LPassword) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSPassword) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LTitle) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSAccountTitleDropDown) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LFirstName) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSAccountFirstname) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LLastName) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSAccountLastname) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LBirthDate) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSBirthDate) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem18) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LHomePhone) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem19) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSPhoneHome) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem22) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#LMobilePhone) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem23) Alignment(TopLeft) Column(#Column7) Flow(Down) Manage(#XSPhoneMobile) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Marginright(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountTitleDropDownItem1) Alignment(TopLeft) Column(#Column7) Manage(#XSAccountTitleDropDown) Parent(#TableLayout6) Row(#Row6) Sizing(FitToWidth) Flow(Down) Marginleft(5) Marginright(5)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column9) Displayposition(1) Parent(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column10) Displayposition(2) Parent(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(1) Parent(#TableLayout7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem24) Alignment(TopLeft) Column(#Column9) Flow(Down) Manage(#LAddress) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column9) Manage(#XSStateDropdown1) Parent(#TableLayout7) Row(#Row7) Columnspan(2) Alignment(TopLeft) Sizing(FitToWidth) Flow(Down) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LStreetItem1) Alignment(TopLeft) Column(#Column9) Manage(#LStreet) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountAddress1Item1) Alignment(TopLeft) Column(#Column9) Manage(#XSAccountAddress1) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LAddressLine2Item1) Alignment(TopLeft) Column(#Column9) Manage(#LAddressLine2) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountAddress2Item1) Alignment(TopLeft) Column(#Column9) Manage(#XSAccountAddress2) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LCityItem1) Alignment(TopLeft) Column(#Column9) Manage(#LCity) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountCityItem1) Alignment(TopLeft) Column(#Column9) Manage(#XSAccountCity) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LStateItem1) Alignment(TopLeft) Column(#Column9) Manage(#LState) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LZipItem1) Alignment(TopLeft) Column(#Column9) Manage(#LZip) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSAccountZipItem1) Alignment(TopLeft) Column(#Column9) Manage(#XSAccountZip) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LCountryItem1) Alignment(TopLeft) Column(#Column9) Manage(#LCountry) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(10) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryDropDown1Item1) Alignment(TopLeft) Column(#Column9) Manage(#XSCountryDropDown1) Parent(#TableLayout7) Row(#Row7) Sizing(FitToWidth) Marginright(10) Columnspan(2) Flow(Down)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout8)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column11) Displayposition(1) Parent(#TableLayout8)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column12) Displayposition(2) Parent(#TableLayout8)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row8) Displayposition(1) Parent(#TableLayout8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LDeliveryAddressItem1) Alignment(TopLeft) Column(#Column11) Manage(#LDeliveryAddress) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Flow(Down) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem26) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LStreet) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem27) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSAccountAddress1) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem28) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LAddressLine2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem29) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSAccountAddress2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem30) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LCity) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem31) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSAccountCity) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem32) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LState) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem34) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LZip) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem35) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSAccountZip) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem36) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LCountry) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Marginleft(5) Marginright(5) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem38) Alignment(TopRight) Column(#Column12) Flow(Down) Manage(#UseSameAddress) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Margintop(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem40) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryStreet) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem41) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSDeliveryAddress1) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem42) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryAddressLine2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem43) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSDeliveryAddress2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem44) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryCity) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem45) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSDeliveryCity) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem46) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LState) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem47) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSStateDropDown2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem48) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryZip) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem49) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#XSDeliveryZip) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem50) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryCountry) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem51) Alignment(TopLeft) Column(#Column11) Flow(Down) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem52) Alignment(TopLeft) Column(#Column11) Flow(Down) Manage(#LDeliveryInstructions) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Columnspan(2) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem54) Alignment(TopLeft) Column(#Column11) Flow(Down) Parent(#TableLayout8) Row(#Row8) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DeliveryInstructionsItem1) Column(#Column11) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Alignment(TopLeft) Flow(Down) Columnspan(2) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LDeliveryStateItem1) Alignment(TopLeft) Column(#Column11) Manage(#LDeliveryState) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Flow(Down) Marginright(5) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DeliveryInstructionsItem2) Alignment(TopLeft) Column(#Column11) Manage(#DeliveryInstructions) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginright(5)
+    
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#DeliveryStateDropDownItem1) Manage(#XSStateDropDown2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Column(#Column11) Alignment(TopLeft) Flow(Down) Columnspan(2) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryDropDown2Item1) Alignment(TopLeft) Column(#Column11) Manage(#XSCountryDropDown1) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Flow(Down) Columnspan(2) Marginleft(5) Marginright(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSCountryDropDown2Item2) Alignment(TopLeft) Column(#Column11) Manage(#XSCountryDropDown2) Parent(#TableLayout8) Row(#Row8) Sizing(FitToWidth) Flow(Down) Marginright(5) Columnspan(2)
+    
+    * 3 PANELS.  One for each column.  Wrapping in a Panel allows for border to be added to the area
+    * PANEL Personal Detail.
+    Define_Com Class(#PRIM_PANL) Name(#PPersonal) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(327) Height(580) Layoutmanager(#TableLayout6)
+    * PANEL Address.
+    Define_Com Class(#PRIM_PANL) Name(#PAddress) Displayposition(3) Left(337) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Width(327) Height(580) Layoutmanager(#TableLayout7)
+    * PANEL Delivery Address.
+    Define_Com Class(#PRIM_PANL) Name(#PDelivery) Displayposition(4) Left(674) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(0) Width(326) Height(580) Layoutmanager(#TableLayout8)
+    
+    * LABELS are used to place text on the panels.  FIELDS are used for data entry.
+    Define_Com Class(#PRIM_LABL) Name(#LPersonalDetails) Caption('PERSONAL DETAILS') Displayposition(1) Ellipses(Word) Height(30) Left(0) Parent(#PPersonal) Tabposition(1) Tabstop(False) Top(5) Verticalalignment(Center) Width(164) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#LEmail) Caption('Email *') Displayposition(2) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(2) Tabstop(False) Top(45) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountEmail.Visual) Name(#XSAccountEmail) Displayposition(3) Parent(#PPersonal) Tabposition(3) Top(70) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LPassword) Caption('Password *') Displayposition(4) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(4) Tabstop(False) Top(110) Verticalalignment(Center) Width(317) Mouseoverstyle(#XSTheme01<Text08AlmostBlack>) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSPassword.Visual) Name(#XSPassword) Displayposition(5) Parent(#PPersonal) Tabposition(5) Top(135) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LTitle) Caption('Title') Displayposition(6) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(6) Tabstop(False) Top(175) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountTitleDropDown) Name(#XSAccountTitleDropDown) Tabstop(False) Displayposition(7) Parent(#PPersonal) Tabposition(7) Width(317) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Top(200) Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LFirstName) Caption('First Name *') Displayposition(8) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(8) Tabstop(False) Top(240) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountFirstname.Visual) Name(#XSAccountFirstname) Displayposition(9) Parent(#PPersonal) Tabposition(9) Top(265) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LLastName) Caption('Last Name * ') Displayposition(10) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(10) Tabstop(False) Top(305) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountLastname.Visual) Name(#XSAccountLastname) Displayposition(11) Parent(#PPersonal) Tabposition(11) Top(330) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LBirthDate) Caption('Date of Birth') Displayposition(12) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(12) Tabstop(False) Top(370) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSBirthDate.Visual) Name(#XSBirthDate) Displayposition(13) Parent(#PPersonal) Tabposition(13) Top(395) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LHomePhone) Caption('Phone *') Displayposition(14) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(14) Tabstop(False) Top(435) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSPhoneHome.Visual) Name(#XSPhoneHome) Displayposition(15) Parent(#PPersonal) Tabposition(15) Top(460) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LMobilePhone) Caption('Mobile *') Displayposition(16) Ellipses(Word) Height(25) Left(0) Parent(#PPersonal) Tabposition(16) Tabstop(False) Top(500) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSPhoneMobile.Visual) Name(#XSPhoneMobile) Displayposition(17) Parent(#PPersonal) Tabposition(17) Top(525) Width(317) Labelposition(None) Marginleft(0) Mouseoverstyle(#XSTheme01<Text10AlmostBlack>) Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LAddress) Caption('ADDRESS') Displayposition(1) Ellipses(Word) Height(30) Left(0) Parent(#PAddress) Tabposition(1) Tabstop(False) Top(5) Verticalalignment(Center) Width(164) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_PHBN) Name(#SaveAccount2) Caption('Save Account') Displayposition(1) Left(405) Parent(#COM_OWNER) Tabposition(2) Top(580) Width(180) Themedrawstyle('ButtonLook1') Height(50)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LStreet) Displayposition(2) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(2) Tabstop(False) Top(45) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>) Caption('Street *')
+    Define_Com Class(#XSAccountAddress1.Visual) Name(#XSAccountAddress1) Displayposition(3) Parent(#PAddress) Tabposition(3) Width(317) Labelposition(None) Marginleft(0) Top(70) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LAddressLine2) Caption('Address line 2') Displayposition(4) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(4) Tabstop(False) Top(110) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountAddress2.Visual) Name(#XSAccountAddress2) Displayposition(5) Parent(#PAddress) Tabposition(5) Width(317) Labelposition(None) Marginleft(0) Top(135) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LCity) Caption('City *') Displayposition(6) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(6) Tabstop(False) Top(175) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountCity.Visual) Name(#XSAccountCity) Displayposition(7) Parent(#PAddress) Tabposition(7) Width(317) Labelposition(None) Marginleft(0) Top(200) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LState) Caption('State/Province *') Displayposition(8) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(8) Tabstop(False) Top(240) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSStateDropDown) Name(#XSStateDropdown1) Displayposition(9) Parent(#PAddress) Tabposition(9) Tabstop(False) Width(317) Top(265) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LZip) Caption('Zip/Postal Code *') Displayposition(10) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(10) Tabstop(False) Top(305) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSAccountZip.Visual) Name(#XSAccountZip) Displayposition(11) Parent(#PAddress) Tabposition(11) Width(317) Labelposition(None) Marginleft(0) Top(330) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LCountry) Caption('Country *') Displayposition(12) Ellipses(Word) Height(25) Left(0) Parent(#PAddress) Tabposition(12) Tabstop(False) Top(370) Verticalalignment(Center) Width(317) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSCountryDropDown) Name(#XSCountryDropDown1) Tabstop(False) Displayposition(13) Parent(#PAddress) Tabposition(13) Width(317) Top(395) Height(30)
+    
+    
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryAddress) Caption('DELIVERY ADDRESS') Displayposition(1) Ellipses(Word) Height(30) Left(0) Parent(#PDelivery) Tabposition(1) Tabstop(False) Top(5) Verticalalignment(Center) Width(163) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_CKBX) Name(#UseSameAddress) Caption('Same as Address') Displayposition(2) Left(163) Marginleft(2) Parent(#PDelivery) Tabposition(2) Style(#XSTheme01<Text08AlmostBlack>) Width(158) Top(5) Alignment(Right)
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryStreet) Caption('Street *') Displayposition(3) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(3) Tabstop(False) Top(45) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSDeliveryAddress1.Visual) Name(#XSDeliveryAddress1) Displayposition(4) Parent(#PDelivery) Tabposition(4) Top(70) Width(321) Labelposition(None) Marginleft(0) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryAddressLine2) Caption('Address Line 2') Displayposition(5) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(5) Tabstop(False) Top(110) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSDeliveryAddress2.Visual) Name(#XSDeliveryAddress2) Displayposition(6) Parent(#PDelivery) Tabposition(6) Top(135) Width(321) Labelposition(None) Marginleft(0) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryCity) Caption('City *') Displayposition(7) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(7) Tabstop(False) Top(175) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSDeliveryCity.Visual) Name(#XSDeliveryCity) Displayposition(8) Parent(#PDelivery) Tabposition(8) Top(200) Width(321) Labelposition(None) Marginleft(0) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryState) Caption('State/Province *') Displayposition(9) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(9) Tabstop(False) Top(240) Verticalalignment(Center) Width(158) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSStateDropDown) Name(#XSStateDropDown2) Tabstop(False) Displayposition(10) Parent(#PDelivery) Tabposition(10) Width(321) Top(265) Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryZip) Caption('Zip/Postal Code *') Displayposition(11) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(11) Tabstop(False) Top(305) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSDeliveryZip.Visual) Name(#XSDeliveryZip) Displayposition(12) Parent(#PDelivery) Tabposition(12) Top(330) Width(321) Labelposition(None) Marginleft(0) Height(30)
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryCountry) Caption('Country *') Displayposition(13) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(13) Tabstop(False) Top(370) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#XSCountryDropDown) Name(#XSCountryDropDown2) Tabstop(False) Displayposition(14) Parent(#PDelivery) Tabposition(14) Width(321) Top(395) Height(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LDeliveryInstructions) Caption('Delivery Instructions') Displayposition(15) Ellipses(Word) Height(25) Left(0) Parent(#PDelivery) Tabposition(15) Tabstop(False) Top(435) Verticalalignment(Center) Width(321) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#Prim_text) Name(#DeliveryInstructions) Displayposition(16) Height(100) Parent(#PDelivery) Tabposition(16) Top(460) Width(321) Left(0)
+    
+    Group_By Name(#AccountDetail) Fields(#XSAccountID #XSPassword #XSAccountStatus #XSAccountTitle #XSAccountLastname #XSAccountFirstname #XSBirthDate #XSAccountEmail #XSPhoneMobile #XSPhoneWork #XSPhoneHome #XSAccountAddress1 #XSAccountAddress2 #XSAccountCity #XSAccountState #XSAccountZip #XSAccountCountry #XSDeliveryAddress1 #XSDeliveryAddress2 #XSDeliveryCity #XSDeliveryState #XSDeliveryZip #XSDeliveryCountry #XSDeliveryInstructions #XSNewsletterCancelDate #XSNewsletterStatus #XSNewsletterSubscribeDate)
+    
+    Define_Com Class(#PRIM_WEB.MessageBox) Name(#MessageBox) Title('Messages')
+    
+    Define_Com Class(#XSPassword) Name(#SavePassword)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #com_owner.LoadAccount
+    
+    Endroutine
+    
+    Evtroutine Handling(#SaveAccount2.Click)
+    
+    #Com_owner.SaveAccount
+    
+    Endroutine
+    
+    Evtroutine Handling(#UseSameAddress.Click)
+    
+    If (#UseSameAddress.ButtonState = checked)
+    
+    #XSDeliveryAddress1 := #XSAccountAddress1
+    #XSDeliveryAddress2 := #XSAccountAddress2
+    #XSDeliveryCity := #XSAccountCity
+    #XSCountryDropDown2.pCurrentValue := #XSAccountCountry
+    #XSDeliveryZip := #XSAccountZip
+    #XSStateDropDown2.pCurrentValue := #XSAccountState
+    
+    Return
+    
+    Endif
+    
+    * Otherwise clear values
+    #XSDeliveryAddress1 := *blank
+    #XSDeliveryAddress2 := *blank
+    #XSDeliveryCity := *blank
+    #XSCountryDropDown2.pCurrentValue := *blank
+    #XSDeliveryZip := *blank
+    #XSStateDropDown2.pCurrentValue := *blank
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSAccountAddress1.Changed)
+    
+    If (#UseSameAddress.ButtonState = checked)
+    
+    #XSDeliveryAddress1 := #XSAccountAddress1
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSAccountAddress2.Changed)
+    
+    If (#UseSameAddress.ButtonState = checked)
+    
+    #XSDeliveryAddress2 := #XSAccountAddress2
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSAccountCity.changed)
+    
+    If (#UseSameAddress.ButtonState = checked)
+    
+    #XSDeliveryCity := #XSAccountCity
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSAccountZip.changed)
+    
+    If (#UseSameAddress.ButtonState = checked)
+    
+    #XSDeliveryZip := #XSAccountZip
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSStateDropdown1.StateUpdated)
+    
+    If (#UseSameAddress.ButtonState = CHECKED)
+    
+    #XSStateDropDown2.pCurrentValue #XSDeliveryState := #XSStateDropdown1.pCurrentValue
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#XSCountryDropDown1.CountryUpdated)
+    
+    If (#UseSameAddress.ButtonState = CHECKED)
+    
+    #XSCountryDropDown2.pCurrentValue #XSDeliveryCountry := #XSCountryDropDown1.pCurrentValue
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(LoadAccount)
+    
+    Define_Com Class(#xsServer.LoadAccount) Name(#LoadAccount)
+    
+    If (#Sys_Web.SessionStorage<Email> *IsNot *null)
+    
+    #XSAccountEmail := #Sys_Web.SessionStorage<Email>
+    
+    Endif
+    
+    If (#XSAccountEmail = *blank)
+    
+    Return
+    
+    Endif
+    
+    #LoadAccount.ExecuteAsync( #AccountDetail #xsstatus )
+    
+    Evtroutine Handling(#LoadAccount.completed)
+    
+    #DeliveryInstructions := #XSDeliveryInstructions
+    
+    * Set dropdown values
+    #XSAccountTitleDropDown.pCurrentValue := #XSAccountTitle
+    #XSStateDropdown1.pCurrentValue := #XSAccountState
+    #XSStateDropDown2.pCurrentValue := #XSDeliveryState
+    #XSCountryDropDown1.pCurrentValue := #XSAccountCountry
+    #XSCountryDropDown2.pCurrentValue := #XSDeliveryCountry
+    
+    * Save encrypted password for later comparison
+    #XSPasswordEncrypted := #XSPassword
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(SaveAccount)
+    
+    Define_Com Class(#xsServer.SaveAccount) Name(#SaveAccount)
+    
+    If (*Not #Com_owner.PreSaveValidate)
+    
+    Return
+    
+    Endif
+    
+    * Encrypt the password before sending if user entered something
+    If (#XSPasswordEncrypted <> #XSPassword)
+    
+    * Use default value for encryption
+    #SavePassword := #XSPassword
+    
+    #XSPassword := #XSPassword.Encrypt( #XSEncryptKey )
+    
+    Endif
+    
+    #SaveAccount.ExecuteAsync( #AccountDetail #XSStatus )
+    
+    Evtroutine Handling(#SaveAccount.completed)
+    
+    * Confirm save ...
+    If ((#sys_msgq.messages.itemcount = 0))
+    
+    If (#XSstatus = OK)
+    
+    #MySession.AddMessage( 'Account details have been saved' )
+    
+    Else
+    
+    #MySession.AddMessage( 'Account details failed to save' )
+    
+    * restore the unencrypted value of password for further validation
+    If (#SavePassword <> '')
+    
+    #XSPassword := #SavePassword
+    
+    Endif
+    
+    Endif
+    
+    Endif
+    
+    #Com_owner.ShowMessageBox( 'Account Information' )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(PreSaveValidate)
+    Define_Map For(*result) Class(#prim_boln) Name(#Continue) Mandatory(true)
+    
+    Define_Com Class(#prim_nmbr) Name(#Counter)
+    
+    #Counter := 0
+    
+    * Set dropdown values
+    #XSAccountTitle := #XSAccountTitleDropDown.pCurrentValue
+    #XSAccountState := #XSStateDropdown1.pCurrentValue
+    #XSDeliveryState := #XSStateDropDown2.pCurrentValue
+    #XSAccountCountry := #XSCountryDropDown1.pCurrentValue
+    #XSDeliveryCountry := #XSCountryDropDown2.pCurrentValue
+    
+    #XSDeliveryInstructions := #DeliveryInstructions
+    
+    If ((#XSAccountEmail = *blank))
+    
+    #MySession.AddMessage( 'Email must be entered' )
+    
+    #Counter += 1
+    
+    Endif
+    
+    * Only check password if not encrypted yet
+    If ((#XSPasswordEncrypted <> #XSPassword) *Or (#XSPassword = *blank))
+    
+    If ((#XSPassword.curchars < 8) *Or (#XSPassword.curchars > 10))
+    
+    #MySession.AddMessage( 'Password must be more than 8 and less than 10 characters in length' )
+    
+    #Counter += 1
+    
+    Endif
+    
+    Endif
+    
+    If ((#XSAccountFirstname = *blank) *Or (#XSAccountLastname = *blank))
+    
+    #MySession.AddMessage( 'First and Last Name must be entered' )
+    
+    #Counter += 1
+    
+    
+    Endif
+    
+    If ((#XSPhoneHome = *blank) *And (#XSPhoneMobile = *blank) *And (#XSPhoneWork = *blank))
+    
+    #MySession.AddMessage( 'Enter at least one phone contact' )
+    
+    #Counter += 1
+    
+    Endif
+    
+    If ((#XSAccountAddress1 = *blank) *Or (#XSAccountCity = *blank) *Or (#XSAccountCountry = *blank) *Or (#XSAccountZip = *blank) *Or (#XSAccountState = *blank))
+    
+    #MySession.AddMessage( 'Address details must be supplied' )
+    
+    #Counter += 1
+    
+    Endif
+    
+    If ((#XSDeliveryAddress1 = *blank) *Or (#XSDeliveryCity = *blank) *Or (#XSDeliveryCountry = *blank) *Or (#XSDeliveryZip = *blank) *Or (#XSDeliveryState = *blank))
+    
+    #MySession.AddMessage( 'Delivery address details must be supplied' )
+    
+    #Counter += 1
+    
+    Endif
+    
+    * If errors raised ...
+    If (#Counter > 0)
+    
+    #Com_owner.ShowMessageBox( 'Account Information' )
+    
+    #Continue := false
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ShowMessageBox)
+    Define_Map For(*input) Class(#std_qsel) Name(#title)
+    
+    #MySession.SetMessageBoxTitle( #title )
+    
+    #MySession.AddSysMessages
+    
+    #MySession.ShowMessageBox
+    
+    Endroutine
+    
+    Mthroutine Name(AddMessage)
+    Define_Map For(*output) Class(#prim_boln) Name(#Continue) Mandatory(false)
+    
+    If (#sys_msgq.messages.itemcount = 0)
+    
+    #Continue := true
+    
+    Return
+    
+    Endif
+    
+    #MySession.AddSysMessages
+    
+    #MySession.ShowMessageBox
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,96 @@
+﻿Reusable Part:
+  Name:               XETData
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Data Object"
+
+  - FRA:
+      Description:        "Employee Data Object"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT *LISTFIELDS #xEmployeeFields)
+    
+    * The list-date used to populate this object on creation
+    Group_By Name(#xEmployeeFields) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeDepartment #xEmployeeImageThumbnail)
+    
+    * Publish the data as properties on this object
+    Define_Pty Name(Identifier) Get(*AUTO #xEmployeeIdentification) Set(*AUTO #xEmployeeIdentification)
+    Define_Pty Name(Title) Get(*AUTO #xEmployeeTitle) Set(*AUTO #xEmployeeTitle)
+    Define_Pty Name(Surname) Get(*AUTO #xEmployeeSurname) Set(*AUTO #xEmployeeSurname)
+    Define_Pty Name(GivenNames) Get(*AUTO #xEmployeeGivenNames) Set(*AUTO #xEmployeeGivenNames)
+    Define_Pty Name(DateOfBirth) Get(*AUTO #xEmployeeDateofBirth) Set(*AUTO #xEmployeeDateofBirth)
+    Define_Pty Name(Gender) Get(*AUTO #xEmployeeGender) Set(*AUTO #xEmployeeGender)
+    Define_Pty Name(Street) Get(*AUTO #xEmployeeStreet) Set(*AUTO #xEmployeeStreet)
+    Define_Pty Name(City) Get(*AUTO #xEmployeeCity) Set(*AUTO #xEmployeeCity)
+    Define_Pty Name(State) Get(*AUTO #xEmployeeState) Set(*AUTO #xEmployeeState)
+    Define_Pty Name(PostalCode) Get(*AUTO #xEmployeePostalCode) Set(*AUTO #xEmployeePostalCode)
+    Define_Pty Name(Country) Get(*AUTO #xEmployeeCountry) Set(*AUTO #xEmployeeCountry)
+    Define_Pty Name(HomeTelephone) Get(*AUTO #xEmployeeHomeTelephone) Set(*AUTO #xEmployeeHomeTelephone)
+    Define_Pty Name(BusinessTelephone) Get(*AUTO #xEmployeeBusinessTelephone) Set(*AUTO #xEmployeeBusinessTelephone)
+    Define_Pty Name(MobilePhone) Get(*AUTO #xEmployeeMobilePhone) Set(*AUTO #xEmployeeMobilePhone)
+    Define_Pty Name(Salary) Get(*AUTO #xEmployeeSalary) Set(*AUTO #xEmployeeSalary)
+    Define_Pty Name(StartDate) Get(*AUTO #xEmployeeStartDate) Set(*AUTO #xEmployeeStartDate)
+    Define_Pty Name(TerminationDate) Get(*AUTO #xEmployeeTerminationDate) Set(*AUTO #xEmployeeTerminationDate)
+    Define_Pty Name(DepartmentCode) Get(*AUTO #xDepartmentCode) Set(*AUTO #xDepartmentCode)
+    Define_Pty Name(DepartmentDescription) Get(*AUTO #xEmployeeDepartment)
+    
+    * Publish the thumbnail as a BLOB, as well as a bitmap
+    Define_Pty Name(Thumbnail) Get(*AUTO #xEmployeeImageThumbnail) Set(SetThumbNail)
+    Define_Pty Name(ThumbnailImage) Get(GetThumbnailImage)
+    
+    * Publish a display name
+    Define_Pty Name(DisplayName) Get(GetDisplayName)
+    
+    * Keep a dynamic reference to the image, so we'll only ever have to create it once.
+    Define_Com Class(#PRIM_BMP) Name(#ThumbnailImage) Reference(*DYNAMIC)
+    
+    * *****************
+    * Property routines
+    * *****************
+    
+    Ptyroutine Name(GetDisplayName)
+    Define_Map For(*OUTPUT) Class(#PRIM_ALPH) Name(#DisplayName)
+    
+    #DisplayName := ("&1, &2").Substitute( #xEmployeeSurname, #xEmployeeGivenNames )
+    
+    Endroutine
+    
+    Ptyroutine Name(GetThumbnailImage)
+    Define_Map For(*OUTPUT) Class(#PRIM_BMP) Name(#oThumbnailImage) Pass(*BY_REFERENCE)
+    
+    If (#ThumbnailImage *Is *null)
+    
+    If (#xEmployeeImageThumbnail.IsSqlNull)
+    
+    #ThumbnailImage <= #XETBM003
+    
+    Else
+    
+    #ThumbnailImage <= #SYS_APPLN.CreateBitmap( #xEmployeeImageThumbnail )
+    
+    Endif
+    
+    Endif
+    
+    #oThumbnailImage <= #ThumbnailImage
+    
+    Endroutine
+    
+    Ptyroutine Name(SetThumbnail)
+    Define_Map For(*INPUT) Class(#xEmployeeImageThumbnail) Name(#iThumbnail)
+    
+    #xEmployeeImageThumbnail := #iThumbnail
+    
+    #ThumbnailImage <= *NULL
+    
+    Endroutine
+    
+    End_Com

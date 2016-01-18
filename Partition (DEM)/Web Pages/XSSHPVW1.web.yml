@@ -1,0 +1,40 @@
+﻿Web Page:
+  Name:               XSShoppingCartView
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart"
+
+  - FRA:
+      Description:        "Shopping Cart"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Style(#XSTheme01<BackgroundWhite>) Layoutmanager(#TableLayout1) Theme(#XSTheme01) Icon(#XSLansaTools2)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column2) Displayposition(2) Parent(#TableLayout1) Maxwidth(1170) Minwidth(800) Width(4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(4) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSHead01Item1) Manage(#XSHeader) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#column2) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Manage(#XSFooter) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#column2) Alignment(TopCenter) Flow(Down) Columnspan(2) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSMenuItem1) Manage(#XSMenu) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#column2) Alignment(TopCenter) Flow(Down) Margintop(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSShoppingCart2Item1) Alignment(TopCenter) Column(#column2) Manage(#XSShoppingCart2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Margintop(10) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column3) Manage(#XSComponentHelp) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#XSHeader) Name(#XSHeader) Parent(#COM_OWNER) Tabstop(False) Left(171) Width(800) Top(10)
+    Define_Com Class(#XSMenu) Name(#XSMenu) Parent(#COM_OWNER) Tabstop(False) Displayposition(2) Top(120) Left(171) Tabposition(3)
+    Define_Com Class(#XSShoppingCartView2) Name(#XSShoppingCart2) Displayposition(3) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(170) Left(171) Width(840)
+    Define_Com Class(#XSFooter) Name(#XSFooter) Tabstop(False) Parent(#COM_OWNER) Displayposition(4) Tabposition(4) Top(830) Width(840) Left(171)
+    Define_Com Class(#XSComponentHelp) Name(#XSComponentHelp) Displayposition(5) Height(800) Left(971) Parent(#COM_OWNER) Tabposition(5) Tabstop(False)
+    
+    End_Com

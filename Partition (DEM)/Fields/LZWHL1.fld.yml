@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               LZWHL1
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_TEXTS
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Address Line 1"
+      Label:              "Address Line 1"
+      Heading1:           "Address Line 1"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Premiere Ligne De L\"adresse"
+      Label:              "Premiere Ligne"
+      Heading1:           "Premiere"
+      Heading2:           "Ligne"
+      Heading3:           "De L\"adresse"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the first line of the Address where}
+        %the Warehouse is located. (Use for instance for Building Name)}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient la premiere ligne de l'adresse ou}
+        %l'entrepot est situe.}
+      $$NOAUTO

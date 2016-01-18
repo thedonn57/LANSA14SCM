@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12HLD
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Hold System Indicator"
+      Label:              "W12HLD"
+      Heading1:           "Hold"
+      Heading2:           "System"
+      Heading3:           "Indicator"
+
+  - FRA:
+      Description:        "Hold System Indicator"
+      Label:              "W12HLD"
+      Heading1:           "Hold"
+      Heading2:           "System"
+      Heading3:           "Indicator"

@@ -1,0 +1,50 @@
+﻿Form:
+  Name:               xDemoDynamicEnableDisable
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Dynamic Enablement and Disablement"
+
+  - FRA:
+      Description:        "Dynamic enablement and disablement"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Dynamic Enablement and Disablement') Clientheight(102) Clientwidth(518) Height(141) Left(132) Top(240) Width(534) Theme(#xDemoTheme)
+    
+    * Example of enabling/disabling controls based on values
+    
+    Define_Com Class(#EMPNO.Visual) Name(#Empno) Displayposition(1) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(8) Width(209) Usepicklist(False)
+    Define_Com Class(#SECTION.Visual) Name(#Section) Displayposition(3) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(3) Top(56) Width(209)
+    Define_Com Class(#DEPTMENT.Visual) Name(#Deptment) Displayposition(2) Height(20) Left(8) Parent(#COM_OWNER) Tabposition(2) Top(32) Width(209)
+    Define_Com Class(#PRIM_PHBN) Name(#EmpnoOnly) Caption('E') Displayposition(4) Enabled(False) Left(248) Parent(#COM_OWNER) Tabposition(4) Top(8)
+    Define_Com Class(#PRIM_PHBN) Name(#DeptmentOnly) Caption('D') Displayposition(5) Enabled(False) Left(336) Parent(#COM_OWNER) Tabposition(5) Top(8)
+    Define_Com Class(#PRIM_PHBN) Name(#SectionOnly) Caption('S') Displayposition(6) Enabled(False) Left(424) Parent(#COM_OWNER) Tabposition(6) Top(8)
+    Define_Com Class(#PRIM_PHBN) Name(#EmpnoAndDeptment) Caption('EaD') Displayposition(7) Enabled(False) Left(248) Parent(#COM_OWNER) Tabposition(7) Top(40)
+    Define_Com Class(#PRIM_PHBN) Name(#EmpnoAndSection) Caption('EaS') Displayposition(8) Enabled(False) Left(336) Parent(#COM_OWNER) Tabposition(8) Top(40)
+    Define_Com Class(#PRIM_PHBN) Name(#SectionAndDeptment) Caption('DaS') Displayposition(9) Enabled(False) Left(424) Parent(#COM_OWNER) Tabposition(9) Top(40)
+    Define_Com Class(#PRIM_PHBN) Name(#EmpnoDeptmentandSection) Caption('EDS') Displayposition(10) Enabled(False) Left(248) Parent(#COM_OWNER) Tabposition(10) Top(72)
+    
+    * Handle a change of eny of the input fields
+    Evtroutine Handling(#Empno.changed #Deptment.changed #Section.changed)
+    
+    * Evaluate availability based on field values
+    #EmpnoOnly.Enabled := (#Empno <> "")
+    #DeptmentOnly.Enabled := (#Deptment <> "")
+    #SectionOnly.Enabled := (#Section <> "")
+    
+    #EmpnoAndDeptment.Enabled := (#Empno <> "") And (#Deptment <> "")
+    #EmpnoAndSection.Enabled := (#Empno <> "") And (#Section <> "")
+    #SectionAndDeptment.Enabled := (#Section <> "") And (#Deptment <> "")
+    
+    #EmpnoDeptmentandSection.Enabled := (#Empno <> "") And (#Deptment <> "") And (#Section <> "")
+    
+    Endroutine
+    
+    End_Com
+    

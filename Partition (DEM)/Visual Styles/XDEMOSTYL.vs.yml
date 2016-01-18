@@ -1,0 +1,109 @@
+﻿Visual Style:
+  Name:               xDemoStyles
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Samples Styles"
+
+  - FRA:
+      Description:        "Samples Styles"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_VS)
+    
+    * Can be applied to the application on startup.  Adopted by all forms and controls
+    * e.g. #sys_appln.A
+    Define_Com Class(#Prim_vs.Style) Name(#ApplicationStyle) Textcolor(40:40:40)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Title) Fontsize(24) Textcolor(48:48:48)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading1) Bold(True) Fontsize(16) Textcolor(48:48:48)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading2) Fontsize(14) Textcolor(48:48:48)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Heading3) Bold(True) Fontsize(12) Textcolor(48:48:48)
+    
+    Define_Com Class(#prim_vs.style) Name(#Emphasis) Bold(True) Textcolor(48:48:48)
+    
+    Define_Com Class(#prim_vs.style) Name(#FixedFont) Facename('Courier New')
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Watermark) Bold(True) Fontsize(96) Foregroundbrush(#WatermarkBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#WatermarkBrush) Opacity(20)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Image) Backgroundbrush(#WatermarkImageBrush)
+    Define_Com Class(#prim_vs.ImageBrush) Name(#WatermarkImageBrush) Image(#xImageGlobe512) Opacity(20)
+    
+    Define_Com Class(#prim_vs.Style) Name(#HiddenBorders) Borderbottom(1) Borderbrush(#BorderBrush) Borderleft(1) Borderright(1) Bordertop(1)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#BorderBrush) Color(Transparent)
+    
+    Define_Com Class(#prim_vs.Style) Name(#TransparentNoBorders) Borderbottom(0) Backgroundbrush(#TransparentNoBordersBrush) Borderleft(0) Borderright(0) Bordertop(0)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#TransparentNoBordersBrush) Color(Transparent)
+    
+    Define_Com Class(#prim_vs.Style) Name(#NoShadow) Effect(*NULL)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Link) Textcolor(78:108:214)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Error) Textcolor(189:0:0)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#Warning) Textcolor(1:156:0)
+    
+    Define_Com Class(#prim_vs.Style) Name(#Popup) Normbackcolor(Transparent) Effect(*NULL)
+    
+    * Traffic light styles
+    Define_Com Class(#prim_vs.Style) Name(#Good) Normbackcolor(4:158:7)
+    
+    Define_Com Class(#prim_vs.Style) Name(#Average) Normbackcolor(255:217:12)
+    
+    Define_Com Class(#prim_vs.Style) Name(#Poor) Normbackcolor(255:28:4) Textcolor(White)
+    
+    * Drag and Drop Image
+    Define_Com Class(#prim_vs.Style) Name(#DragAndDropImageCaption) Bold(True) Fontsize(11) Textcolor(217:41:7)
+    
+    * Near white background
+    Define_Com Class(#Prim_vs.Style) Name(#WhiteSemiOpaque) Backgroundbrush(#WhiteSemiOpaqueBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#WhiteSemiOpaqueBrush) Color(White) Opacity(80)
+    
+    * Plain white background
+    Define_Com Class(#Prim_vs.Style) Name(#White) Backgroundbrush(#WhiteBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#WhiteBrush) Color(White)
+    
+    * Linear Horizontal Background White to Grey, Top to Bottom
+    Define_Com Class(#PRIM_VS.Style) Name(#Linear1) Backgroundbrush(#Linear1Brush)
+    Define_Com Class(#PRIM_VS.LinearBrush) Name(#Linear1Brush) Colors(#Linear1Colors)
+    Define_Com Class(#PRIM_VS.BrushColors) Name(#Linear1Colors)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#Linear1Color1) Color(255:255:255) Parent(#Linear1Colors)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#Linear1Color2) At(100) Color(181:181:181) Parent(#Linear1Colors)
+    
+    
+    * Linear Vertical Background White to Grey, Left to Right
+    Define_Com Class(#PRIM_VS.Style) Name(#Linear2) Backgroundbrush(#Linear2Brush)
+    Define_Com Class(#PRIM_VS.LinearBrush) Name(#Linear2Brush) Colors(#Linear2Colors) Endleft(100) Endtop(0)
+    Define_Com Class(#PRIM_VS.BrushColors) Name(#Linear2Colors)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#LinearVerticalBGColor1) Color(255:255:255) Parent(#Linear2Colors)
+    Define_Com Class(#PRIM_VS.BrushColor) Name(#LinearVerticalBGColor2) At(100) Color(181:181:181) Parent(#Linear2Colors)
+    
+    
+    * Transparent Background
+    * Add to controls such as treeview to remove the default white background
+    Define_Com Class(#Prim_vs.Style) Name(#Transparent) Backgroundbrush(#TransparentBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#TransparentBrush) Color(Transparent)
+    
+    
+    * Can be applied on startup for all input boxes e.g. Fields, Combos, Spin edits etc
+    Define_Com Class(#Prim_vs.Style) Name(#Edits) Backgroundbrush(#InputsBrush)
+    Define_Com Class(#prim_vs.SolidBrush) Name(#InputsBrush) Opacity(80)
+    
+    * Active Item
+    Define_Com Class(#PRIM_VS.Style) Name(#ActiveItem) Normbackcolor(181:181:181)
+    
+    * MouseOver Item
+    Define_Com Class(#PRIM_VS.Style) Name(#MouseOverItem) Normbackcolor(226:226:226)
+    
+    End_Com
+    
+    

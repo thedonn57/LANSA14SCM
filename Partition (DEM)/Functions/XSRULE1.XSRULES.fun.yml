@@ -1,0 +1,25 @@
+﻿Function:
+  Enabled For RDMLX:  Yes
+
+  Source: |
+    Function Options(*DIRECT *HEAVYUSAGE *ALP_FIELD_VALIDATE)
+    
+    *  assume a bad return.
+    #VALFLD$RT := '0'
+    
+    * Check the email has an @ and a .
+    If (*Not #VALFLD$AV.contains( @ ))
+    
+    Return
+    
+    Endif
+    
+    If (*Not #VALFLD$AV.contains( '.' ))
+    
+    Return
+    
+    Endif
+    
+    #VALFLD$RT := '1'
+    
+    

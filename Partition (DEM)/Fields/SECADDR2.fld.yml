@@ -1,0 +1,63 @@
+﻿Field:
+  Name:               SECADDR2
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Suburb or Town of Section"
+      Label:              "Address 2......"
+      Heading1:           "Address line 2"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Section adresse ligne 2"
+      Label:              "Adresse 2 . . ."
+      Heading1:           "Adresse ligne 2"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      
+            This field represents the section's address line 2. In most
+            cases this contains the suburb where the respective section
+            is.
+      
+      
+                For eg:
+                       BRADDON.
+                       BALMAIN.
+      
+      
+            Normally upper case characters is preferred in this address
+            line.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      
+            C'est la deuxième ligne de l'adresse complète de la section.
+            Dans la plupart des cas, elle ne doit contenir que le nom de
+            la localité.
+      
+      
+                Par exemple:
+                       BRADDON.
+                       BALMAIN.
+      
+      
+            Il est préférable de n'utiliser que des majuscules dans cette
+            ligne d'adresse.

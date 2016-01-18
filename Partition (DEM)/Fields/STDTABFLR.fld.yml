@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STDTABFLR
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Tab Folder Indicator"
+      Label:              "Standard Tab"
+      Heading1:           "Standard"
+      Heading2:           "Tab"
+      Heading3:           "Folder"
+
+  - FRA:
+      Description:        "Indicateur d´onglet standard"
+      Label:              "Onglet std"
+      Heading1:           "Onglet"
+      Heading2:           "Std"
+      Heading3:           " "

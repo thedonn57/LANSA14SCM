@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F26TYP
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "system type"
+      Label:              "F26TYP"
+      Heading1:           "system"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "system type"
+      Label:              "F26TYP"
+      Heading1:           "system"
+      Heading2:           "Type"
+      Heading3:           " "

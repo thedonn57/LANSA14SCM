@@ -1,0 +1,40 @@
+﻿Web Page:
+  Name:               XSStoreLocator
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Store Locator"
+
+  - FRA:
+      Description:        "Store Locator"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#XSTheme01) Icon(#XSLansaTools2)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Parent(#TableLayout1) Displayposition(1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Maxwidth(1170) Minwidth(800) Width(4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSHeaderItem1) Manage(#XSHeader2) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(3) Marginleft(5) Marginright(5) Marginbottom(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSStoreMapItem1) Alignment(TopCenter) Column(#Column2) Manage(#XSStoreMap) Parent(#TableLayout1) Row(#Row1) Flow(Down) Margintop(10) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Manage(#XSLocatorSearch) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column2) Manage(#XSFooter) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Alignment(TopCenter) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#XSHeader2) Name(#XSHeader2) Parent(#COM_OWNER) Tabstop(False) Left(191) Width(800) Top(10)
+    Define_Com Class(#XSLocatorSearch) Name(#XSLocatorSearch) Displayposition(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(120) Width(800) Left(191)
+    
+    Define_Com Class(#XSStoreMap) Name(#XSStoreMap) Parent(#COM_OWNER) Tabstop(False) Top(287) Left(191) Displayposition(3) Tabposition(3) Style(#XSTheme01<BackgroundWhite>) Width(800) Height(550)
+    Define_Com Class(#XSFooter) Name(#XSFooter) Displayposition(4) Left(191) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(847) Width(800)
+    
+    End_Com
+    

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XSProductLineID
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Line ID"
+      Label:              "Product Categor"
+      Heading1:           "Product"
+      Heading2:           "Category"
+      Heading3:           "ID"
+
+  - FRA:
+      Description:        "Product Category ID"
+      Label:              "Product Categor"
+      Heading1:           "Product"
+      Heading2:           "Category"
+      Heading3:           "ID"

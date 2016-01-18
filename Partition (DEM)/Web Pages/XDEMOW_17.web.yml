@@ -1,0 +1,145 @@
+﻿Web Page:
+  Name:               xDemoWebMaintenanceMultiplePage
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Multiple Pages"
+
+  - FRA:
+      Description:        "Using Multiple Pages"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    *
+    * D E S I G N
+    *
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_5) Displayposition(1) Parent(#TableLayout) Height(45) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(4) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_5) Displayposition(5) Parent(#TableLayout)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(751) Left(2) Parent(#COM_OWNER) Tabposition(1) Top(47) Width(1196) Rowlines(False) Columnlines(False) Style(#Style_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row) Columnspan(5) Rowspan(5) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_LIST.Image) Name(#EmployeeImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2) Cellmarginleft(2) Cellmarginright(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(4) Parent(#List) Source(#SURNAME) Columnwidth(205)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(3) Parent(#List) Source(#GIVENAME) Columnwidth(230)
+    Define_Com Class(#PRIM_LIST.Image) Name(#Details) Columnwidth(50) Displayposition(5) Parent(#List) Image(#xImageOpen32) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Employee Maintenance') Displayposition(2) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(2) Verticalalignment(Center) Height(41) Width(1196) Marginleft(2) Themedrawstyle('Title+DarkTitle')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row_5) Columnspan(5) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style_2) Borderleft(0) Borderright(0) Borderbottom(0)
+    
+    
+    *
+    * V A R I A B L E S
+    *
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Empthm) Type(*working)
+    Def_List Name(#Employee) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Counter(#ListCount) Type(*working)
+    
+    
+    *
+    * I M P L E M E N T A T I O N
+    *
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Load
+    
+    Endroutine
+    
+    Mthroutine Name(Load) Access(*Private)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.Executeasync( #Employees )
+    
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List)
+    #EmployeeImage.currentItem.image <= #sys_appln.CreateBitmap( #empthm )
+    #Details.currentItem.visible := false
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseEnter)
+    
+    #Details.currentItem.visible := True
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemMouseLeave)
+    
+    #Details.currentItem.visible := False
+    
+    Endroutine
+    
+    Evtroutine Handling(#Details.Click)
+    
+    #sys_web.Navigate( (#Com_owner.GetRootURL + ("XDEMOW_18.html?Employee=&1").Substitute( #Empno )) )
+    
+    Endroutine
+    
+    Mthroutine Name(GetRootURL)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    #Result := #sys_web.URL.Substring( 1 (#sys_web.URL.LastPositionOf( "/" )) )
+    
+    Endroutine
+    
+    Evtroutine Handling(#sys_web.storageChanged)
+    
+    If (#sys_web.localStorage<UpdateEmployee> *IsNot *null)
+    
+    #Com_owner.GetUpdate( #sys_web.localStorage<UpdateEmployee>.Value )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GetUpdate) Access(*Private)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    Define_Com Class(#xDemoDataServices.GetEmployee) Name(#GetEmployee)
+    
+    #GetEmployee.Executeasync( #EmployeeNumber #Employee )
+    
+    Evtroutine Handling(#GetEmployee.completed)
+    
+    #sys_web.localStorage.Remove( UpdateEmployee )
+    
+    Selectlist Named(#List)
+    
+    Continue If(#empno <> #EmployeeNumber)
+    
+    Get_Entry Number(1) From_List(#Employee)
+    
+    Upd_Entry In_List(#List)
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    End_Com

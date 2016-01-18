@@ -1,0 +1,46 @@
+﻿Reusable Part:
+  Name:               xDemoWebMessagesPopup
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Messages Popup"
+
+  - FRA:
+      Description:        "Messages Popup"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PPNL) Height(265) Left(0) Top(0) Width(425) Titlebar(True) Caption('Messages') Closebutton(True) Autoclose(False) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(1.55)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ListItem1) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(30) Height(233) Width(423) Columnheaderheight(0) Columnlines(False) Rowlines(False) Rowheight(25) Style(#Style1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT) Displayposition(1) Parent(#List) Source(#xDemoCaption) Columnwidth(1) Columnunits(Proportion)
+    
+    Mthroutine Name(Show)
+    
+    Clr_List Named(#List)
+    
+    For Each(#Message) In(#sys_msgq.Messages)
+    
+    #xDemoCaption := #Message.Text
+    Add_Entry To_List(#List)
+    
+    Endfor
+    
+    #Com_owner.ShowPopup Placement(Center)
+    
+    Endroutine
+    
+    End_Com

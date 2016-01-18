@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               DATETIMEX
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*DATETIME"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+  - SUTC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current date and time (RDMLX)"
+      Label:              "Date / time"
+      Heading1:           "Date / time"
+      Heading2:           "-----------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

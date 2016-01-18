@@ -1,0 +1,205 @@
+﻿Web Page:
+  Name:               XEDMain
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Editor: Desktop"
+
+  - FRA:
+      Description:        "Employee Editor: Desktop"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayoutMain) Theme(#SYS_THEME<2015Blue>) Caption('Employees') Style(#StyleBackground)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBackground) Normbackcolor(Theme50)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleSearch) Textcolor(ThemeText)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleWhiteBackground) Normbackcolor(White)
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleAddButton) Cursor(Hand) Textcolor(Theme50)
+    
+    * Layout: Main
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column1) Displayposition(1) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayoutMain) Units(Pixels) Width(1000)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayoutMain) Height(64) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayoutMain)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#EmployeesListView) Parent(#TableLayoutMain) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#column1) Manage(#HeaderPanel) Parent(#TableLayoutMain) Row(#Row1) Columnspan(3)
+    
+    * Layout: Header
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayoutHeaderPanel)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(2) Parent(#TableLayoutHeaderPanel) Units(Pixels) Width(1000)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(1) Parent(#TableLayoutHeaderPanel)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(3) Parent(#TableLayoutHeaderPanel)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayoutHeaderPanel)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image1Item1) Manage(#Logo) Parent(#TableLayoutHeaderPanel) Row(#Row3) Sizing(None) Alignment(CenterLeft) Flow(Right) Column(#Column5) Marginleft(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label1Item1) Column(#Column5) Manage(#HeaderText) Parent(#TableLayoutHeaderPanel) Row(#Row3) Sizing(None) Flow(Right) Marginleft(20) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Image2Item1) Alignment(CenterRight) Column(#Column5) Manage(#AddButton) Parent(#TableLayoutHeaderPanel) Row(#Row3) Sizing(None) Flow(Left) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SearchValueItem2) Column(#Column5) Manage(#SearchValue) Parent(#TableLayoutHeaderPanel) Sizing(None) Row(#Row3) Alignment(CenterRight) Flow(Left) Marginright(3)
+    
+    * Header Panel, LOGO, TITLE, ADD and SEARCH
+    Define_Com Class(#PRIM_PANL) Name(#HeaderPanel) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Height(64) Width(1200) Themedrawstyle('MediumTitle') Layoutmanager(#TableLayoutHeaderPanel)
+    Define_Com Class(#PRIM_LABL) Name(#HeaderText) Caption('Employees') Displayposition(4) Ellipses(Word) Height(64) Left(171) Parent(#HeaderPanel) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(500) Marginleft(4) Themedrawstyle('Title+MediumTitle')
+    Define_Com Class(#PRIM_LIST) Name(#EmployeesListView) Displayposition(1) Height(736) Left(100) Parent(#COM_OWNER) Tabposition(1) Top(64) Width(1000) Rowheight(62) Columnlines(False) Style(#StyleWhiteBackground)
+    Define_Com Class(#PRIM_EDIT) Name(#SearchValue) Displayposition(1) Height(28) Left(847) Parent(#HeaderPanel) Tabposition(2) Width(250) Top(18) Placeholder('Search') Tabstop(False) Style(#StyleSearch)
+    Define_Com Class(#PRIM_LABL) Name(#AddButton) Displayposition(2) Ellipses(Word) Left(802) Parent(#HeaderPanel) Tabposition(3) Tabstop(False) Top(15) Alignment(Center) Themedrawstyle('Title+MediumTitle') Verticalalignment(Center) Imageposition(AboveCaption) Caption('+') Marginbottom(4) Style(#StyleAddButton) Width(35) Height(35)
+    
+    * The main body is the Employees List View
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPLOYID1) Displayposition(2) Parent(#EmployeesListView) Source(#xEmployeeIdentification) Sortonclick(True) Columnwidth(92)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPTITLE1) Displayposition(3) Parent(#EmployeesListView) Source(#xEmployeeTitle) Columnwidth(72) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXSURNAME1) Displayposition(4) Parent(#EmployeesListView) Source(#xEmployeeSurname) Sortonclick(True) Columnwidth(151)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXGIVENAME1) Displayposition(5) Parent(#EmployeesListView) Source(#xEmployeeGivenNames) Sortonclick(True) Columnwidth(192)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPDEPT1) Displayposition(6) Parent(#EmployeesListView) Source(#xEmployeeDepartment) Sortonclick(True) Columncaption('Department') Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnXEMPTHM1) Displayposition(1) Parent(#EmployeesListView) Source(#xEmployeeImageThumbnail) Cellmarginbottom(3) Cellmarginleft(3) Cellmarginright(1) Cellmargintop(1) Imagesizing(BestFit) Columnwidth(67)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXEMPADDR1) Columnwidth(224) Design(#XEDAddress) Displayposition(7) Parent(#EmployeesListView) Columncaption('Address') Sortonclick(True)
+    Define_Com Class(#PRIM_IMAG) Name(#Logo) Displayposition(3) Height(48) Image(#XEDLANSA2015) Left(103) Parent(#HeaderPanel) Tabposition(4) Tabstop(False) Top(8) Width(48)
+    
+    * The employee editor popup
+    Define_Com Class(#XEDEditor) Name(#EmployeeEditor)
+    
+    * Employee fields group for communicating with the server
+    Group_By Name(#xEmployeeFields) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    * **************************
+    * Event Handlers - MAIN PAGE
+    * **************************
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * When the page comes alive, we'll start loading the data.
+    #COM_OWNER.LoadEmployees
+    
+    Endroutine
+    
+    * ************************************
+    * Event Handlers - EMPLOYEES LIST VIEW
+    * ************************************
+    
+    Evtroutine Handling(#EmployeesListView.ItemDoubleClick)
+    
+    #EmployeeEditor.EditEmployee( #xEmployeeIdentification )
+    
+    #EmployeeEditor.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    * ********************************
+    * Event Handlers - EMPLOYEE EDITOR
+    * ********************************
+    
+    Evtroutine Handling(#EmployeeEditor.EmployeeSaved) Id(#ID)
+    
+    #Com_owner.UpdateEmployeeInList( #ID )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EmployeeEditor.EmployeeDeleted) Id(#ID)
+    
+    #com_owner.DeleteEmployeeFromList( #ID )
+    
+    Endroutine
+    
+    * *******************************************
+    * Event Handlers - HEADER BAR: Add and Search
+    * *******************************************
+    
+    Evtroutine Handling(#AddButton.Click)
+    
+    #EmployeeEditor.CreateEmployee
+    
+    #EmployeeEditor.ShowPopup Placement(Center) Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    Evtroutine Handling(#SearchValue.Changed)
+    
+    Define Field(#IncludeEmployeeInSearchResults) Type(*BOOLEAN)
+    
+    Selectlist Named(#EmployeesListView)
+    
+    #IncludeEmployeeInSearchResults := False
+    
+    * If search is empty, show all
+    If (#SearchValue = *BLANKS)
+    
+    #IncludeEmployeeInSearchResults := True
+    
+    Endif
+    
+    * Check Surname
+    If (#xEmployeeSurname.UpperCase.Contains( #SearchValue.Value.UpperCase ))
+    
+    #IncludeEmployeeInSearchResults := True
+    
+    Endif
+    
+    * Check Given Names
+    If (#xEmployeeSurname.UpperCase.Contains( #SearchValue.Value.UpperCase ))
+    
+    #IncludeEmployeeInSearchResults := True
+    
+    Endif
+    
+    #EmployeesListView.CurrentItem.Visible := #IncludeEmployeeInSearchResults
+    
+    Endselect
+    
+    Endroutine
+    
+    * ***************
+    * Private Methods
+    * ***************
+    
+    Mthroutine Name(LoadEmployees) Access(*PRIVATE)
+    
+    Define_Com Class(#XEDServer.GetEmployees) Name(#GetEmployeesFromServer)
+    
+    * Load the all employees, the results go straight into the list view
+    #GetEmployeesFromServer.ExecuteAsync( #EmployeesListView )
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateEmployeeInList) Access(*PRIVATE)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    Define_Com Class(#XEDServer.FetchEmployee) Name(#FetchEmployeeFromServer)
+    
+    #FetchEmployeeFromServer.ExecuteAsync( #ID #xEmployeeFields )
+    
+    Evtroutine Handling(#FetchEmployeeFromServer.Completed)
+    
+    * Check if we already listed this employee
+    Loc_Entry In_List(#EmployeesListView) Where(#xEmployeeIdentification = #ID)
+    
+    If_Status Is(*OKAY)
+    
+    * It's there, update the details
+    Upd_Entry In_List(#EmployeesListView)
+    
+    Else
+    
+    * It's not there, add it
+    Add_Entry To_List(#EmployeesListView)
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(DeleteEmployeeFromList) Access(*PRIVATE)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    
+    Loc_Entry In_List(#EmployeesListView) Where(#xEmployeeIdentification = #ID)
+    
+    Dlt_Entry From_List(#EmployeesListView)
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,263 @@
+﻿Template:
+  Name:                    FRPRT01
+  Description:             List Style Report with Generic Selection
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** GET NAMES OF UP TO 50 RELATED FILES                     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(50) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the primary file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 1   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@RTV_FLDS FROM_FILE(CF) INTO_LST(1)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO MAKE A LIST OF HEADER FIELDS IN LIST 5  */
+    /* ********** AND DETAIL FIELDS IN LIST 2                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(5)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'Appear in' 'Detail Line' *SEQUENCE *ALL) (5 'Fields to' 'Appear in' 'Headings' *SEQUENCE *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    @@CLR_LST  NUMBER(7)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((7 'Fields to' 'Trigger a' 'New Page' *SEQUENCE *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** MERGE LISTS 2, 5 and 7 into LIST 22                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(22)
+    @@MRG_LSTS FROM_LSTS(2) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(5) INTO_LST(22)
+    @@MRG_LSTS FROM_LSTS(7) INTO_LST(22)
+    /* ********** ======================================================= */
+    /* ********** MERGE ALL RELATED KEY FIELDS INTO LIST 22               */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS(3) INTO_LST(22)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE REPORT TITLE                                */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Please specify a title for this report') ANSWER(@@CANS005) EXTEND(' 1234567890123456789012345678901234567890' 'Use from 1 to 40 characters for your title. Use upper and lowercase' 'characters. For additional information and examples use the HELP function' 'key.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT RUNNING IN BATCH                              */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this report to run in batch') ANSWER(@@CANS006) EXTEND('Reply Y or N only. For additional information and examples use the ' 'HELP function key.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050)
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  'Group and line declarations'
+    FUNCTION   OPTIONS(*DEFERWRITE *DIRECT)
+    OPEN       FILE(*ALL) USE_OPTION(*ONDEMAND)
+    GROUP_BY   NAME(#FETCHDATA) FIELDS(@@LST22)
+    DEF_HEAD   NAME(#HDR01) FIELDS((#REP1PAGE) (#DATE) (#TIME) (#FUNCTION) (#STD_TITLE) @@LST05) TRIGGER_BY(*OVERFLOW @@LST07)  DESIGN(*DOWN)
+    DEF_LINE   NAME(#DET01) FIELDS(@@LST02)
+    CHANGE     FIELD(#STD_TITLE) TO('''@@CANS005''')
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE KEYS OF THE BASE FILE                          */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(3)
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z10)
+    @@COMMENT  COMMENT('If this program is running online')
+    IF         COND('*JOBMODE = I')
+    Z10: @@LABEL
+    @@COMMENT  COMMENT('Request report print criteria')
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC)
+    @@GOTO     LABEL(L92)
+    L91: @@LABEL
+    REQUEST    FIELDS(@@LST03) DESIGN(*DOWN) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0301)
+    L92: @@LABEL
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z20)
+    @@COMMENT  COMMENT('Submit batch run of this program')
+    SUBMIT     PROCESS(#PROCESS) FUNCTION(#FUNCTION) EXCHANGE(@@LST03) JOB(#FUNCTION)
+    @@COMMENT  COMMENT('Else, if this program is running in batch')
+    ELSE
+    Z20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** SELECT ALL MATCHING DETAILS FROM THE BASE FILE          */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Select required @@FNAME01 details')
+    SELECT     FIELDS(#FETCHDATA) FROM_FILE(@@FNAME01) WITH_KEY(@@LST03) NBR_KEYS(*COMPUTE) GENERIC(*YES)
+    /* ********** ======================================================= */
+    /* ********** FETCH DETAILS FROM ALL SECONDARY FILES                  */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CF) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CF) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CF) INTO_LST(3)
+    @@COMMENT  COMMENT('Fetch file @@FNAMECF details     ')
+    FETCH      FIELDS((#FETCHDATA)) FROM_FILE(@@FNAMECF) WITH_KEY(@@LST03) KEEP_LAST(1)
+    @@INC_IDX  IDX_NAME(CF)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** PRINT THE DETAILS                                       */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Print the detail line ')
+    PRINT      LINE(#DET01)
+    ENDSELECT
+    @@COMMENT  COMMENT('Finish all printing and end program')
+    ENDPRINT
+    @@IF       COND((*IF @@CANS006 *NE Y)) GOTO(Z30)
+    ENDIF
+    Z30: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** CLEAR ALL LISTS USED                                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(5)
+    @@CLR_LST  NUMBER(7)
+    @@CLR_LST  NUMBER(22)
+
+  Help Panels:
+  - HELP010:
+      Description:        "      Simple List Report"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple list report.  You can use the     
+         resulting program as is, or modify the resulting program yourself so that it   
+         exactly matches your requirements. When you elect to use this template you will
+         be asked the following things .....                                            
+                                                                                        
+         1. To nominate the file upon which the report will be based.                   
+            You can enter the full file name, a partial file name (to get a partial list
+            of available files), or leave the name blank (to get a full list of avail-  
+            able files). When a list of files is displayed the one required may be      
+            chosen from the list.                                                       
+                                                                                        
+            Once the base file has been chosen, you can select other related files that 
+            contain additional information that is to be printed on the report. Since   
+            the report is based (ie: driven from) the first file chosen, you will only  
+            be allowed to select associated files that are in a 1:1 relationship with   
+            the base file.
+
+  - HELP020:
+      Description:        "      Simple List Report"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         2. Next you will be asked to choose and order all the fields (from all the     
+            previously chosen files) into 2 different categories .....                  
+                                                                                        
+            The first is fields that are to appear in the detail area (or body) of the  
+            report. Most fields normally fall into this category.                       
+                                                                                        
+            The second is fields that are to appear in the heading area of the report.  
+            Usually such fields are also used as "triggers" for the start of a new page.
+            Fields chosen for inclusion in the heading area are almost always closely   
+            related to the order of the data in the base file (ie: its keys).           
+                                                                                        
+         3. Next you will be asked to specify fields that are to act as "triggers" for  
+            the start of a new page on the report. You do not have to have picked the   
+            field(s) previously for inclusion into the heading area of the report. For  
+            instance, you may be printing a "Company Description" in the heading area,  
+            but triggering a new page on change of "Company Number". When multiple      
+            fields are chosen for the "trigger" the relationship between them is "OR".
+
+  - HELP030:
+      Description:        "      Simple List Report"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         4. Next you will be asked to specify a title for your report.                  
+            Use upper and lower case characters in the title.                           
+            Do not use any single quote (') characters in the title.                    
+            Use at most 40 characters for the title (including imbedded blanks).        
+                                                                                        
+         5. Finally you will be asked whether the report should run in batch.           
+            Reply Y or N only to this question.                                         
+                                                                                        
+            If you reply Y, then the generated program, when used, will request that    
+            the user input the report run parameters and then submit a job to batch     
+            to actually produce the required report.                                    
+                                                                                        
+            If you reply N, then the generated program, when used, will request that    
+            the user input the report run parameters and then produce the report online.
+            If the user's request involves the reading of a large number of records from
+            the base file, it may "lock up" their workstation for an extended period of 
+            time.
+
+  - HELP040:
+      Description:        "      Simple List Report"
+
+      Text: |
+        <-
+                                                                                        
+         As an example of this kind of report, consider an EMPLOYEE FILE that contains  
+         employee details including the DEPARTMENT and SECTION number in which the      
+         employee works.                                                                
+                                                                                        
+         The DEPARTMENT and SECTION numbers held in the EMPLOYEE FILE are actually      
+         foreign keys to a DEPARTMENT FILE and a SECTION FILE. These files contain      
+         full details of the department and section for which the employee works.       
+                                                                                        
+         To produce a report of employees by department and section, a user of this     
+         template might choose to work like this .....                                  
+                                                                                        
+           a. Nominate a view of the EMPLOYEE FILE in department, section and employee  
+              number order as the base file.                                            
+                                                                                        
+           b. Select the DEPARTMENT FILE and the SECTION FILE as other associated files 
+              to be used by the report program.                                         
+                                                                                        
+           c. Indicate that fields such as employee number, employee name, employee     
+              salary, etc are to appear in the detail area of the report.
+
+  - HELP050:
+      Description:        "      Simple List Report"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+           d. Specify that fields department description (from the DEPARTMENT FILE) and 
+              section description (from the SECTION FILE) should appear in the heading  
+              area of the report.                                                       
+                                                                                        
+           e. Specify that a new page should be started (ie: triggered) by a change of  
+              department number or section number.                                      
+                                                                                        
+                                                                                        
+              The resulting report might look like this ......                          
+                                                                                        
+                           Department.... SALES AND MARKETING                           
+                           Section....... ADMINISTRATION                                
+                                                                                        
+                           Employee                          Employee                   
+                            Number    Employee name          Salary                     
+                            010002    SMITH, John          23,000.00                    
+                            010034    BLOGGS, Fred         25,000.00                    
+                            030405    DOE, John            37,000.00

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               DATETIME
+  Type:               Signed
+  Length:             14
+  Decimals:           0
+  Default Value:      "*DATETIME"
+  Edit Mask:          "'    /  /  &0 :  :  '"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - RB
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current date and time (numeric)"
+      Label:              "Date / time"
+      Heading1:           "Date / time"
+      Heading2:           "-----------"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date et heure en cours (numérique)"
+      Label:              "Date / heure"
+      Heading1:           "Date/heure"
+      Heading2:           "----------"
+      Heading3:           " "

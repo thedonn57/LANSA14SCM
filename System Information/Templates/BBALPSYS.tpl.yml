@@ -1,0 +1,50 @@
+﻿Template:
+  Name:                    BBALPSYS
+  Description:             Alphanumeric System Variable Evaluation
+
+  Source: |
+    @@QUESTION PROMPT('What is the name of the system variable that is to be evaluated ?') ANSWER(@@CANS001) EXTEND('*2345678901234567890 <- Specify the system variable name. Remember to' 'start it with an "*" and make sure that the name (including the *) does' 'not exceed 20 characters in length.') LOWER(*NO) RANGE(('*AAAAAAAAAAAAAAAAAAA' '*ZZZZZZZZZZZZZZZZZZZ')) HELPIDS(HELP010)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1992')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION')
+    @@COMMENT  COMMENT('Type ..........: System Variable Evaluator')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Working fields, lists and groups')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline : @@FUNCTION')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    FUNCTION   OPTIONS(*DIRECT *NOMESSAGES *LIGHTUSAGE *MLOPTIMISE *ALP_SYSTEM_VARIABLE)
+    @@COMMENT  COMMENT(' ')
+    CASE       OF_FIELD(#SYSVAR$NM)
+    WHEN       VALUE_IS('= ''@@CANS001''')
+    @@COMMENT  COMMENT('>>> Set #SYSVAR$AV to correct value here <<<')
+    OTHERWISE
+    ABORT      MSGTXT('@@CANS001 system variable evaluator invalidly invoked.')
+    ENDCASE
+    @@COMMENT  COMMENT(' ')
+    RETURN
+
+  Help Panels:
+  - HELP010:
+      Description:        " System Variable Evaluation"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Use this building block only when you are starting a new manually coded RDML   
+         function that is to be used for the evaluation of an alphanumeric system       
+         variable.                                                                      
+                                                                                        
+         This template will only ask you one question .... the name of the system       
+         variable that is to be evaluated.

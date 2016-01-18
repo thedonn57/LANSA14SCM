@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_PRICE
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Edit Mask:          1
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard PRICE"
+      Label:              "Price"
+      Heading1:           "Price"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Prix Standard"
+      Label:              "Prix"
+      Heading1:           "Prix"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Must be greater than zero"
+      Condition:          "#STD_PRICE *GT *ZERO"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1082
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field may contain a price. A price is always greater than zero. .
+      
+      
+        Validation Rules :  Must be greater than zero.
+      
+        Maximum Length   :  9 numerics, 2 of which are decimals.
+      
+      
+      
+      $$NOAUTO

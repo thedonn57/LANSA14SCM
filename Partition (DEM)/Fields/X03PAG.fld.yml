@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X03PAG
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Page identifier"
+      Label:              "X03PAG"
+      Heading1:           "Page"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Page identifier"
+      Label:              "X03PAG"
+      Heading1:           "Page"
+      Heading2:           "Identifier"
+      Heading3:           " "

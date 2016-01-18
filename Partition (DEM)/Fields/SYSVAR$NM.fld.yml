@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               SYSVAR$NM
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Variable Name"
+      Label:              "System Var Name"
+      Heading1:           "System"
+      Heading2:           "Variable"
+      Heading3:           "Name"
+
+  - FRA:
+      Description:        "Nom de variable système"
+      Label:              "Variable syst."
+      Heading1:           "Nom de"
+      Heading2:           "Variable"
+      Heading3:           "Système"

@@ -1,0 +1,860 @@
+﻿Template:
+  Name:                    FRWRK02
+  Description:             AS/400 Work With Object - Advanced
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer YES or NO only.' 'If you specify YES, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE "OBJECT"                                    */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes what "object" this function will work with') ANSWER(@@CANS001) EXTEND('123456789012345' 'The word you specify here is used to build messages that appear on the' 'screen panels. You should use ONE word only, use upper and lower case' 'characters, and only use singular form (eg: "Customer", "Employee",' '"Order"). Do NOT use more than 15 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT ABOUT MORE VIEWS OF THE SAME FILE             */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(AF) TO(0)
+    @@CLR_LST  NUMBER(71)
+    @@CLR_LST  NUMBER(72)
+    @@CLR_LST  NUMBER(73)
+    @@CLR_LST  NUMBER(74)
+    @@CLR_LST  NUMBER(75)
+    @@CLR_LST  NUMBER(81)
+    /* ********** FILE NAME INPUT LOOP                                    */
+    AFA: @@LABEL
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(5) IF_EQ(AFZ)
+    @@INC_IDX  IDX_NAME(AF)
+    AFE: @@LABEL
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(1) IF_EQ(AF1)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(2) IF_EQ(AF2)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(3) IF_EQ(AF3)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(4) IF_EQ(AF4)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(5) IF_EQ(AF5)
+    @@GOTO     LABEL(AFZ)
+    /* ********** FILE NUMBER 1                                           */
+    AF1: @@LABEL
+    @@GET_FILS FROM(1) TO(1) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the 1st search file to be used by this application.') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(71)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(71)
+    @@SET_IDX  IDX_NAME(WK) TO(@@LNE71)
+    @@CMP_IDX  IDX_NAME(WK) IDX_VALUE(1) IF_LT(AF1)
+    @@MRG_LSTS FROM_LSTS((71)) INTO_LST(81)
+    @@QUESTION PROMPT('What should selecting @@CANS001s via @@FNAME01 be described as ?') ANSWER(@@CANS071) EXTEND('123456789012345678901234567890' 'To identify the selection of @@CANS001s by using the file @@FNAME01 on ' 'generated screen panels, please provide a brief description that uses' 'upper and lowercase characters and does not contain any quote ('') symbols' 'For example : Select by Name, Select by Department, Select by Customer.') LOWER(*YES) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@GOTO     LABEL(AFN)
+    /* ********** FILE NUMBER 2                                           */
+    AF2: @@LABEL
+    @@GET_FILS FROM(2) TO(2) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the 2nd search file to be used by this application.') EXTEND('The file name you specify here may be a physical or logical file, but it' 'MUST share the same underlying data set as ALL other files already chosen.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(72)
+    @@RTV_KEYS OF_FILE(2) INTO_LST(72)
+    @@SET_IDX  IDX_NAME(WK) TO(@@LNE72)
+    @@CMP_IDX  IDX_NAME(WK) IDX_VALUE(1) IF_LT(AF2)
+    @@MRG_LSTS FROM_LSTS((72)) INTO_LST(81)
+    @@QUESTION PROMPT('What should selecting @@CANS001s via @@FNAME02 be described as ?') ANSWER(@@CANS072) EXTEND('123456789012345678901234567890' 'To identify the selection of @@CANS001s by using the file @@FNAME02 on ' 'generated screen panels, please provide a brief desrcription that uses' 'upper and lowercase characters and does not contain any quote ('') symbols' 'For example : Select by Name, Select by Department, Select by Customer.') LOWER(*YES) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@GOTO     LABEL(AFN)
+    /* ********** FILE NUMBER 3                                           */
+    AF3: @@LABEL
+    @@GET_FILS FROM(3) TO(3) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the 3rd search file to be used by this application.') EXTEND('The file name you specify here may be a physical or logical file, but it' 'MUST share the same underlying data set as ALL other files already chosen.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(73)
+    @@RTV_KEYS OF_FILE(3) INTO_LST(73)
+    @@SET_IDX  IDX_NAME(WK) TO(@@LNE73)
+    @@CMP_IDX  IDX_NAME(WK) IDX_VALUE(1) IF_LT(AF3)
+    @@MRG_LSTS FROM_LSTS((73)) INTO_LST(81)
+    @@QUESTION PROMPT('What should selecting @@CANS001s via @@FNAME03 be described as ?') ANSWER(@@CANS073) EXTEND('123456789012345678901234567890' 'To identify the selection of @@CANS001s by using the file @@FNAME03 on ' 'generated screen panels, please provide a brief desrcription that uses' 'upper and lowercase characters and does not contain any quote ('') symbols' 'For example : Select by Name, Select by Department, Select by Customer.') LOWER(*YES) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@GOTO     LABEL(AFN)
+    /* ********** FILE NUMBER 4                                           */
+    AF4: @@LABEL
+    @@GET_FILS FROM(4) TO(4) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the 4th search file to be used by this application.') EXTEND('The file name you specify here may be a physical or logical file, but it' 'MUST share the same underlying data set as ALL other files already chosen.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(74)
+    @@RTV_KEYS OF_FILE(4) INTO_LST(74)
+    @@SET_IDX  IDX_NAME(WK) TO(@@LNE74)
+    @@CMP_IDX  IDX_NAME(WK) IDX_VALUE(1) IF_LT(AF4)
+    @@MRG_LSTS FROM_LSTS((74)) INTO_LST(81)
+    @@QUESTION PROMPT('What should selecting @@CANS001s via @@FNAME04 be described as ?') ANSWER(@@CANS074) EXTEND('123456789012345678901234567890' 'To identify the selection of @@CANS001s by using the file @@FNAME04 on ' 'generated screen panels, please provide a brief desrcription that uses' 'upper and lowercase characters and does not contain any quote ('') symbols' 'For example : Select by Name, Select by Department, Select by Customer.') LOWER(*YES)  HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@GOTO     LABEL(AFN)
+    /* ********** FILE NUMBER 5                                           */
+    AF5: @@LABEL
+    @@GET_FILS FROM(5) TO(5) PHY_ONLY(*NO) SGL_ONLY(*YES) PROMPT('Enter the name of the 5th search file to be used by this application.') EXTEND('The file name you specify here may be a physical or logical file, but it' 'MUST share the same underlying data set as ALL other files already chosen.') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@CLR_LST  NUMBER(75)
+    @@RTV_KEYS OF_FILE(5) INTO_LST(75)
+    @@SET_IDX  IDX_NAME(WK) TO(@@LNE75)
+    @@CMP_IDX  IDX_NAME(WK) IDX_VALUE(1) IF_LT(AF5)
+    @@MRG_LSTS FROM_LSTS((75)) INTO_LST(81)
+    @@QUESTION PROMPT('What should selecting @@CANS001s via @@FNAME05 be described as ?') ANSWER(@@CANS075) EXTEND('123456789012345678901234567890' 'To identify the selection of @@CANS001s by using the file @@FNAME05 on ' 'generated screen panels, please provide a brief desrcription that uses' 'upper and lowercase characters and does not contain any quote ('') symbols' 'For example : Select by Name, Select by Department, Select by Customer.') LOWER(*YES) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@GOTO     LABEL(AFN)
+    /* ********** NEXT FILE                                               */
+    AFN: @@LABEL
+    @@QUESTION PROMPT('Do you want to use another view of the same underlying physical data ?') ANSWER(@@CANS007) EXTEND('Reply YES or NO only to this question.' 'This template has been specially constructed to support "work withs" by' 'multiple logical views of the same set of underlying physical data.' 'In fact, you MUST choose at least 2 views of the same data.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@IF       COND((*IF @@CANS007 *NE YES)) GOTO(AFZ)
+    @@GOTO     LABEL(AFA)
+    /* ********** END OF FILE INPUTTING LOOP                              */
+    AFZ: @@LABEL
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(2) IF_LT(AFE)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT AN AUTOMATIC ADD ROUTINE                      */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want an automatically generated ADD routine ?') ANSWER(@@CANS002) EXTEND('Reply YES or NO only to this question.' 'If you reply YES (yes) an automatically generated routine to add data' 'to the base file will be produced. It may not completely service' 'your requirements, but you can extend its functionality later.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT AN AUTOMATIC DISPLAY ROUTINE                  */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want an automatically generated DETAILED DISPLAY routine') ANSWER(@@CANS003) EXTEND('Reply YES or NO only to this question.' 'If you reply YES an automatically generated routine to display' 'data from the base file AND other files chosen will be produced.' 'It may not completely satisfy your requirements, but you can change it' 'later. Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT AN AUTOMATIC CHANGE ROUTINE                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want an automatically generated EDIT / CHANGE routine') ANSWER(@@CANS004) EXTEND('Reply YES or NO only to this question.' 'If you reply YES an automatically generated routine to edit data' 'in the base file will be produced. It may not completely service' 'your requirements, but you can extend its functionality later.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT AN AUTOMATIC DELETE ROUTINE                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want an automatically generated DELETE routine') ANSWER(@@CANS005) EXTEND('Reply YES or NO only to this question.' 'If you reply YES an automatically generated routine to delete data' 'from the base file will be produced. It may not completely service' 'your requirements, but you can extend its functionality later.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(YES NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK FOR THE ANY USER DEFINED ROUTINES                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('How many USER DEFINED "work with" routines do you want ?') ANSWER(@@NANS001) EXTEND('LANSA will automatically prepare a number of standard "work with"' 'routines. However, you can cause the RDML function to be generated' 'with provision for up to 9 extra user defined "work with"' 'routines and then fill in the actual RDML code required later.' 'Use the HELP function key for more information and examples.') RANGE((0 9)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** GET FULL DETAILS OF USER DEFINED ROUTINE                */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(UC) TO(1)
+    @@SET_IDX  IDX_NAME(UO) TO(20)
+    @@SET_IDX  IDX_NAME(UD) TO(30)
+    @@SET_IDX  IDX_NAME(UR) TO(40)
+    L01: @@CMP_IDX  IDX_NAME(UC) IDX_VALUE(@@NANS001) IF_GT(L02)
+    @@QUESTION PROMPT('For your user defined routine, specify the associated OPTION NUMBER') ANSWER(@@NANS0UO) EXTEND('Specify the option number that the user will have to enter beside' 'an entry in the "work with" browse list to invoke your user defined' 'routine. Use the HELP key for more information and examples') RANGE((1 99)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@QUESTION PROMPT('For option @@NANS0UO, specify the DESCRIPTION to use') ANSWER(@@CANS0UD) EXTEND('Specify the description of option @@NANS0UO that will be shown on the' 'panel instruction line(s).' 'Use the HELP key for more information and examples') HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@QUESTION PROMPT('For option @@NANS0UO=@@CANS0UD specify the SUBROUTINE NAME to be used') ANSWER(@@CANS0UR) EXTEND('Specify the name that should be used for the subroutine that will' 'be generated into the RDML function to handle option @@NANS0UO.' 'Use the HELP key for more information and examples') LOWER(*NO) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    @@INC_IDX  IDX_NAME(UC)
+    @@INC_IDX  IDX_NAME(UO)
+    @@INC_IDX  IDX_NAME(UD)
+    @@INC_IDX  IDX_NAME(UR)
+    @@GOTO     LABEL(L01)
+    L02: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** START TO GENERATE THE RDML FUNCTION                     */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Options, work variables and browse lists')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    OPEN       FILE(*ALL) USE_OPTION(*ONDEMAND)
+    DEFINE     FIELD(#REQUEST) TYPE(*CHAR) LENGTH(1)
+    DEFINE     FIELD(#PB$INST) TYPE(*CHAR) LENGTH(50) INPUT_ATR(PBIN) OUTPUT_ATR(PBIN)
+    CHANGE     FIELD(#PB$INST) TO('''Type options, press Enter.''')
+    DEFINE     FIELD(#PB$OPT1) TYPE(*CHAR) LENGTH(70)  INPUT_ATR(PBIN) OUTPUT_ATR(PBIN)
+    DEFINE     FIELD(#PB$OPT2) TYPE(*CHAR) LENGTH(70)  INPUT_ATR(PBIN) OUTPUT_ATR(PBIN)
+    CHANGE     FIELD(#PB$OPT1 #PB$OPT2) TO(*BLANKS)
+    DEFINE     FIELD(#USEOPTION) TYPE(*DEC) LENGTH(2) DECIMALS(0) LABEL('Option ........') DESC('Option number') COLHDG('Opt') EDIT_CODE(4) INPUT_ATR(PBEN) OUTPUT_ATR(PBCN)
+    DEFINE     FIELD(#OBJ$OPTNO) REFFLD(#USEOPTION) COLHDG(' ')
+    DEFINE     FIELD(#OBJ$OPTDE) TYPE(*CHAR) LENGTH(20) COLHDG(' ')
+    DEFINE     FIELD(#OBJ$OPTSE) REFFLD(#LISTENTRY)
+    DEF_LIST   NAME(#OBJ$OPTLS) FIELDS((#OBJ$OPTNO *OUTPUT) (#OBJ$OPTDE *OUTPUT)) ENTRYS(15) SEL_ENTRY(#OBJ$OPTSE)
+    CLR_LIST   NAMED(#OBJ$OPTLS)
+    DEFINE     FIELD(#FS$INST) TYPE(*CHAR) LENGTH(30) INPUT_ATR(PBIN) OUTPUT_ATR(PBIN)
+    CHANGE     FIELD(#FS$INST) TO('''Use cursor to select ....''')
+    DEFINE     FIELD(#FS$ROW) TYPE(*DEC) LENGTH(3) DECIMALS(0) DEFAULT(8)
+    DEFINE     FIELD(#FS$SEL) REFFLD(#FS$ROW)
+    DEFINE     FIELD(#FS$COL) TYPE(*DEC) LENGTH(3) DECIMALS(0) DEFAULT(8)
+    /* ********** DEFINE ALL INPUT AREAS FOR THE FILE SELECTION POP_UP    */
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    @@SET_IDX  IDX_NAME(WB) TO(71)
+    AAL: @@LABEL
+    @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(AF) IF_GT(AAE)
+    DEFINE     FIELD(#FS$OPT@@INDEXWA) TYPE(*CHAR) LENGTH(30)
+    CHANGE     FIELD(#FS$OPT@@INDEXWA) TO('''@@CANS0WB''')
+    @@INC_IDX  IDX_NAME(WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(AAL)
+    AAE: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline')
+    @@COMMENT  COMMENT('=======================================================')
+    L04: @@LABEL
+    @@IF       COND((*IF @@CANS004 *NE YES)) GOTO(L08)
+    EXECUTE    SUBROUTINE(OBJ$OPTION) WITH_PARMS(2 '''Change''' #PB$OPT1)
+    L08: @@LABEL
+    @@IF       COND((*IF @@CANS005 *NE YES)) GOTO(L10)
+    EXECUTE    SUBROUTINE(OBJ$OPTION) WITH_PARMS(4 '''Delete''' #PB$OPT1)
+    L10: @@LABEL
+    @@IF       COND((*IF @@CANS003 *NE YES)) GOTO(L06)
+    EXECUTE    SUBROUTINE(OBJ$OPTION) WITH_PARMS(8 '''Details''' #PB$OPT1)
+    L06: @@LABEL
+    @@SET_IDX  IDX_NAME(UC) TO(1)
+    @@SET_IDX  IDX_NAME(UO) TO(20)
+    @@SET_IDX  IDX_NAME(UD) TO(30)
+    @@SET_IDX  IDX_NAME(UR) TO(40)
+    L11: @@CMP_IDX  IDX_NAME(UC) IDX_VALUE(@@NANS001) IF_GT(L12)
+    EXECUTE    SUBROUTINE(OBJ$OPTION) WITH_PARMS(@@NANS0UO '''@@CANS0UD''' #PB$OPT2)
+    @@INC_IDX  IDX_NAME(UC)
+    @@INC_IDX  IDX_NAME(UO)
+    @@INC_IDX  IDX_NAME(UD)
+    @@INC_IDX  IDX_NAME(UR)
+    @@GOTO     LABEL(L11)
+    L12: @@LABEL
+    EXECUTE    SUBROUTINE(OBJ_BROWSE) WITH_PARMS('Y')
+    DOWHILE    COND('#IO$KEY = RA')
+    CHANGE     FIELD(#REQUEST) TO(N)
+    SELECTLIST NAMED(#OBJ_LIST)
+    @@COMMENT  COMMENT('Handle option input by "point and click"')
+    IF         COND('(#USEOPTION = 0) *AND (#LISTENTRY = #ENTRYNUM)')
+    EXECUTE    SUBROUTINE(OBJ$SELECT)
+    ENDIF
+    @@COMMENT  COMMENT('Only process entries with non-blank values')
+    IF         COND('#USEOPTION *NE 0')
+    CHANGE     FIELD(#LISTENTRY) TO(*NULL)
+    CASE       OF_FIELD(#USEOPTION)
+    L14: @@LABEL
+    @@IF       COND((*IF @@CANS003 *NE YES)) GOTO(L16)
+    WHEN       VALUE_IS('= 8')
+    EXECUTE    SUBROUTINE(OBJ_WORK) WITH_PARMS('DIS')
+    L16: @@LABEL
+    @@IF       COND((*IF @@CANS004 *NE YES)) GOTO(L18)
+    WHEN       VALUE_IS('= 2')
+    EXECUTE    SUBROUTINE(OBJ_WORK) WITH_PARMS('CHG')
+    L18: @@LABEL
+    @@IF       COND((*IF @@CANS005 *NE YES)) GOTO(L20)
+    WHEN       VALUE_IS('= 4')
+    EXECUTE    SUBROUTINE(OBJ_WORK) WITH_PARMS('DLT')
+    L20: @@LABEL
+    @@SET_IDX  IDX_NAME(UC) TO(1)
+    @@SET_IDX  IDX_NAME(UO) TO(20)
+    @@SET_IDX  IDX_NAME(UD) TO(30)
+    @@SET_IDX  IDX_NAME(UR) TO(40)
+    L22: @@CMP_IDX  IDX_NAME(UC) IDX_VALUE(@@NANS001) IF_GT(L24)
+    WHEN       VALUE_IS('= @@NANS0UO')
+    EXECUTE    SUBROUTINE(@@CANS0UR)
+    @@INC_IDX  IDX_NAME(UC)
+    @@INC_IDX  IDX_NAME(UO)
+    @@INC_IDX  IDX_NAME(UD)
+    @@INC_IDX  IDX_NAME(UR)
+    @@GOTO     LABEL(L22)
+    L24: @@LABEL
+    OTHERWISE
+    MESSAGE    MSGID(DCU0014) MSGF(DC@M01) MSGDTA(#USEOPTION)
+    ENDCASE
+    ENDIF
+    ENDSELECT
+    EXECUTE    SUBROUTINE(OBJ_BROWSE) WITH_PARMS(#REQUEST)
+    ENDWHILE
+    /* ********** ======================================================= */
+    /* ********** ALLOW USER TO CHOOSE FIELDS FOR THE BROWSE PANEL        */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields to' 'Display on' 'Browse Panel' *SEQUENCE)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** MERGE IN ALL UNSELECTED FILE KEYS AS HIDDEN FIELDS      */
+    /* ********** ======================================================= */
+    @@GOTO     AGE
+    /* ********** THIS LOGIC NOT IMPLEMENTED                              */
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    AGL: @@LABEL
+    @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(AF) IF_GT(AGE)
+    @@CLR_LST  NUMBER(99)
+    @@RTV_KEYS OF_FILE(WA) INTO_LST(99)
+    @@MRG_LSTS FROM_LSTS((99 *HIDDEN)) INTO_LST(2)
+    @@INC_IDX  IDX_NAME(WA)
+    @@GOTO     LABEL(AGL)
+    AGE: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_BROWSE')
+    @@COMMENT  COMMENT('Description....: Browse from files (page at a time)')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_BROWSE) PARMS((#OBJREQ *RECEIVED))
+    DEFINE     FIELD(#OBJREQ) TYPE(*CHAR) LENGTH(1)
+    DEFINE     FIELD(#ENTRYNUM) REFFLD(#LISTCOUNT)
+    DEF_LIST   NAME(#LASTREQ) FIELDS(@@LST81) TYPE(*WORKING) ENTRYS(1)
+    DEF_LIST   NAME(#OBJ_LIST) FIELDS((#USEOPTION *SELECT) (#PRIFILRRN *HIDDEN) (#ENTRYNUM *HIDDEN) @@LST02) COUNTER(#LISTCOUNT) ENTRYS(200) PAGE_SIZE(#LISTPAGE) TOP_ENTRY(#LISTTOP) SEL_ENTRY(#LISTENTRY) SCROLL_TXT(#LISTPOS)
+    @@COMMENT  COMMENT('Repeat until records found and selection made')
+    DOUNTIL    COND('(#LISTCOUNT *GT 0) *AND (#IO$KEY *EQ RA)')
+    @@COMMENT  COMMENT('Clear all details from the list')
+    CLR_LIST   NAMED(#OBJ_LIST)
+    B16: @@LABEL
+    @@COMMENT  COMMENT('Retrieve last search made criteria')
+    GET_ENTRY  NUMBER(1) FROM_LIST(#LASTREQ)
+    @@COMMENT  COMMENT('Request details if required')
+    DOWHILE    COND('#OBJREQ = Y')
+    CHANGE     FIELD(#OBJREQ) TO('N')
+    SET_MODE   TO(*DISPLAY)
+    /* ********** PUT OUT THE SELECTION TYPE POP_UP                       */
+    FSP: DOUNTIL    COND('(#FS$SEL *GE 1) *AND (#FS$SEL *LE @@INDEXAF)')
+    ABL: @@LABEL
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(1) IF_EQ(AB1)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(2) IF_EQ(AB2)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(3) IF_EQ(AB3)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(4) IF_EQ(AB4)
+    @@CMP_IDX  IDX_NAME(AF) IDX_VALUE(5) IF_EQ(AB5)
+    AB1: @@LABEL
+    POP_UP     FIELDS((#FS$INST *L003 *P003 *NOID *OUT) (#FS$OPT01 *L005 *P003 *NOID *OUT)) AT_LOC(04 07) WITH_SIZE(35 8) PANEL_TITL('Select @@CANS001(s)') EXIT_KEY(*NO) MENU_KEY(*YES *MENU)   ADD_KEY(*@@CANS002) CURSOR_LOC(#FS$ROW #FS$COL) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(ABE)
+    AB2: @@LABEL
+    POP_UP     FIELDS((#FS$INST *L003 *P003 *NOID *OUT) (#FS$OPT01 *L005 *P003 *NOID *OUT) (#FS$OPT02 *L006 *P003 *NOID *OUT)) AT_LOC(04 07) WITH_SIZE(35 9) PANEL_TITL('Select @@CANS001(s)') EXIT_KEY(*NO) MENU_KEY(*YES *MENU)   ADD_KEY(*@@CANS002) CURSOR_LOC(#FS$ROW #FS$COL) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(ABE)
+    AB3: @@LABEL
+    POP_UP     FIELDS((#FS$INST *L003 *P003 *NOID *OUT) (#FS$OPT01 *L005 *P003 *NOID *OUT) (#FS$OPT02 *L006 *P003 *NOID *OUT) (#FS$OPT03 *L007 *P003 *NOID *OUT)) AT_LOC(04 07) WITH_SIZE(35 10) PANEL_TITL('Select @@CANS001(s)') EXIT_KEY(*NO) MENU_KEY(*YES *MENU)   ADD_KEY(*@@CANS002) CURSOR_LOC(#FS$ROW #FS$COL) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(ABE)
+    AB4: @@LABEL
+    POP_UP     FIELDS((#FS$INST *L003 *P003 *NOID *OUT) (#FS$OPT01 *L005 *P003 *NOID *OUT) (#FS$OPT02 *L006 *P003 *NOID *OUT) (#FS$OPT03 *L007 *P003 *NOID *OUT) (#FS$OPT04 *L008 *P003 *NOID *OUT)) AT_LOC(04 07) WITH_SIZE(35 11) PANEL_TITL('Select @@CANS001(s)') EXIT_KEY(*NO) MENU_KEY(*YES *MENU)   ADD_KEY(*@@CANS002) CURSOR_LOC(#FS$ROW #FS$COL) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(ABE)
+    AB5: @@LABEL
+    POP_UP     FIELDS((#FS$INST *L003 *P003 *NOID *OUT) (#FS$OPT01 *L005 *P003 *NOID *OUT) (#FS$OPT02 *L006 *P003 *NOID *OUT) (#FS$OPT03 *L007 *P003 *NOID *OUT) (#FS$OPT04 *L008 *P003 *NOID *OUT) (#FS$OPT05 *L009 *P003 *NOID *OUT)) AT_LOC(04 07) WITH_SIZE(35 12) PANEL_TITL('Select @@CANS001(s)') EXIT_KEY(*NO) MENU_KEY(*YES *MENU)   ADD_KEY(*@@CANS002) CURSOR_LOC(#FS$ROW #FS$COL) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(ABE)
+    ABE: @@LABEL
+    CHANGE     FIELD(#FS$SEL) TO('#FS$ROW - 7')
+    @@IF       COND((*IF @@CANS002 *NE YES)) GOTO(C2C)
+    @@COMMENT  COMMENT('Handle ADD key (if used)')
+    IF_KEY     WAS(*ADD)
+    CHANGE     FIELD(#FS$SEL) TO(*NULL)
+    EXECUTE    SUBROUTINE(OBJ_CREATE)
+    ENDIF
+    C2C: @@LABEL
+    ENDUNTIL
+    /* ********** NOW HANDLE THE ACTUAL SELECTION                         */
+    SET_MODE   TO(*DISPLAY)
+    CASE       OF_FIELD(#FS$SEL)
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    @@SET_IDX  IDX_NAME(WB) TO(71)
+    ADL: @@LABEL
+    @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(AF) IF_GT(ADE)
+    @@COMMENT  COMMENT('Get search values for @@FNAMEWA')
+    @@CLR_LST  NUMBER(99)
+    @@MRG_LSTS FROM_LSTS((WB *INPUT)) INTO_LST(99)
+    WHEN       VALUE_IS('= @@INDEXWA')
+    POP_UP     FIELDS(@@LST99) DESIGN(*DOWN) IDENTIFY(*DESC) AT_LOC(10 6)  WITH_SIZE(70 11) PANEL_TITL('Select @@CANS0WB') EXIT_KEY(*NO) MENU_KEY(*YES FSP) CURSOR_LOC(*ATFIELD #@@LELWB01) ADD_KEY(*@@CANS002)
+    @@INC_IDX  IDX_NAME(WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(ADL)
+    ADE: @@LABEL
+    /* **********                                                         */
+    ENDCASE
+    INZ_LIST   NAMED(#LASTREQ)
+    @@IF       COND((*IF @@CANS002 *NE YES)) GOTO(C2A)
+    IF_KEY     WAS(*ADD)
+    EXECUTE    SUBROUTINE(OBJ_CREATE)
+    CHANGE     FIELD(#OBJREQ) TO('Y')
+    ENDIF
+    C2A: @@LABEL
+    ENDWHILE
+    @@COMMENT  COMMENT('Build list of matching records')
+    CHANGE     FIELD(#OBJREQ) TO(Y)
+    @@COMMENT  COMMENT('and display using page at a time logic')
+    CHANGE     FIELD(#IO$KEY) TO(UP)
+    /* **********                                                         */
+    CASE       OF_FIELD(#FS$SEL)
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(WA) TO(1)
+    @@SET_IDX  IDX_NAME(WB) TO(71)
+    AEL: @@LABEL
+    @@CMP_IDX  IDX_NAME(WA) IDX_VALUE(AF) IF_GT(AEE)
+    @@COMMENT  COMMENT('Search on @@FNAMEWA')
+    WHEN       VALUE_IS('= @@INDEXWA')
+    SELECT     FIELDS((#OBJ_LIST)) FROM_FILE(@@FNAMEWA) WHERE('#IO$KEY *EQ UP') WITH_KEY(@@LSTWB) NBR_KEYS(*COMPUTE) GENERIC(*YES) RETURN_RRN(#PRIFILRRN) OPTIONS(*ENDWHERE)
+    EXECUTE    SUBROUTINE(OBJ_DSPLY) WITH_PARMS('''More...''')
+    EXECUTE    SUBROUTINE(OBJ_STORE)
+    ENDSELECT
+    @@INC_IDX  IDX_NAME(WA)
+    @@INC_IDX  IDX_NAME(WB)
+    @@GOTO     LABEL(AEL)
+    AEE: @@LABEL
+    /* **********                                                         */
+    ENDCASE
+    /* **********                                                         */
+    IF         COND('#IO$KEY = UP')
+    IF         '(#LISTCOUNT = 0)'
+    MESSAGE    'No @@CANS001s found'
+    ELSE
+    EXECUTE    SUBROUTINE(OBJ_DSPLY) WITH_PARMS('''Bottom''')
+    ENDIF
+    ENDIF
+    ENDUNTIL
+    @@COMMENT  COMMENT(' ')
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_STORE')
+    @@COMMENT  COMMENT('Description....: Add a new entry to object list')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_STORE)
+    CHANGE     FIELD(#ENTRYNUM) TO('#LISTCOUNT + 1')
+    ADD_ENTRY  TO_LIST(#OBJ_LIST) WITH_MODE(*DISPLAY)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_DSPLY')
+    @@COMMENT  COMMENT('Description....: Browse from @@FNAME01 (page at a time)')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_DSPLY) PARMS((#LISTPOS))
+    @@COMMENT  'Display if at bottom of list or on a page boundary'
+    CHANGE     FIELD(#LISTREMN) TO('#LISTCOUNT / #LISTPAGE')
+    IF         COND('(#IO$KEY *EQ UP) *AND ((#LISTPOS *EQ ''Bottom'') *OR ((#LISTREMN *EQ 0) *AND (#LISTCOUNT *NE 0)))')
+    DOUNTIL    COND('(#LISTPOS *NE ''Bottom'') *OR (#IO$KEY *NE UP)')
+    SET_MODE   TO(*DISPLAY)
+    @@IF       COND((*IF @@CANS091 *EQ YES)) GOTO(L95)
+    DISPLAY    FIELDS((#PB$INST *OUTPUT *L3 *P2 *NOID) (#PB$OPT1 *OUTPUT *L5 *P4 *NOID) (#PB$OPT2 *OUTPUT *L6 *P4 *NOID))    BROWSELIST(#OBJ_LIST) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN)    USER_KEYS((*ROLLUP)) PANEL_TITL('Work with @@CANS001s') CURSOR_LOC(*ATFIELD #USEOPTION)              ADD_KEY(*@@CANS002) PROMPT_KEY(*NO)
+    @@GOTO     LABEL(L96)
+    L95: @@LABEL
+    DISPLAY    FIELDS((#PB$INST *OUTPUT *L5 *P2 *NOID) (#PB$OPT1 *OUTPUT *L7 *P4 *NOID) (#PB$OPT2 *OUTPUT *L8 *P4 *NOID))    BROWSELIST(#OBJ_LIST) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN)    USER_KEYS((*ROLLUP)) PANEL_TITL('Work with @@CANS001s') CURSOR_LOC(*ATFIELD #USEOPTION)              ADD_KEY(*@@CANS002) PROMPT_KEY(*NO)
+    L96: @@LABEL
+    @@IF       COND((*IF @@CANS002 *NE YES)) GOTO(C2B)
+    @@COMMENT  COMMENT('Handle ADD key (if used)')
+    IF_KEY     WAS(*ADD)
+    EXECUTE    SUBROUTINE(OBJ_CREATE)
+    CHANGE     FIELD(#OBJREQ) TO('Y')
+    ENDIF
+    C2B: @@LABEL
+    ENDUNTIL
+    CHANGE     #LISTTOP '#LISTTOP + #LISTPAGE'
+    ENDIF
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE OBJ_CREATE ROUTINE (IF REQUIRED)           */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS002 *NE YES)) GOTO(A99)
+    /* ********** ======================================================= */
+    /* ********** GET FIELDS OF CHOSEN FILE INTO LIST 1                   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** GET KEYS OF CHOSEN FILE INTO LIST 2                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** GET USER TO CHOOSE FIELDS TO APPEAR ON PANEL            */
+    /* ********** AND PUT RESULTS INTO LIST 3                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(2) INTO_LSTS((3 'Fields to' 'Appear on' 'Add Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** GET USER TO CHOOSE FIELDS TO WORK WITH IN FUNCTION      */
+    /* ********** AND PUT RESULTS INTO LIST 4                             */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((4 'Fields to   ' 'Work with  ' 'in Function' *YESNO *NO)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** MERGE FIELDS IN LIST 4 INTO LIST 3 AS *HIDDEN           */
+    /* ********** ======================================================= */
+    @@MRG_LSTS FROM_LSTS((4 *HIDDEN)) INTO_LST(3)
+    /* ********** ======================================================= */
+    /* ********** ASK HOW THE PANEL IS TO BE DESIGNED                     */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the ADD panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS022) EXTEND('Reply DOWN or ACROSS only.' 'If your ADD panel contains 17 (or less) fields, DOWN is the   ' 'recommended value. If your ADD panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE RDML FUNCTION                              */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_CREATE')
+    @@COMMENT  COMMENT('Description....: Add new data to @@FNAME01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_CREATE)
+    @@COMMENT  'Group and field declarations'
+    GROUP_BY   NAME(#ADD$DATA) FIELDS(@@LST03)
+    @@COMMENT  'Issue initial data entry message'
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    @@COMMENT  'Do data entry until terminated by CANCEL'
+    BEGIN_LOOP
+    @@COMMENT  'Change all fields to their defaults'
+    CHANGE     FIELD(#ADD$DATA) TO(*DEFAULT)
+    @@COMMENT  'Request user inputs (or corrects) details'
+    @@IF       COND((*IF @@CANS022 *NE DOWN)) GOTO(R01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ YES)) GOTO(L91)
+    REQUEST    FIELDS(#ADD$DATA)  DESIGN(*DOWN) IDENTIFY(*DESC)       EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Create New @@CANS001')  CURSOR_LOC(*ATFIELD #@@LEL0301)
+    @@GOTO     LABEL(R02)
+    L91: @@LABEL
+    REQUEST    FIELDS((#ADD$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Create New @@CANS001') CURSOR_LOC(*ATFIELD #@@LEL0301)
+    @@GOTO     LABEL(R02)
+    R01: @@IF       COND((*IF @@CANS022 *NE ACROSS)) GOTO(R02)
+    @@IF       COND((*IF @@CANS091 *EQ YES)) GOTO(L92)
+    REQUEST    FIELDS(#ADD$DATA)  DESIGN(*ACROSS) IDENTIFY(*LABEL)    EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Create New @@CANS001')
+    @@GOTO     LABEL(R02)
+    L92: @@LABEL
+    REQUEST    FIELDS((#ADD$DATA)) DESIGN(*ACROSS) IDENTIFY(*LABEL) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Create New @@CANS001') CURSOR_LOC(*ATFIELD #@@LEL0301)
+    R02: @@COMMENT  'Perform any function level validation here'
+    BEGINCHECK
+    ENDCHECK
+    @@COMMENT  'Attempt to insert data into the data base'
+    INSERT     FIELDS((#ADD$DATA)) TO_FILE(@@FNAME01)
+    @@COMMENT  'If okay, issue accepted message'
+    CHANGE     FIELD(#REQUEST) TO(Y)
+    MESSAGE    MSGID(DCU0011) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    END_LOOP
+    ENDROUTINE
+    A99: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** GENERATE THE OBJ_WORK ROUTINE (IF REQUIRED)             */
+    /* ********** ======================================================= */
+    @@IF       COND((*IF @@CANS003 *EQ YES)) GOTO(D05)
+    @@IF       COND((*IF @@CANS004 *EQ YES)) GOTO(D05)
+    @@IF       COND((*IF @@CANS005 *EQ YES)) GOTO(D05)
+    @@GOTO     LABEL(D99)
+    D05: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** LOAD DETAILS OF ALL FIELDS FROM ALL FILES INTO LIST 1   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@SET_IDX  IDX_NAME(CF) TO(1)
+    @@CLR_LST  NUMBER(2)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(2)
+    @@MRG_LSTS FROM_LSTS((2)) INTO_LST(1)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER TO MAKE A LIST OF ALL FIELDS IN LIST 2     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(2)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Fields for' 'Det/Chg/Dlt' 'Screen Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP050 HELP060 HELP070)
+    /* ********** ======================================================= */
+    /* ********** ASK THE USER HOW TO DESIGN THE PANELS                   */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the detail/change/delete panel DOWN or ACROSS') ANSWER(@@CANS022) EXTEND('Reply DOWN or ACROSS only.' 'If your panel contains 17 (or less) fields, DOWN is the   ' 'recommended value. If your panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP015 HELP020 HELP030 HELP040 HELP060 HELP070)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ_WORK')
+    @@COMMENT  COMMENT('Description....: Work with detailed data from @@FNAME01')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ_WORK) PARMS(#WORK$OPT)
+    /* ********** ======================================================= */
+    /* ********** GENERATED RDML CODE STARTS HERE                         */
+    /* ********** ======================================================= */
+    @@COMMENT  'Group and field definitions'
+    DEFINE     FIELD(#WORK$OPT) TYPE(*CHAR) LENGTH(3)
+    GROUP_BY   NAME(#WORK$DATA) FIELDS(@@LST02)
+    @@COMMENT  COMMENT('Fetch file @@FNAME01 details ')
+    CHANGE     FIELD(#WORK$DATA) TO(*NAVAIL)
+    FETCH      FIELDS((#WORK$DATA)) FROM_FILE(@@FBASP01) WITH_RRN(#PRIFILRRN)
+    IF_STATUS  IS_NOT(*OKAY)
+    MESSAGE    MSGID(DCU0016) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    RETURN
+    ENDIF
+    /* ********** ======================================================= */
+    /* ********** SET MODE CORRECTLY                                      */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Set screen to correct mode ')
+    CASE       OF_FIELD(#WORK$OPT)
+    @@IF       COND((*IF @@CANS003 *NE YES)) GOTO(D70)
+    WHEN       VALUE_IS('= DIS')
+    SET_MODE   TO(*DISPLAY)
+    D70: @@LABEL
+    @@IF       COND((*IF @@CANS004 *NE YES)) GOTO(D72)
+    WHEN       VALUE_IS('= CHG')
+    SET_MODE   TO(*CHANGE)
+    D72: @@LABEL
+    @@IF       COND((*IF @@CANS005 *NE YES)) GOTO(D74)
+    WHEN       VALUE_IS('= DLT')
+    SET_MODE   TO(*DELETE)
+    MESSAGE    MSGID(DCU0015) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    D74: @@LABEL
+    OTHERWISE
+    RETURN
+    ENDCASE
+    /* ********** ======================================================= */
+    /* ********** DISPLAY DETAILS                                         */
+    /* ********** ======================================================= */
+    @@COMMENT  COMMENT('Display results to the user      ')
+    @@IF       COND((*IF @@CANS022 *NE DOWN)) GOTO(D01)
+    @@IF       COND((*IF @@CANS091 *EQ YES)) GOTO(L93)
+    DISPLAY    FIELDS((#WORK$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Work with @@CANS001 Details')
+    @@GOTO     LABEL(D02)
+    L93: @@LABEL
+    DISPLAY    FIELDS((#WORK$DATA)) DESIGN(*DOWN) IDENTIFY(*DESC) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Work with @@CANS001 Details') CURSOR_LOC(*ATFIELD #@@LEL0201)
+    @@GOTO     LABEL(D02)
+    D01: @@IF       COND((*IF @@CANS022 *NE ACROSS)) GOTO(D02)
+    @@IF       COND((*IF @@CANS091 *EQ YES)) GOTO(L94)
+    DISPLAY    FIELDS((#WORK$DATA)) DESIGN(*ACROSS) IDENTIFY(*LABEL) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Work with @@CANS001 Details')
+    @@GOTO     LABEL(D02)
+    L94: @@LABEL
+    DISPLAY    FIELDS((#WORK$DATA)) DESIGN(*ACROSS) IDENTIFY(*LABEL) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PANEL_TITL('Work with @@CANS001 Details') CURSOR_LOC(*ATFIELD #@@LEL0201)
+    D02: @@IF       COND((*IF @@CANS004 *NE YES)) GOTO(D80)
+    IF_MODE    *CHANGE
+    UPDATE     FIELDS((#WORK$DATA)) IN_FILE(@@FBASP01)
+    CHANGE     FIELD(#REQUEST) TO(Y)
+    ENDIF
+    D80: @@LABEL
+    @@IF       COND((*IF @@CANS005 *NE YES)) GOTO(D82)
+    IF_MODE    *DELETE
+    DELETE     FROM_FILE(@@FBASP01)
+    CHANGE     FIELD(#REQUEST) TO(Y)
+    ENDIF
+    D82: @@LABEL
+    ENDROUTINE
+    D99: @@LABEL
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ$OPTION')
+    @@COMMENT  COMMENT('Description....: Save list of selection options')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ$OPTION) PARMS((#OBJ$OPTNO *RECEIVED) (#OBJ$OPTDE *RECEIVED) (#OBJ$OPTAR *BOTH))
+    DEFINE     FIELD(#OBJ$OPTAR) TYPE(*CHAR) LENGTH(100)
+    DEFINE     FIELD(#OBJ$OPTWK) TYPE(*CHAR) LENGTH(30)
+    @@COMMENT  COMMENT(' ')
+    USE        BUILTIN(NUMERIC_STRING) WITH_ARGS(#OBJ$OPTNO) TO_GET(#OBJ$OPTWK)
+    USE        BUILTIN(TCONCAT) WITH_ARGS(#OBJ$OPTWK '''=''' #OBJ$OPTDE) TO_GET(#OBJ$OPTWK)
+    USE        BUILTIN(BCONCAT) WITH_ARGS(#OBJ$OPTAR #OBJ$OPTWK) TO_GET(#OBJ$OPTAR)
+    ADD_ENTRY  TO_LIST(#OBJ$OPTLS) WITH_MODE(*DISPLAY)
+    ENDROUTINE
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: OBJ$SELECT')
+    @@COMMENT  COMMENT('Description....: Select option from list of options')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(OBJ$SELECT)
+    DEFINE     FIELD(#OS$ROW) TYPE(*DEC) LENGTH(3) DECIMALS(0) DEFAULT(9)
+    DEFINE     FIELD(#OS$COL) TYPE(*DEC) LENGTH(3) DECIMALS(0) DEFAULT(51)
+    CHANGE     FIELD(#USEOPTION #LISTENTRY) TO(*NULL)
+    @@COMMENT  COMMENT(' ')
+    DOUNTIL    COND('#OBJ$OPTSE *GT 0')
+    POP_UP     AT_LOC(9 51) PANEL_TITL('Select Option') BROWSELIST(#OBJ$OPTLS) EXIT_KEY(*NO) MENU_KEY(*YES *RETURN) PROMPT_KEY(*NO) CURSOR_LOC(#OS$ROW #OS$COL)
+    IF         COND('#OBJ$OPTSE *GT 0')
+    GET_ENTRY  NUMBER(#OBJ$OPTSE) FROM_LIST(#OBJ$OPTLS)
+    CHANGE     FIELD(#USEOPTION) TO(#OBJ$OPTNO)
+    ENDIF
+    ENDUNTIL
+    ENDROUTINE
+    /* ********** ======================================================= */
+    /* ********** GENERATE ALL REQUIRED USER DEFINED ROUTINES             */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(UC) TO(1)
+    @@SET_IDX  IDX_NAME(UO) TO(20)
+    @@SET_IDX  IDX_NAME(UD) TO(30)
+    @@SET_IDX  IDX_NAME(UR) TO(40)
+    U02: @@CMP_IDX  IDX_NAME(UC) IDX_VALUE(@@NANS001) IF_GT(U99)
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Subroutine ....: @@CANS0UR')
+    @@COMMENT  COMMENT('Description....: Handle "@@NANS0UO = @@CANS0UD" request')
+    @@COMMENT  COMMENT('=======================================================')
+    SUBROUTINE NAME(@@CANS0UR)
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('Fill in details of CALL to external function')
+    @@COMMENT  COMMENT('that will handle Option @@NANS0UO=@@CANS0UD')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('Use of an external function with exchanged')
+    @@COMMENT  COMMENT('variables is recommended in ALL CASES except')
+    @@COMMENT  COMMENT('where option @@NANS0UO has VERY heavy rates')
+    @@COMMENT  COMMENT('of usage, in which case its logic should be')
+    @@COMMENT  COMMENT('generated directly into this subroutine.')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('Remove IF, ENDIF and MESSAGE commands')
+    @@COMMENT  COMMENT('Replace XXXXXXX with correct function name')
+    @@COMMENT  COMMENT('Add EXCHANGE before CALL (as needed by called function)')
+    @@COMMENT  COMMENT(' ')
+    IF         COND('A = B')
+    CALL       PROCESS(*DIRECT) FUNCTION(XXXXXXX) EXIT_USED(*NEXT) MENU_USED(*NEXT)
+    ENDIF
+    MESSAGE    MSGTXT('Option @@NANS0UO=@@CANS0UD subroutine @@CANS0UR invoked')
+    ENDROUTINE
+    @@INC_IDX  IDX_NAME(UC)
+    @@INC_IDX  IDX_NAME(UO)
+    @@INC_IDX  IDX_NAME(UD)
+    @@INC_IDX  IDX_NAME(UR)
+    @@GOTO     LABEL(U02)
+    U99: @@LABEL
+    /* ********** ------------------------------------------------        */
+    /* ********** CLEAN UP TEMPLATE PROCESSING                            */
+    /* ********** ------------------------------------------------        */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+
+  Help Panels:
+  - HELP010:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create an AS/400 "Work with object" style RDML    
+         program. Before attempting to use this template please read the following      
+         notes / points very carefully ....                                             
+                                                                                        
+         a. This template is provided as an example of how a template can be set up     
+            to produce applications that conform to a specific standard. In this case   
+            the standard used is that recommended in the IBM newsletter "Defining       
+            AS/400 Compatible Displays" (CG21-8163) for list type panels.               
+                                                                                        
+         b. This template will produce RDML programs that will compile and run (if      
+            used correctly), but it also has provision for the user to specify that     
+            additional user defined logic is required in the program. In such cases     
+            the structure of the user logic is generated, but not the detail. The       
+            idea is that user generates the RDML program from the template, and         
+            then modifies and extends it to exactly match their requirements.           
+                                                                                        
+         c. This template is a foundation template. It is designed to lay a foundation  
+            for an organised and structured User Interface and for an RDML developers   
+            to further build upon it in an organised and structured environment.
+
+  - HELP015:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         This template is an advanced variation of template FRWRK01. The most important 
+         ways that this template, FRWRK02, differs from FRWRK01 are :                   
+                                                                                        
+         (a). Multiple views of the same physical data set can be chosen (up to 5) to   
+              provide better "selection" capabilities when building the list of objects 
+              that are to be "worked with". At least 2 views should always be used.     
+                                                                                        
+         (b). Function key F6=Create is used to signify a create request rather than    
+              the option 1=Create used in template FRWRK01. While template FRWRK01 is   
+              strictly correct (by CUA standards) the F6=Create facility is the one     
+              most commonly used in IBM supplied "work with" applications.              
+                                                                                        
+         (c). An option number can be specified against an object either by typing it   
+              into the "Opt" column beside the object instance, or, by positioning the  
+              cursor on the same line as the instance and pressing enter. The required  
+              option can then be chosen from the resulting pop-up window. The function  
+              then acts just as if the option number was typed in beside the instance.
+
+  - HELP020:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         Before using this template, a brief example of the type of application that    
+         would be produced by this template and is recommended by the IBM newsletter    
+         GC21-8163 is required. An example of this type of application might look like  
+         the following ....                                                             
+                                                                                        
+               ORD01                  Work with Orders                                  
+                                                                                        
+               Type options, press Enter.                                               
+                                                                                        
+                 2=Change 4=Delete 8=Details                                            
+                 12=Submit 14=Print 15=Audit 17=Telex                                   
+                                                                                        
+                                                      Date            Amount            
+               Opt  Order   Customer                  Due              Due              
+                    37585   Consolidated Engineers    4/09/89       4,676.56            
+                    57859   Acme Investments          7/09/89     345,284.89            
+                    46748   Gold and Metal Producers  9/09/89       4,578.89 +          
+                                                                                        
+                F1=Help F6=Create F12=Cancel F14=Messages
+
+  - HELP030:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         The idea behind this type of application is very solid and can be almost       
+         infinitely extended to handle any type of processing. The processing philosopy 
+         behind this type of application goes something like this .....                 
+                                                                                        
+         a. The user displays a "list" of the "objects" that they wish to "work with".  
+            The objects in the list can be just about anything. For example, lists of   
+            "Customers", "Orders", "Accounts", "Employees" or "Flights" could be used.  
+            This concept fits in well with the type of manual processing that users     
+            perform and the "object" involved usually matches with the user's mental    
+            concept or perception of what the application system "works with".          
+                                                                                        
+         b. Beside each object in the list the user can enter an option number. The     
+            number indicates that a certain type of processing should be performed      
+            on the object. Some of these "types of processing" are very common, such    
+            as Create, Review, Change and Delete. Some others are specific to the type  
+            of object involved. For instance, when processing "Orders" there may be     
+            additional options to "Print" (the order), "Send" (the order to the         
+            customer), "Telex" (changes in the order to the customer), etc, etc.
+
+  - HELP040:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         If you elect to use this template you will be asked the following things ....  
+                                                                                        
+         1. To specify a "word" that describes the type of object that this application 
+            works with. Use upper and lowercase characters, do not use any quote (')    
+            characters and restrict the word to at most 15 characters. Use only singular
+            form. The word you specify is used to create text and messages within the   
+            program. Some examples are "Customer", "Employee", "Order", "Account".      
+                                                                                        
+         2. To choose the physical or logical file(s) upon which the application will   
+            be based. Up to 5 files can be chosen. They must all share the same set of  
+            underlying data. The key(s) of these files are then used to allow the user  
+            to build up a list of the "objects" they want to work with in differing     
+            ways. In fact, you should be using at least 2 views of the same physical    
+            data set to use this template as it was intended to be used.                
+            For example, you might have a "Customer" object based on a Customer Master  
+            file. By using views by Customer Number, Customer Name, Account Manager and 
+            Zip Code you are allowing the user a large amount of flexibility in building
+            up the list of "Customers" that they wish to "Work With". For each file view
+            nominated you must describe access by the view (eg: "By Account Manager").
+
+  - HELP050:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         3. Next you will be asked if you want an ADD/CREATE routine automatically      
+            created. Reply YES or NO only to this question. Normally F6=Create is       
+            associated with any create logic. This is different to template FRWRK01.    
+            Template FRWRK01 uses option 1=Create in the object list to indicate a      
+            "create" action, which is the strictly correct by the CUA standards.        
+            However, this template uses the F6=Create variation because it is the       
+            common variation found in IBM supplied "work with" applications.            
+                                                                                        
+         4. Next you will be asked if you want a DETAILED DISPLAY routine automatically 
+            created. Reply YES or NO only to this question. Normally option 5 or 8 is   
+            associated with any detailed display logic. This template uses 8.           
+                                                                                        
+         5. Next you will be asked if you want an EDIT/CHANGE routine automatically     
+            created. Reply YES or NO only to this question. Normally option 2 is        
+            associated with any edit/change logic. This template uses 2.
+
+  - HELP060:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+         6. Next you will be asked if a DELETE routine should be automatically created. 
+            Normally option 4 is associated with any delete logic. This template uses 4.
+                                                                                        
+         7. Next you will be asked if you want the any USER DEFINED options included    
+            into the program. This question is asked in the form of "how many ?".       
+            Reply with a number in the range 0 to 9. If you reply with a number other   
+            than zero, you will be asked the following questions for each user option : 
+                                                                                        
+              - The option number to be used. This is the number that the user          
+                must enter beside an object in the list to invoke the particular        
+                user defined logic. Do not use 1,2,4,5 or 8. These are the numbers      
+                used by the standard automatically created options.                     
+                                                                                        
+              - The description to be shown against the option on the instruction       
+                line of the panel. Keep it as short and simple as possible. Use         
+                upper and lower case characters and do not use quotes ('). Some         
+                examples include : "Send", "Print", "Submit", "Transmit", etc.          
+                                                                                        
+              - The name of the subroutine in the RDML program to handle the option.
+
+  - HELP070:
+      Description:        " AS/400 Work with - Advanced"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+         8. Next you will be asked to choose and order fields that are to appear on the 
+            "work with" browse list panel. Do not choose too many fields or the browse  
+            list lines will wrap onto second or third lines. Be conservative.           
+                                                                                        
+         9. If you specified that an automatic ADD/CREATE routine was required, you will
+            then be asked to choose and order the fields that are to appear on the add  
+            panel. Then you will be asked to choose and order fields that you want to   
+            work with in the add routine, but do not want to appear on the panel (eg:   
+            time and date that the record was created). Finally you will be asked       
+            whether fields on the panel should be designed DOWN or ACROSS the screen.   
+                                                                                        
+        10. If you requested an automatic DETAILED DISPLAY, CHANGE/EDIT or DELETE       
+            routine, you will be asked to choose and order fields that are to appear    
+            on the panel used by these routines.                                        
+            After choosing the fields, you will be asked to specify whether fields on   
+            this panel should be designed DOWN or ACROSS the screen.

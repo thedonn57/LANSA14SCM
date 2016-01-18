@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60MSG
+  Type:               Alphanumeric
+  Length:             100
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message files"
+      Label:              "F60MSG"
+      Heading1:           "F60MSG"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Message files"
+      Label:              "F60MSG"
+      Heading1:           "F60MSG"
+      Heading2:           " "
+      Heading3:           " "

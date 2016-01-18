@@ -1,0 +1,59 @@
+﻿Field:
+  Name:               STD_MONTH
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard MONTH"
+      Label:              "Month"
+      Heading1:           "Month"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mois Standard"
+      Label:              "Mois"
+      Heading1:           "Mois"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Must be between 1 and 12"
+      Ranges:
+      - From:               +1
+        To:                 +12
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1080
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a Month identifier (e.g. 5 for May).      .
+        Enter a valid Month number into the field.
+      
+      
+        Validation Rules :  Must be in the range of 1 to 12.
+      
+        Maximum Length   :    2 numerics
+      
+      
+      
+      $$NOAUTO

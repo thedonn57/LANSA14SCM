@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*TIMEC"
+  Description:        "Current time (character)"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             6
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

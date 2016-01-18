@@ -1,0 +1,51 @@
+﻿Template:
+  Name:                    BBNUMVAL
+  Description:             Numeric Field Validation
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1992')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION')
+    @@COMMENT  COMMENT('Type ..........: Numeric Field Validation')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Working fields, lists and groups')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT(' ')
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Function Mainline : @@FUNCTION')
+    @@COMMENT  COMMENT('=======================================================')
+    FUNCTION   OPTIONS(*DIRECT *LIGHTUSAGE *MLOPTIMISE *NUM_FIELD_VALIDATE)
+    @@COMMENT  COMMENT('Set up a "good" return as the default')
+    CHANGE     FIELD(#VALFLD$RT) TO('''1''')
+    @@COMMENT  COMMENT('Now validate the field')
+    @@COMMENT  COMMENT('>>> ======================== <<<')
+    @@COMMENT  COMMENT('>>> Do validation logic here <<<')
+    @@COMMENT  COMMENT('>>> ======================== <<<')
+    @@COMMENT  COMMENT('>>> When invoked :           <<<')
+    @@COMMENT  COMMENT('>>> #VALFLD$NM - Name of field to validate <<<')
+    @@COMMENT  COMMENT('>>> #VALFLD$LN - Length of field to validate <<<')
+    @@COMMENT  COMMENT('>>> #VALFLD$DP - Decimals in field to validate <<<')
+    @@COMMENT  COMMENT('>>> #VALFLD$NV - Current numeric value of field <<<')
+    @@COMMENT  COMMENT('>>> #VALFLD$RT - Return Code. "1"=Good, "0"=Bad <<<')
+    @@COMMENT  COMMENT('Return control to caller')
+    RETURN
+
+  Help Panels:
+  - HELP010:
+      Description:        "  Numeric Field Validation"
+
+      Text: |
+        <-
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Use this building block only when you are starting a new manually coded RDML   
+         function that is to be used for the validation of a numeric field.             
+                                                                                        
+                         This template does not ask any questions.

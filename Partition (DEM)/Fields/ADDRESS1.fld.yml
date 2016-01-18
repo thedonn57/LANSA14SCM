@@ -1,0 +1,71 @@
+﻿Field:
+  Name:               ADDRESS1
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Street No and Name"
+      Label:              "Address 1......"
+      Heading1:           "Address line 1"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Adresse ligne 1"
+      Label:              "Adresse 1 . . ."
+      Heading1:           "Adresse ligne 1"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Address line 1 cannot be blank"
+      Condition:          "#address1 *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0044
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This is the first line of an employee's full address. Usually it
+          will only contain the house / apartment number and street name.
+      
+          For instance .....   121 Smith Street
+                               11 Hysan Avenue
+                               3/4 Railway Parade
+      
+          Where apartment numbers within an apartment block are involved,
+          the normal convention is that the apartment number comes first,
+          then the street number of the apartment block. Thus the address
+          "3/4 Hysan Avenue" refers to apartment number 3 in the apartment
+          block with street number 4 on Hysan Avenue.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+          C'est la première ligne de l'adresse complète d'un employé. Elle
+          ne doit contenir que le numéro dans la voie et le nom de voie.
+      
+          Par exemple ...      121 Smith Street
+                               11 Hysan Avenue
+                               3/4 Railway Parade
+      
+          Quand un numéro d'appartement supplémentaire est nécessaire,
+          la convention usuelle est de préciser ce numéro en premier,
+          suivi du numéro dans la voie. Ainsi, l'adresse suivante
+          "3/4 Railway Parade" indique l'appartement numéro 3 de l'
+          immeuble sis 4 Railway Parade.

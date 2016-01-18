@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XPVSEQ
+  Type:               Packed
+  Length:             5
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Sequence Number"
+      Label:              "XPVSEQ"
+      Heading1:           "Seq"
+      Heading2:           "Nbr"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Sequence Number"
+      Label:              "XPVSEQ"
+      Heading1:           "Seq"
+      Heading2:           "Nbr"
+      Heading3:           " "

@@ -1,0 +1,79 @@
+﻿Field:
+  Name:               SKILCODE
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    SSKLTAB
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Skill Code"
+      Label:              "Skill code....."
+      Heading1:           "Skill"
+      Heading2:           "Code"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Code formation"
+      Label:              "Code formation"
+      Heading1:           "Code"
+      Heading2:           "Formation"
+      Heading3:           " "
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Skill cannot be blank"
+      Condition:          "#skilcode *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0014
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the skill code of the respective
+            employee.
+      
+            For eg:         4GL
+                            RPGIII
+                            ADMIN1
+                            MARKET1
+                            MBA
+      
+            The skill code has to be entered. Using the prompt key
+            on skill code will cause a pop-up window to be displayed
+            with all the valid skill code. The required skill code
+            can then be chosen from this list.
+      
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient les codes des formations suivies par
+            les différents employés.
+      
+            Par exemple:    4GL
+                            RPGIII
+                            ADMIN1
+                            MARKET1
+                            MBA
+      
+            Le code de la formation doit être entré. Pour vous aider,
+            l'utilisation de la touche d'invite de saisie sur cette zone
+            affichera la liste de tous les codes valides dans une fenêtre
+            en incrustation où vous pourrez choisir le code voulu.
+      

@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*ZERO"
+  Description:        "Zero (0) variable"
+  Derivation:         Static
+  Data Type:          Numeric
+  Length:             1
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

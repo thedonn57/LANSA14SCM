@@ -1,0 +1,38 @@
+﻿Reusable Part:
+  Name:               XSServices
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Services"
+
+  - FRA:
+      Description:        "Services"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * A very simple layout of three columns with a reusable part in each column set to fill the entire space (with a few margins to the left and right).
+    * Note the width of the Reusable part is set at 800 which is the minimum size of the column on the associated webpage definition.  THis helps deisng the interface to ensure all information is visible when the page minimum size is showing.
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(250) Left(0) Tabposition(1) Top(0) Width(800) Layoutmanager(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#XSInstore) Parent(#TableLayout1) Row(#Row1) Marginright(7)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#XSEmail) Parent(#TableLayout1) Row(#Row1) Marginleft(3) Marginright(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column3) Manage(#XSNewsletter) Parent(#TableLayout1) Row(#Row1) Marginleft(7)
+    
+    Define_Com Class(#XSInstore) Name(#XSInstore) Parent(#COM_OWNER) Tabstop(False) Width(260)
+    Define_Com Class(#XSEmail) Name(#XSEmail) Displayposition(2) Left(270) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(261)
+    Define_Com Class(#XSNewsletter) Name(#XSNewsletter) Displayposition(3) Left(541) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Width(259)
+    
+    End_Com

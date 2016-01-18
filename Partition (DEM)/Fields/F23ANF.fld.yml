@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23ANF
+  Type:               Alphanumeric
+  Length:             140
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Allowable N.F."
+      Label:              "F23ANF"
+      Heading1:           "Allowable"
+      Heading2:           "Next function"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Allowable N.F."
+      Label:              "F23ANF"
+      Heading1:           "Allowable"
+      Heading2:           "Next function"
+      Heading3:           " "

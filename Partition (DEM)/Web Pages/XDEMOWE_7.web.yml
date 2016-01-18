@@ -1,0 +1,267 @@
+﻿Web Page:
+  Name:               xDemoWebDragandDrop
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Drag and Drop"
+
+  - FRA:
+      Description:        "Drag and Drop"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout_1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1) Height(33) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout_1)
+    
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(4) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_4) Displayposition(5) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider) Displayposition(3) Parent(#TableLayout_1) Width(4) Startrow(#Row_2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label) Caption('Drag items between lists and within the same list') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Height(33) Width(1200) Marginleft(2) Themedrawstyle('Heading2')
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Label) Parent(#TableLayout_1) Row(#Row_1) Columnspan(5)
+    
+    Define_Com Class(#xDemoDragandDropImage) Name(#DragImage)
+    Define_Com Class(#PRIM_LIST) Name(#Left) Displayposition(2) Height(767) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(33) Width(598) Dragstyle(Automatic) Selectionstyle(All) Columnheaderheight(0)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column_1) Manage(#Left) Parent(#TableLayout_1) Row(#Row_2) Columnspan(2) Rowspan(3)
+    Define_Com Class(#PRIM_LIST) Name(#Right) Displayposition(3) Height(767) Left(602) Parent(#COM_OWNER) Tabposition(3) Top(33) Width(598) Dragstyle(Automatic) Selectionstyle(All) Columnheaderheight(0)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Column(#Column_3) Manage(#Right) Parent(#TableLayout_1) Row(#Row_2) Columnspan(2) Rowspan(3)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT) Displayposition(1) Parent(#Left) Source(#xDemoCaption) Columnunits(Proportion)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT_2) Displayposition(1) Parent(#Right) Source(#xDemoCaption) Columnunits(Proportion)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Popuplate both lists with sample data
+    Begin_Loop To(10)
+    
+    #xDemoCaption := ("Left &1").Substitute( (#Left.Items.itemCount + 1).asstring )
+    Add_Entry To_List(#Left)
+    
+    #xDemoCaption := ("Right &1").Substitute( (#Right.Items.itemCount + 1).asstring )
+    Add_Entry To_List(#Right)
+    
+    End_Loop
+    
+    Endroutine
+    
+    * Drag started on one of the lists.
+    * Processing is the same regardless
+    Evtroutine Handling(#Left.StartDrag #Right.StartDrag) Com_Sender(#Sender) Continue(#Continue) Payload(#Payload) Draglist(#DragList)
+    
+    * Get the selected items from the list firing the evnet and store in the drag payload
+    #Payload <= #Com_owner.GetSelectedItems( #Sender )
+    
+    *  Drag can continue if there's something in the payload
+    #Continue := (#Payload *As #Prim_acol<#prim_tvit>).ItemCount > 0
+    
+    * Drag to use a popup panel as the drag image
+    #DragList.DragListStyle := Popup
+    
+    * Hook up the Dragimage Popup
+    #DragList.DragPopup <= #DragImage
+    
+    * Set the drag image appearance
+    #DragImage.DragCaption := (#Payload *As #Prim_acol<#prim_tvit>).ItemCount.Asstring
+    #DragImage.DragImage <= #xImageFavorites32
+    
+    Endroutine
+    
+    * Delete the contents of the payload from the list on the left
+    Mthroutine Name(DeleteFromLeft) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_acol<#prim_List.ListItem>) Name(#Payload) Pass(*by_reference)
+    
+    For Each(#Item) In(#Payload)
+    
+    Dlt_Entry Number(#Item.Entry) From_List(#Left)
+    
+    Endfor
+    
+    Endroutine
+    
+    * Delete the contents of the payload from the list on the right
+    Mthroutine Name(DeleteFromRight) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_acol<#prim_List.ListItem>) Name(#Payload) Pass(*by_reference)
+    
+    For Each(#Item) In(#Payload)
+    
+    Dlt_Entry Number(#Item.Entry) From_List(#Right)
+    
+    Endfor
+    
+    Endroutine
+    
+    * Dragover either list
+    Evtroutine Handling(#Left.DragOver #Right.DragOver) Com_Sender(#Sender) Acceptdrop(#Accept) Payload(#Payload) Source(#Source) Showdrophilight(#DropHilight)
+    
+    * Highlight the item
+    #DropHilight := True
+    
+    * Allow the drop if there's something in the payload
+    #Accept := (#Payload *As #Prim_acol<#prim_tvit>).ItemCount > 0
+    
+    Endroutine
+    
+    * Drop on the left
+    Evtroutine Handling(#Left.DragDrop) Payload(#Payload) Dragresult(#DragResult) Source(#Source)
+    
+    #DragResult := Accepted
+    
+    * Handle the drop
+    #Com_owner.DoLeftDrop( #Source #Left.Currentitem (#Payload *As #Prim_acol<#prim_list.ListItem>) )
+    
+    Endroutine
+    
+    * Drop on the right
+    Evtroutine Handling(#Right.DragDrop) Payload(#Payload) Dragresult(#DragResult) Source(#Source)
+    
+    #DragResult := Accepted
+    
+    * Handle the drop
+    #Com_owner.DoRightDrop( #Source #Right.Currentitem (#Payload *As #Prim_acol<#prim_list.ListItem>) )
+    
+    Endroutine
+    
+    Mthroutine Name(DoLeftDrop) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Source) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#DropItem) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_acol<#prim_list.ListItem>) Name(#Payload) Pass(*by_reference)
+    
+    * If dragged from the left
+    If (#Source *IsEqualTo #Left)
+    
+    * Iterate over the items in the payload
+    For Each(#Item) In(#Payload)
+    
+    * If dropping in white space
+    If (#DropItem *Is *null)
+    
+    * Place the items at the end
+    #Item.Position := #Left.items.Itemcount
+    
+    Else
+    
+    * Place the items at the position they're dropped
+    #Item.Position := #DropItem.Position
+    
+    Endif
+    
+    Endfor
+    
+    Else
+    
+    * Dragged from the right
+    * Iterate over the items in the payload
+    For Each(#Item) In(#Payload)
+    
+    * Read the item from the right and add to the left
+    Get_Entry Number(#Item.Entry) From_List(#Right)
+    Add_Entry To_List(#Left)
+    
+    * If dropping in white space
+    If (#DropItem *Is *null)
+    
+    * Place the items at the end
+    #Left.Currentitem.Position := #Left.Items.ItemCount + 1
+    
+    Else
+    
+    * Place the items at the position they're dropped
+    #Left.Currentitem.Position := #DropItem.position
+    
+    Endif
+    
+    Endfor
+    
+    * Drop is finished, remove from the source list
+    #Com_owner.DeleteFromRight( #Payload )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(DoRightDrop) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_objt) Name(#Source) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_list.ListItem) Name(#DropItem) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_acol<#prim_list.ListItem>) Name(#Payload) Pass(*by_reference)
+    
+    * If dragged from the right
+    If (#Source *IsEqualTo #Right)
+    
+    * Iterate over the items in the payload
+    For Each(#Item) In(#Payload)
+    
+    * If dropping in white space
+    If (#DropItem *Is *null)
+    
+    * Place the items at the end
+    #Item.Position := #Left.items.Itemcount
+    
+    Else
+    
+    * Place the items at the position they're dropped
+    #Item.Position := #DropItem.Position
+    
+    Endif
+    
+    Endfor
+    
+    Else
+    
+    * Dragged from the left
+    * Iterate over the items in the payload
+    For Each(#Item) In(#Payload)
+    
+    * Read the item from the left and add to the right
+    Get_Entry Number(#Item.Entry) From_List(#Left)
+    Add_Entry To_List(#Right)
+    
+    * If dropping in white space
+    If (#DropItem *Is *null)
+    
+    * Place the items at the end
+    #Right.Currentitem.Position := #Right.Items.ItemCount
+    
+    Else
+    
+    * Place the items at the position they're dropped
+    #Right.Currentitem.Position := #DropItem.position
+    
+    Endif
+    
+    Endfor
+    
+    * Drop is finished, remove from the source list
+    #Com_owner.DeleteFromLeft( #Payload )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GetSelectedItems) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_List) Name(#List) Pass(*by_reference)
+    Define_Map For(*Result) Class(#Prim_acol<#prim_list.ListItem>) Name(#Result) Pass(*by_reference)
+    
+    #Result <= *New #Prim_acol<#prim_list.ListItem>
+    
+    For Each(#Item) In(#List.Items)
+    
+    Continue If(*Not #Item.Selected)
+    
+    #Result.Insert( #Item )
+    
+    Endfor
+    
+    Endroutine
+    
+    
+    End_Com

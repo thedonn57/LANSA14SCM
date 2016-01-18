@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               LZPR03
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    LZPERD
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "March"
+      Label:              "March.........."
+      Heading1:           "March"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mars"
+      Label:              "Mars..........."
+      Heading1:           "Mars"
+      Heading2:           " "
+      Heading3:           " "

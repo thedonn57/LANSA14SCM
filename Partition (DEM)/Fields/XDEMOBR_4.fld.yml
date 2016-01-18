@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               xDemoBrushUnits
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Brush Units"
+      Label:              "Brush Tile"
+      Heading1:           "Brush"
+      Heading2:           "Tile"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Brush Tile"
+      Label:              "Brush Tile"
+      Heading1:           "Brush"
+      Heading2:           "Tile"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(419)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#PicklistItems) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Caption('Percentage') Default(True) Parent(#PicklistItems) Value('PERCENTAGE')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Caption('Pixels') Parent(#PicklistItems) Value('PIXELS')
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#Picklist) Appearance(DropDownList) Componentversion(1) Fixedheight(False) Height(20) Width(237)
+    
+    End_Com
+    
+    End_Com

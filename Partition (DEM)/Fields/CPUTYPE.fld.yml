@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               CPUTYPE
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*CPUTYPE"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "CPU Type (AS400 or S38)"
+      Label:              "CPU Type......."
+      Heading1:           "CPU"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Type UC (AS400 ou S38)"
+      Label:              "Type UC . . . ."
+      Heading1:           "Type"
+      Heading2:           "UC"
+      Heading3:           " "

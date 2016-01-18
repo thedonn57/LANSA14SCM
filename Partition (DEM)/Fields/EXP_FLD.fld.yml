@@ -1,0 +1,32 @@
+﻿Field:
+  Name:               EXP_FLD
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder Field Name"
+      Label:              "Express. Field"
+      Heading1:           "Expression"
+      Heading2:           "Field"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Générateur d´Expression Nom de Zone"
+      Label:              "Zone Expression"
+      Heading1:           "Zone"
+      Heading2:           "Expression"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

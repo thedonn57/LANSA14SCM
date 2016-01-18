@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               MONTHC
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*MONTHC"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current month (character)"
+      Label:              "Month ........."
+      Heading1:           "Month"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Mois en cours (alphanumérique)"
+      Label:              "Mois  . . . . ."
+      Heading1:           "Mois"
+      Heading2:           " "
+      Heading3:           " "

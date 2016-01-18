@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*TIMESTAMP_DFT"
+  Description:        "Timestamp default value"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             26
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

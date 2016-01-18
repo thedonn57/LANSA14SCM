@@ -1,0 +1,55 @@
+﻿Web Page:
+  Name:               xDemoWebPDFViewer
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "PDF Viewer"
+
+  - FRA:
+      Description:        "PDF Viewer"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#SYS_THEME<2015Green>)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider1) Displayposition(2) Parent(#TableLayout) Width(4)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout) Width(251) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(3) Parent(#TableLayout) Width(1.6)
+    Define_Com Class(#PRIM_PHBN) Name(#Label) Caption('Case Study - ACBS') Displayposition(1) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(2) Width(247) Height(39) Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_PHBN) Name(#Label_2) Caption('Case Study - Board of Studies') Displayposition(2) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(45) Width(247) Height(39) Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label_2) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_PHBN) Name(#Label_3) Caption('Case Study - Robinson Manufacturing') Displayposition(3) Ellipses(Word) Left(2) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(88) Width(247) Height(39) Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#Label_3) Parent(#TableLayout) Row(#Row) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    
+    Define_Com Class(#prim_web.Page) Name(#PDFViewer) Parent(#COM_OWNER) Displayposition(4) Tabposition(4) Height(798) Width(945) Top(2) Left(255) Tabstop(False) Description('PDFs will be shown in this box')
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Manage(#PDFViewer) Parent(#TableLayout) Row(#Row) Column(#Column_2) Margintop(2)
+    
+    Evtroutine Handling(#Label.Click)
+    
+    #PDFViewer.Source := "http://www.lansa.com/downloads/casestudies/acbs.pdf"
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label_2.Click)
+    
+    #PDFViewer.Source := "http://www.lansa.com/downloads/casestudies/bos2.pdf"
+    
+    Endroutine
+    
+    Evtroutine Handling(#Label_3.Click)
+    
+    #PDFViewer.Source := "http://www.lansa.com/downloads/casestudies/robinson.pdf"
+    
+    Endroutine
+    
+    End_Com

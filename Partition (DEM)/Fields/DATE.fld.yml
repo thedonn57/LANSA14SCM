@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               DATE
+  Type:               Signed
+  Length:             6
+  Decimals:           0
+  Default Value:      "*DATE"
+  Edit Mask:          Y
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Numeric date in installation format"
+      Label:              "Date"
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date au format système (numérique)"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

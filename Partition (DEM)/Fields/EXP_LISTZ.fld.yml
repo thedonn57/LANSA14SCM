@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               EXP_LISTZ
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expression Builder List Maximum Size"
+      Label:              "Max List Size"
+      Heading1:           "Max"
+      Heading2:           "List"
+      Heading3:           "Size"
+
+  - FRA:
+      Description:        "Générateur d´Expression Taille Max Liste"
+      Label:              "Taille Max List"
+      Heading1:           "Taille"
+      Heading2:           "Maximum"
+      Heading3:           "Liste"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      This field is a work field used to build up expressions for report
+      data selections performed by using the IBM supplied OPNQRYF command.

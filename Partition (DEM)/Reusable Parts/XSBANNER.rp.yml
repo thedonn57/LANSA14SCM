@@ -1,0 +1,59 @@
+﻿Reusable Part:
+  Name:               XSBanner
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Banner"
+
+  - FRA:
+      Description:        "Banner"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(316) Left(0) Tabposition(1) Top(0) Width(1170) Layoutmanager(#TableLayout1) Style(#Style1)
+    
+    * Create a local style to use as this is unique background
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(237:27:36)
+    
+    * LAYOUT: 3 Columns, 1 Row
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Minwidth(740) Maxwidth(1170)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Flow(Down) Manage(#MoveLeft) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Alignment(CenterRight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column3) Flow(Down) Manage(#MoveRight) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Parent(#TableLayout1) Row(#Row1) Columnspan(3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#BannerImagesItem1) Manage(#BannerImages) Parent(#TableLayout1) Row(#Row1) Column(#Column1) Columnspan(3)
+    
+    * Back arrow implemented as text (could be an image if preferred)
+    Define_Com Class(#PRIM_LABL) Name(#MoveLeft) Caption('<') Displayposition(1) Ellipses(Word) Height(30) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(143) Verticalalignment(Center) Width(30) Style(#XSTheme01<Text30BoldWh>) Alignment(Right)
+    
+    * Forward arrow implemented as text (could be an image if preferred)
+    Define_Com Class(#PRIM_LABL) Name(#MoveRight) Caption('>') Displayposition(2) Ellipses(Word) Height(30) Left(1140) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(143) Verticalalignment(Center) Width(30) Style(#XSTheme01<Text30BoldWh>)
+    
+    Define_Com Class(#XSBannerImages) Name(#BannerImages) Displayposition(3) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Height(316) Width(1170)
+    
+    Evtroutine Handling(#MoveLeft.Click)
+    
+    * Show previous banner image
+    #BannerImages.ShowImagetoLeft
+    
+    Endroutine
+    
+    Evtroutine Handling(#MoveRight.Click)
+    
+    * Show next banner image
+    #BannerImages.ShowImagetoRight
+    
+    Endroutine
+    
+    End_Com
+    

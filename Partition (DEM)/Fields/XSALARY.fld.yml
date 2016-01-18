@@ -1,0 +1,44 @@
+﻿Field:
+  Name:               xEmployeeSalary
+  Type:               Packed
+  Length:             15
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          1
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Annual Salary"
+      Label:              "Annual Salary"
+      Heading1:           "Annual"
+      Heading2:           "Salary"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Annual Salary"
+      Label:              "Annual Salary"
+      Heading1:           "Annual"
+      Heading2:           "Salary"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(293) Componentversion(1)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          Employee annual salary is the total of the remuneration package
+          paid to the employee in a year.

@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*WEBUSER"
+  Description:        "Current Web Server User ID"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             10
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       W3@P2100

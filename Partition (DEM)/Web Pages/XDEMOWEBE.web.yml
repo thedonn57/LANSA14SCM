@@ -1,0 +1,63 @@
+﻿Web Page:
+  Name:               xDemoWebExpandingContent
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Expanding Content"
+
+  - FRA:
+      Description:        "Expanding Content"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(529) Width(968) Layoutmanager(#AttachLayout1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style2) Borderbottom(0) Borderleft(0) Borderright(0) Bordertop(0)
+    
+    
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachHeader) Attachment(Top) Manage(#Header) Parent(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachFooter) Attachment(Bottom) Manage(#Footer) Parent(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachBody) Attachment(Center) Manage(#Body) Parent(#AttachLayout1)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout2)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem2) Attachment(Left) Manage(#BodyLeft) Parent(#AttachLayout2)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem3) Attachment(Right) Manage(#BodyRight) Parent(#AttachLayout2)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem4) Attachment(Center) Manage(#List) Parent(#AttachLayout2)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Header) Caption('Double Click To Add 10 Items') Displayposition(1) Ellipses(Word) Height(81) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(968) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LABL) Name(#Footer) Displayposition(3) Ellipses(Word) Height(81) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(448) Verticalalignment(Center) Width(968) Alignment(Center) Themedrawstyle('MediumTitle')
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(367) Left(121) Parent(#Body) Tabposition(1) Top(0) Width(726) Style(#Style2) Columnlines(False) Columnheaderheight(0) Rowheight(22) Rowlines(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOCAPT1) Displayposition(1) Parent(#List) Source(#xDemoCaption) Columnunits(Proportion) Displayalignment(Center)
+    Define_Com Class(#PRIM_PANL) Name(#Body) Displayposition(2) Height(367) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(81) Width(968) Layoutmanager(#AttachLayout2) Verticalscroll(True)
+    Define_Com Class(#PRIM_PANL) Name(#BodyLeft) Displayposition(2) Height(367) Left(0) Parent(#Body) Tabposition(3) Tabstop(False) Top(0) Width(121) Themedrawstyle('LightTitle')
+    Define_Com Class(#PRIM_PANL) Name(#BodyRight) Displayposition(3) Height(367) Left(847) Parent(#Body) Tabposition(2) Tabstop(False) Top(0) Width(121) Themedrawstyle('LightTitle')
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #xDemoCaption := "List Entry"
+    
+    Endroutine
+    
+    Evtroutine Handling(#Header.DoubleClick)
+    
+    Begin_Loop To(10)
+    Add_Entry To_List(#List)
+    End_Loop
+    
+    If ((#List.Items.ItemCount * (#List.RowHeight + 3)) > #List.height)
+    
+    #AttachBody.Attachment := Top
+    #AttachFooter.Attachment := Top
+    
+    Endif
+    
+    #Body.height := #List.Items.ItemCount * #List.RowHeight
+    
+    Endroutine
+    
+    End_Com

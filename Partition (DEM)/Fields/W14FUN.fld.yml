@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W14FUN
+  Type:               Alphanumeric
+  Length:             7
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current Function"
+      Label:              "W14FUN"
+      Heading1:           "Current"
+      Heading2:           "Function"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Current Function"
+      Label:              "W14FUN"
+      Heading1:           "Current"
+      Heading2:           "Function"
+      Heading3:           " "

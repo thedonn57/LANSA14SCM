@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_CHKBX
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard check box"
+      Label:              "Std check box"
+      Heading1:           "Standard"
+      Heading2:           "check"
+      Heading3:           "box"
+
+  - FRA:
+      Description:        "Case à cocher standard"
+      Label:              "Case à cocher"
+      Heading1:           "Case à"
+      Heading2:           "cocher"
+      Heading3:           "std"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_CHKBX
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    End_Com

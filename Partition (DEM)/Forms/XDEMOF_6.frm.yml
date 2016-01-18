@@ -1,0 +1,64 @@
+﻿Form:
+  Name:               xDemoFieldVisGridMaintenance
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grid Using Field Visualization"
+
+  - FRA:
+      Description:        "Grid Using Field Visualization"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(447) Clientwidth(1007) Height(486) Layoutmanager(#Layout) Left(128) Top(210) Width(1023) Theme(#xDemoTheme)
+    
+    * Data Entry grid using reusable parts for entry
+    
+    Define_Com Class(#PRIM_TBLO) Name(#Layout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#Layout)
+    Define_Com Class(#PRIM_GRID) Name(#Grid) Captionnoblanklines(True) Columnbuttonheight(25) Columnscroll(False) Componentversion(1) Displayposition(1) Height(447) Left(0) Parent(#COM_OWNER) Rowheight(25) Showselection(True) Showselectionhilight(False) Showsortarrow(True) Tabposition(1) Top(0) Width(1007)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Column(#Column_1) Manage(#Grid) Parent(#Layout) Row(#Row_1)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_1) Displayposition(1) Parent(#Grid) Source(#EMPNO)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_2) Displayposition(2) Editappearance(ReusablePart) Editorpart(#SurnameAutoComplete) Parent(#Grid) Readonly(False) Source(#SURNAME)
+    Define_Com Class(#PRIM_GDCL) Name(#GDCL_3) Displayposition(3) Editappearance(ReusablePart) Editorpart(#GivenameAutoComplete) Parent(#Grid) Readonly(False) Source(#GIVENAME)
+    
+    Define_Com Class(#PRIM_GDCL) Name(#DepartmentColumn) Displayposition(4) Parent(#Grid) Readonly(False) Source(#DEPTMENT) Usepicklist(True)
+    Define_Com Class(#PRIM_GDCL) Name(#SectionColumn) Displayposition(5) Parent(#Grid) Readonly(False) Source(#SECTION) Editappearance(ReusablePart) Editorpart(#SectionDropdown)
+    
+    * Reusable parts to be used as edits
+    Define_Com Class(#xDemoFieldVisSurnameAutoComplete) Name(#SurnameAutoComplete)
+    Define_Com Class(#xDemoFieldVisGivenameAutoComplete) Name(#GivenameAutoComplete)
+    Define_Com Class(#xDemoFieldVisDepartmentPickList) Name(#DepartmentPicklist)
+    Define_Com Class(#xDemoFieldVisSectionDropDown) Name(#SectionDropdown)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    * Fill the grid with data
+    Select Fields(#Grid) From_File(pslmst)
+    
+    Add_Entry To_List(#Grid)
+    
+    #SectionDropdown.Department := #Deptment
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Grid.EditorChanged) Value(#Value)
+    
+    * If the department changes update teh section dropdown to reflect the new department
+    If (#Grid.Focuscell.column *IsEqualTo #DepartmentColumn)
+    
+    #SectionDropdown.Department := #Value
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

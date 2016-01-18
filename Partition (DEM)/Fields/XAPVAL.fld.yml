@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XAPVAL
+  Type:               Alphanumeric
+  Length:             50
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Value"
+      Label:              "XAPVAL"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Value"
+
+  - FRA:
+      Description:        "XML Property Value"
+      Label:              "XAPVAL"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Value"

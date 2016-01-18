@@ -1,0 +1,363 @@
+﻿Reusable Part:
+  Name:               XSSession
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "My Session"
+
+  - FRA:
+      Description:        "My Session"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    * This is designed to be a global object referenced thorugh out the application.  Any values which needed to be remebered or available throughout the application are controlled here (e.g. Shopping Cart Items)
+    
+    Def_List Name(#ProductLineList) Fields(#XSProductLineID #XSProductLineDescription) Type(*Working) Entrys(*max)
+    
+    Define_Com Class(#prim_web.MessageBox) Name(#MyMessageBox)
+    
+    Define_Com Class(#XSServer.GetCartStatus) Name(#GetCartStatus)
+    Define_Com Class(#XSServer.LoadProductLines) Name(#LoadProductLines)
+    
+    Define_Pty Name(pCartID) Get(*auto #XSCartID) Set(SetCartID)
+    Define_Pty Name(pEmail) Get(*auto #XSAccountEmail) Set(SetEmail)
+    
+    Define_Pty Name(pCartQuantity) Get(*auto #XSCartTotalQuantity) Set(SetCartTotalQuantity)
+    Define_Pty Name(pCartPrice) Get(*auto #XSCartTotalPrice) Set(SetCartTotalPrice)
+    Define_Pty Name(pCartTax) Get(*auto #XSCartTotalTax) Set(*auto #XSCartTotalTax)
+    Define_Pty Name(pCartShipping) Get(*auto #XSCartTotalShipping) Set(*auto #XSCartTotalShipping)
+    Define_Pty Name(pCartTotal) Get(*auto #XSCartTotal) Set(*auto #XSCartTotal)
+    
+    Define_Pty Name(pMessageBox) Get(*reference #MyMessageBox)
+    
+    * These properties will only have a value when showing the product page (associated with several menu options)
+    Define_Pty Name(pCurrentPage) Get(*auto #XSCurrentPage) Set(*auto #XSCurrentPage)
+    Define_Pty Name(pProductLine) Get(*auto #XSProductLineID) Set(*auto #XSProductLineID)
+    Define_Pty Name(pProductLineDescription) Get(*auto #XSProductLineDescription) Set(*auto #XSProductLineDescription)
+    Define_Pty Name(pProductCategory) Get(*auto #XSProductCategoryID) Set(*auto #XSProductCategoryID)
+    Define_Pty Name(pProductCategoryDescription) Get(*auto #XSProductCategoryDescription) Set(*auto #XSProductCategoryDescription)
+    Define_Pty Name(pProductSearch) Get(*auto #XSSearchValue) Set(*auto #XSSearchValue)
+    Define_Pty Name(pCategorySelected) Get(IsCategorySelected)
+    
+    * These properties will only have a value when showing the store location page
+    Define_Pty Name(pCountry) Get(*auto #XSCountryName) Set(SetCountryChanged)
+    
+    Define_Evt Name(CartIDUpdated)
+    Define_Map For(*Input) Class(#XSCartID) Name(#CartID)
+    
+    Define_Evt Name(EmailUpdated)
+    Define_Map For(*Input) Class(#XSAccountEmail) Name(#AccountEmail)
+    
+    Define_Evt Name(CartQuantityUpdated)
+    Define_Map For(*Input) Class(#XSCartTotalQuantity) Name(#CartQuantity)
+    
+    Define_Evt Name(CartPriceUpdated)
+    Define_Map For(*Input) Class(#XSCartTotalPrice) Name(#CartPrice)
+    
+    Define_Evt Name(ReloadProducts)
+    
+    Define_Evt Name(CountryUpdated)
+    Define_Map For(*Input) Class(#XSCountryName) Name(#CurrentCountry)
+    
+    
+    Ptyroutine Name(SetCartID)
+    Define_Map For(*Input) Class(#XSCartID) Name(#ID)
+    
+    #XSCartID := #ID
+    
+    #com_owner.SaveLocalValue( CartID #XSCartID )
+    
+    Signal Event(CartIDUpdated) Cartid(#XSCartID)
+    
+    Endroutine
+    
+    Ptyroutine Name(SetEmail)
+    Define_Map For(*Input) Class(#XSAccountEmail) Name(#Email)
+    
+    #XSAccountEmail := #Email
+    
+    #com_owner.SaveLocalValue( Email #Email )
+    
+    Signal Event(EmailUpdated) Accountemail(#XSAccountEmail)
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCartTotalQuantity)
+    Define_Map For(*Input) Class(#XSCartTotalQuantity) Name(#Quantity)
+    
+    #XSCartTotalQuantity := #Quantity
+    
+    #com_owner.SaveSessionValue( CartQuantity #XSCartTotalQuantity.asstring )
+    
+    Signal Event(CartQuantityUpdated) Cartquantity(#XSCartTotalQuantity)
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCartTotalPrice)
+    Define_Map For(*Input) Class(#XSCartTotalPrice) Name(#Price)
+    
+    #XSCartTotalPrice := #Price
+    
+    #com_owner.SaveSessionValue( CartPrice #XSCartTotalPrice.asstring )
+    
+    Signal Event(CartPriceUpdated) Cartprice(#XSCartTotalPrice)
+    
+    Endroutine
+    
+    Ptyroutine Name(SetCountryChanged)
+    Define_Map For(*Input) Class(#XSCountryName) Name(#Country)
+    
+    #XSCountryName := #Country
+    
+    Signal Event(CountryUpdated) Currentcountry(#XSCountryName)
+    
+    Endroutine
+    
+    Ptyroutine Name(IsCategorySelected)
+    Define_Map For(*Output) Class(#prim_boln) Name(#Selected)
+    
+    #Selected := false
+    
+    If (#com_owner.pProductCategory <> *blank)
+    
+    #Selected := true
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #com_owner.SetUp
+    
+    Endroutine
+    
+    Evtroutine Handling(#GetCartStatus.completed)
+    
+    #Com_owner.pCartQuantity := #XSCartTotalQuantity
+    #Com_owner.pCartPrice := #XSCartTotalPrice
+    #Com_owner.pCartTax := #XSCartTotalTax
+    #Com_owner.pCartShipping := #XSCartTotalShipping
+    #Com_owner.pCartTotal := #XSCartTotal
+    
+    Endroutine
+    
+    * Evtroutine Handling(#LoadProductLines.completed)
+    *
+    * * Should only have one entry in this case ...
+    * Selectlist Named(#ProductLineList)
+    *
+    * #Com_owner.pProductLineDescription := #XSProductLineDescription
+    *
+    * #Sys_web.alert( 'Product description reset' )
+    *
+    * Leave
+    *
+    * Endselect
+    *
+    * Endroutine
+    
+    Mthroutine Name(Setup)
+    
+    * Check for local values
+    #XSAccountEmail := #Com_owner.RestoreLocalValue( Email )
+    #XSCartID := #Com_owner.RestoreLocalValue( CartID )
+    
+    If (#XSCartID = *blank)
+    
+    Return
+    
+    Endif
+    
+    #GetCartStatus.ExecuteAsync( #XSCartID #XSCartStatus #XSCartTotalPrice #XSCartTotalQuantity #XSCartTotalTax #XSCartTotalShipping )
+    
+    Endroutine
+    
+    Mthroutine Name(SaveLocalValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Value)
+    
+    If (#Sys_Web.localStorage<#Name> *Is *null)
+    
+    #Sys_Web.localStorage.add( #Name #Value )
+    
+    Return
+    
+    Endif
+    
+    #Sys_Web.localStorage<#Name>.Value := #Value
+    
+    Endroutine
+    
+    Mthroutine Name(RestoreLocalValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#Sys_Web.localStorage<#Name> *IsNot *null)
+    
+    #Result := #Sys_Web.localStorage<#Name>
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ClearLocalValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#Sys_Web.LocalStorage<#Name> *IsNot *null)
+    
+    #Sys_Web.LocalStorage.remove( #Name )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(SaveSessionValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Value)
+    
+    If (#Sys_Web.SessionStorage<#Name> *Is *null)
+    
+    #Sys_Web.SessionStorage.add( #Name #Value )
+    
+    Return
+    
+    Endif
+    
+    #Sys_Web.SessionStorage<#Name>.Value := #Value
+    
+    Endroutine
+    
+    Mthroutine Name(RestoreSessionValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#Sys_Web.SessionStorage<#Name> *IsNot *null)
+    
+    #Result := #Sys_Web.SessionStorage<#Name>
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ClearAllSessionValues)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#Sys_Web.SessionStorage<Email> *IsNot *null)
+    
+    #Result := #com_owner.ClearSessionValue( Email )
+    
+    Endif
+    
+    If (#Sys_Web.SessionStorage<FirstName> *IsNot *null)
+    
+    #Result := #com_owner.ClearSessionValue( FirstName )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(ClearSessionValue)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Name)
+    Define_Map For(*Result) Class(#Prim_alph) Name(#Result)
+    
+    If (#Sys_Web.SessionStorage<#Name> *IsNot *null)
+    
+    #Sys_Web.SessionStorage.remove( #Name )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#MyMessageBox.Closed)
+    
+    #Com_owner.ClearMessageBox
+    
+    Endroutine
+    
+    Mthroutine Name(ClearMessageBox)
+    
+    #MyMessageBox.Captions.RemoveAll()
+    
+    Endroutine
+    
+    Mthroutine Name(SetMessageBoxTitle)
+    Define_Map For(*Input) Class(#std_textl) Name(#Title)
+    
+    #MyMessageBox.title := #Title
+    
+    Endroutine
+    
+    Mthroutine Name(AddMessage)
+    Define_Map For(*Input) Class(#std_textl) Name(#Message)
+    
+    #MyMessageBox.captions.add( #Message )
+    
+    Endroutine
+    
+    Mthroutine Name(AddSysMessages)
+    
+    For Each(#Message) In(#sys_msgq.Messages)
+    
+    #MyMessageBox.captions.add( #Message.Text )
+    
+    Endfor
+    
+    #sys_msgq.ClearAll
+    
+    Endroutine
+    
+    Mthroutine Name(ShowMessageBox)
+    
+    #MyMessageBox.show
+    
+    Endroutine
+    
+    Mthroutine Name(ReloadProductPage)
+    Define_Map For(*input) Class(#XSProductLineID) Name(#LineID)
+    Define_Map For(*input) Class(#XSProductCategoryID) Name(#CategoryID)
+    
+    If (#LineID <> #com_owner.pProductLine)
+    
+    #com_owner.pProductLine := #LineID
+    
+    #LoadProductLines.Execute( #LineID #ProductLineList )
+    
+    * Should only have one entry in this case ...
+    Selectlist Named(#ProductLineList)
+    
+    #Com_owner.pProductLineDescription := #XSProductLineDescription
+    
+    Leave
+    
+    Endselect
+    
+    Endif
+    
+    If (#CategoryID <> #com_owner.pProductCategory)
+    
+    #Com_owner.pProductCategory := #CategoryID
+    
+    If (#CategoryID = *blanks)
+    
+    #Com_owner.pProductCategoryDescription := *blank
+    
+    Endif
+    
+    Endif
+    
+    Signal Event(ReloadProducts)
+    
+    Endroutine
+    
+    End_Com
+    

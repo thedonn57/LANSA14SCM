@@ -1,0 +1,73 @@
+﻿Form:
+  Name:               xDemoMonitors
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Monitors"
+
+  - FRA:
+      Description:        "Monitors"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM *implements #prim_App.ihelpHandler) Caption('Monitors') Clientheight(442) Clientwidth(550) Height(481) Left(298) Top(228) Theme(#xDemoTheme) Layoutmanager(#TableLayout1) Width(566)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Tree) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(22) Componentversion(2) Displayposition(1) Height(442) Keyboardpositioning(SortColumn) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(550) Viewstyle(UnLevelled) Rowheight(22) Linesatroot(False) Haslines(False) Fullrowselect(True)
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn1) Displayposition(1) Level(1) Parent(#Tree) Source(#xDemoAlpha256) Width(33) Captiontype(Caption) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TreeViewColumn2) Displayposition(2) Level(2) Parent(#Tree) Source(#xDemoAlpha256_2) Widthtype(Remainder) Captiontype(Caption)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #Com_owner.Monitors
+    
+    Endroutine
+    
+    Mthroutine Name(Monitors)
+    
+    For Each(#Monitor) In(#sys_appln.Monitors)
+    
+    #Com_owner.AddMonitor( #Monitor )
+    
+    Endfor
+    
+    Endroutine
+    
+    Mthroutine Name(AddMonitor)
+    Define_Map For(*Input) Class(#Prim_appl.IMonitor) Name(#Monitor) Pass(*by_reference)
+    
+    #Com_owner.AddEntry( "Device" #Monitor.DeviceName )
+    #Tree.currentItem.Bold := #Monitor.PrimaryMonitor
+    
+    #Com_owner.AddEntry( "Resolution" (#Monitor.Width.asstring + " x " + #Monitor.Height.asstring) )
+    #Com_owner.AddEntry( "Position" (("Top &1, Left &2").Substitute( #Monitor.Top.asstring #Monitor.Left.asstring )) )
+    
+    #Com_owner.AddEntry( "Work Resolution" (#Monitor.WorkWidth.asstring + " x " + #Monitor.WorkHeight.asstring) )
+    #Com_owner.AddEntry( "Work Position" (("Top &1, Left &2").Substitute( #Monitor.WorkTop.asstring #Monitor.WorkLeft.asstring )) )
+    
+    #Tree.currentItem.marginBottom := 10
+    Endroutine
+    
+    Mthroutine Name(AddEntry)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#TreeColumn1)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#TreeColumn2) Mandatory("")
+    Define_Map For(*Result) Class(#Prim_tvit) Name(#Result) Pass(*By_Reference)
+    
+    #xDemoAlpha256 := #TreeColumn1
+    #xDemoAlpha256_2 := #TreeColumn2
+    
+    Add_Entry To_List(#Tree)
+    
+    Endroutine
+    
+    End_Com
+    

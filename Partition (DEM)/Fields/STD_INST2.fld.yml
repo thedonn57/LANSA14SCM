@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_INST2
+  Type:               Alphanumeric
+  Length:             78
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Reference Field:    STD_INSTR
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - PBIN
+
+  Output Attributes:
+  - PBIN
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Panel Instruction Line 2"
+      Label:              "Instruction 2"
+      Heading1:           "Panel"
+      Heading2:           "Instruction"
+      Heading3:           "Line 2"
+
+  - FRA:
+      Description:        "2ème Ligne d´Instruction d´Ecran"
+      Label:              "Instruction 2"
+      Heading1:           "2ème Ligne"
+      Heading2:           "Instruction"
+      Heading3:           "Ecran"
+
+  Repository Help:
+  - ENG: |
+      $$USER
+       This is a standard panel instruction line. Normally it contains some
+       brief instructions as to how the current panel should be used.

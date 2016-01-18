@@ -1,0 +1,151 @@
+﻿Web Page:
+  Name:               xDemoWebBackForward
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Forward Back and Deep Linking"
+
+  - FRA:
+      Description:        "Forward Back and Deep Linking"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    * Typical List and Details example supporting Back and Forward buttons and deeplinking
+    * Every time the user selects an item, the URL is stored in the history
+    * The app always interrogates the URL looking for "Employee=XXXXX" in the parameters
+    * When found, the list is set to the right place and the employee number sent to the detailer
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout) Dividerstyle(Gap)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.ColumnDivider) Name(#ColumnDivider) Displayposition(2) Parent(#TableLayout) Width(4)
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(598)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Manage(#List) Parent(#TableLayout) Row(#Row)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnImage) Columnwidth(50) Displayposition(1) Parent(#List) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO) Displayposition(2) Parent(#List) Source(#EMPNO) Columnwidth(50) Columncaption('Emp#') Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME) Displayposition(4) Parent(#List) Source(#SURNAME) Columnunits(Proportion) Columnwidth(1)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME) Displayposition(3) Parent(#List) Source(#GIVENAME) Columnwidth(1) Columnunits(Proportion)
+    Define_Com Class(#xDemoWebEmployeeDetails) Name(#EmployeeDetails) Displayposition(2) Height(800) Left(602) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Width(598) Opacity(50) Enabled(False)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Column(#Column_2) Manage(#EmployeeDetails) Parent(#TableLayout) Row(#Row)
+    
+    * Lists defined to receive data from the startup data service.
+    * Only the employee data is actually used in this exmaple
+    Def_List Name(#Employees) Fields(#EMPNO #SURNAME #GIVENAME #ADDRESS1 #ADDRESS2 #ADDRESS3 #POSTCODE #PHONEHME #PHONEBUS #deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working)
+    Def_List Name(#Departments) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Com_owner.Load
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    * Define and execute the initial data load
+    Define_Com Class(#xDemoDataServices.GetData) Name(#GetData)
+    
+    #GetData.Execute( #Departments #Sections #Employees )
+    
+    * When complete, populate the list on the screen
+    Evtroutine Handling(#GetData.Completed)
+    
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#List)
+    
+    * Convert the blob thumbnail field to an image instance
+    #ColumnImage.currentitem.Image <= #sys_appln.CreateBitmap( #Empthm )
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(Activate) Help('Update the page to show a specific employee number') Access(*Private)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    * If an employee number is supplied...
+    If (#EmployeeNumber <> "")
+    
+    * Position to the right one in the list
+    #Com_owner.positionTo( #EmployeeNumber )
+    
+    * Update the detailer to show the employee
+    #EmployeeDetails.ShowEmployee( #Empno )
+    
+    #EmployeeDetails.opacity := 100
+    #EmployeeDetails.Enabled := true
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(PositionTo) Help('Position the list to supplied EmployeeNumber') Access(*Private)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    * If there's a focusitem, retrieve its values
+    If (#List.FocusItem *IsNot *null)
+    
+    Get_Entry Number(#List.FocusItem.Entry) From_List(#List)
+    
+    Endif
+    
+    * If not already the focus item in the list, position to the employee number
+    If (#Empno <> #EmployeeNumber)
+    
+    Selectlist Named(#List)
+    
+    Continue If(#Empno <> #EmployeeNumber)
+    
+    #List.CurrentItem.Focus := True
+    
+    Leave
+    
+    Endselect
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GetURLEmployee) Help('Find an "Employee" Item in the URL querystring') Access(*Private)
+    Define_Map For(*Result) Class(#Empno) Name(#Result)
+    
+    * Look throught the parmeters for an "Employee" value
+    For Each(#Parameter) In(#sys_web.URLParameters)
+    
+    Continue If(#Parameter.Name.Uppercase <> Employee)
+    
+    #Result := #Parameter.Value.uppercase
+    
+    Leave
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#sys_web.URLChanged)
+    
+    * Browser URL has changed, so activate the employee specified
+    #Com_owner.Activate( #Com_owner.GetURLEmployee )
+    
+    Endroutine
+    
+    Evtroutine Handling(#List.ItemGotFocus)
+    
+    #Com_owner.Activate( #Empno )
+    
+    * User has clicked an item, so add it to the history
+    #Sys_Web.history.Add( ("Employee=&1").Substitute( #Empno ) )
+    
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,49 @@
+﻿Field:
+  Name:               LZINRP
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Reference Field:    STD_QTY
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Reorder Point"
+      Label:              "Reorder Point"
+      Heading1:           "Reorder"
+      Heading2:           "Point"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Niveau De Reapprouisionnement"
+      Label:              "Reapprou"
+      Heading1:           "Niveau"
+      Heading2:           "De Reapprou"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Reorder Point contains the Inventory level at which the}
+        %Warehouse Manager needs to re-order the Product for the specified}
+        %Warehouse.}
+      
+         If the Quantity on Hand has reached or drops below the
+         Reorder Point, an Alert will be triggered to remind the
+         Warehouse Manager that the product needs to be ordered.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le Niveau de Reapprovisionnement contient le niveau de l'inventaire}
+        %a partir duquel le directeur de l'entrepot doit commander le}
+        %produit.}
+      
+      $$NOAUTO

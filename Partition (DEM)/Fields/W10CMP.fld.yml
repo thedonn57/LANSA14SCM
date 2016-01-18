@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W10CMP
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Component Identifier"
+      Label:              "W10CMP"
+      Heading1:           "Component"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Component Identifier"
+      Label:              "W10CMP"
+      Heading1:           "Component"
+      Heading2:           "Identifier"
+      Heading3:           " "

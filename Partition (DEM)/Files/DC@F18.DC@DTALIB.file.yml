@@ -1,0 +1,109 @@
+﻿File:
+  Name:                           DC@F18
+  File Type:                      IBM i Other File
+  Library:                        DC@DTALIB
+  Record Format Name:             DC@R18
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Access Routes"
+
+  - FRA:
+      Description:        "Access Routes"
+
+  Real Fields:
+  - F18PFL:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18PLB:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18VER:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - F18VTP:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - F18ARN:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18DES:
+      Type:               Alphanumeric
+      Length:             40
+      Decimals:           0
+
+  - F18ARF:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18ARL:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18MAX:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - F18NRA:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18PTR:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - F18P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  Logical Views:
+  - DC@F18V1:
+      Identifier:         DC@F18V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@R18V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@F18 /NOEDLO"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@F18 /NOEDLO"

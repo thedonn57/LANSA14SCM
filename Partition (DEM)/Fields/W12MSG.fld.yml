@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12MSG
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Hold System Message"
+      Label:              "W12MSG"
+      Heading1:           "Hold"
+      Heading2:           "System"
+      Heading3:           "Indicator"
+
+  - FRA:
+      Description:        "Hold System Message"
+      Label:              "W12MSG"
+      Heading1:           "Hold"
+      Heading2:           "System"
+      Heading3:           "Indicator"

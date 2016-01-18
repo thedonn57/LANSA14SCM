@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               xDemoCaption
+  Type:               NChar
+  Length:             256
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Caption"
+      Label:              "Caption"
+      Heading1:           "Caption"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Caption"
+      Label:              "Caption"
+      Heading1:           "Caption"
+      Heading2:           " "
+      Heading3:           " "

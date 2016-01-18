@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               LZWHTS
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    STD_AMNT
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Total Value"
+      Label:              "Total Value"
+      Heading1:           "Total"
+      Heading2:           "Value"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Montant Total Des Ventes"
+      Label:              "Montant Total"
+      Heading1:           "Montant Total"
+      Heading2:           "Des Ventes"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %This field contains the Total Value of the Goods stored}
+        %in this Warehouse.}
+      
+        %This amount is maintained by standard LANSA repository functions.}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Cette variable contient la valeur totale des marchandises stockees}
+        %dans l'entrepot.}
+      
+        %Ce montant est maintenu par des fonctions standard du dictionnaire}
+        %de LANSA}
+      $$NOAUTO

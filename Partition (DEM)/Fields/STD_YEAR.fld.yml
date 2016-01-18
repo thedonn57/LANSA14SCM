@@ -1,0 +1,45 @@
+﻿Field:
+  Name:               STD_YEAR
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard YEAR"
+      Label:              "Year"
+      Heading1:           "Year"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Année Standard"
+      Label:              "Année"
+      Heading1:           "Année"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a Year identifier (e.g. 91 for 1991).     .
+        Enter a Year number into the field.
+      
+      
+        Validation Rules:  None
+      
+        Maximum Length:    2 numerics
+      
+      
+      
+      $$NOAUTO

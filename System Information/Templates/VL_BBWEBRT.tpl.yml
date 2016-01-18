@@ -1,0 +1,82 @@
+﻿Template:
+  Name:                    VL_BBWEBRT
+  Description:             "Visual LANSA: Webroutine Building Block"
+  Extended Description 1:  Assists with creation of one or more web
+  Extended Description 2:  routines
+
+  Source: |
+    STR: @@LABEL
+    /* ********** This template generates a webroutine based on user sele */
+    /* ********** ction of fields                                         */
+    @@QUESTION PROMPT('Enter a description of what this webroutine will do') ANSWER(@@CANS001) EXTEND('12 4567890123456789012345678901234567890' 'This information will be used as a comment in the RDMLX code.' 'For more information press the Help function key.') HELPIDS(HELP010 HELP020)
+    /* **********                                                         */
+    @@QUESTION PROMPT('Enter a unique name for this webroutine') ANSWER(@@CANS002) EXTEND('12345678901234567890' 'The name must be unique within this WAM.' 'For more information about valid webroutine names and naming rules use' 'the Help function key.') HELPIDS(HELP010 HELP020)
+    /* **********                                                         */
+    @@QUESTION PROMPT('Provide a unique service name to run from URL (optional)') ANSWER(@@CANS003) EXTEND('A service name must be unique across all WAMS.' 'For more information about valid webroutine names and naming rules use' 'the Help function key.') HELPIDS(HELP010 HELP020)
+    /* **********                                                         */
+    @@QUESTION PROMPT('Enter the name of the hidden field used to pass information') ANSWER(@@CANS004) EXTEND('For example, STDRENTRY.' 'Leave blank if you do not want to pass information using a hidden field.' 'For more information about this template use the Help function key.') LOWER(*NO) HELPIDS(HELP010 HELP020)
+    @@IF       COND((*IF @@CANS004 *EQ ' ')) GOTO(Q10)
+    @@QUESTION PROMPT('If you want to set the value of the hidden field, enter the value here') ANSWER(@@CANS007) EXTEND('For example, entering value N would generate #STDRENTRY := N'  'For more information about this template use the Help function key.') HELPIDS(HELP010 HELP020)
+    Q10: @@LABEL
+    /* **********                                                         */
+    @@QUESTION PROMPT('Do you want to work with fields from a file?' ) ANSWER(@@CANS005) EXTEND('Answer Y or N only') LOWER(*NO) VALUES('Y' 'N') HELPIDS(HELP010 HELP020)
+    /* ********** Select fields from a file                               */
+    @@IF       COND((*IF @@CANS005 *NE Y)) GOTO(A10)
+    @@GET_FILS FROM(1) TO(1) PHY_ONLY(*YES) SGL_ONLY(*YES) PROMPT('Enter the name of the file you want to use.') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.') HELPIDS(HELP010 HELP020)
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+    @@CLR_LST  NUMBER(5)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((2 'Input fields' *YESNO) (3 'Output flds' *YESNO)) HELPIDS(HELP010 HELP020)
+    A10: @@LABEL
+    @@COMMENT  COMMENT('@@CANS001')
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS003 *EQ *BLANK)) GOTO(A20)
+    WEBROUTINE NAME(@@CANS002) SERVICENAME(@@CANS003)
+    @@GOTO     LABEL(A30)
+    A20: @@LABEL
+    WEBROUTINE NAME(@@CANS002)
+    A30: @@LABEL
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS005 *NE Y)) GOTO(A50)
+    @@IF       COND((*IF @@LNE02 *EQ 0)) GOTO(A40)
+    /* **********                                                         */
+    WEB_MAP    FOR(*INPUT) FIELDS(@@LST02)
+    A40: @@LABEL
+    /* **********                                                         */
+    @@IF       COND((*IF @@LNE03 *EQ 0)) GOTO(A50)
+    @@IF       COND((*IF @@CANS004 *EQ ' ')) GOTO(A60)
+    WEB_MAP    FOR(*OUTPUT) FIELDS(@@LST03 (#@@CANS004 *HIDDEN))
+    @@GOTO     LABEL(A70)
+    A60: @@LABEL
+    WEB_MAP    FOR(*OUTPUT) FIELDS(@@LST03)
+    @@GOTO     LABEL(A70)
+    A50: @@LABEL
+    @@IF       COND((*IF @@CANS004 *EQ ' ')) GOTO(A70)
+    WEB_MAP    FOR(*OUTPUT) FIELDS((#@@CANS004 *HIDDEN))
+    A70: @@LABEL
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS005 *NE Y)) GOTO(A90)
+    @@IF       COND((*IF @@LNE04 *EQ 0)) GOTO(A80)
+    WEB_MAP    FOR(*BOTH) FIELDS(@@LST04)
+    A80: @@LABEL
+    /* **********                                                         */
+    @@IF       COND((*IF @@LNE05 *EQ 0)) GOTO(A90)
+    WEB_MAP    FOR(*NONE) FIELDS(@@LST05)
+    A90: @@LABEL
+    /* **********                                                         */
+    /* ********** Your code here                                          */
+    /* **********                                                         */
+    @@IF       COND((*IF @@CANS004 *EQ ' ')) GOTO(A95)
+    @@IF       COND((*IF @@CANS007 *EQ ' ')) GOTO(A93)
+    #@@CANS004 := @@CANS007
+    @@GOTO     LABEL(A95)
+    A93: @@LABEL
+    #@@CANS004 := *BLANK
+    A95: @@LABEL
+    ENDROUTINE
+    /* **********                                                         */
+    @@QUESTION PROMPT('Do you want to generate another webroutine?') ANSWER(@@CANS006) EXTEND('Answer Y or N only') LOWER(*NO) VALUES('Y' 'N') HELPIDS(HELP010 HELP020)
+    @@IF       COND((*IF @@CANS006 *EQ Y)) GOTO(STR)

@@ -1,0 +1,303 @@
+﻿Template:
+  Name:                    FRADD02
+  Description:             Flat Screen Data Entry (with Confirm)
+
+  Source: |
+    @@COMMENT  COMMENT('=======================================================')
+    @@COMMENT  COMMENT('Copyright .....: (C) @@COMPANY, 1991 ')
+    @@COMMENT  COMMENT('Process .......: @@PROCESS ')
+    @@COMMENT  COMMENT('Function ......: @@FUNCTION ')
+    @@COMMENT  COMMENT('Created by ....: @@USER    ')
+    @@COMMENT  COMMENT('Created on ....: @@DATE at @@TIME ')
+    @@COMMENT  COMMENT('Description ...: @@FUNCDES ')
+    @@COMMENT  COMMENT('=======================================================')
+    /* ********** ======================================================= */
+    /* ********** GET THE "WORD"                                          */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Supply a word that describes WHAT this data entry program works with') ANSWER(@@CANS001) EXTEND('123456789012345678' 'The word you specify here is used to build messages that appear on the' 'data entry screen panel. You should use ONE word only, use lowercase' 'characters only and only use singular form (eg: "customer", "employee",' '"order"). Do NOT use more than 18 characters in your answer.' 'Use the HELP function key for more information and examples.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** ASK IF FUNCTION IS TO BE RUN UNDER "ACTION BAR"         */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Do you want this function to be part of an ACTION-BAR style process?') ANSWER(@@CANS091) EXTEND('Answer Y or N only.' 'If you specify Y, the cursor will be placed on the first field of the' 'screen(s) rather than in the action bar area.') LOWER(*NO) VALUES(Y N) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** GET THE FILES TO BE USED (ONLY 1 : 1 RELATIONSHIPS)     */
+    /* ********** ======================================================= */
+    @@GET_FILS TO(20) PHY_ONLY(*NO) PROMPT('Enter the name of the base file to be used by this template') EXTEND('The file name may be specified in full, partially (to cause a partial list' 'of available files to be displayed) or left blank (to cause a full list of' 'available files to be displayed). When a list of files is displayed, the' 'file required may be selected from the list.' ' ' 'Use the HELP function key for more details about this template and' 'examples of the type of RDML applications it can create.') HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** PLACE ALL FIELDS FROM BASE FILE INTO LIST 1             */
+    /* ********** PLACE KEYS OF BASE FILE INTO LIST 2                     */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@RTV_FLDS FROM_FILE(1) INTO_LST(1)
+    @@CLR_LST  NUMBER(2)
+    @@RTV_KEYS OF_FILE(1) INTO_LST(2)
+    /* ********** ======================================================= */
+    /* ********** RETRIEVE ALL FIELDS FROM SECONDARY FILES AND MERGE INTO */
+    /* ********** LIST 1 AS *CONF ONLY FIELDS                             */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CP) TO(2)
+    A10: @@LABEL
+    @@CMP_IDX  IDX_NAME(CP) IDX_VALUE(@@TFMX) IF_GT(A20)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_FLDS FROM_FILE(CP) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((3 *CONF)) INTO_LST(1)
+    @@INC_IDX  IDX_NAME(CP)
+    @@GOTO     LABEL(A10)
+    A20: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** ASK USER TO SELECT FIELDS TO APPEAR ON ENTRY PANEL      */
+    /* ********** RESULT GOES INTO LIST 4. MUST CHOOSE FIELDS IN LIST 2   */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(4)
+    @@MAK_LSTS FROM_LSTS(1) FORCE_LSTS(2) INTO_LSTS((4 'Fields to' 'Appear on' 'Entry Panel' *SEQUENCE *ALL)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** ASK USER TO SELECT FIELDS TO WORK WITH IN PROGRAM       */
+    /* ********** BUT NOT TO APPEAR ON THE PANEL. MERGE RESULTS INTO      */
+    /* ********** LIST 4 AS *HIDDEN FIELDS                                */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(3)
+    @@MAK_LSTS FROM_LSTS(1) INTO_LSTS((3 'Fields to   ' 'Work with  ' 'in Program ' *YESNO *NO)) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(4)
+    /* ********** ======================================================= */
+    /* ********** ASK ABOUT SCREEN LAYOUT                                 */
+    /* ********** ======================================================= */
+    @@QUESTION PROMPT('Design fields on the data entry panel DOWN the screen or ACROSS the screen') ANSWER(@@CANS002) EXTEND('Reply DOWN or ACROSS only.' 'If your data entry panel contains 17 (or less) fields, DOWN is the   ' 'recommended value. If your data entry panel contains more than 17' 'fields, ACROSS is the recommended value.' 'Use the HELP function key for more information and examples.') LOWER(*NO) VALUES(DOWN ACROSS) HELPIDS(HELP010 HELP020 HELP030 HELP040 HELP050 HELP060)
+    /* ********** ======================================================= */
+    /* ********** PLACE ALL RELATING KEYS INTO LIST 4 AS *HIDDEN FIELDS   */
+    /* ********** ======================================================= */
+    @@SET_IDX  IDX_NAME(CP) TO(2)
+    A30: @@LABEL
+    @@CMP_IDX  IDX_NAME(CP) IDX_VALUE(@@TFMX) IF_GT(A40)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CP) INTO_LST(3)
+    @@MRG_LSTS FROM_LSTS((3 *HIDDEN)) INTO_LST(4)
+    @@INC_IDX  IDX_NAME(CP)
+    @@GOTO     LABEL(A30)
+    A40: @@LABEL
+    /* ********** ======================================================= */
+    /* ********** FINALLY GENERATE THE RDML CODE                          */
+    /* ********** ======================================================= */
+    @@COMMENT  'Function control options'
+    FUNCTION   OPTIONS(*NOMESSAGES *DEFERWRITE *DIRECT)
+    @@COMMENT  'Field and group declarations'
+    DEFINE     FIELD(#CONFIRM) TYPE(*CHAR) LENGTH(1) LABEL('Confirm ......?') INPUT_ATR(PBEE) OUTPUT_ATR(PBCE)
+    DEF_COND   NAME(*CONF) COND('#CONFIRM = Y')
+    GROUP_BY   NAME(#PANELDATA) FIELDS(@@LST04 (#CONFIRM *CONF *INPUT))
+    @@COMMENT  'Issue initial message/ initialise variables'
+    MESSAGE    MSGID(DCU0010) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    CHANGE     FIELD(#CONFIRM) TO(N)
+    SET_MODE   TO(*ADD)
+    @@COMMENT  'Do data entry until terminated by EXIT or CANCEL'
+    BEGIN_LOOP
+    @@COMMENT  'Request user inputs or corrects details'
+    @@IF       COND((*IF @@CANS002 *NE DOWN)) GOTO(D01)
+    /* ********** Request and Display with action bar needs CURSOR_LOC    */
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L91)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*@@CANS002) IDENTIFY(*DESC)
+    @@GOTO     LABEL(D02)
+    L91: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*@@CANS002) IDENTIFY(*DESC) CURSOR_LOC(*ATFIELD #@@LEL0401)
+    D01: @@IF       COND((*IF @@CANS002 *NE ACROSS)) GOTO(D02)
+    @@IF       COND((*IF @@CANS091 *EQ Y)) GOTO(L93)
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*@@CANS002) IDENTIFY(*LABEL)
+    @@GOTO     LABEL(D02)
+    L93: @@LABEL
+    DISPLAY    FIELDS(#PANELDATA) DESIGN(*@@CANS002) IDENTIFY(*LABEL) CURSOR_LOC(*ATFIELD #@@LEL0401)
+    D02: @@COMMENT  'If data is confirmed as valid'
+    IF         COND(*CONF)
+    INSERT     FIELDS((#PANELDATA)) TO_FILE(@@FNAME01)
+    CHANGE     FIELD(#PANELDATA) TO(*DEFAULT)
+    CHANGE     FIELD(#CONFIRM) TO(N)
+    MESSAGE    MSGID(DCU0011) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    SET_MODE   TO(*ADD)
+    @@COMMENT  'If data is NOT confirmed as valid'
+    ELSE
+    @@COMMENT  'else, If display mode, revert to add to allow changes'
+    IF_MODE    IS(*DISPLAY)
+    SET_MODE   TO(*ADD)
+    CHANGE     FIELD(#CONFIRM) TO(N)
+    @@COMMENT  'else, validate data'
+    ELSE
+    BEGINCHECK
+    /* **********                                                         */
+    /* ********** FETCH DATA FROM ASSOCIATED FILES                        */
+    /* **********                                                         */
+    @@SET_IDX  IDX_NAME(CP) TO(2)
+    A50: @@LABEL
+    @@CMP_IDX  IDX_NAME(CP) IDX_VALUE(@@TFMX) IF_GT(A60)
+    @@CLR_LST  NUMBER(3)
+    @@RTV_RELN OF_FILE(CP) INTO_LST(3)
+    FETCH      FIELDS((#PANELDATA)) FROM_FILE(@@FNAMECP) WITH_KEY(@@LST03)
+    @@INC_IDX  IDX_NAME(CP)
+    @@GOTO     LABEL(A50)
+    A60: @@LABEL
+    ENDCHECK
+    INSERT     FIELDS((#PANELDATA)) TO_FILE(@@FNAME01) CHECK_ONLY(*YES)
+    SET_MODE   TO(*DISPLAY)
+    CHANGE     FIELD(#CONFIRM) TO(Y)
+    MESSAGE    MSGID(DCU0012) MSGF(DC@M01) MSGDTA('''@@CANS001''')
+    ENDIF
+    ENDIF
+    /* **********                                                         */
+    END_LOOP
+    /* ********** ======================================================= */
+    /* ********** END OF RDML COMMANDS                                    */
+    /* ********** ======================================================= */
+    @@CLR_LST  NUMBER(1)
+    @@CLR_LST  NUMBER(2)
+    @@CLR_LST  NUMBER(3)
+    @@CLR_LST  NUMBER(4)
+
+  Help Panels:
+  - HELP010:
+      Description:        Flat Screen Data Entry (conf)
+
+      Text: |
+        <-
+                                                                                        
+         This template can be used to create a simple data entry program that supports  
+         confirmation of the data entered. In addition, details extracted from other    
+         files can be shown on the confirmation panel. These usually involve "decodes"  
+         of information entered on the data entry panel (eg: enter customer number and  
+         get shown the customer name on the confirmation panel). If you elect to use    
+         this template you will be asked ....                                           
+                                                                                        
+         1. To specify a word that describes what type of "entity" the data entry       
+            program works with. Some examples would be "order", "customer", "employee". 
+            Note that only one word is used, all lowercase characters are used and that 
+            the singular form of the word is used. Additionally no word is more than 20 
+            characters long. You should follow these guidelines as well to get the best 
+            results.                                                                    
+                                                                                        
+         2. To nominate the physical file that is to contain valid data entered from    
+            the data entry panel. You can enter the full file name, a partial file      
+            name (to get a partial list of available files), or leave the name blank    
+            (to get a full list of available files). In addition, you can choose other  
+            related files from which "decoded" details are to be extracted for display.
+
+  - HELP020:
+      Description:        Flat Screen Data Entry (conf)
+
+      Text: |
+        <-
+                                                                                        
+         3. Next, you must choose and order the fields that are to appear on the data   
+            entry panel. Fields from the base file will be input capable on the data    
+            entry panel. Fields from other files will only appear when valid data is    
+            being confirmed and will be protected (ie: the user cannot change them).    
+                                                                                        
+         4. After this, you are optionally allowed to choose fields that you do not want
+            to appear on the data entry panel, but that you want to manipulate within   
+            RDML program. For example, your file may contain a "time and date" field    
+            that records when the file record was created. You may want to set its value
+            in the program, but you do not want it to appear on the data entry panel.   
+                                                                                        
+         5. Finally, you will be asked whether fields on the data entry panel are to be 
+            designed across the screen or down the screen. If you have 17 (or less)     
+            fields it is recommended that you use down the screen. If you have more     
+            than 17, it is recommended that you use across the screen. Remember that    
+            fields chosen from other "decode" files are also included on the panel.
+
+  - HELP030:
+      Description:        "   Example Data Entry Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . .                                                             
+         Given Name . . . .                                                             
+         Surname  . . . . .                                                             
+         Address  . . . . .                                                             
+         City . . . . . . .                                                             
+         State  . . . . . .                                                             
+         Country  . . . . .                                                             
+         Home Phone . . . .                                                             
+         Bus Phone  . . . .                                                             
+         Start Date . . . .                                                             
+         Salary . . . . . .                        This is an example of what a data    
+                                                   entry panel created by this template 
+                                                   on a PERSONNEL file might look like. 
+                                                   Note the DOWN the screen design and  
+                                                   the initial message at the bottom.   
+                                                                                        
+                                                                                        
+                                                                                        
+         Input employee details and press enter.
+
+  - HELP040:
+      Description:        "   Example Data Entry Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . . A456780                                                     
+         Given Name . . . . JOHN                                                        
+         Surname  . . . . . SMITH                                                       
+         Address  . . . . . 121 Railway Street                                          
+         City . . . . . . . SYDNEY                                                      
+         State  . . . . . . NSE                                                         
+         Country  . . . . . AUS                                                         
+         Home Phone . . . . 634-3747                                                    
+         Bus Phone  . . . . 547-5468                                                    
+         Start Date . . . . 010289                                                      
+         Salary . . . . . . 30000.00               Next the user would input the data   
+                                                   and press enter. If the data was not 
+                                                   valid, the field(s) in error would   
+                                                   be indicated like this example.      
+                                                   The user can scroll the messages to  
+                                                   view the error in "Start Date".      
+                                                                                        
+                                                                                        
+         State code NSE is unknown. Please check entry or use Prompt key to select.    +
+
+  - HELP050:
+      Description:        "   Example Data Entry Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . : A456780                                 "Decode" details    
+         Given Name . . . : JOHN                                                        
+         Surname  . . . . : SMITH                                           ¦           
+         Address  . . . . : 121 Railway Street                              ¦           
+         City . . . . . . : SYDNEY                                          ¦           
+         State  . . . . . : NSW   NEW SOUTH WALES   <------------------------           
+         Country  . . . . : AUS   AUSTRALIA                                             
+         Home Phone . . . : 634-3747                                                    
+         Bus Phone  . . . : 547-5468                                                    
+         Start Date . . . : 01/07/89                                                    
+         Salary . . . . . : 30,000.00              If all the data was valid, the user  
+                                                   will be asked to  CONFIRM  that it   
+         Confirm  . . . . . Y                      should be saved. Note the appearance 
+                                                   of "decode" details from other files 
+                                                   used by the program. Note also the   
+                                                   message at the bottom of the screen. 
+                                                                                        
+                                                                                        
+         Enter Y to confirm employee details or enter N to make changes.
+
+  - HELP060:
+      Description:        "   Example Data Entry Panel"
+
+      Text: |
+        <-
+                                                                                        
+         Employee No  . . .                                                             
+         Given Name . . . .                                                             
+         Surname  . . . . .                                                             
+         Address  . . . . .                                                             
+         City . . . . . . .                                                             
+         State  . . . . . .                                                             
+         Country  . . . . .                                                             
+         Home Phone . . . .                                                             
+         Bus Phone  . . . .                                                             
+         Start Date . . . .                                                             
+         Salary . . . . . .                        After all data is correct, the next  
+                                                   panel the user sees would look like  
+                                                   this. Note the message.              
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        
+         Details of employee saved - input details of next employee.

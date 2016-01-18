@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               LZPR07
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    LZPERD
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "July"
+      Label:              "July..........."
+      Heading1:           "July"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Juillet"
+      Label:              "Juillet........"
+      Heading1:           "Juillet"
+      Heading2:           " "
+      Heading3:           " "

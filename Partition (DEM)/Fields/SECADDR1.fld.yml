@@ -1,0 +1,59 @@
+﻿Field:
+  Name:               SECADDR1
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Street No & Name of Section"
+      Label:              "Address 1......"
+      Heading1:           "Address line 1"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Section adresse ligne 1"
+      Label:              "Adresse 1 . . ."
+      Heading1:           "Adresse ligne 1"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+            This field represents the section's address line 1. In most
+            cases this contains the number and street details of the
+            section.
+      
+      
+                For eg:
+                       10 Walker Street
+                       200 Pacific Highway
+      
+      
+            Use upper and lower case characters correctly in the address.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+            C'est la première ligne de l'adresse complète de la section.
+            Dans la plupart des cas, elle ne doit contenir que le numéro
+            et le nom de la rue de la section.
+      
+      
+                Par exemple:
+                       10 Walker Street
+                       200 Pacific Highway
+      
+      
+            Vous devez utiliser minuscules et majuscules dans l'adresse.

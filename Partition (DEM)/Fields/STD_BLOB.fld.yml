@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               STD_BLOB
+  Type:               BLOB
+  Length:             0
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       Yes
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard BLOB"
+      Label:              "Standard BLOB"
+      Heading1:           "Standard"
+      Heading2:           "BLOB"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    End_Com

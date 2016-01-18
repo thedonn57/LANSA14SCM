@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               X02TXT
+  Type:               Alphanumeric
+  Length:             255
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Page Text"
+      Label:              "X02TXT"
+      Heading1:           "Page"
+      Heading2:           "Text"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Page Text"
+      Label:              "X02TXT"
+      Heading1:           "Page"
+      Heading2:           "Text"
+      Heading3:           " "

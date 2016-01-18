@@ -1,0 +1,189 @@
+﻿File:
+  Name:                           DC@X02
+  File Type:                      IBM i Other File
+  Library:                        DC@MODLIB
+  Record Format Name:             DC@X02
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              No
+  Enabled For Long Names:         No
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            No
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             No
+  Convert Special Characters:     Yes
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Page Detail"
+
+  - FRA:
+      Description:        "XML Page Detail"
+
+  Real Fields:
+  - X02P#I:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - X02PEN:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - X02SEN:
+      Type:               Alphanumeric
+      Length:             5
+      Decimals:           0
+
+  - X02PLN:
+      Type:               Alphanumeric
+      Length:             4
+      Decimals:           0
+
+  - X02PAG:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - X02SET:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - X02SEQ:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - X02TXT:
+      Type:               Alphanumeric
+      Length:             255
+      Decimals:           0
+
+  - X02SP1:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  Logical Views:
+  - DC@X02V1:
+      Identifier:         DC@X02V1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@X02V1
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #1 over DC@x02         /NOE"
+
+      - FRA:
+          Description:        "Logical view #1 over DC@x02         /NOE"
+
+      Fields:
+      - X02P#I
+      - X02PEN
+      - X02SEN
+      - X02PLN
+      - X02PAG
+      - X02SET
+      - X02SEQ
+      - X02TXT
+      - X02SP1
+
+      Keys:
+      - X02P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02SEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PAG:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02SET:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - X02SEQ:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+  - DC@X02V2:
+      Identifier:         DC@X02V2
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      DC@X02V2
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Logical view #2 over DC@X02         /NOE"
+
+      - FRA:
+          Description:        "Logical view #2 over DC@X02         /NOE"
+
+      Fields:
+      - X02P#I
+      - X02PEN
+      - X02SEN
+      - X02PLN
+      - X02PAG
+      - X02SET
+      - X02SEQ
+      - X02TXT
+      - X02SP1
+
+      Keys:
+      - X02P#I:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02SEN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PLN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02PAG:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - X02SET:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - X02SEQ:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed

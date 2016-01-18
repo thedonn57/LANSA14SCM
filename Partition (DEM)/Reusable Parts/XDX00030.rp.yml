@@ -1,0 +1,187 @@
+﻿Reusable Part:
+  Name:               XDXDynamicStyles
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Dynamic Styles"
+
+  - FRA:
+      Description:        "Styles dynamiques"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(490) Layoutmanager(#Layout) Width(772)
+    
+    * Dynamic Styles - Locally defined style updated at runtime
+    * Style must be defined at runtime as styles defined in a Visual Style are static
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    
+    Define_Com Class(#PRIM_PANL) Name(#StylesPanel) Displayposition(1) Height(490) Layoutmanager(#Layout) Left(6) Parent(#COM_OWNER) Style(#XDXStyles<ContentBackground>) Tabposition(1) Tabstop(False) Top(0) Width(291)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Left) Manage(#StylesPanel) Marginleft(6) Marginright(3) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#Content) Caption('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum') Displayposition(2) Ellipses(Word) Height(490) Left(303) Marginbottom(6) Marginleft(6) Marginright(6) Margintop(6) Parent(#COM_OWNER) Style(#XDXStyles<ContentBackground>) Tabposition(2) Tabstop(False) Top(0) Width(463)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Center) Manage(#Content) Marginleft(3) Marginright(6) Parent(#Layout)
+    
+    Define_Com Class(#XDXBoolean.CheckBox) Name(#Bold) Caption(*MTXTXDX069) Displayposition(2) Height(21) Labeltype(Caption) Left(2) Parent(#StylesPanel) Tabposition(1) Top(27) Width(287)
+    Define_Com Class(#XDXBoolean.CheckBox) Name(#Border) Caption(*MTXTXDX070) Displayposition(3) Height(21) Labeltype(Caption) Left(2) Parent(#StylesPanel) Tabposition(2) Top(52) Width(287)
+    Define_Com Class(#XDXBoolean.CheckBox) Name(#Underline) Caption(*MTXTXDX071) Displayposition(7) Height(21) Labeltype(Caption) Left(2) Parent(#StylesPanel) Tabposition(3) Top(152) Width(287)
+    Define_Com Class(#Prim_panl) Name(#TextColor) Displayposition(6) Height(21) Layoutmanager(#Layout) Left(2) Parent(#StylesPanel) Tabposition(4) Top(127) Width(287)
+    Define_Com Class(#Prim_panl) Name(#Font) Displayposition(4) Height(21) Layoutmanager(#Layout) Left(2) Parent(#StylesPanel) Tabposition(6) Top(77) Width(287)
+    Define_Com Class(#XDXNumber.SpinEdit) Name(#Fontsize) Caption(*MTXTXDX074) Displayposition(5) Height(21) Labeltype(Caption) Left(2) Parent(#StylesPanel) Tabposition(5) Top(102) Width(287)
+    Define_Com Class(#XDXBoolean.CheckBox) Name(#Background) Caption(*MTXTXDX075) Displayposition(1) Height(21) Labeltype(Caption) Left(2) Parent(#StylesPanel) Tabposition(7) Top(2) Width(287)
+    
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#Bold) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Top) Manage(#Border) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_6) Attachment(Top) Manage(#TextColor) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_7) Attachment(Top) Manage(#Font) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_8) Attachment(Top) Manage(#Fontsize) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_9) Attachment(Top) Manage(#Background) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Top) Manage(#Underline) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_1) Caption(*MTXTXDX072) Displayposition(1) Ellipses(Word) Height(21) Left(0) Parent(#TextColor) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(150)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_10) Attachment(Left) Manage(#LABL_1) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_PANL) Name(#TextColorSample) Displayposition(2) Height(21) Left(150) Parent(#TextColor) Style(#TextColorSampleStyle) Tabposition(2) Tabstop(False) Top(0) Width(137)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_11) Attachment(Center) Manage(#TextColorSample) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_LABL) Name(#LABL_2) Caption(*MTXTXDX073) Displayposition(1) Ellipses(Word) Height(21) Left(0) Parent(#Font) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(150)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_12) Attachment(Left) Manage(#LABL_2) Parent(#Layout)
+    Define_Com Class(#PRIM_CMBX) Name(#Fonts) Comboboxstyle(DropDownList) Componentversion(1) Displayposition(2) Fixedheight(False) Height(21) Left(150) Parent(#Font) Showselection(False) Showselectionhilight(False) Tabposition(2) Top(0) Width(137)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_13) Attachment(Center) Manage(#Fonts) Parent(#Layout)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_1) Displayposition(1) Parent(#Fonts) Source(#XDXCaption)
+    Define_Com Class(#PRIM_CBCL) Name(#CBCL_2) Parent(#Fonts) Source(#XDXAlpha) Visible(False)
+    
+    Define_Com Class(#prim_vs.Style) Name(#DynamicStyle) Fontsize(11) Textcolor(Black)
+    Define_Com Class(#prim_vs.Style) Name(#TextColorSampleStyle) Normbackcolor(Black)
+    
+    Define_Com Class(#prim_vs.Style) Name(#BorderStyle) Borderbottom(6) Borderbrush(#BorderBrush) Borderleft(6) Borderright(6) Bordertop(6)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#BorderBrush) Colors(#BorderColors)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#BorderColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BorderColors1) At(100) Color(255:83:0) Parent(#BorderColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BorderColors2) Color(255:145:91) Parent(#BorderColors)
+    
+    Define_Com Class(#prim_vs.Style) Name(#BackgroundStyle) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#Prim_Vs.LinearBrush) Name(#BackgroundBrush) Colors(#BackgroundColors) Opacity(70)
+    Define_Com Class(#Prim_Vs.BrushColors) Name(#BackgroundColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BackgroundColors1) Color(255:83:0) Parent(#BackgroundColors)
+    Define_Com Class(#Prim_Vs.BrushColor) Name(#BackgroundColors2) At(100) Color(255:145:91) Parent(#BackgroundColors)
+    
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #TextColorSample.Cursor <= #Sys_appln.Cursors<Hand>
+    #Fontsize := #DynamicStyle.FontSize
+    #TextColorSampleStyle.NormBackColor := #DynamicStyle.TextColor
+    
+    #Content.Styles.Add( #DynamicStyle )
+    
+    * Allowed fonts for the application
+    * Could alos be loaded from Windows font list
+    #Com_owner.AddFont( "Segoe UI" )
+    #Com_owner.AddFont( "Tahoma" )
+    #Com_owner.AddFont( "Courier New" )
+    #Com_owner.AddFont( "Arial" )
+    #Com_owner.AddFont( "Verdana" )
+    
+    #Fonts.Items<1>.Focus := True
+    
+    Endroutine
+    
+    Mthroutine Name(AddFont) Access(*Private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Caption)
+    
+    #XDXAlpha := #Caption.UpperCase
+    #XDXCaption := #Caption
+    
+    Add_Entry To_List(#Fonts)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Background.Changed)
+    
+    If (#Background)
+    
+    #Content.Styles.Add( #BackgroundStyle )
+    
+    Else
+    
+    #Content.Styles.Remove( #BackgroundStyle )
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Bold.Changed)
+    
+    #DynamicStyle.Bold := #Bold
+    
+    Endroutine
+    
+    Evtroutine Handling(#Border.Changed)
+    
+    If (#Border)
+    
+    #DynamicStyle.BorderBottom #DynamicStyle.BorderLeft #DynamicStyle.BorderRight #DynamicStyle.BorderTop := 6
+    #DynamicStyle.BorderBrush <= #BorderBrush
+    
+    Else
+    
+    #DynamicStyle.BorderBottom #DynamicStyle.BorderLeft #DynamicStyle.BorderRight #DynamicStyle.BorderTop := 0
+    #DynamicStyle.BorderBrush <= *Null
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Fonts.ItemGotFocus)
+    
+    #DynamicStyle.FaceName := #XDXALPHA
+    
+    Endroutine
+    
+    Evtroutine Handling(#Fontsize.Changed)
+    
+    #Fontsize := #Fontsize.Bound( 0 96 )
+    
+    #DynamicStyle.FontSize := #FontSize
+    
+    Endroutine
+    
+    Evtroutine Handling(#Underline.Changed)
+    
+    #DynamicStyle.Underline := #Underline
+    
+    Endroutine
+    
+    Evtroutine Handling(#TextColorSample.Click)
+    
+    Define_Com Class(#prim_appl.ICommonDialogColor) Name(#ColorPicker) Reference(*dynamic)
+    
+    Define_Com Class(#prim_boln) Name(#OK)
+    
+    If (#ColorPicker *Is *null)
+    
+    #ColorPicker <= #sys_appln.CreateColorDialog
+    #ColorPicker.FullyOpen := true
+    
+    Endif
+    
+    #ColorPicker.ChosenColor := #DynamicStyle.TextColor
+    
+    #OK := #ColorPicker.Show
+    
+    If (#OK)
+    
+    #TextColorSampleStyle.NormBackColor #DynamicStyle.TextColor := #ColorPicker.ChosenColor
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

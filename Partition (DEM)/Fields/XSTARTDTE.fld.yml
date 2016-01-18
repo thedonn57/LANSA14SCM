@@ -1,0 +1,63 @@
+﻿Field:
+  Name:               xEmployeeStartDate
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - ASQN
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Start Date"
+      Label:              "Start Date"
+      Heading1:           "Start"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Start Date"
+      Label:              "Start Date"
+      Heading1:           "Start"
+      Heading2:           "Date"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDate) Defaultvisual(True) Height(19) Showtime(False) Width(247) Componentversion(1)
+    
+    End_Com
+    Begin_Com Role(*Weblet 'std_date.std_date') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+            Start Date records the first day at work for the employee.
+      
+      
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=µ $$BL=~ $$N1=} $$N2=\
+      
+            Cette zone contient la date d'entrée dans la société de
+            l'employé concerné.
+      
+      
+                  Par exple:
+                         880201
+                         871226
+      
+      
+            Cette date doit être dans le format AAMMJJ, c'est à dire
+            Année-Mois-Jour. Attention également, la date d'entrée doit
+            être antérieure à la date d'aujourd'hui.

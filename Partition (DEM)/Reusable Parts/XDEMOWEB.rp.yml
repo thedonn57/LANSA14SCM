@@ -1,0 +1,74 @@
+﻿Reusable Part:
+  Name:               xDemoWebListAddress
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Address Cell"
+
+  - FRA:
+      Description:        "Address Cell"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL *implements #prim_list.IListCellDesign) Displayposition(1) Height(72) Left(0) Tabposition(1) Top(0) Width(217) Layoutmanager(#TableLayout)
+    
+    * Address cell for a list
+    * This one expects an employee data object to be supplied by the list item RelatedReference property
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout) Width(23) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout) Width(1.65)
+    Define_Com Class(#PRIM_LABL) Name(#gAddress) Caption('<text>') Displayposition(1) Ellipses(End) Left(23) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(72) Width(194) Verticalalignment(Center) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#gAddress) Parent(#TableLayout) Row(#Row) Rowspan(3)
+    Define_Com Class(#PRIM_IMAG) Name(#gGoogleMaps) Displayposition(2) Left(3) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(30) Width(16) Height(16) Image(#xImageGoogleMaps32) Imagesizing(BestFit) Style(#Style1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Column(#Column) Flow(Down) Manage(#gGoogleMaps) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    
+    * PlaceHolder for the employee data object
+    Define_Com Class(#xDemoWebDataEmployee) Name(#Employee) Reference(*Dynamic)
+    
+    * The RelatedReference property was set on the listitem
+    Mthroutine Name(OnItemGotReference) Options(*redefine)
+    
+    * Store the RelatedReference instance for local use
+    #Employee <= #ListItem.RelatedReference *As #xDemoWebDataEmployee
+    
+    * Update the address information
+    #gAddress := ("&1 &2 &3 &4").Substitute( #Employee.AddressLine1 #Employee.AddressLine2 #Employee.AddressLine3 #Employee.PostCode.AsString )
+    
+    Endroutine
+    
+    Evtroutine Handling(#gGoogleMaps.Click)
+    
+    * Show a static Google Map in a different web page.
+    #sys_web.Navigate( #Com_owner.GetGoogleMapsURL )
+    
+    Endroutine
+    
+    * Generate the Google Maps URL
+    Mthroutine Name(GetGoogleMapsURL) Access(*Private)
+    Define_Map For(*Result) Class(#prim_alph) Name(#Result)
+    
+    * http://maps.googleapis.com/maps/api/staticmap?size=512x512&markers=size:mid%7Ccolor:red%7CHouseNumber+StreetName+StreetType+Town+State&sensor=false
+    
+    #Result := ("http://maps.googleapis.com/maps/api/staticmap?size=800x600&markers=size:mid%7Ccolor:red%7C")
+    #Result += #Employee.AddressLine1.replaceAll( " " "+" )
+    #Result += "+"
+    #Result += #Employee.AddressLine2.replaceAll( " " "+" )
+    #Result += "+"
+    #Result += #Employee.AddressLine3.replaceAll( " " "+" )
+    #Result += "&sensor=false"
+    
+    Endroutine
+    
+    End_Com

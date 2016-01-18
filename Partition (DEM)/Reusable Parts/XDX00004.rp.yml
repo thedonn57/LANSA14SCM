@@ -1,0 +1,54 @@
+﻿Reusable Part:
+  Name:               XDXApplication
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shared Application Object"
+
+  - FRA:
+      Description:        "Objet partagé de l'application"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    * Shared Application instance
+    
+    * Dynamic Styles supporting runtime change of corners, background and font etc.
+    Define_Com Class(#prim_vs.Style) Name(#PanelStyle) Cornerbottomleft(6) Cornerbottomright(6) Cornertopleft(6) Cornertopright(6)
+    
+    Define_Com Class(#prim_vs.Style) Name(#BackgroundStyle) Backgroundbrush(#BackgroundBrush)
+    Define_Com Class(#Prim_Vs.SolidBrush) Name(#BackgroundBrush) Color(White)
+    
+    * Application settings - Font, text colour etc.
+    Define_Com Class(#XDXSettingsDialog) Name(#Settings)
+    
+    Define_Com Class(#Prim_form.Taskbar) Name(#WindowsTaskBar)
+    
+    Define_Pty Name(TaskBar) Get(*reference #WindowsTaskBar)
+    
+    Define_Pty Name(BackGround) Get(*reference #BackgroundStyle)
+    
+    Define_Pty Name(Settings) Get(*reference #Settings)
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    * System Appearance styles.  All controls will use the styles as defined
+    #sys_appln.Appearance.Edit <= #XDXStyles<Edit>
+    #sys_appln.Appearance.ComboBox <= #XDXStyles<Combo>
+    #sys_appln.Appearance.Panel <= #PanelStyle
+    #sys_appln.Appearance.Label <= #XDXStyles<Label>
+    #sys_appln.Appearance.Tree <= #XDXStyles<Tree>
+    #sys_appln.Appearance.Popup <= #XDXStyles<Popup>
+    #sys_appln.Appearance.SpinEdit <= #XDXStyles<SpinEdit>
+    
+    Endroutine
+    
+    End_Com
+    

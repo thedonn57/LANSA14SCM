@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               xDemoAlpha256_3
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Alpha 256"
+      Label:              "Alpha 256"
+      Heading1:           "Alpha"
+      Heading2:           "256"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Alpha 128"
+      Label:              "Alpha 128"
+      Heading1:           "Alpha"
+      Heading2:           "128"
+      Heading3:           " "

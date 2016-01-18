@@ -1,0 +1,26 @@
+﻿Visual Style:
+  Name:               VS_PANEL
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                20
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual Style for Panels"
+
+  - FRA:
+      Description:        "Style visuel pour panneaux"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_VS
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_VS) Default(#SCHEME)
+    Define_Com Class(#PRIM_VSS) Name(#SCHEME) Captions(#CAPTION) Titles(#CAPTION) Values(#VALUE)
+    Define_Com Class(#PRIM_VSI) Name(#CAPTION) Borderstyle(3DRight) Facename('MS Sans Serif') Fontsize(8) Normbackcolor(ButtonFace) Script(Western)
+    Define_Com Class(#PRIM_VSI) Name(#VALUE) Bordercolor(WindowText) Borderstyle(3DLeft) Errorbackcolor(255:96:160) Facename('MS Sans Serif') Fontsize(8) Script(Western)
+    End_Com

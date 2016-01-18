@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               XPRLEN
+  Type:               Packed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Value Length"
+      Label:              "XPRLEN"
+      Heading1:           "XML"
+      Heading2:           "Value"
+      Heading3:           "Length"
+
+  - FRA:
+      Description:        "XML Property Value Length"
+      Label:              "XPRLEN"
+      Heading1:           "XML"
+      Heading2:           "Value"
+      Heading3:           "Length"

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STDLIST
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Webroutine current list"
+      Label:              "Current list"
+      Heading1:           "Webroutine"
+      Heading2:           "Current"
+      Heading3:           "List"
+
+  - FRA:
+      Description:        "Liste de routine web en cours"
+      Label:              "Liste en cours"
+      Heading1:           "Liste de"
+      Heading2:           "Webroutine"
+      Heading3:           "en cours"

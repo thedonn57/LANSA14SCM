@@ -1,0 +1,127 @@
+﻿Form:
+  Name:               xDemoTouchGestures
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Touch Gestures"
+
+  - FRA:
+      Description:        "Touch - Scaling"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(611) Clientwidth(1033) Height(650) Layoutmanager(#TableLayout_1) Left(147) Top(165) Width(1049) Theme(#xDemoTheme)
+    
+    * Example of Touch Processing
+    
+    Define_Com Class(#PRIM_PANL) Name(#Image) Displayposition(9) Height(512) Left(261) Parent(#COM_OWNER) Popupmenu(#PMNU_1) Style(#ImageStyle) Tabposition(4) Tabstop(False) Top(50) Width(512) Touchmove(Both) Touchrotate(Yes) Touchscale(Yes)
+    
+    Define_Com Class(#Prim_vs.Style) Name(#ImageStyle) Backgroundbrush(#ImageBrush)
+    Define_Com Class(#Prim_vs.ImageBrush) Name(#ImageBrush) Image(#XDXImageEmployee512) Sizing(BestFit)
+    
+    Define_Com Class(#PRIM_TKBR) Name(#Zoom) Displayposition(7) Height(46) Left(0) Maximumvalue(200) Parent(#COM_OWNER) Tabposition(1) Tickfrequency(100) Tickstyle(None) Top(560) Value(100) Width(281)
+    Define_Com Class(#PRIM_LABL) Name(#Percentage) Caption('100%') Displayposition(8) Ellipses(Word) Height(34) Left(216) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(572) Verticalalignment(Center) Width(65)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Alignment(BottomLeft) Column(#Column_1) Flow(Right) Manage(#Zoom) Marginbottom(5) Parent(#TableLayout_1) Row(#Row_3) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Alignment(BottomLeft) Column(#Column_1) Flow(Left) Manage(#Percentage) Marginbottom(5) Marginleft(4) Parent(#TableLayout_1) Row(#Row_3) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ImageLayout) Column(#Column_2) Manage(#Image) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#ImageHeight) Caption('Image Height') Displayposition(1) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(5) Top(2) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#ImageHeight) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#ImageWidth) Caption('Image Width') Displayposition(2) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(7) Top(27) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#ImageWidth) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#Rotation) Caption('Rotation') Displayposition(6) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(6) Top(127) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Rotation) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#ScaleWidth) Caption('Scale Width') Displayposition(4) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(8) Top(77) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_4) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#ScaleWidth) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#ScaleHeight) Caption('Scale Height') Displayposition(3) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(3) Top(52) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_5) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#ScaleHeight) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#STD_NUM.Visual) Name(#Gestures) Caption('Gestures') Displayposition(5) Labeltype(Caption) Marginleft(100) Parent(#COM_OWNER) Readonly(True) Tabposition(9) Top(102) Width(159)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_6) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Gestures) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#PRIM_PMNU) Name(#PMNU_1)
+    Define_Com Class(#PRIM_MITM) Name(#Center) Caption('Center') Displayposition(1) Parent(#PMNU_1)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    * Size Image and SizingPanel based on the image being used
+    #Image.Height := #XDXImageEmployee512.Height
+    #Image.Width := #XDXImageEmployee512.Width
+    
+    #Com_owner.Update
+    
+    #ImageLayout.Manage <= *null
+    
+    Endroutine
+    
+    Evtroutine Handling(#Zoom.Changed)
+    
+    #Image.ScaleHeight #Image.ScaleWidth := #Zoom.Value
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image.TouchChange) Rotation(#RotationDelta)
+    
+    #Gestures += 1
+    
+    * Limit the scaling to 200%
+    If (#Image.ScaleHeight > 200)
+    
+    #Image.ScaleHeight #Image.ScaleWidth := 200
+    
+    Endif
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Evtroutine Handling(#Image.DoubleClick)
+    
+    * Reset the image to normal scale and rotation
+    #Image.Rotation := 0
+    
+    #Image.Scaleheight #Image.ScaleWidth := 100
+    
+    #Com_owner.Update
+    
+    Endroutine
+    
+    Mthroutine Name(Update)
+    
+    #ImageHeight := #Image.Height * #Image.ScaleHeight / 100
+    #ImageWidth := #Image.Width * #Image.ScaleWidth / 100
+    #Rotation := #Image.Rotation
+    #ScaleHeight := #Image.ScaleHeight
+    #ScaleWidth := #Image.ScaleWidth
+    
+    #Zoom.Value := #Image.ScaleHeight
+    
+    #Percentage := #Zoom.Value.Asstring + "%"
+    
+    Endroutine
+    
+    Evtroutine Handling(#Center.Click)
+    
+    * Reattach to the layout manager so it can do the centering
+    #ImageLayout.Manage <= #Image
+    #Com_owner.UpdateDisplay
+    
+    * Detach so that the image can move again
+    #ImageLayout.Manage <= *null
+    
+    Endroutine
+    
+    End_Com
+    
+    

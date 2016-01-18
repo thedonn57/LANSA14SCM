@@ -1,0 +1,58 @@
+﻿Field:
+  Name:               STD_HOUR
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard HOUR"
+      Label:              "Hour"
+      Heading1:           "Hour"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Heure Standard"
+      Label:              "Heure"
+      Heading1:           "Heure"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "Must be between 0 and 24"
+      Ranges:
+      - From:               +0
+        To:                 +24
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1085
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        Enter a valid Hour into this field.
+      
+      
+        Validation Rules :  Must be 0 to 24.
+      
+        Maximum Length   :  2 numerics
+      
+      
+      
+      $$NOAUTO

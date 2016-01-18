@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*TIMEDATE8"
+  Description:        "Current time and 8 digit date (numeric)"
+  Derivation:         Dynamic
+  Data Type:          Numeric
+  Length:             14
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

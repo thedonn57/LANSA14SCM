@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_SORT
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "'N'"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard sort flag"
+      Label:              "Standard sort f"
+      Heading1:           "Standard"
+      Heading2:           "sort"
+      Heading3:           "flag"
+
+  - FRA:
+      Description:        "Indicateur de tri std"
+      Label:              "Indic. tri"
+      Heading1:           "Indic"
+      Heading2:           "tri"
+      Heading3:           " "

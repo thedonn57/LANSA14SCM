@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               COMPANY
+  Type:               Alphanumeric
+  Length:             30
+  Decimals:           0
+  Default Value:      "*COMPANY"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current company name"
+      Label:              "Company ......."
+      Heading1:           "Company name"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Raison sociale de l´entreprise"
+      Label:              "Entreprise  . ."
+      Heading1:           "Raison sociale"
+      Heading2:           "Entreprise"
+      Heading3:           " "

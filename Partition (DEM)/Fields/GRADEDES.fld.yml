@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               GRADEDES
+  Type:               Alphanumeric
+  Length:             11
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Grade Full Description"
+      Label:              "Grade desc....."
+      Heading1:           "Grade"
+      Heading2:           "Description"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Description du niveau acquis"
+      Label:              "Desc. niveau  ."
+      Heading1:           "Description"
+      Heading2:           "du niveau"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(310)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               DDMMYYYY
+  Type:               Signed
+  Length:             8
+  Decimals:           0
+  Default Value:      "*DDMMYYYY"
+  Edit Mask:          "'  /  /    '"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Numeric date in format DDMMYYYY"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date numérique au format JJMMAAAA"
+      Label:              "Date .........."
+      Heading1:           "Date"
+      Heading2:           " "
+      Heading3:           " "

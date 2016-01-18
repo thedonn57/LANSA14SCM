@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PJFGIVEN
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Given name"
+      Label:              "Given name"
+      Heading1:           "Given"
+      Heading2:           "name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Prénom"
+      Label:              "Prénom"
+      Heading1:           "Prénom"
+      Heading2:           " "
+      Heading3:           " "

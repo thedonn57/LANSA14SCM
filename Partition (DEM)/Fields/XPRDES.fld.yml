@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XPRDES
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "XML Property Description"
+      Label:              "XPRDES"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Description"
+
+  - FRA:
+      Description:        "XML Property Description"
+      Label:              "XPRDES"
+      Heading1:           "XML"
+      Heading2:           "Property"
+      Heading3:           "Description"

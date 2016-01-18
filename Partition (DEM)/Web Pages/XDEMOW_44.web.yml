@@ -1,0 +1,153 @@
+﻿Web Page:
+  Name:               xDemoWebUDCTreeOnDemand
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "UDC On Demand"
+
+  - FRA:
+      Description:        "UDC On Demand"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(200) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1) Width(200) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column2) Manage(#Tree) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_TREE<#xDemoWebUDCTreeOnDemandBaseItem>) Name(#Tree) Displayposition(1) Height(800) Left(200) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(800) Notificationstyle(Program)
+    
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    Def_List Name(#Departments) Fields(#deptment #deptdesc) Type(*Working)
+    Def_List Name(#Sections) Fields(#deptment #Section #Secdesc) Type(*Working) Entrys(9999)
+    Def_List Name(#Skills) Fields(#Empno #Skilcode #Skildesc) Type(*Working) Entrys(9999)
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments)
+    
+    Define_Com Class(#xDemoDataServices.GetDepartments) Name(#GetDepartments)
+    
+    #GetDepartments.ExecuteAsync( #Departments )
+    
+    Evtroutine Handling(#GetDepartments.completed)
+    
+    Selectlist Named(#Departments)
+    
+    #Com_owner.AddDepartment
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartment)
+    
+    #Tree.Add( #xDemoWebUDCTreeOnDemandDepartmentItem )
+    
+    (#Tree.CurrentItem.Design *As #xDemoWebUDCTreeOnDemandDepartmentItem).Prepare( #Deptment #deptdesc )
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartmentSections)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoDataServices.GetDeptSections) Name(#GetDepartmentSections)
+    
+    #GetDepartmentSections.ExecuteAsync( (#ParentItem.Design *As #xDemoWebUDCTreeOnDemandDepartmentItem).Department #Sections )
+    
+    Evtroutine Handling(#GetDepartmentSections.completed)
+    
+    Selectlist Named(#Sections)
+    
+    #Com_owner.AddSection( #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddSection)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    
+    #Tree.Add( #xDemoWebUDCTreeOnDemandSectionItem )
+    
+    (#Tree.CurrentItem.Design *As #xDemoWebUDCTreeOnDemandSectionItem).Prepare( #Deptment #section #secdesc )
+    
+    #Tree.CurrentItem.Parentitem <= #ParentItem
+    
+    Endroutine
+    
+    Mthroutine Name(AddSectionEmployees)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    
+    Define_Com Class(#xDemoDataServices.GetDeptSectEmployees) Name(#GetSectionEmployees)
+    
+    #GetSectionEmployees.ExecuteAsync( (#ParentItem.Design *As #xDemoWebUDCTreeOnDemandSectionItem).Department (#ParentItem.Design *As #xDemoWebUDCTreeOnDemandSectionItem).Section #Employees )
+    
+    Evtroutine Handling(#GetSectionEmployees.completed)
+    
+    Selectlist Named(#Employees)
+    
+    #Com_owner.AddEmployee( #ParentItem )
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployee)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#ParentItem) Pass(*by_reference)
+    
+    #Tree.Add( #xDemoWebUDCTreeOnDemandEmployeeItem )
+    
+    (#Tree.CurrentItem.Design *As #xDemoWebUDCTreeOnDemandEmployeeItem).Prepare( #Empno #Givename #Surname #Address1 #Address2 #Address3 #Postcode #Phonebus #Phonehme #Empthm )
+    
+    #Tree.CurrentItem.Parentitem <= #ParentItem
+    
+    Endroutine
+    
+    Mthroutine Name(HandleExpand)
+    Define_Map For(*Input) Class(#Prim_tree.TreeItem) Name(#TreeItem) Pass(*by_reference)
+    
+    * Don't add if the item already has child items
+    If (#TreeItem.ItemCount = 0)
+    
+    Case (#TreeItem.Level)
+    
+    When (= 1) /* Department */
+    
+    #Com_owner.AddDepartmentSections( #TreeItem )
+    
+    When (= 2) /* Section */
+    
+    #Com_owner.AddSectionEmployees( #TreeItem )
+    
+    Endcase
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemExpanding) Item(#Item)
+    
+    #Com_owner.HandleExpand( #Item )
+    
+    Endroutine
+    
+    End_Com

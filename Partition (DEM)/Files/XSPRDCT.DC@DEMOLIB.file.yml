@@ -1,0 +1,97 @@
+﻿File:
+  Name:                           XSProductCategory
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             XSPRDCT
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Category"
+
+  - FRA:
+      Description:        "Product Category"
+
+  Real Fields:
+  - XSPRDCTID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - XSPRDCTDS:
+      Type:               Char
+      Length:             100
+      Decimals:           0
+
+  - XSPRDLNID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  Primary Keys:
+  - XSPRDCTID
+
+  Logical Views:
+  - XSProductCategoryV1:
+      Identifier:         XSPRDCT1
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      XSPRDCT1
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "By Line ID, Category ID"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - XSPRDLNID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - XSPRDCTID:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - XSProductCategoryV2:
+      Identifier:         XSPRDCTV2
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      XSPRDCTV2
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "by Description"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - XSPRDCTDS:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned

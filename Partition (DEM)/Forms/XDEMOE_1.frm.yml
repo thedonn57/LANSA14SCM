@@ -1,0 +1,57 @@
+﻿Form:
+  Name:               xDemoEditTimerSample
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using xDemoEditTimer"
+
+  - FRA:
+      Description:        "Using xDemoEditTimer"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(624) Clientheight(395) Componentversion(2) Left(147) Top(197) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(102) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.56)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ListView1Item1) Column(#Column1) Manage(#Events) Parent(#TableLayout1) Row(#Row2) Marginleft(2) Marginright(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#xDemoUnicode128Item1) Alignment(TopLeft) Column(#Column1) Manage(#xDemoUnicode128) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label1Item1) Alignment(TopLeft) Column(#Column1) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Flow(Down) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SpinEditItem1) Alignment(TopLeft) Column(#Column1) Manage(#SpinEdit) Parent(#TableLayout1) Row(#Row1) Sizing(None) Flow(Down) Margintop(2) Marginbottom(2) Marginleft(2)
+    
+    Define_Com Class(#xDemoUnicode128.Visual) Name(#xDemoUnicode128) Componentversion(1) Displayposition(2) Height(25) Parent(#COM_OWNER) Tabposition(1) Usepicklist(False) Width(620) Marginleft(0) Top(45) Left(2)
+    Define_Com Class(#PRIM_SPDT) Name(#SpinEdit) Displayposition(3) Left(2) Parent(#COM_OWNER) Showselection(False) Showselectionhilight(False) Tabposition(3) Top(74)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Displayposition(1) Ellipses(Word) Height(39) Left(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(2) Verticalalignment(Center) Width(622) Caption('Change the edit or spin edit. A change will only be detected when the user stops typing') Themedrawstyle('Heading3')
+    Define_Com Class(#PRIM_LTVW) Name(#Events) Columnbuttonheight(19) Componentversion(2) Displayposition(4) Fullrowselect(True) Keyboardpositioning(SortColumn) Left(2) Parent(#COM_OWNER) Showsortarrow(True) Tabposition(4) Top(102) Height(291) Width(620)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL1) Displayposition(1) Parent(#Events) Source(#xDemoAlpha128) Captiontype(Caption) Widthtype(Remainder)
+    
+    Define_Com Class(#xDemoEditTimer) Name(#EditTimer)
+    
+    Evtroutine Handling(#xDemoUnicode128.GotFocus #SpinEdit.GotFocus) Com_Sender(#Sender)
+    
+    #EditTimer.ActiveControl <= #Sender
+    
+    Endroutine
+    
+    Evtroutine Handling(#EditTimer.Ticked)
+    
+    #xDemoAlpha128 := ("Change to &1 detected").Substitute( #EditTimer.ActiveControl.Name )
+    
+    Add_Entry To_List(#Events)
+    
+    Endroutine
+    
+    Evtroutine Handling(#SpinEdit.Changed #xDemoUnicode128.Changed)
+    
+    #EditTimer.Restart
+    
+    Endroutine
+    
+    End_Com

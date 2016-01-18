@@ -1,0 +1,49 @@
+﻿Field:
+  Name:               EMPEVTTYP
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event type"
+      Label:              "Event type"
+      Heading1:           "Event type"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Type d´évènement"
+      Label:              "Type évènement"
+      Heading1:           "Type d´évènement"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - Complex Logic Check:
+      Description:        "Must be valid event type"
+      Program Type:       Function
+      Program To Call:    PSLVAL1
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0054
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(19) Usepicklist(False) Width(193)
+    
+    End_Com
+    
+    End_Com

@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               X02SEQ
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Sequence number"
+      Label:              "X02SEQ"
+      Heading1:           "Page"
+      Heading2:           "Sequence  No."
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Sequence number"
+      Label:              "X02SEQ"
+      Heading1:           "Page"
+      Heading2:           "Sequence  No."
+      Heading3:           " "

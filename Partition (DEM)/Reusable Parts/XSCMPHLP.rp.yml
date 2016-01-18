@@ -1,0 +1,61 @@
+﻿Reusable Part:
+  Name:               XSComponentHelp
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Component Information"
+
+  - FRA:
+      Description:        "Component Information"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Left(0) Tabposition(1) Top(0) Layoutmanager(#TableLayout1) Width(40) Height(40)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#StyleBlack) Foregroundbrush(#Brush2) Bold(True) Fontsize(16) Backgroundbrush(#Brush1) Cursor(Hand)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(255:255:255)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush2) Color(0:0:0)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label1Item1) Column(#Column1) Manage(#ComponentInfo) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter)
+    
+    Define_Com Class(#PRIM_LABL) Name(#ComponentInfo) Caption('?') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Alignment(Center) Style(#StyleBlack) Height(40) Width(40)
+    
+    Define_Pty Name(p_TopComponent) Get(*auto #std_textl) Set(*auto #std_textl)
+    
+    Evtroutine Handling(#com_owner.Initialize)
+    
+    #ComponentInfo.hint := #com_owner.p_TopComponent
+    
+    Endroutine
+    
+    Evtroutine Handling(#ComponentInfo.Click)
+    
+    Case (#com_owner.p_TopComponent)
+    
+    When ('= XSBANNER')
+    
+    #sys_web.Navigate( ("/images/LANSATools/LANSATools explained 1.pdf#6 Creating A Menu") New )
+    
+    When ('= XSMENU')
+    
+    #sys_web.Navigate( ("/images/LANSATools/LANSATools explained 1.pdf#7 Creating A Banner") New )
+    
+    * When ('= XSFOOTER')
+    Otherwise
+    
+    #sys_web.Navigate( ("/images/LANSATools/LANSATools explained 1.pdf") New )
+    
+    Endcase
+    
+    Endroutine
+    
+    End_Com

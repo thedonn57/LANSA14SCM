@@ -1,0 +1,238 @@
+﻿Form:
+  Name:               xDemoHighSpeedDataEntry
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "High Speed Data Entry Example"
+
+  - FRA:
+      Description:        "High Speed Data Entry Example"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('High Speed Data Entry') Clientheight(202) Clientwidth(620) Height(241) Layoutmanager(#TableLayout_1) Left(163) Top(204) Width(636) Theme(#xDemoTheme)
+    
+    * Sample of data entry with autocompleting fields and descriptions
+    
+    Define_Com Class(#EMPNO.Visual) Name(#Empno) Autotab(True) Displayposition(2) Height(20) Left(2) Parent(#COM_OWNER) Tabposition(1) Top(2) Width(354) Usepicklist(False)
+    Define_Com Class(#DEPTMENT.Visual) Name(#Deptment) Autotab(True) Displayposition(3) Height(20) Left(2) Parent(#COM_OWNER) Tabposition(2) Top(26) Width(354)
+    Define_Com Class(#SECTION.Visual) Name(#Section) Autotab(True) Displayposition(4) Height(20) Left(2) Parent(#COM_OWNER) Tabposition(3) Top(50) Width(354)
+    Define_Com Class(#PRIM_PHBN) Name(#Save) Buttondefault(True) Caption('Save') Displayposition(5) Enabled(False) Left(532) Parent(#COM_OWNER) Tabposition(4) Top(147)
+    Define_Com Class(#PRIM_STBR) Name(#STBR_1) Displayposition(1) Height(22) Left(0) Messageposition(1) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(180) Width(620)
+    Define_Com Class(#PRIM_LABL) Name(#EmployeeName) Caption('Employee Name') Displayposition(6) Ellipses(Word) Height(20) Left(359) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(2) Verticalalignment(Center) Width(259)
+    Define_Com Class(#PRIM_LABL) Name(#DepartmentDescription) Caption('Department Description') Displayposition(7) Ellipses(Word) Height(20) Left(359) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(26) Verticalalignment(Center) Width(259)
+    Define_Com Class(#PRIM_LABL) Name(#SectionDescription) Caption('Section Description') Displayposition(8) Ellipses(Word) Height(20) Left(359) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(50) Verticalalignment(Center) Width(259)
+    Define_Com Class(#GIVENAME.Visual) Name(#GIVENAME) Displayposition(9) Parent(#COM_OWNER) Tabposition(9) Top(74) Width(353) Left(2) Autotab(True)
+    Define_Com Class(#SURNAME.Visual) Name(#SURNAME) Displayposition(10) Parent(#COM_OWNER) Tabposition(10) Top(99) Width(353) Left(2) Autotab(True)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Height(22) Parent(#TableLayout_1) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(1.15)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(0.85)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Empno) Marginbottom(2) Marginleft(2) Marginright(1) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_2) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Deptment) Marginbottom(2) Marginleft(2) Marginright(1) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_3) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#Section) Marginbottom(2) Marginleft(2) Marginright(1) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_4) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#EmployeeName) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_5) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#DepartmentDescription) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_6) Alignment(TopLeft) Column(#Column_2) Flow(Down) Manage(#SectionDescription) Marginbottom(2) Marginleft(2) Marginright(2) Margintop(2) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_7) Alignment(BottomRight) Column(#Column_2) Manage(#Save) Marginbottom(8) Marginright(8) Parent(#TableLayout_1) Row(#Row_1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_8) Column(#Column_1) Columnspan(2) Manage(#STBR_1) Parent(#TableLayout_1) Row(#Row_2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#GIVENAME) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#SURNAME) Parent(#TableLayout_1) Row(#Row_1) Sizing(FitToWidth) Margintop(2) Marginleft(2) Marginright(2) Marginbottom(2)
+    
+    * Employee number being changing
+    Evtroutine Handling(#Empno.AutoCompleting) Value(#Value)
+    
+    #EmployeeName := "Unknown Employee ID"
+    
+    * Find the first employee matching the value entered
+    Select Fields(#Empno) From_File(pslmst) With_Key(#Value) Generic(*Yes)
+    
+    * Return as the value
+    #Value := #Empno
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    * Employee has changed
+    Evtroutine Handling(#Empno.Changed)
+    
+    #EmployeeName := "Unknown Employee ID"
+    
+    * Get the employee details and enable the save button if there's a valid record
+    Fetch Fields(#GIVENAME #SURNAME #Deptment #Section) From_File(pslmst) With_Key(#Empno) Keep_Last(100)
+    
+    Fetch Fields(#Deptdesc) From_File(deptab) With_Key(#Deptment) Keep_Last(100)
+    #DepartmentDescription := #deptdesc
+    
+    Fetch Fields(#secdesc) From_File(sectab) With_Key(#Deptment #Section) Keep_Last(100)
+    #SectionDescription := #Secdesc
+    
+    If_Status Is(*Okay)
+    
+    #EmployeeName := ("&1 &2").Substitute( #GIVENAME #SURNAME )
+    
+    Endif
+    
+    #Save.Enabled := #Com_owner.CanSave
+    
+    Endroutine
+    
+    * Department code being changing
+    Evtroutine Handling(#Deptment.AutoCompleting) Value(#Value)
+    
+    #DepartmentDescription := "Unknown Department Code"
+    
+    * Find the first department code matching the value entered
+    Select Fields(#Deptment #deptdesc) From_File(deptab) With_Key(#Deptment) Generic(*Yes)
+    
+    * Return as the value
+    #Value := #Deptment
+    
+    #DepartmentDescription := #Deptdesc
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    * Department has changed
+    Evtroutine Handling(#Deptment.Changed)
+    
+    #DepartmentDescription := "Unknown Department"
+    
+    * Get the department details and enable the save button if there's a valid record
+    Fetch Fields(#Deptdesc) From_File(deptab) With_Key(#Deptment) Keep_Last(100)
+    
+    If_Status Is(*Okay)
+    
+    #DepartmentDescription := #Deptdesc
+    
+    Endif
+    
+    #Save.Enabled := #Com_owner.CanSave
+    
+    Endroutine
+    
+    *  Section Code changing
+    Evtroutine Handling(#Section.AutoCompleting) Value(#Value)
+    
+    #SectionDescription := "Unknown Section Code"
+    
+    * Find the first section matching the value entered
+    Select Fields(#Section #secdesc) From_File(sectab) With_Key(#Deptment #Value)
+    
+    * Return as the value
+    #Value := #Section
+    
+    #SectionDescription := #Secdesc
+    
+    Leave
+    
+    Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#Section.Changed)
+    
+    #DepartmentDescription := "Unknown Section"
+    
+    * Get the section details and enable the save button if there's a valid record
+    Fetch Fields(#Secdesc) From_File(sectab) With_Key(#Deptment #Section) Keep_Last(100)
+    
+    If_Status Is(*Okay)
+    
+    #SectionDescription := #Secdesc
+    
+    Endif
+    
+    #Save.Enabled := #Com_owner.CanSave
+    
+    Endroutine
+    
+    *  Givename changing
+    Evtroutine Handling(#GIVENAME.AutoCompleting) Value(#Value)
+    
+    * Find the first record matching the entered value
+    Select Fields(#GIVENAME) From_File(pslmst3) With_Key(#Value) Generic(*yes)
+    
+    #Value := #GIVENAME
+    
+    Leave
+    
+    Endselect
+    
+    #Save.Enabled := #Com_owner.CanSave
+    
+    Endroutine
+    
+    *  Surname changing
+    Evtroutine Handling(#SURNAME.AutoCompleting) Value(#Value)
+    
+    * Find the first record matching the entered value
+    Select Fields(#SURNAME) From_File(pslmst2) With_Key(#Value) Generic(*yes)
+    
+    #Value := #SURNAME
+    
+    Leave
+    
+    Endselect
+    
+    #Save.Enabled := #Com_owner.CanSave
+    
+    Endroutine
+    
+    *  Save button clicked
+    Evtroutine Handling(#Save.Click)
+    
+    * Clear the screen and reposition to the top
+    #Empno #Deptment #Section #GIVENAME #SURNAME #DepartmentDescription #EmployeeName #SectionDescription := ""
+    
+    Message Msgtxt('Emulated save completed')
+    
+    #Empno.setfocus
+    
+    #Save.Enabled := false
+    
+    Endroutine
+    
+    * Emulated validation routine
+    Mthroutine Name(CanSave) Access(*Private)
+    Define_Map For(*Result) Class(#Prim_boln) Name(#Result)
+    
+    Define Field(#Errors) Type(*dec) Length(3) Decimals(0)
+    
+    #Errors := 0
+    
+    Begincheck Keep_Count(#Errors)
+    
+    Valuecheck Field(#Empno) With_List("") In_List(*Error) Not_Inlist(*Next) Msgtxt("Unknown employee")
+    Filecheck Field(#Deptment) Using_File(DEPTAB) Using_Key(#Deptment) Msgtxt("Unknown Department")
+    Filecheck Field(#Section) Using_File(SECTAB) Using_Key(#Deptment #Section) Msgtxt("Unknown Section")
+    Valuecheck Field(#GIVENAME) With_List("") In_List(*Error) Not_Inlist(*Next) Msgtxt("Given name must be entered")
+    Valuecheck Field(#SURNAME) With_List("") In_List(*Error) Not_Inlist(*Next) Msgtxt("Surname must be entered")
+    
+    
+    Endcheck If_Error(*Next)
+    
+    #Result := (#Errors = 0)
+    
+    Endroutine
+    
+    End_Com
+    
+    
+    
+    
+    
+    

@@ -1,0 +1,136 @@
+﻿Web Page:
+  Name:               xDemoWebGoogleMap
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Using Google Map"
+
+  - FRA:
+      Description:        "Using Google Map"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#SYS_THEME<2015LightGreen>)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(52) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.87)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#Map) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#Hybrid) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Manage(#Hybrid1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(CenterLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#RoadMap) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight) Alignment(CenterLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Column(#Column1) Manage(#Satellite) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight) Flow(Right) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Column(#Column1) Manage(#Terrain) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight) Alignment(CenterLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Column(#Column1) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Sizing(FitToHeight) Alignment(CenterRight)
+    
+    
+    Define_Com Class(#xDemoWebGoogleMapping) Name(#Map) Displayposition(3) Height(748) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(52) Width(1200)
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(8) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Height(52) Width(1200) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_SPBN) Name(#Hybrid) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(7) Top(0) Width(111) Caption('Hybrid') Height(52) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_SPBN) Name(#Hybrid1) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(4) Left(0) Parent(#COM_OWNER) Tabposition(6) Top(12) Width(111) Caption('Hybrid')
+    Define_Com Class(#PRIM_SPBN) Name(#RoadMap) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(5) Left(111) Parent(#COM_OWNER) Tabposition(5) Top(0) Width(111) Caption('Road Map') Height(52) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_SPBN) Name(#Satellite) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(6) Left(222) Parent(#COM_OWNER) Tabposition(4) Top(0) Width(111) Caption('Satellite') Height(52) Themedrawstyle('DarkTitle')
+    Define_Com Class(#PRIM_SPBN) Name(#Terrain) Autosize(False) Buttonstyle(FlatButton) Componentversion(1) Displayposition(7) Left(333) Parent(#COM_OWNER) Tabposition(3) Top(0) Width(111) Caption('Terrain') Height(52) Themedrawstyle('DarkTitle')
+    
+    Define_Com Class(#PRIM_PPNL) Name(#LocationPopup) Closebutton(True) Titlebar(True) Height(93) Autoclose(False)
+    
+    Define_Com Class(#PRIM_EDIT) Name(#LocationName) Displayposition(2) Left(4) Parent(#LocationPopup) Showselection(False) Showselectionhilight(False) Tabposition(1) Top(32) Height(29) Width(272)
+    Define_Com Class(#PRIM_PHBN) Name(#OK) Caption('OK') Displayposition(3) Left(196) Parent(#LocationPopup) Tabposition(3) Top(64) Buttondefault(True)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Right click to add location markers') Displayposition(1) Ellipses(Word) Height(52) Left(936) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(0) Verticalalignment(Center) Width(264) Alignment(Right) Marginright(4) Themedrawstyle('DarkTitle')
+    
+    Define_Com Class(#prim_web.Geolocation) Name(#Geolocation)
+    
+    Define_Com Class(#PRIM_STPG) Name(#Escape) Parent(#LocationPopup) Shortcut(Escape)
+    
+    Define_Com Class(#xDemoDecimal) Name(#CurrentLongitude)
+    Define_Com Class(#xDemoDecimal) Name(#CurrentLatitude)
+    
+    Evtroutine Handling(#Map.Initialize)
+    
+    #Map.MapType := Hybrid
+    #Map.Zoom := 10
+    
+    #Geolocation.Refresh
+    
+    Endroutine
+    
+    Evtroutine Handling(#Geolocation.Refreshed)
+    
+    #Com_owner.AddMarker( #Geolocation.Latitude #Geolocation.Longitude "You are here" )
+    
+    #Map.Latitude := #Geolocation.Latitude
+    #Map.Longitude := #Geolocation.Longitude
+    
+    Endroutine
+    
+    Evtroutine Handling(#Hybrid.Click)
+    
+    #Map.MapType := Hybrid
+    
+    Endroutine
+    
+    Evtroutine Handling(#RoadMap.Click)
+    
+    #Map.MapType := RoadMap
+    
+    Endroutine
+    
+    Evtroutine Handling(#Satellite.Click)
+    
+    #Map.MapType := Satellite
+    
+    Endroutine
+    
+    Evtroutine Handling(#Terrain.Click)
+    
+    #Map.MapType := Terrain
+    
+    Endroutine
+    
+    Evtroutine Handling(#Map.RightClick) Latitude(#Latitude) Longitude(#Longitude)
+    
+    #CurrentLatitude := #Latitude
+    #CurrentLongitude := #Longitude
+    
+    #LocationPopup.ShowPopup Transition(FadeInAndScale)
+    
+    Endroutine
+    
+    Evtroutine Handling(#LocationPopup.Prepare) Left(#Left) Top(#Top)
+    
+    #LocationName := ""
+    
+    #Left -= #LocationPopup.Width / 2
+    #Top -= #LocationPopup.Height / 2
+    
+    Endroutine
+    
+    Evtroutine Handling(#Escape.pressed)
+    
+    #LocationPopup.ClosePopup
+    
+    Endroutine
+    
+    Evtroutine Handling(#OK.Click)
+    
+    #Com_owner.AddMarker( #CurrentLatitude #CurrentLongitude #LocationName )
+    
+    #LocationPopup.ClosePopup
+    
+    Endroutine
+    
+    Mthroutine Name(AddMarker)
+    Define_Map For(*Input) Class(#xDemoDecimal) Name(#Latitude)
+    Define_Map For(*Input) Class(#xDemoDecimal) Name(#Longitude)
+    Define_Map For(*Input) Class(#Prim_alph) Name(#Location)
+    
+    #Map.AddMarker( #Latitude #Longitude ("&1 (Lat. &2, Long. &3)").Substitute( #Location #Latitude.asstring #Longitude.asstring ) )
+    
+    Endroutine
+    
+    End_Com

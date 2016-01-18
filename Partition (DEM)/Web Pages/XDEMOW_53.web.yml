@@ -1,0 +1,50 @@
+﻿Web Page:
+  Name:               xDemoWebSignatureCapture
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Signature Capture"
+
+  - FRA:
+      Description:        "Signature Capture"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Height(712) Width(920) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Borderbottom(1) Borderleft(1) Borderright(1) Bordertop(1)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(1.47)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Width(243) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(1.89)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Signature) Parent(#TableLayout1) Row(#Row2) Margintop(4) Marginleft(4) Marginright(4) Marginbottom(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column2) Manage(#Image) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Flow(Down) Alignment(TopCenter) Marginleft(4) Margintop(4) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column2) Manage(#Capture) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Flow(Down) Alignment(TopCenter) Marginleft(4) Marginright(4) Margintop(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column2) Manage(#Clear) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Flow(Down) Alignment(TopCenter) Marginleft(4) Marginright(4) Margintop(4)
+    
+    Define_Com Class(#PRIM_WEB.Signature) Name(#Signature) Displayposition(1) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Height(664) Width(669) Top(44) Left(4)
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Sign Below') Displayposition(2) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(920) Themedrawstyle('Heading2+DarkTitle') Height(40) Marginleft(4)
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(3) Left(681) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(44) Width(235) Height(235) Style(#Style1)
+    Define_Com Class(#PRIM_PHBN) Name(#Capture) Caption('Capture') Displayposition(4) Left(681) Parent(#COM_OWNER) Tabposition(4) Top(283) Width(235)
+    Define_Com Class(#PRIM_PHBN) Name(#Clear) Caption('Clear') Displayposition(5) Left(681) Parent(#COM_OWNER) Tabposition(5) Top(312) Width(235)
+    
+    Evtroutine Handling(#Capture.Click)
+    
+    #Image.FileName := #Signature.Blob
+    #xDemoBLOB := #Signature.Blob
+    
+    Endroutine
+    
+    Evtroutine Handling(#Clear.Click)
+    
+    #Signature.Clear
+    
+    Endroutine
+    
+    End_Com

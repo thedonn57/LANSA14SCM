@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W08TYP
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Type"
+      Label:              "W08TYP"
+      Heading1:           "Type"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Type"
+      Label:              "W08TYP"
+      Heading1:           "Type"
+      Heading2:           " "
+      Heading3:           " "

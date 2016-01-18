@@ -1,0 +1,43 @@
+﻿Form:
+  Name:               xDemoSQLSquareRoot
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "SELECT_SQL - SQRT (square root)"
+
+  - FRA:
+      Description:        "SELECT_SQL - SQRT (square root)"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientheight(259) Clientwidth(281) Height(298) Layoutmanager(#TableLayout_1) Left(170) Top(199) Width(297)
+    
+    * SQL Square Root processing
+    
+    Define_Com Class(#PRIM_LTVW) Name(#LTVW_1) Displayposition(1) Height(259) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(281)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_1) Displayposition(1) Parent(#LTVW_1) Source(#SALARY) Width(52)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL_2) Caption('SQRT value') Captiontype(Caption) Displayposition(2) Parent(#LTVW_1) Source(#MNTHSAL) Widthtype(Remainder)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#LTVW_1) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    #Com_Owner.Caption := *component_desc
+    
+    Select_Sql Fields(#SALARY (#MNTHSAL 'SQRT(SALARY)')) From_Files((PSLMST))
+    
+    Add_Entry To_List(#LTVW_1)
+    
+    Endselect
+    
+    Endroutine
+    
+    End_Com
+    

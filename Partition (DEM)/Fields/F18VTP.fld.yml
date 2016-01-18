@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F18VTP
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "VERSION TYPE"
+      Label:              "F18VTP"
+      Heading1:           "VERSION"
+      Heading2:           "TYPE"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

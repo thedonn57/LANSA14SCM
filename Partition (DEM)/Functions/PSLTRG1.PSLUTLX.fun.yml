@@ -1,0 +1,90 @@
+﻿Function:
+  Enabled For RDMLX:  Yes
+
+  Source: |
+    Function Options(*DIRECT *HEAVYUSAGE) Rcv_List(#TRIG_LIST) Trigger(*FILE PSLEVENT)
+    
+    Def_List Name(#TRIG_LIST) Type(*WORKING) Entrys(2)
+    
+    Case (#TRIG_OPER)
+    
+    *  after read operations.
+    When (*EQ AFTRED)
+    
+    #com_owner.AfterRead
+    
+    *  after update operations.
+    When (*EQ BEFUPD)
+    
+    #com_owner.BeforeUpdate
+    
+    Endcase
+    
+    #TRIG_RETC := OK
+    
+    Return
+    
+    Mthroutine Name(AfterRead)
+    
+    Get_Entry Number(1) From_List(#TRIG_LIST)
+    
+    *  uppercase the first 50 bytes of the event notes into EMPEVTNUP.
+    #EMPEVTNUP := #EMPEVTNTE.Uppercase.Substring( 1, 50 )
+    
+    *  set event description based on event type.
+    Case (#EMPEVTTYP)
+    
+    When (*EQ AWD)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG008
+    
+    When (*EQ BIR)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG009
+    
+    When (*EQ CMS)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG010
+    
+    When (*EQ CMT)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG011
+    
+    When (*EQ NOT)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG012
+    
+    When (*EQ OTH)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG013
+    
+    When (*EQ PRO)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG014
+    
+    When (*EQ WRN)
+    
+    #EMPEVTDSC := *MTXTDEMTRIG015
+    
+    Otherwise
+    
+    #EMPEVTDSC := *MTXTDEMTRIG016
+    
+    Endcase
+    
+    Upd_Entry In_List(#TRIG_LIST)
+    
+    Endroutine
+    
+    Mthroutine Name(BeforeUpdate)
+    *  update the 'number of times updated' and 'last update date & time' fields for the event.
+    
+    Get_Entry Number(2) From_List(#TRIG_LIST)
+    
+    #EMPEVTUPD += 1
+    
+    #EMPEVTUDT := *DATETIME
+    
+    Upd_Entry In_List(#TRIG_LIST)
+    
+    Endroutine

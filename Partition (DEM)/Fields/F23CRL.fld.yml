@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23CRL
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Compiled Release Level"
+      Label:              "F23CRL"
+      Heading1:           "Compiled"
+      Heading2:           "Release"
+      Heading3:           "Level"
+
+  - FRA:
+      Description:        "Compiled Release Level"
+      Label:              "F23CRL"
+      Heading1:           "Compiled"
+      Heading2:           "Release"
+      Heading3:           "Level"

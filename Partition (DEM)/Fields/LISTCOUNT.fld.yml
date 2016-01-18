@@ -1,0 +1,51 @@
+﻿Field:
+  Name:               LISTCOUNT
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Number of entries in a browse list"
+      Label:              "Entries ......."
+      Heading1:           "Number"
+      Heading2:           "of Entrys"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, nombre d´entrées ds liste BROWSE"
+      Label:              "Entrées . . . ."
+      Heading1:           "Nombre"
+      Heading2:           "d´Entrées"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$TECH
+      %{Description\:  Field LISTCOUNT is a standard LANSA field. It is used
+          as a reference field in many automatically written LANSA programs
+          to define the attributes of field(s) that are used to hold the
+          current count of the number of entries in a browse list.
+      
+      %{Warning\:  LISTCOUNT is a standard LANSA field. The type and length
+          of the LISTCOUNT field should@NEVER\be modified in any way.
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+      $$TECH
+      %{Description}:  Le champ LISTCOUNT est un champ standard de LANSA. Il
+          est utilisé comme champ de référence dans beaucoup de programmes
+          LANSA écrits automatiquement, pour définir les attributs des champs
+          destinés à compter le nombre d'entrées dans une browse list.
+      
+      %{Attention}:  LISTCOUNT est un champ LANSA standard. Le type et la
+          longueur du champ LISTCOUNT ne doivent@JAMAIS}être modifiés.

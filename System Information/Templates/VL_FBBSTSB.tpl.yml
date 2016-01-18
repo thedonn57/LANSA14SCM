@@ -1,0 +1,48 @@
+﻿Template:
+  Name:                    VL_FBBSTSB
+  Description:             "Visual LANSA: Status bar building block"
+  Extended Description 1:  "Visual LANSA: Status bar and message"
+  Extended Description 2:  routine building block.
+
+  Source: |
+    /* **********                                                         */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* **********                                                         */
+    /* ********** This RDMLX code creates a status bar for messages       */
+    /* **********                                                         */
+    /* ********** ======================================================= */
+    @@ROUTEDEF
+    DEFINE_COM CLASS(#PRIM_STBR) NAME(#STBR_1) HEIGHT(25) MESSAGEPOSITION(1) PARENT(#@@PROCESS)
+    /* ********** ======================================================= */
+    @@ROUTERTN
+    @@COMMENT  COMMENT('                                            ')
+    /* **********                                                         */
+    @@COMMENT  COMMENT('    Status Message                          ')
+    SUBROUTINE STSMESSAGE ((#EX_ISSUE  *RECEIVED)(#EX_COUNT *BOTH)(#EX_NAME *RECEIVED))
+    define     #ex_issue *dec 15 0
+    define     #ex_count *dec 15 0
+    define     #ex_name  *char 20
+    define     #ex_remn  *dec 7 7
+    change     #ex_count '#ex_count + 1'
+    change     #ex_remn  '#ex_count / #ex_issue'
+    if         '#ex_remn = 0.0000000'
+    message    msgid(dcu0017) msgf(dc@m01) msgdta(#ex_count #ex_name) type(*status)
+    endif
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+    @@COMMENT  COMMENT('    Information Message                     ')
+    SUBROUTINE INFMESSAGE ((#EX_TEXT *RECEIVED))
+    define     #ex_text  *char 132
+    message    msgid(dcm9993) msgf(dc@m01) msgdta(#ex_text *blanks)
+    ENDROUTINE
+    @@COMMENT  COMMENT('                                            ')
+
+  Help Panels:
+  - HELP010:
+      Description:        Description of Vl_basemnu
+
+      Text: |
+        This template inserts a standard status bar for messages, into a Visual LANSA   
+        form. It creates the definitions automatically without asking any questions. Two
+         standard message handling subroutines are also inserted.

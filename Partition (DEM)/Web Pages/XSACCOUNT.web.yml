@@ -1,0 +1,37 @@
+﻿Web Page:
+  Name:               XSAccount
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "My Account"
+
+  - FRA:
+      Description:        "My Account"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Style(#XSTheme01<BackgroundWhite>) Layoutmanager(#TableLayout1) Theme(#XSTheme01) Icon(#XSLansaTools2)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1) Maxwidth(1170) Minwidth(800) Width(4)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSHead01Item1) Manage(#XSHeader) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Flow(Down) Alignment(TopCenter) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Manage(#XSFooter) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#XSMenuItem1) Manage(#XSMenu) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Column(#Column2) Alignment(TopCenter) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column2) Manage(#XSAccountInformation) Parent(#TableLayout1) Row(#Row1) Alignment(TopCenter) Sizing(FitToWidth) Flow(Down) Margintop(10)
+    
+    Define_Com Class(#XSHeader) Name(#XSHeader) Parent(#COM_OWNER) Tabstop(False) Left(191) Width(800) Top(10)
+    Define_Com Class(#XSMenu) Name(#XSMenu) Parent(#COM_OWNER) Tabstop(False) Displayposition(2) Top(120) Left(191) Tabposition(2) Width(800)
+    Define_Com Class(#XSAccountInformation) Name(#XSAccountInformation) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(170) Width(800) Left(191) Height(729)
+    Define_Com Class(#XSFooter) Name(#XSFooter) Tabstop(False) Parent(#COM_OWNER) Displayposition(4) Tabposition(4) Top(909) Width(800) Left(191)
+    
+    
+    End_Com

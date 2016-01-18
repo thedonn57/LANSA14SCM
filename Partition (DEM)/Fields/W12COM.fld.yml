@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W12COM
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Communications Type"
+      Label:              "W12COM"
+      Heading1:           "Communications"
+      Heading2:           "Type"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Communications Type"
+      Label:              "W12COM"
+      Heading1:           "Communications"
+      Heading2:           "Type"
+      Heading3:           " "

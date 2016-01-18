@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23HLP
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "HELP text pointer"
+      Label:              "F23HLP"
+      Heading1:           "help"
+      Heading2:           "Pointer"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "HELP text pointer"
+      Label:              "F23HLP"
+      Heading1:           "help"
+      Heading2:           "Pointer"
+      Heading3:           " "

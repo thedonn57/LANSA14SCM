@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               LISTREMN
+  Type:               Packed
+  Length:             5
+  Decimals:           5
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "List remainder control field"
+      Label:              "List Remainder."
+      Heading1:           "List"
+      Heading2:           "Remainder"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Liste, zone de gestion du reste"
+      Label:              "Liste Reste . ."
+      Heading1:           "Liste"
+      Heading2:           "Reste"
+      Heading3:           " "

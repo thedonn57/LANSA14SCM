@@ -1,0 +1,183 @@
+﻿Form:
+  Name:               xDemoTaskBarIntegration
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "TaskBar Integration"
+
+  - FRA:
+      Description:        "TaskBar Integration"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(625) Clientheight(366) Componentversion(2) Taskbar(#Taskbar) Left(226) Top(230) Bordericons(Maximize+SystemMenu) Layoutmanager(#TableLayout1) Theme(#SYS_THEME<2015Orange>)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Cursor(Hand) Fontsize(36)
+    Define_Com Class(#PRIM_VS.Style) Name(#Error) Textcolor(Red)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopCenter) Column(#Column2) Flow(Down) Manage(#Start) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(8) Marginright(8) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopCenter) Column(#Column2) Flow(Down) Manage(#Pause) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(8) Marginright(8) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopCenter) Column(#Column2) Flow(Down) Manage(#Stop) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(8) Marginright(8) Margintop(8)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(BottomCenter) Column(#Column2) Flow(Down) Manage(#Waiting) Parent(#TableLayout1) Row(#Row1) Sizing(FitToWidth) Marginleft(8) Marginright(8) Marginbottom(8)
+    
+    Define_Com Class(#Prim_Timr) Name(#Timer) Interval(50) Startup(Manual)
+    
+    Define_Com Class(#prim_nmbr) Name(#Processed)
+    
+    Define_Com Class(#prim_alph) Name(#ProcessState)
+    
+    Define_Com Class(#PRIM_PHBN) Name(#Start) Caption('Start') Displayposition(1) Ellipses(Word) Height(72) Left(8) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(8) Width(609) Style(#Style1) Image(#xImagePlay64)
+    Define_Com Class(#PRIM_PHBN) Name(#Pause) Caption('Pause') Displayposition(2) Ellipses(Word) Height(72) Left(8) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(88) Width(609) Style(#Style1) Image(#xImagePause64)
+    Define_Com Class(#PRIM_PHBN) Name(#Stop) Caption('Stop') Displayposition(3) Ellipses(Word) Height(72) Left(8) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(168) Width(609) Style(#Style1) Image(#xImageStop64)
+    Define_Com Class(#PRIM_PHBN) Name(#Waiting) Caption('Waiting') Displayposition(4) Ellipses(Word) Height(72) Left(8) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(286) Width(609) Style(#Style1) Image(#xImageWaiting64)
+    
+    
+    Define_Com Class(#Prim_form.Taskbar) Name(#TaskBar)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #ProcessState := Stopped
+    
+    #Com_owner.UpdateState
+    
+    #TaskBar.ProgressValue := 0
+    
+    Endroutine
+    
+    Evtroutine Handling(#Start.Click)
+    
+    * Reset if previously complete
+    If (#ProcessState = Stopped)
+    
+    #TaskBar.ProgressValue #Processed := 0
+    
+    Endif
+    
+    #TaskBar.ProgressStyle := Normal
+    #TaskBar.OverlayImage <= #Start.Image
+    
+    #Timer.start
+    #ProcessState := Started
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Pause.Click)
+    
+    #TaskBar.ProgressStyle := Paused
+    #TaskBar.OverlayImage <= #Pause.Image
+    
+    #Timer.Stop
+    #ProcessState := Paused
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Stop.Click)
+    
+    #Timer.Stop
+    #ProcessState := Stopped
+    
+    #TaskBar.ProgressStyle := Normal
+    #TaskBar.ProgressValue #Processed := 0
+    #TaskBar.OverlayImage <= #Stop.image
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Waiting.Click)
+    
+    #ProcessState := Waiting
+    
+    #TaskBar.ProgressStyle := Indeterminate
+    #TaskBar.ProgressValue #Processed := 0
+    #TaskBar.OverlayImage <= #Waiting.Image
+    
+    Use Builtin(Message_Box_Add) With_Args(*MTXTXDX089)
+    Use Builtin(Message_Box_Add) With_Args(*MTXTXDX090)
+    
+    Use Builtin(Message_Box_Show) With_Args(OK OK 'Information' *MTXTXDX088)
+    
+    #TaskBar.ProgressStyle := None
+    #TaskBar.OverlayImage <= *Null
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Tick)
+    
+    #Processed += 1
+    
+    * If already complete, and still ticking, show as an error
+    If (#TaskBar.ProgressValue = 100)
+    
+    #TaskBar.ProgressStyle := Error
+    
+    Else
+    
+    #TaskBar.ProgressValue += 1
+    
+    Endif
+    
+    #Com_Owner.UpdateState
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateState) Access(*Private)
+    
+    #Com_owner.Enable( #Start (#ProcessState <> Started) )
+    #Com_owner.Enable( #Pause (#ProcessState = Started) )
+    #Com_owner.Enable( #Stop (#ProcessState <> Stopped) )
+    #Com_owner.Enable( #Waiting (#ProcessState = Stopped) )
+    
+    Case (#Processed)
+    
+    When (= 0)
+    
+    #Start.Caption := "Start"
+    
+    #Start.Styles.Remove( #Error )
+    
+    When (<= 100)
+    
+    #Start.Caption := ("Start &1%").Substitute( #Processed.asstring )
+    
+    When (> 100)
+    
+    #Start.Caption := ("Start &1%").Substitute( #Processed.asstring )
+    
+    #Start.Styles.Add( #Error )
+    
+    Endcase
+    
+    Endroutine
+    
+    Mthroutine Name(Enable) Access(*private)
+    Define_Map For(*Input) Class(#Prim_ctrl) Name(#Control) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Enabled)
+    
+    #Control.Enabled := #Enabled
+    
+    If (#Enabled)
+    
+    #Control.opacity := 100
+    
+    Else
+    
+    #Control.opacity := 35
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

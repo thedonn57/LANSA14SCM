@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_NAME
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard NAME"
+      Label:              "NAME"
+      Heading1:           "NAME"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom Standard"
+      Label:              "Nom"
+      Heading1:           "Nom"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field is intended for a name.
+      
+      
+        Validation Rules : Must be specified by the user.
+                           Entry of Lower Case characters is normally allowed.
+      
+        Maximum Length   : 25 characters
+      
+      
+      
+      $$NOAUTO

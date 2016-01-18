@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               EMPTSTFRI
+  Type:               Packed
+  Length:             15
+  Decimals:           1
+  Default Value:      "*ZEROS"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Friday hours worked"
+      Label:              "Friday hours wo"
+      Heading1:           "Friday"
+      Heading2:           "hours"
+      Heading3:           "worked"
+
+  - FRA:
+      Description:        "Heures travaillées le vendredi"
+      Label:              "Heures vendredi"
+      Heading1:           "Heures"
+      Heading2:           "travaillées"
+      Heading3:           "vendredi"

@@ -1,0 +1,47 @@
+﻿Field:
+  Name:               xEmployeeDateofBirth
+  Type:               Date
+  Length:             10
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Date of Birth"
+      Label:              "Date of Birth"
+      Heading1:           "Employee"
+      Heading2:           "Birth Date"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Date of Birth"
+      Label:              "Date of Birth"
+      Heading1:           "Employee"
+      Heading2:           "Birth Date"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDate) Defaultvisual(True) Height(19) Showtime(False) Width(247) Componentversion(1)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_date.std_date') Name(#WebletTemplate) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+           Date the person was born.

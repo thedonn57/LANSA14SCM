@@ -1,0 +1,26 @@
+﻿Visual Style:
+  Name:               VS_SMTH
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                20
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Visual Style with non-3d & round font"
+
+  - FRA:
+      Description:        "Style visuel non-3d & police ronde"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_VS
+    *
+    * **************************************************
+    Begin_Com Role(*EXTENDS #PRIM_VS) Default(#SCHEME)
+    Define_Com Class(#PRIM_VSS) Name(#SCHEME) Captions(#CAPTION) Titles(#CAPTION) Values(#VALUE)
+    Define_Com Class(#PRIM_VSI) Name(#CAPTION) Facename('Comic Sans MS') Fontsize(8) Normbackcolor(ButtonFace) Script(Western)
+    Define_Com Class(#PRIM_VSI) Name(#VALUE) Bordercolor(WindowText) Borderstyle(ThinSolid) Errorbackcolor(255:96:160) Facename('Comic Sans MS') Fontsize(8) Script(Western)
+    End_Com

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               W08SVL
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "System Variable"
+      Label:              "W08SVL"
+      Heading1:           "System"
+      Heading2:           "Variable"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "System Variable"
+      Label:              "W08SVL"
+      Heading1:           "System"
+      Heading2:           "Variable"
+      Heading3:           " "

@@ -1,0 +1,58 @@
+﻿Field:
+  Name:               STD_SWICH
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard SWITCH"
+      Label:              "Switch"
+      Heading1:           "Switch"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Switch Standard"
+      Label:              "Switch"
+      Heading1:           "Switch"
+      Heading2:           " "
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must be 1 or 0"
+      Values:
+      - "'1'"
+      - "'0'"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DCM1090
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field contains a Switch. This Switch may be set to '1' (true),
+        or '0' (false).
+      
+      
+        Validation Rules :  Must be '1' (true) or '0' (false).
+      
+        Maximum Length   :  1 character
+      
+      
+      
+      $$NOAUTO

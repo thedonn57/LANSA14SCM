@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               PRODUCT
+  Type:               Alphanumeric
+  Length:             5
+  Decimals:           0
+  Default Value:      "*PRODUCT"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product name"
+      Label:              "Product ......."
+      Heading1:           "Product"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom du produit"
+      Label:              "Produit . . . ."
+      Heading1:           "Produit"
+      Heading2:           " "
+      Heading3:           " "

@@ -1,0 +1,28 @@
+﻿Field:
+  Name:               STD_NUM
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Number"
+      Label:              "Number"
+      Heading1:           "Standard"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nombre Standard"
+      Label:              "Nombre"
+      Heading1:           "Nombre"
+      Heading2:           " "
+      Heading3:           " "

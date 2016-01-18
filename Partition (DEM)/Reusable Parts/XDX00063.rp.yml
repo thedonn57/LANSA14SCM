@@ -1,0 +1,208 @@
+﻿Reusable Part:
+  Name:               XDXTaskbarIntegration
+  Enabled For RDMLX:  Yes
+  Target Platform:    Windows/IBM i/Linux
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Taskbar Integration"
+
+  - FRA:
+      Description:        "Intégration barre de tâche"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #XDXBasePanel) Height(472) Layoutmanager(#Layout) Width(884)
+    
+    Define_Com Class(#Prim_Timr) Name(#Timer) Interval(50)
+    
+    Define_Com Class(#prim_nmbr) Name(#Processed)
+    
+    Define_Com Class(#prim_alph) Name(#ProcessState)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#Layout)
+    Define_Com Class(#PRIM_PANL) Name(#Start) Displayposition(1) Height(72) Layoutmanager(#Layout) Left(6) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#COM_OWNER) Style(#XDXStyles<Item>) Tabposition(1) Tabstop(False) Top(6) Width(872)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_1) Attachment(Top) Manage(#Start) Marginbottom(3) Marginleft(6) Marginright(6) Margintop(6) Parent(#Layout)
+    Define_Com Class(#PRIM_PANL) Name(#Pause) Displayposition(2) Height(72) Layoutmanager(#Layout) Left(6) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#COM_OWNER) Style(#XDXStyles<Item>) Tabposition(2) Tabstop(False) Top(84) Width(872)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_2) Attachment(Top) Manage(#Pause) Marginbottom(3) Marginleft(6) Marginright(6) Margintop(3) Parent(#Layout)
+    Define_Com Class(#PRIM_PANL) Name(#Stop) Displayposition(3) Height(72) Layoutmanager(#Layout) Left(6) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#COM_OWNER) Style(#XDXStyles<Item>) Tabposition(3) Tabstop(False) Top(162) Width(872)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_3) Attachment(Top) Manage(#Stop) Marginbottom(3) Marginleft(6) Marginright(6) Margintop(3) Parent(#Layout)
+    Define_Com Class(#PRIM_IMGE) Name(#ImagePlay) Displayposition(1) Height(64) Image(#XDXImagePlay64) Imagealignment(Center) Imageheight(64) Imagewidth(64) Left(4) Parent(#Start) Tabposition(1) Top(4) Width(64)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_4) Attachment(Left) Manage(#ImagePlay) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#Layout)
+    Define_Com Class(#PRIM_IMGE) Name(#ImagePause) Displayposition(1) Height(64) Image(#XDXImagePause64) Imagealignment(Center) Imageheight(64) Imagewidth(64) Left(4) Parent(#Pause) Tabposition(1) Top(4) Width(64)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_5) Attachment(Left) Manage(#ImagePause) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#Layout)
+    Define_Com Class(#PRIM_IMGE) Name(#ImageStop) Displayposition(1) Height(64) Image(#XDXImageStop64) Imagealignment(Center) Imageheight(64) Imagewidth(64) Left(4) Parent(#Stop) Tabposition(1) Top(4) Width(64)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_6) Attachment(Left) Manage(#ImageStop) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#LabelStart) Caption(*MTXTXDX083) Displayposition(2) Ellipses(Word) Height(72) Left(72) Parent(#Start) Style(#XDXStyles<largeFont>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(800)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_7) Attachment(Left) Manage(#LabelStart) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#LabelPause) Caption(*MTXTXDX084) Displayposition(2) Ellipses(Word) Height(72) Left(72) Parent(#Pause) Style(#XDXStyles<largeFont>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(800)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_8) Attachment(Left) Manage(#LabelPause) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#LabelStop) Caption(*MTXTXDX085) Displayposition(2) Ellipses(Word) Height(72) Left(72) Parent(#Stop) Style(#XDXStyles<largeFont>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(800)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_9) Attachment(Center) Manage(#LabelStop) Parent(#Layout)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Waiting) Displayposition(4) Height(72) Layoutmanager(#Layout) Left(6) Mouseoverstyle(#XDXStyles<MouseOver>) Parent(#COM_OWNER) Style(#XDXStyles<Item>) Tabposition(4) Tabstop(False) Top(317) Width(872)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_10) Attachment(Top) Manage(#Waiting) Marginbottom(3) Marginleft(6) Marginright(6) Margintop(80) Parent(#Layout)
+    Define_Com Class(#PRIM_IMGE) Name(#ImageWaiting) Displayposition(1) Height(64) Image(#XDXImageWaiting64) Imagealignment(Center) Imageheight(64) Imagewidth(64) Left(4) Parent(#Waiting) Tabposition(1) Top(4) Width(64)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_11) Attachment(Left) Manage(#ImageWaiting) Marginbottom(4) Marginleft(4) Marginright(4) Margintop(4) Parent(#Layout)
+    Define_Com Class(#PRIM_LABL) Name(#LabelWaiting) Caption(*MTXTXDX088) Displayposition(2) Ellipses(Word) Height(72) Left(72) Parent(#Waiting) Style(#XDXStyles<largeFont>) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(800)
+    Define_Com Class(#PRIM_ATLI) Name(#ATLI_12) Attachment(Center) Manage(#LabelWaiting) Parent(#Layout)
+    
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Timer.stop
+    
+    #Start.Cursor #Pause.Cursor #Stop.Cursor <= #Sys_appln.Cursors<Hand>
+    
+    #ProcessState := Stopped
+    
+    #Com_owner.UpdateState
+    
+    #Application.TaskBar.ProgressValue := 0
+    
+    
+    Endroutine
+    
+    Mthroutine Name(Deactivate) Options(*Redefine)
+    
+    * Reset
+    #Application.TaskBar.OverlayImage <= *Null
+    #Application.TaskBar.ProgressStyle := None
+    #Application.TaskBar.ProgressValue := 0
+    #Timer.Stop
+    
+    Endroutine
+    
+    Evtroutine Handling(#Start.Click)
+    
+    * Reset if previously complete
+    If (#ProcessState = Stopped)
+    
+    #Application.TaskBar.ProgressValue #Processed := 0
+    
+    Endif
+    
+    #Application.TaskBar.ProgressStyle := Normal
+    #Application.TaskBar.OverlayImage <= #XDXImagePlay16
+    
+    #Timer.start
+    #ProcessState := Started
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Pause.Click)
+    
+    #Application.TaskBar.ProgressStyle := Paused
+    #Application.TaskBar.OverlayImage <= #XDXImagePause16
+    
+    #Timer.Stop
+    #ProcessState := Paused
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Stop.Click)
+    
+    #Timer.Stop
+    #ProcessState := Stopped
+    
+    #Application.TaskBar.ProgressStyle := None
+    #Application.TaskBar.ProgressValue #Processed := 0
+    #Application.TaskBar.OverlayImage <= #XDXImageStop16
+    
+    #Com_owner.UpdateState
+    
+    Endroutine
+    
+    Evtroutine Handling(#Waiting.Click)
+    
+    #ProcessState := Waiting
+    
+    #Application.TaskBar.ProgressStyle := Indeterminate
+    #Application.TaskBar.ProgressValue #Processed := 0
+    #Application.TaskBar.OverlayImage <= #XDXImageWaiting16
+    
+    Use Builtin(Message_Box_Add) With_Args(*MTXTXDX089)
+    Use Builtin(Message_Box_Add) With_Args(*MTXTXDX090)
+    
+    Use Builtin(Message_Box_Show) With_Args(OK OK 'Information' *MTXTXDX088)
+    
+    #Application.TaskBar.ProgressStyle := None
+    #Application.TaskBar.OverlayImage <= *Null
+    
+    Endroutine
+    
+    Evtroutine Handling(#Timer.Tick)
+    
+    #Processed += 1
+    
+    * If already complete, and still ticking, show as an error
+    If (#Application.TaskBar.ProgressValue = 100)
+    
+    #Application.TaskBar.ProgressStyle := Error
+    
+    Else
+    
+    #Application.TaskBar.ProgressValue += 1
+    
+    Endif
+    
+    #Com_Owner.UpdateState
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateState) Access(*Private)
+    
+    #Com_owner.Enable( #Start (#ProcessState <> Started) )
+    #Com_owner.Enable( #Pause (#ProcessState = Started) )
+    #Com_owner.Enable( #Stop (#ProcessState <> Stopped) )
+    #Com_owner.Enable( #Waiting (#ProcessState = Stopped) )
+    
+    Case (#Processed)
+    
+    When (= 0)
+    
+    #LabelStart.Caption := *MTXTXDX083
+    
+    #LabelStart.Styles.Remove( #XDXStyles<Error> )
+    
+    When (<= 100)
+    
+    #LabelStart.Caption := *MTXTXDX083 + (" &1%").Substitute( #Processed.asstring )
+    
+    When (> 100)
+    
+    #LabelStart.Caption := *MTXTXDX083 + (" &1%").Substitute( #Processed.asstring )
+    
+    #LabelStart.Styles.Add( #XDXStyles<Error> )
+    
+    Endcase
+    
+    Endroutine
+    
+    Mthroutine Name(Enable) Access(*private)
+    Define_Map For(*Input) Class(#Prim_ctrl) Name(#Control) Pass(*By_reference)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Enabled)
+    
+    #Control.Enabled := #Enabled
+    
+    If (#Enabled)
+    
+    #Control.opacity := 100
+    
+    Else
+    
+    #Control.opacity := 35
+    
+    Endif
+    
+    Endroutine
+    
+    End_Com

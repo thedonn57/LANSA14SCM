@@ -1,0 +1,97 @@
+﻿Reusable Part:
+  Name:               xDemoOnOff
+  Enabled For RDMLX:  Yes
+  Target Platform:    All
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "On/Off button"
+
+  - FRA:
+      Description:        "On/Off button"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(25) Left(0) Tabposition(1) Top(0) Width(60) Layoutmanager(#TableLayout) Style(#BackgroundStyle)
+    
+    * Simple on/off switch. Makes an interesting alternative to a check box
+    * Switch to the left is off and grey. To the right and red is on
+    
+    *
+    * D E S I G N
+    *
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Switch) Displayposition(1) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(20) Style(#SwitchStyle) Height(23)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#SwitchLayout) Column(#Column) Manage(#Switch) Parent(#TableLayout) Row(#Row)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#BackgroundStyle) Backgroundbrush(#BackgroundBrush) Bordertop(1) Borderbottom(1) Borderleft(1) Borderright(1) Borderbrush(#BackgroundBrushBorders)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BackgroundBrush) Color(224:224:224)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#BackgroundBrushBorders) Color(201:201:201)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#SwitchStyle) Backgroundbrush(#SwitchBrush)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#SwitchBrush) Color(255:255:255)
+    
+    
+    *
+    * V A R I A B L E S
+    *
+    Define_Com Class(#prim_boln) Name(#gOn)
+    
+    
+    *
+    * P R O P E R T I E S
+    *
+    Define_Pty Name(On) Get(*auto #gOn) Set(SetOn)
+    
+    *
+    * E V E N T S
+    *
+    Define_Evt Name(Changed)
+    Define_Map For(*Input) Class(#prim_boln) Name(#On)
+    
+    *
+    * I M P L E M E N T A T I O N
+    *
+    Ptyroutine Name(SetOn)
+    Define_Map For(*Input) Class(#Prim_boln) Name(#Property)
+    
+    #gOn := #Property
+    
+    If (#gOn)
+    
+    #SwitchLayout.Column <= #Column_3
+    #BackgroundBrush.Color := "245:90:14"
+    
+    Else
+    
+    #SwitchLayout.Column <= #Column
+    #BackgroundBrush.Color := "224:224:224"
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_owner.Createinstance)
+    
+    #Com_owner.Cursor <= #sys_appln.Cursors<Hand>
+    
+    Endroutine
+    
+    Evtroutine Handling(#Com_Owner.Click)
+    
+    #Com_owner.On := *Not #Com_owner.On
+    
+    Signal Event(Changed) On(#Com_owner.On)
+    
+    Endroutine
+    
+    End_Com

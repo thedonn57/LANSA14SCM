@@ -1,0 +1,69 @@
+﻿Web Page:
+  Name:               xEmployeeDemo
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                110
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Demo"
+
+  - FRA:
+      Description:        "Employee Demo"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#SYS_THEME<2015LightBlue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1) Height(64) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#Label1) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Column(#Column1) Manage(#List1) Parent(#TableLayout1) Row(#Row2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Column(#Column1) Manage(#Image1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Alignment(CenterRight) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Column(#Column1) Manage(#xEmployeeEditor) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('Employees') Displayposition(2) Ellipses(Word) Height(64) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Verticalalignment(Center) Width(1200) Themedrawstyle('Title+DarkTitle') Marginleft(4)
+    Define_Com Class(#PRIM_LIST) Name(#List1) Displayposition(4) Height(736) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(64) Width(1200) Rowheight(62) Columnlines(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPLOYID1) Displayposition(2) Parent(#List1) Source(#xEmployeeIdentification) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPTITLE1) Displayposition(3) Parent(#List1) Source(#xEmployeeTitle)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXSURNAME1) Displayposition(4) Parent(#List1) Source(#xEmployeeSurname) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXGIVENAME1) Displayposition(5) Parent(#List1) Source(#xEmployeeGivenNames)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXEMPDEPT1) Displayposition(6) Parent(#List1) Source(#xEmployeeDepartment) Sortonclick(True)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnXEMPTHM1) Displayposition(1) Parent(#List1) Source(#xEmployeeImageThumbnail) Cellmarginbottom(2) Cellmarginleft(2) Cellmarginright(2) Cellmargintop(2) Imagesizing(BestFit) Columnwidth(32)
+    Define_Com Class(#PRIM_LIST.Part) Name(#ColumnXEMPADDR1) Columnwidth(204) Design(#XEDAddress) Displayposition(7) Parent(#List1) Columncaption('Address')
+    Define_Com Class(#PRIM_IMAG) Name(#Image1) Displayposition(1) Height(48) Image(#XEDLANSA2015) Left(1148) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(8) Width(48)
+    Define_Com Class(#xEmployeeEditor) Name(#xEmployeeEditor) Left(300) Parent(#COM_OWNER) Top(-232)
+    
+    Group_By Name(#xEmployee) Fields(#xEmployeeIdentification #xEmployeeTitle #xEmployeeSurname #xEmployeeGivenNames #xEmployeeDateofBirth #xEmployeeGender #xEmployeeStreet #xEmployeeCity #xEmployeeState #xEmployeePostalCode #xEmployeeCountry #xEmployeeHomeTelephone #xEmployeeBusinessTelephone #xEmployeeMobilePhone #xEmployeeSalary #xEmployeeStartDate #xEmployeeTerminationDate #xDepartmentCode #xEmployeeImage)
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    #com_owner.Load
+    Endroutine
+    
+    Mthroutine Name(Load)
+    Define_Com Class(#xEmployeeData.FindAll) Name(#FindAll)
+    #FindAll.ExecuteAsync( #List1 )
+    Endroutine
+    
+    Evtroutine Handling(#List1.ItemDoubleClick)
+    #xEmployeeEditor.LoadEmployee( #xEmployeeIdentification )
+    Endroutine
+    
+    Evtroutine Handling(#xEmployeeEditor.Saved) Id(#ID)
+    #Com_owner.UpdateEmployee( #ID )
+    Endroutine
+    
+    Mthroutine Name(UpdateEmployee)
+    Define_Map For(*Input) Class(#xEmployeeIdentification) Name(#ID)
+    Define_Com Class(#xEmployeeData.Find) Name(#Find)
+    Loc_Entry In_List(#List1) Where(#xEmployeeIdentification = #ID)
+    #Find.Execute( #ID #xEmployee )
+    Evtroutine Handling(#Find.Completed)
+    Upd_Entry In_List(#List1)
+    Endroutine
+    Endroutine
+    
+    End_Com

@@ -1,0 +1,110 @@
+﻿Web Page:
+  Name:               xDemoWebTileFields
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Tile using fields"
+
+  - FRA:
+      Description:        "Tile using fields"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TILE<#xDemoWebTileFieldsEmployeeItem>) Name(#Tile) Displayposition(2) Left(0) Parent(#COM_OWNER) Tabposition(2) Top(44) Height(756) Width(1200)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(44) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item) Column(#Column) Manage(#Tile) Parent(#TableLayout) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.81)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(CenterRight) Column(#Column) Flow(Down) Manage(#Find) Parent(#TableLayout) Row(#Row) Sizing(None) Marginright(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(CenterLeft) Column(#Column) Flow(Right) Manage(#ShowPartialItems) Parent(#TableLayout) Row(#Row) Sizing(None) Marginleft(20)
+    
+    Define_Com Class(#xDemoWebDropDown) Name(#Direction) Parent(#COM_OWNER) Width(317) Height(25) Top(10) Left(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Parent(#TableLayout) Row(#Row) Alignment(CenterLeft) Sizing(None) Marginleft(4) Flow(Right) Manage(#Direction)
+    Define_Com Class(#PRIM_CKBX) Name(#ShowPartialItems) Displayposition(3) Left(341) Parent(#COM_OWNER) Tabposition(3) Width(200) Caption('Show Partial Items') Height(27) Top(9)
+    Define_Com Class(#xDemoCaption.Visual) Name(#Find) Componentversion(1) Displayposition(4) Height(25) Parent(#COM_OWNER) Tabposition(4) Usepicklist(False) Width(380) Left(816) Top(10) Caption('Find') Labeltype(Caption) Marginleft(80) Placeholder('Enter a value and press enter') Labelselectable(False)
+    
+    Def_List Name(#Employees) Fields(#Empno #Surname #Givename #Address1 #Address2 #Address3 #Postcode #Phonehme #Phonebus #Deptment #Section #Salary #Startdte #Termdate #Empthm) Type(*working) Entrys(999)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.Load
+    
+    #Direction.Add( LeftToRight "Left to Right" )
+    #Direction.Add( RightToLeft "Right to Left" )
+    #Direction.Add( TopToBottom "Top to Bottom" )
+    #Direction.Add( BottomToTop "Bottom to Top" )
+    
+    #Direction.Find( #Tile.Direction True )
+    
+    If (#Tile.ShowPartialItem)
+    
+    #ShowPartialItems.ButtonState := Checked
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Direction.ItemGotFocus) Value(#Value)
+    
+    #Tile.Direction := #Value
+    
+    Endroutine
+    
+    Mthroutine Name(Load) Access(*Private)
+     
+    Define_Com Class(#xDemoDataServices.GetEmployees) Name(#GetEmployees)
+    
+    #GetEmployees.ExecuteAsync( #Employees )
+    
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    Selectlist Named(#Employees)
+    
+    Add_Entry To_List(#Tile)
+    
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#ShowPartialItems.Click)
+    
+    #Tile.ShowPartialItem := (#ShowPartialItems.buttonState = Checked)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Find.Enter)
+    
+    #Com_owner.Find
+    
+    Endroutine
+    
+    Mthroutine Name(Find) Access(*Private)
+    
+    Define_Com Class(#Prim_tile.TileItem) Name(#TileItem) Reference(*dynamic)
+    
+    * Show all items if not searching for anything
+    #Tile.Items<>.Visible := (#Find = "")
+    
+    Begin_Loop
+    
+    * Find returns the first match. Keep finding, starting at the last found item
+    #TileItem <= #Tile.FindItem( #Find #TileItem )
+    
+    Leave If(#TileItem *Is *null)
+    
+    #TileItem.Visible := True
+    
+    End_Loop
+    
+    Endroutine
+    
+    End_Com

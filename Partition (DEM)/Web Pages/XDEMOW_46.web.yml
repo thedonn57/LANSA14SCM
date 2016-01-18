@@ -1,0 +1,72 @@
+﻿Web Page:
+  Name:               xDemoWebPassingWorkingLists
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Passing Working lists"
+
+  - FRA:
+      Description:        "Passing Working lists"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(2) Parent(#TableLayout1) Height(1.88)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(1) Parent(#TableLayout1) Height(43) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#List1) Parent(#TableLayout1) Row(#Row1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(CenterLeft) Column(#Column1) Flow(Right) Manage(#Showinpopup) Parent(#TableLayout1) Row(#Row2) Sizing(None) Marginleft(4)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#ListViewerItem1) Column(#Column1) Manage(#ListViewer) Parent(#TableLayout1) Row(#Row2) Sizing(None) Rowspan(2)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List1) Displayposition(1) Height(757) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(43) Width(1200) Selectionstyle(All)
+    Define_Com Class(#PRIM_LIST.Image) Name(#ColumnEMPTHM1) Displayposition(1) Parent(#List1) Source(#EMPTHM) Columnwidth(67) Imagesizing(BestFit) Cellmargintop(2) Cellmarginbottom(2)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnEMPNO1) Displayposition(2) Parent(#List1) Source(#EMPNO) Columnwidth(97)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSURNAME1) Displayposition(3) Parent(#List1) Source(#SURNAME) Columnunits(Proportion)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnGIVENAME1) Displayposition(4) Parent(#List1) Source(#GIVENAME) Columnunits(Proportion)
+    Define_Com Class(#PRIM_PHBN) Name(#Showinpopup) Caption('Show in popup') Displayposition(3) Left(4) Parent(#COM_OWNER) Tabposition(3) Top(9) Width(133)
+    
+    * POpup Panel to show the "working list"
+    Define_Com Class(#xDemoWebPassingWorkingListsListViewer) Name(#ListViewer) Parent(#COM_OWNER) Left(272) Top(196)
+    
+    * Collection of Employee Items that acts as a list
+    Define_Com Class(#Prim_acol<#xDemoWebPassingWorkingListsEmployeeItem>) Name(#Employees)
+    
+    Evtroutine Handling(#Com_owner.initialize)
+    
+    #com_owner.Load
+    
+    Endroutine
+    
+    Mthroutine Name(Load)
+    
+    Define_Com Class(#xDemoDataServices.Getemployees) Name(#GetEmployees)
+    
+    * Return the employee data directly into the collection of employees
+    * This will automatically create the instances and map the field values in as defined in the EmployeeItem
+    #GetEmployees.ExecuteAsync( #Employees )
+    
+    Evtroutine Handling(#GetEmployees.Completed)
+    
+    * Read the data and fill the list on the screen
+    Selectlist Named(#Employees)
+    Add_Entry To_List(#List1)
+    Endselect
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#Showinpopup.Click)
+    
+    * Pass the collection the popup
+    #ListViewer.Show( #Employees )
+    
+    Endroutine
+    
+    End_Com

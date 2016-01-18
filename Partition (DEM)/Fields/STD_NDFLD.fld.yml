@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               STD_NDFLD
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - ND
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Non-Display field"
+      Label:              "Non-Disp Field"
+      Heading1:           "Non-"
+      Heading2:           "Display"
+      Heading3:           "Field"
+
+  - FRA:
+      Description:        "Zone non-affichable Standard"
+      Label:              "Zone n-affich."
+      Heading1:           "Zone"
+      Heading2:           "Non-affichable"
+      Heading3:           "Standard"

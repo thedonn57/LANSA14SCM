@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60PLN
+  Type:               Alphanumeric
+  Length:             4
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Partition language code"
+      Label:              "F60PLN"
+      Heading1:           "F60PLN"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Partition language code"
+      Label:              "F60PLN"
+      Heading1:           "F60PLN"
+      Heading2:           " "
+      Heading3:           " "

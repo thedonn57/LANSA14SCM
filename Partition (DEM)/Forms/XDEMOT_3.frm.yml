@@ -1,0 +1,148 @@
+﻿Form:
+  Name:               xDemoTreeViewLoadOnDemand
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Treeview - LoadOnDemand"
+
+  - FRA:
+      Description:        "Treeview - LoadOnDemand"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Loading tree data on demand') Clientheight(395) Clientwidth(907) Height(434) Layoutmanager(#TableLayout_1) Left(140) Top(205) Width(923) Theme(#SYS_THEME<2015Blue>)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Item_1) Column(#Column_1) Manage(#Tree) Parent(#TableLayout_1) Row(#Row_1)
+    
+    Define_Com Class(#PRIM_TRVW) Name(#Tree) Columnbuttonheight(20) Componentversion(2) Displayposition(1) Fullrowselect(True) Haslines(False) Height(395) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Viewstyle(UnLevelled) Width(907) Managechildren(True)
+    
+    * Generic fields are used to display the data
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_1) Captiontype(Caption) Displayposition(1) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128) Width(24) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_2) Captiontype(Caption) Displayposition(2) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_2) Width(37) Widthtype(Fixed)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_3) Captiontype(Caption) Displayposition(3) Level(1) Parent(#Tree) Sortonclick(True) Source(#xDemoUnicode128_3) Width(35) Widthtype(Fixed)
+    
+    * Key fields are stored in the list to allow for simple data access
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_4) Level(1) Parent(#Tree) Source(#EMPNO) Visible(False)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_5) Level(1) Parent(#Tree) Source(#DEPTMENT) Visible(False)
+    Define_Com Class(#PRIM_TVCL) Name(#TVCL_6) Level(1) Parent(#Tree) Source(#SECTION) Visible(False)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #Com_owner.AddDepartments
+    
+    Endroutine
+    
+    Mthroutine Name(AddDepartments) Access(*Private)
+    
+    Select Fields(*All) From_File(Deptab)
+    
+    #Com_owner.AddEntry( #Deptment #Deptdesc "" #xImageDepartment32 )
+    
+    * Look for sections
+    Check_For In_File(sectab) With_Key(#deptment)
+    
+    * Stop item expanding if none found
+    If_Status Is(*NotEqualKey)
+    
+    #Tree.currentItem.hasChildren := No
+    
+    Endif
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddSections) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Sectab) With_Key(#Deptment)
+    
+    #Com_owner.AddEntry( #Section #Secdesc "" #xImageSection32 #ParentItem )
+    
+    * Look for employees
+    Check_For In_File(pslmst1) With_Key(#deptment #section)
+    
+    * Stop item expanding if none found
+    If_Status Is(*NotEqualKey)
+    
+    #Tree.currentItem.hasChildren := No
+    
+    Endif
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEmployees) Access(*private)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Pass(*by_reference)
+    
+    Select Fields(*All) From_File(Pslmst1) With_Key(#Deptment #Section)
+    
+    #Com_owner.AddEntry( #empno #Surname #GiveName #xImageEmployee32 #ParentItem )
+    #Tree.currentItem.hasChildren := No
+    
+    Endselect
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry) Access(*Private)
+    Define_Map For(*Input) Class(#xDemoAlpha128) Name(#Column1)
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column2) Mandatory("")
+    Define_Map For(*Input) Class(#xDemoUnicode128) Name(#Column3) Mandatory("")
+    Define_Map For(*Input) Class(#prim_flbx) Name(#Image) Mandatory(*null) Pass(*by_reference)
+    Define_Map For(*Input) Class(#prim_tvit) Name(#ParentItem) Mandatory(*null) Pass(*by_reference)
+    
+    * Prepare and add the entry
+    #xDemoUnicode128 := #Column1
+    #xDemoUnicode128_2 := #Column2
+    #xDemoUnicode128_3 := #Column3
+    
+    Add_Entry To_List(#Tree)
+    
+    * Assign image and parent, and flag as unknown to ensure expand image is shown
+    #Tree.Currentitem.image <= #Image
+    
+    #Tree.Currentitem.ParentItem <= #ParentItem
+    
+    #Tree.currentItem.HasChildren := Unknown
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemExpanding)
+    
+    * Only try to add child items if the expanding item doesn't already have them
+    If (#Tree.CurrentItem.hasChildren <> Yes)
+    
+    Case (#Tree.CurrentItem.Level)
+    
+    When (= 1) /*Department */
+    
+    #Com_owner.AddSections( #Tree.CurrentItem )
+    
+    When (= 2) /*Section */
+    
+    #Com_owner.AddEmployees( #Tree.CurrentItem )
+    
+    Endcase
+    
+    Endif
+    
+    Endroutine
+    
+    Evtroutine Handling(#Tree.ItemCollapsed)
+    
+    * Allow a reload or child items next time the item is expanded
+    #Tree.CurrentItem.hasChildren := Unknown
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,55 @@
+﻿Field:
+  Name:               LZPRWT
+  Type:               Packed
+  Length:             9
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Reference Field:    STD_AMNT
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Product Weight (kg)"
+      Label:              "Prd. Weight(kg)"
+      Heading1:           "Product"
+      Heading2:           "Weight (kg)"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Poids Du produit"
+      Label:              "Du Produit"
+      Heading1:           "Poids"
+      Heading2:           "Du Produit"
+      Heading3:           " "
+
+  Validation Rules:
+  - Range Check:
+      Description:        "More than zero is OK"
+      Ranges:
+      - From:               +0.01
+        To:                 +9999999.99
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message Text:       "Entered Product Weight is outside range of values."
+
+  Repository Help:
+  - ENG: |
+      $$USER
+        %The Product Weight contains the weight of one unit }
+        %of the Product, expressed in kilo's}
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        %Le Poids du produit indique le poids d'une unite }
+        %d'un Produit, exprime en kilos}
+      $$NOAUTO

@@ -1,0 +1,41 @@
+﻿Field:
+  Name:               EMPEVTTIM
+  Type:               Time
+  Length:             8
+  Decimals:           0
+  Default Value:      "*TIME"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Event time"
+      Label:              "Event time"
+      Heading1:           "Event time"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Event time"
+      Label:              "Event time"
+      Heading1:           "Event time"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualTime) Defaultvisual(True) Height(19) Width(232)
+    
+    End_Com
+    
+    Begin_Com Role(*Weblet 'std_time.std_time') Name(#Weblet) Defaultweblet(True)
+    
+    End_Com
+    
+    End_Com

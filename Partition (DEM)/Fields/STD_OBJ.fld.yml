@@ -1,0 +1,57 @@
+﻿Field:
+  Name:               STD_OBJ
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - VN
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard OBJECT NAME (S/38 or AS/400)"
+      Label:              "Object Name"
+      Heading1:           "Object"
+      Heading2:           "Name"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nom d´Objet Standard (S/38 ou AS/400)"
+      Label:              "Nom d´Objet"
+      Heading1:           "Nom"
+      Heading2:           "Objet"
+      Heading3:           " "
+
+  Validation Rules:
+  - List Check:
+      Description:        "Must not be Blank"
+      Values:
+      - "*BLANK"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Error
+      Negative Action:    Next
+      Message File:       DC@M01
+      Message Number:     DCM1077
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        Enter a valid S/38 or AS/400 Object Name into this field.
+      
+      
+        Validation Rules :  Must be specified by the user.
+                            Must be a valid S/38 or AS/400 Object Name.
+      
+        Maximum Length   :  10 characters
+      
+      
+      
+      $$NOAUTO

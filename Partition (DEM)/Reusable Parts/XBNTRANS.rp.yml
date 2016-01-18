@@ -1,0 +1,81 @@
+﻿Reusable Part:
+  Name:               XBNTransactions
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Transactions Panel"
+
+  - FRA:
+      Description:        "Transactions Panel"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(481) Left(0) Tabposition(1) Top(0) Width(764) Layoutmanager(#TableLayout)
+    
+    * Table Layout: 2 Columns, 4 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(2) Parent(#TableLayout) Width(7)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Units(Pixels) Height(2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(4) Parent(#TableLayout) Height(5)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(3) Parent(#TableLayout) Units(Pixels) Height(10)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(5) Parent(#TableLayout) Height(30) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Manage(#AccountsLabel) Parent(#TableLayout) Row(#Row2) Column(#Column2) Marginleft(15) Columnspan(2) Alignment(TopLeft) Sizing(FitToHeight) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Manage(#Divider) Parent(#TableLayout) Row(#Row1) Column(#Column2) Columnspan(3) Marginleft(10) Marginright(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column2) Flow(Right) Manage(#Label1) Parent(#TableLayout) Row(#Row2) Sizing(FitToHeight)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column2) Manage(#AccountDescriptionLabel) Parent(#TableLayout) Row(#Row2) Flow(Right) Columnspan(2) Sizing(FitToHeight) Marginleft(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Column(#Column1) Manage(#TransactionsList) Parent(#TableLayout) Row(#Row3)
+    
+    * A divider at the top
+    Define_Com Class(#PRIM_PANL) Name(#Divider) Displayposition(2) Height(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Width(744) Style(#DividerLineStyle)
+    
+    * 'Accounts' label
+    Define_Com Class(#PRIM_LABL) Name(#AccountsLabel) Caption('Accounts') Displayposition(1) Ellipses(Word) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(2) Verticalalignment(Center) Width(86) Themedrawstyle('Heading2AsLink') Height(60) Left(15)
+    
+    * >>
+    Define_Com Class(#PRIM_LABL) Name(#Label1) Caption('>>') Displayposition(3) Ellipses(Word) Left(101) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(2) Verticalalignment(Center) Width(40) Alignment(Center) Height(60) Themedrawstyle('Heading2')
+    
+    * Account Description label
+    Define_Com Class(#PRIM_LABL) Name(#AccountDescriptionLabel) Caption('Account Description') Displayposition(4) Ellipses(Word) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(2) Verticalalignment(Center) Width(546) Themedrawstyle('Heading2') Left(146) Height(60)
+    
+    * Transaction List
+    Define_Com Class(#PRIM_LIST) Name(#TransactionsList) Displayposition(5) Height(379) Left(85) Parent(#COM_OWNER) Tabposition(5) Top(72) Width(595) Columnheaderheight(40) Columnlines(False) Rowheight(24)
+    Define_Com Class(#PRIM_LIST.DateTime) Name(#Column_Date) Displayposition(1) Parent(#TransactionsList) Source(#XBNTransactionDate) Columncaptiontype(Caption) Columncaption('Date') Showtime(False)
+    Define_Com Class(#PRIM_LIST.String) Name(#Column_Description) Displayposition(2) Parent(#TransactionsList) Source(#XBNTransactionDescription) Columncaptiontype(Caption) Columncaption('Description') Columnwidth(286)
+    Define_Com Class(#PRIM_LIST.Number) Name(#Column_Amount) Displayposition(3) Increment(1) Parent(#TransactionsList) Source(#XBNTransactionAmount) Wrap(False) Columncaptiontype(Caption) Columncaption('Amount') Displayalignment(Right) Columnwidth(90)
+    Define_Com Class(#PRIM_LIST.Number) Name(#Column_Balance) Displayposition(4) Increment(1) Parent(#TransactionsList) Source(#XBNAccountBalance) Wrap(False) Columncaptiontype(Caption) Columncaption('Balance') Displayalignment(Right) Columnwidth(100)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#DividerLineStyle) Borderbottom(4) Bordercolor(Theme200)
+    
+    * Event: Accounts Clicked
+    Define_Evt Name(AccountsClicked)
+    
+    Evtroutine Handling(#AccountsLabel.Click)
+    
+    Signal Event(AccountsClicked)
+    
+    Endroutine
+    
+    Mthroutine Name(LoadTransactions)
+    Define_Map For(*Input) Class(#prim_alph) Name(#AccountName)
+    Define_Map For(*Input) Class(#prim_alph) Name(#AccountDescription)
+    
+    Define_Com Class(#XBNServer.GetTransactions) Name(#GetTransactionsRoutine)
+    
+    #AccountDescriptionLabel := #AccountDescription
+    
+    Clr_List Named(#TransactionsList)
+    
+    #GetTransactionsRoutine.ExecuteAsync Accountname(#AccountName) Transactionlist(#TransactionsList)
+    
+    Endroutine
+    
+    End_Com

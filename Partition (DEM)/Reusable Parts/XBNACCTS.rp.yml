@@ -1,0 +1,76 @@
+﻿Reusable Part:
+  Name:               XBNAccounts
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Accounts Panel"
+
+  - FRA:
+      Description:        "Accounts Panel"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(481) Left(0) Tabposition(1) Top(0) Width(764) Layoutmanager(#TableLayout)
+    
+    * Table Layout: 2 Columns, 4 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(1) Parent(#TableLayout) Width(10)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(2) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout) Units(Pixels) Height(2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout) Height(60) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(3) Parent(#TableLayout) Height(5)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(4) Parent(#TableLayout) Height(50) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Manage(#AccountsLabel) Parent(#TableLayout) Row(#Row2) Column(#Column2) Marginleft(15) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Manage(#AccountsControl) Parent(#TableLayout) Row(#Row3) Column(#Column2) Rowspan(2) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Manage(#Divider) Parent(#TableLayout) Row(#Row1) Column(#Column2) Columnspan(3) Marginleft(10) Marginright(10)
+    
+    * A divider at the top
+    Define_Com Class(#PRIM_PANL) Name(#Divider) Displayposition(3) Height(2) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Width(744) Style(#DividerLineStyle)
+    
+    * 'Accounts' label
+    Define_Com Class(#PRIM_LABL) Name(#AccountsLabel) Caption('Accounts') Displayposition(2) Ellipses(Word) Height(60) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(2) Verticalalignment(Center) Width(749) Themedrawstyle('Heading2') Left(15)
+    
+    * A tile control to display the accounts
+    Define_Com Class(#PRIM_TILE<#XBNAccount>) Name(#AccountsControl) Displayposition(1) Height(419) Parent(#COM_OWNER) Tabposition(1) Width(764) Left(0) Top(62)
+    
+    * Styles
+    Define_Com Class(#PRIM_VS.Style) Name(#DividerLineStyle) Borderbottom(4) Bordercolor(Theme200)
+    
+    * And a collection of all it's design panels, so we can listen to events
+    Define_Com Class(#PRIM_LCOL<#XBNAccount>) Name(#AccountDesigns)
+    
+    Define_Evt Name(AccountSelected)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#AccountName)
+    Define_Map For(*INPUT) Class(#PRIM_ALPH) Name(#AccountDescription)
+    
+    Mthroutine Name(LoadAccounts)
+    Define_Com Class(#XBNServer.GetAccounts) Name(#GetAccountsRoutine)
+    
+    Clr_List Named(#AccountsControl)
+    
+    #GetAccountsRoutine.ExecuteAsync Accountlist(#AccountsControl)
+    
+    Evtroutine Handling(#GetAccountsRoutine.Completed)
+    
+    For Each(#Item) In(#AccountsControl.Items)
+    
+    #AccountDesigns.Insert( (#Item.Design *As #XBNAccount) )
+    
+    Endfor
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#AccountDesigns<>.AccountSelected) Accountname(#AccountName) Accountdescription(#AccountDescription)
+    
+    Signal Event(AccountSelected) Accountname(#AccountName) Accountdescription(#AccountDescription)
+    
+    Endroutine
+    
+    End_Com

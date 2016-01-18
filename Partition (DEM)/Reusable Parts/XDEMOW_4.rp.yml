@@ -1,0 +1,197 @@
+﻿Reusable Part:
+  Name:               xDemoWebWeatherItem
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Location List Item"
+
+  - FRA:
+      Description:        "Location List Item"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #prim_panl *Implements #prim_tree.ITreeDesign *ListFields #ListFields) Height(102) Width(602) Layoutmanager(#TableLayout_1) Displayposition(1) Tabposition(1) Left(0) Top(0) Mouseoverstyle(#Style1)
+    
+    Group_By Name(#ListFields) Fields(#xDemoAlpha128 #xDemoAlpha256)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Backgroundbrush(#Brush1)
+    Define_Com Class(#PRIM_VS.SolidBrush) Name(#Brush1) Color(Theme50) Opacity(50)
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_1) Displayposition(1) Parent(#TableLayout_1) Height(32) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout_1) Height(1.02)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_3) Displayposition(3) Parent(#TableLayout_1) Height(0.98)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_4) Displayposition(4) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_1) Displayposition(1) Parent(#TableLayout_1) Width(201) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_2) Displayposition(2) Parent(#TableLayout_1) Width(32) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column_3) Displayposition(3) Parent(#TableLayout_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_1) Alignment(TopLeft) Column(#Column_1) Flow(Down) Manage(#lCity) Parent(#TableLayout_1) Row(#Row_1) Rowspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_2) Alignment(CenterLeft) Column(#Column_2) Manage(#WeatherNowIcon) Parent(#TableLayout_1) Row(#Row_1) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_3) Alignment(CenterLeft) Column(#Column_3) Flow(Right) Manage(#WeatherNow) Parent(#TableLayout_1) Row(#Row_1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_4) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lMaximum) Parent(#TableLayout_1) Row(#Row_2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_5) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lMinimum) Parent(#TableLayout_1) Row(#Row_3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#TBLO_6) Alignment(TopLeft) Column(#Column_3) Flow(Down) Manage(#lWindSpeed) Parent(#TableLayout_1) Row(#Row_4)
+    
+    Define_Com Class(#PRIM_LABL) Name(#lCity) Caption('City - Unavailable') Displayposition(1) Ellipses(Word) Left(0) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(0) Height(56) Width(201) Marginleft(4) Themedrawstyle('Heading1')
+    Define_Com Class(#PRIM_IMAG) Name(#WeatherNowIcon) Displayposition(2) Left(201) Parent(#COM_OWNER) Tabposition(2) Top(0) Height(32) Width(32)
+    Define_Com Class(#PRIM_LABL) Name(#WeatherNow) Caption('Today - Unavailable') Displayposition(3) Ellipses(Word) Left(233) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(0) Height(32) Width(369) Marginleft(4) Themedrawstyle('Heading1')
+    
+    Define_Com Class(#PRIM_LABL) Name(#lMaximum) Caption('Maximum - Unavailable') Displayposition(4) Ellipses(Word) Left(233) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(32) Height(24) Width(369) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#lMinimum) Caption('Minimum - Unavailable') Displayposition(5) Ellipses(Word) Left(233) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(56) Height(23) Width(369) Marginleft(4)
+    Define_Com Class(#PRIM_LABL) Name(#lWindSpeed) Caption('Wind speed - Unavailable') Displayposition(6) Ellipses(Word) Left(233) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(79) Height(23) Width(369) Marginleft(4)
+    
+    Define_Com Class(#prim_web.geolocation) Name(#Geolocation)
+    
+    Mthroutine Name(OnAdd) Options(*Redefine)
+    
+    If (#xDemoAlpha128 = CurrentLocation)
+    
+    #Geolocation.Refresh
+    
+    Else /* Use location provided */
+    
+    #com_owner.Getweather( ("/data/2.5/weather?q=&1&Appid=&2").substitute( #xDemoAlpha128 #xDemoAlpha256 ) )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(OnUpdate) Options(*Redefine)
+    
+    #Com_owner.UpdateItem
+    
+    Endroutine
+    
+    Evtroutine Handling(#Geolocation.Refreshed)
+    
+    #com_owner.Getweather( ("/data/2.5/weather?lat=&1&lon=&2&Appid=&3").substitute( #Geolocation.Latitude.asstring #Geolocation.Longitude.asstring #xDemoAlpha256 ) )
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateItem)
+    
+    If (#xDemoAlpha128 = CurrentLocation)
+    
+    #Geolocation.Refresh
+    
+    Else /* Use location provided */
+    
+    #com_owner.Getweather( ("/data/2.5/weather?q=&1&Appid=&2").substitute( #xDemoAlpha128 #xDemoAlpha256 ) )
+    
+    Endif
+    
+    Endroutine
+    
+    Mthroutine Name(GetWeather) Access(*Private)
+    Define_Map For(*Input) Class(#prim_alph) Name(#Resource)
+    
+    Define_Com Class(#PRIM_WEB.HttpRequest) Name(#Request)
+    Define_Com Class(#PRIM_WEB.Json) Name(#Json)
+    
+    #Request.URL := "http://api.openweathermap.org" + #Resource
+    
+    #Com_owner.updateforpending
+    
+    #Request.ExecuteAsync
+    
+    Evtroutine Handling(#Request.Completed)
+    
+    If (#Request.Response *IsNot *null)
+    
+    Case (#Request.Response.StatusCode)
+    When (= 200)
+    
+    #Json := #Request.Response.Content
+    #Com_owner.Update( #Json.RootItem )
+    
+    Otherwise
+    
+    #Com_owner.UpdateForFailure( #Request )
+    
+    Endcase
+    
+    Endif
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateForPending) Access(*Private)
+    
+    #lCity := "Obtaining Location"
+    
+    #WeatherNow := "Contacting Server"
+    
+    #lMaximum := ""
+    #lMinimum := ""
+    #lWindSpeed := ""
+    
+    Endroutine
+    
+    Mthroutine Name(Update) Access(*Private)
+    Define_Map For(*Input) Class(#prim_web.JsonElement) Name(#Weather) Pass(*By_Reference)
+    
+    Define Field(#Description) Type(*char) Length(50)
+    Define Field(#IconCode) Type(*char) Length(10)
+    
+    * City, Coutry
+    #lCity := ("&1, &2").substitute( #Weather<"name">.asstring #Weather<"sys">.item<"country">.asstring )
+    
+    * Description of the weather
+    #Description := #Weather.Item<"weather">.ItemAt<1>.Item<"description">.asstring
+    
+    * Temperature
+    #WeatherNow := ("&1°C (&2°F) &3").substitute( #com_owner.GetCelcius( #Weather.Item<"main">.Item<"temp">.asnumber ).Asstring #com_owner.GetFahrenheit( #Weather.Item<"main">.Item<"temp">.asnumber ).asstring #Description )
+    
+    * Weather image
+    #IconCode := #Weather.Item<"weather">.Itemat<1>.Item<"icon">.asstring
+    
+    #WeatherNowIcon.Image <= #sys_appln.CreateBitmap( ("http://openweathermap.org/img/w/&1.png").Substitute( #IconCode ) )
+    
+    * Temperature Range
+    #lMaximum := ("Maximum &1°C (&2°F)").substitute( #com_owner.GetCelcius( #Weather.Item<"main">.Item<"temp_max">.asnumber ).Asstring #com_owner.GetFahrenheit( #Weather.Item<"main">.Item<"temp_max">.asnumber ).asstring #Description )
+    #lMinimum := ("Minimum &1°C (&2°F)").substitute( #com_owner.GetCelcius( #Weather.Item<"main">.Item<"temp_min">.asnumber ).Asstring #com_owner.GetFahrenheit( #Weather.Item<"main">.Item<"temp_min">.asnumber ).asstring #Description )
+    
+    * Wind speed
+    #lWindSpeed := ("Wind Speed &1 m/s at &2 degrees").substitute( #Weather.Item<"wind">.Item<"speed">.asnumber.Asstring #Weather.Item<"wind">.Item<"speed">.asnumber.Asstring )
+    
+    Endroutine
+    
+    Mthroutine Name(UpdateForFailure) Access(*Private)
+    Define_Map For(*Input) Class(#Prim_web.httprequest) Name(#Request) Pass(*by_reference)
+    
+    #lCity := "Unknown"
+    
+    #WeatherNow := "Request to the server failed"
+    
+    #lMaximum := ("Response Code - &1").substitute( #Request.Response.StatusCode.asstring )
+    #lMinimum := ("Reason - &1").substitute( #Request.Response.StatusText )
+    #lWindSpeed := ""
+    
+    Endroutine
+    
+    Mthroutine Name(GetCelcius)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#Kelvin)
+    Define_Map For(*Result) Class(#prim_nmbr) Name(#Result)
+    
+    #Result := #Kelvin - 273.15
+    
+    Endroutine
+    
+    Mthroutine Name(GetFahrenheit)
+    Define_Map For(*Input) Class(#prim_nmbr) Name(#Kelvin)
+    Define_Map For(*Result) Class(#prim_nmbr) Name(#Result)
+    
+    #Result := (#Kelvin - 273.15) * 1.8 + 32
+    
+    Endroutine
+    
+    End_Com
+    

@@ -1,0 +1,244 @@
+﻿Reusable Part:
+  Name:               XSFooter
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Footer"
+
+  - FRA:
+      Description:        "Footer"
+
+  Source: |
+    Function Options(*DIRECT)
+    
+    * This is a common footer used throughout the application
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(249) Left(0) Tabposition(1) Top(0) Width(1170) Style(#XSTheme01<BackgroundGrey00>) Layoutmanager(#TableLayout1)
+    
+    * LAYOUT: 5 Columns, 9 Rows
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column3) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column4) Displayposition(4) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column5) Displayposition(5) Parent(#TableLayout1) Minwidth(200)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row7) Displayposition(7) Parent(#TableLayout1) Units(Pixels) Height(50)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row5) Displayposition(3) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row6) Displayposition(4) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row8) Displayposition(5) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row9) Displayposition(6) Parent(#TableLayout1) Height(3)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#ProductInformation) Parent(#TableLayout1) Row(#Row2) Sizing(None) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#ToolHire) Parent(#TableLayout1) Row(#Row5) Sizing(None) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#DIYSchedule) Parent(#TableLayout1) Row(#Row6) Sizing(None) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Label4) Parent(#TableLayout1) Row(#Row8) Sizing(None) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Right) Manage(#MyAccount) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column2) Flow(Right) Manage(#Label6) Parent(#TableLayout1) Row(#Row5) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Right) Manage(#Label7) Parent(#TableLayout1) Row(#Row6) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column2) Flow(Right) Manage(#Label7) Parent(#TableLayout1) Row(#Row8) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem9) Alignment(TopLeft) Column(#Column3) Flow(Right) Manage(#Label9) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem10) Alignment(TopLeft) Column(#Column3) Flow(Right) Manage(#Label10) Parent(#TableLayout1) Row(#Row5) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem11) Alignment(TopLeft) Column(#Column3) Flow(Right) Manage(#Label11) Parent(#TableLayout1) Row(#Row6) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem13) Alignment(TopLeft) Column(#Column4) Flow(Right) Manage(#AboutUs) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem14) Alignment(TopLeft) Column(#Column4) Flow(Right) Manage(#PhoneUs) Parent(#TableLayout1) Row(#Row6) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem15) Alignment(TopLeft) Column(#Column4) Flow(Right) Manage(#EmailUs) Parent(#TableLayout1) Row(#Row8) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem16) Alignment(TopLeft) Column(#Column1) Flow(Right) Manage(#Heading1) Parent(#TableLayout1) Row(#Row1) Sizing(None) Marginleft(10) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem17) Alignment(TopLeft) Column(#Column2) Flow(Down) Parent(#TableLayout1) Row(#Row1) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem18) Alignment(TopLeft) Column(#Column3) Flow(Right) Manage(#Heading3) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem19) Alignment(TopLeft) Column(#Column5) Flow(Right) Manage(#Heading5) Parent(#TableLayout1) Row(#Row1) Sizing(None) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Heading2Item1) Manage(#Heading2) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column2) Alignment(TopLeft) Flow(Right) Margintop(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Heading4Item1) Manage(#Heading4) Parent(#TableLayout1) Row(#Row1) Sizing(None) Column(#Column4) Alignment(TopLeft) Margintop(5) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#FindAStoreItem1) Manage(#FindAStore) Parent(#TableLayout1) Row(#Row5) Sizing(None) Column(#Column4) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem12) Column(#Column1) Manage(#Panel1) Parent(#TableLayout1) Row(#Row7) Columnspan(5)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#CopyrightItem2) Manage(#Copyright) Parent(#TableLayout1) Row(#Row9) Sizing(FitToWidth) Column(#Column1) Columnspan(5) Flow(Down)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem21) Column(#Column5) Manage(#Panel2) Parent(#TableLayout1) Row(#Row2) Sizing(FitToWidth) Alignment(TopLeft) Flow(Down) Margintop(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem27) Alignment(TopLeft) Column(#Column1) Flow(Right) Parent(#TableLayout1) Row(#Row2) Sizing(None)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow2Item1) Parent(#TableLayout1) Row(#Row5) Sizing(None) Column(#Column1) Flow(Right) Alignment(TopLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow3Item1) Manage(#Arrow3) Parent(#TableLayout1) Row(#Row6) Sizing(None) Column(#Column1) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow4Item1) Manage(#Arrow4) Parent(#TableLayout1) Row(#Row8) Sizing(None) Column(#Column1) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow5Item1) Manage(#Arrow5) Parent(#TableLayout1) Row(#Row2) Sizing(None) Column(#Column2) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow6Item1) Manage(#Arrow6) Parent(#TableLayout1) Row(#Row5) Sizing(None) Column(#Column2) Flow(Right) Alignment(TopLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow7Item1) Manage(#Arrow7) Parent(#TableLayout1) Row(#Row6) Sizing(None) Column(#Column2) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow8Item1) Manage(#Arrow8) Parent(#TableLayout1) Row(#Row8) Sizing(None) Column(#Column2) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow9Item1) Manage(#Arrow9) Parent(#TableLayout1) Row(#Row2) Sizing(None) Column(#Column3) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow10Item1) Manage(#Arrow10) Parent(#TableLayout1) Row(#Row5) Sizing(None) Column(#Column3) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow11Item1) Manage(#Arrow11) Parent(#TableLayout1) Row(#Row6) Sizing(None) Column(#Column3) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow12Item1) Manage(#Arrow12) Parent(#TableLayout1) Row(#Row2) Sizing(None) Column(#Column4) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow13Item1) Manage(#Arrow13) Parent(#TableLayout1) Row(#Row5) Sizing(None) Column(#Column4) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow14Item1) Manage(#Arrow14) Parent(#TableLayout1) Row(#Row6) Sizing(None) Column(#Column4) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow15Item1) Manage(#Arrow15) Parent(#TableLayout1) Row(#Row8) Sizing(None) Column(#Column4) Alignment(TopLeft) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Label8Item1) Manage(#Label8) Parent(#TableLayout1) Row(#Row8) Sizing(None) Column(#Column2) Flow(Right) Alignment(TopLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow1Item1) Alignment(TopLeft) Column(#Column1) Manage(#Arrow1) Parent(#TableLayout1) Row(#Row2) Sizing(None) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#Arrow2Item2) Alignment(TopLeft) Column(#Column1) Manage(#Arrow2) Parent(#TableLayout1) Row(#Row5) Sizing(None) Flow(Right)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#AcknowledgementItem1) Manage(#Acknowledgement) Parent(#TableLayout1) Row(#Row9) Sizing(FitToWidth) Column(#Column1) Flow(Down) Columnspan(5)
+    
+    * LAYOUT: 1 Columns, 1 Row (used for bottom of screen)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column6) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row3) Displayposition(1) Parent(#TableLayout2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#CopyrightItem1) Column(#Column6) Manage(#Copyright) Parent(#TableLayout2) Row(#Row3) Sizing(FitToWidth) Flow(Down) Alignment(BottomCenter)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem20) Column(#Column6) Flow(Down) Manage(#Guide) Parent(#TableLayout2) Row(#Row3) Sizing(FitToWidth) Alignment(TopCenter) Margintop(5)
+    
+    * LAYOUT: 5 Columns, 1 Row (used for Social Media)
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column7) Displayposition(1) Parent(#TableLayout3) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column8) Displayposition(2) Parent(#TableLayout3) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column9) Displayposition(3) Parent(#TableLayout3) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column10) Displayposition(4) Parent(#TableLayout3) Width(40) Units(Pixels)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column11) Displayposition(5) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row4) Displayposition(1) Parent(#TableLayout3)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem22) Column(#Column7) Manage(#FaceBook) Parent(#TableLayout3) Row(#Row4) Sizing(None) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem23) Column(#Column8) Manage(#Twitter) Parent(#TableLayout3) Row(#Row4) Sizing(None) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem24) Column(#Column9) Manage(#GooglePlus) Parent(#TableLayout3) Row(#Row4) Sizing(None) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem25) Column(#Column10) Manage(#LinkedIn) Parent(#TableLayout3) Row(#Row4) Sizing(None) Alignment(CenterLeft)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem26) Column(#Column11) Manage(#YoutTUbe) Parent(#TableLayout3) Row(#Row4) Sizing(None) Alignment(CenterLeft)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Heading1) Caption('INFORMATION') Displayposition(1) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(5) Verticalalignment(Center) Width(190) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_IMAG) Name(#Arrow1) Displayposition(2) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(25) Width(20) Image(#XSImage03) Imagealignment(CenterRight)
+    
+    * Options available to select include a style and mouseover style
+    * Options not available to select have no mouseover style.  The mouseover style controls the appearance of the underline and the cursor changing to a hand which together indicate the option can be selected
+    
+    Define_Com Class(#PRIM_LABL) Name(#ProductInformation) Caption('Products') Displayposition(4) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Mouseoverstyle(#XSTheme01<Href08AlmostBlack>) Top(25) Left(30)
+    Define_Com Class(#PRIM_IMAG) Name(#Arrow2) Displayposition(3) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(3) Tabstop(False) Top(50) Width(20) Image(#XSImage03) Imagealignment(CenterRight)
+    
+    Define_Com Class(#PRIM_LABL) Name(#ToolHire) Caption('Tool Hire') Displayposition(5) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(5) Tabstop(False) Top(50) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Mouseoverstyle(#XSTheme01<Href08AlmostBlack>) Left(30)
+    Define_Com Class(#PRIM_IMAG) Name(#Arrow3) Displayposition(6) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(75) Width(20) Image(#XSImage03) Imagealignment(CenterRight)
+    
+    Define_Com Class(#PRIM_LABL) Name(#DIYSchedule) Caption('DIY Schedule') Displayposition(7) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(7) Tabstop(False) Top(75) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Mouseoverstyle(#XSTheme01<Href08AlmostBlack>) Left(30)
+    Define_Com Class(#PRIM_IMAG) Name(#Arrow4) Displayposition(8) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(8) Tabstop(False) Top(100) Width(20) Image(#XSImage03) Imagealignment(CenterRight)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Label4) Caption('Gift Cards') Displayposition(9) Ellipses(Word) Height(25) Parent(#COM_OWNER) Tabposition(9) Tabstop(False) Top(100) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available') Left(30)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Heading2) Caption('MY ACCOUNT') Displayposition(10) Ellipses(Word) Height(25) Left(234) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(5) Verticalalignment(Center) Width(200) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow5) Image(#XSImage03) Displayposition(11) Ellipses(Word) Height(25) Left(234) Parent(#COM_OWNER) Tabposition(11) Tabstop(False) Top(25) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#MyAccount) Caption('My Account') Displayposition(12) Ellipses(Word) Height(25) Left(254) Parent(#COM_OWNER) Tabposition(12) Tabstop(False) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Mouseoverstyle(#XSTheme01<Href08AlmostBlack>) Top(25)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow6) Image(#XSImage03) Displayposition(13) Ellipses(Word) Height(25) Left(234) Parent(#COM_OWNER) Tabposition(13) Tabstop(False) Top(50) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label6) Caption('Order History') Displayposition(14) Ellipses(Word) Height(25) Left(254) Parent(#COM_OWNER) Tabposition(14) Tabstop(False) Top(50) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    Define_Com Class(#PRIM_LABL) Name(#Arrow7) Image(#XSImage03) Displayposition(15) Ellipses(Word) Height(25) Left(234) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(75) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label7) Caption('Wish List') Displayposition(16) Ellipses(Word) Height(25) Left(254) Parent(#COM_OWNER) Tabposition(16) Tabstop(False) Top(75) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    Define_Com Class(#PRIM_LABL) Name(#Arrow8) Image(#XSImage03) Displayposition(17) Ellipses(Word) Height(25) Left(234) Parent(#COM_OWNER) Tabposition(17) Tabstop(False) Top(100) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label8) Caption('Track Deliveries') Displayposition(18) Ellipses(Word) Height(25) Left(254) Parent(#COM_OWNER) Tabposition(18) Tabstop(False) Top(100) Verticalalignment(Center) Width(150) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    
+    Define_Com Class(#PRIM_LABL) Name(#Heading3) Caption('CUSTOMER SERVICE') Displayposition(19) Ellipses(Word) Height(25) Left(468) Parent(#COM_OWNER) Tabposition(19) Tabstop(False) Top(5) Verticalalignment(Center) Width(200) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow9) Image(#XSImage03) Displayposition(20) Ellipses(Word) Height(25) Left(468) Parent(#COM_OWNER) Tabposition(20) Tabstop(False) Top(25) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label9) Caption('Returns') Displayposition(21) Ellipses(Word) Height(25) Left(488) Parent(#COM_OWNER) Tabposition(21) Tabstop(False) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available') Top(25)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow10) Image(#XSImage03) Displayposition(22) Ellipses(Word) Height(25) Left(468) Parent(#COM_OWNER) Tabposition(22) Tabstop(False) Top(50) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label10) Caption('Payments') Displayposition(23) Ellipses(Word) Height(25) Left(488) Parent(#COM_OWNER) Tabposition(23) Tabstop(False) Top(50) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    Define_Com Class(#PRIM_LABL) Name(#Arrow11) Image(#XSImage03) Displayposition(24) Ellipses(Word) Height(25) Left(468) Parent(#COM_OWNER) Tabposition(24) Tabstop(False) Top(75) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#Label11) Caption('Terms and Conditions') Displayposition(25) Ellipses(Word) Height(25) Left(488) Parent(#COM_OWNER) Tabposition(25) Tabstop(False) Top(75) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    
+    Define_Com Class(#PRIM_LABL) Name(#Heading4) Caption('ABOUT US') Displayposition(26) Ellipses(Word) Height(25) Left(702) Parent(#COM_OWNER) Tabposition(26) Tabstop(False) Top(5) Verticalalignment(Center) Width(200) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow12) Image(#XSImage03) Displayposition(27) Ellipses(Word) Height(25) Left(702) Parent(#COM_OWNER) Tabposition(27) Tabstop(False) Top(25) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#AboutUs) Caption('About Us') Displayposition(28) Ellipses(Word) Height(25) Left(722) Parent(#COM_OWNER) Tabposition(28) Tabstop(False) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>) Top(25) Hint('Not available')
+    Define_Com Class(#PRIM_LABL) Name(#Arrow13) Image(#XSImage03) Displayposition(29) Ellipses(Word) Height(25) Left(702) Parent(#COM_OWNER) Tabposition(29) Tabstop(False) Top(50) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#FindAStore) Caption('Find a Store') Displayposition(30) Ellipses(Word) Height(25) Left(722) Parent(#COM_OWNER) Tabposition(30) Tabstop(False) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>) Mouseoverstyle(#XSTheme01<Href08AlmostBlack>) Top(50)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow14) Image(#XSImage03) Displayposition(31) Ellipses(Word) Height(25) Left(702) Parent(#COM_OWNER) Tabposition(31) Tabstop(False) Top(75) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#PhoneUs) Caption('Call now 415-4757-4543') Displayposition(32) Ellipses(Word) Height(25) Left(722) Parent(#COM_OWNER) Tabposition(32) Tabstop(False) Top(75) Verticalalignment(Center) Width(170) Style(#XSTheme01<Text08AlmostBlack>)
+    Define_Com Class(#PRIM_LABL) Name(#Arrow15) Image(#XSImage03) Displayposition(33) Ellipses(Word) Height(25) Left(702) Parent(#COM_OWNER) Tabposition(33) Tabstop(False) Top(100) Verticalalignment(Center) Width(20) Style(#XSTheme01<Text10BoldBl3>)
+    Define_Com Class(#PRIM_LABL) Name(#EmailUs) Caption('Email sales@lansatools.com') Displayposition(34) Ellipses(Word) Height(25) Left(722) Parent(#COM_OWNER) Tabposition(34) Tabstop(False) Top(100) Verticalalignment(Center) Width(180) Style(#XSTheme01<Text08AlmostBlack>) Hint('Not available')
+    Define_Com Class(#PRIM_LABL) Name(#Copyright) Caption('© LANSA 2015. All rights reserved.') Displayposition(35) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(35) Tabstop(False) Top(152) Verticalalignment(Center) Width(1170) Style(#XSTheme01<Text08BoldAlmostBlack>) Alignment(Center)
+    Define_Com Class(#PRIM_LABL) Name(#Acknowledgement) Caption('Images used under license from Shutterstock.com.') Displayposition(36) Ellipses(Word) Height(20) Left(0) Parent(#COM_OWNER) Tabposition(36) Tabstop(False) Top(172) Verticalalignment(Center) Width(1170) Style(#XSTheme01<Text08AlmostBlack>) Alignment(Center)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Heading5) Caption('FOLLOW US') Displayposition(37) Ellipses(Word) Height(25) Left(936) Parent(#COM_OWNER) Tabposition(37) Tabstop(False) Top(5) Verticalalignment(Center) Width(200) Style(#XSTheme01<Text10BoldAlmostBlack>)
+    Define_Com Class(#PRIM_PANL) Name(#Panel2) Displayposition(38) Left(936) Parent(#COM_OWNER) Tabposition(38) Tabstop(False) Top(35) Width(234) Layoutmanager(#TableLayout3)
+    Define_Com Class(#PRIM_IMAG) Name(#FaceBook) Displayposition(1) Height(30) Image(#XSFacebook) Left(0) Parent(#Panel2) Tabposition(1) Tabstop(False) Width(30)
+    Define_Com Class(#PRIM_IMAG) Name(#Twitter) Displayposition(2) Height(30) Image(#XSTwitter) Left(40) Parent(#Panel2) Tabposition(2) Tabstop(False) Width(30)
+    Define_Com Class(#PRIM_IMAG) Name(#GooglePlus) Displayposition(3) Height(30) Image(#XSGooglePlus) Left(80) Parent(#Panel2) Tabposition(3) Tabstop(False) Width(30)
+    Define_Com Class(#PRIM_IMAG) Name(#LinkedIn) Displayposition(4) Height(30) Image(#XSLinkedIn) Left(120) Parent(#Panel2) Tabposition(4) Tabstop(False) Width(30)
+    Define_Com Class(#PRIM_IMAG) Name(#YoutTUbe) Displayposition(5) Height(30) Image(#XSYouTube) Left(160) Parent(#Panel2) Tabposition(5) Tabstop(False) Width(30)
+    
+    Define_Com Class(#PRIM_PANL) Name(#Panel1) Displayposition(39) Left(0) Parent(#COM_OWNER) Tabposition(39) Tabstop(False) Top(199) Width(1170) Style(#XSTheme01<BackgroundWhite>) Layoutmanager(#TableLayout2)
+    Define_Com Class(#PRIM_LABL) Name(#Guide) Caption('Want to learn how to build a web application like this?') Displayposition(1) Ellipses(Word) Height(25) Left(0) Parent(#Panel1) Tabposition(1) Tabstop(False) Top(5) Verticalalignment(Center) Width(1170) Alignment(Center) Style(#XSTheme01<Href10Green3>)
+    
+    * Define a reference to each webroutine used in the controlling Server Module XSServer
+    Define_Com Class(#XSServer.GotoStoreLocator) Name(#GotoStoreLocator) Target(New)
+    Define_Com Class(#XSServer.GotoProducts) Name(#Products)
+    Define_Com Class(#XSServer.GotoMyAccount) Name(#GotoMyAccount)
+    
+    Evtroutine Handling(#DIYSchedule.Click)
+    
+    * Navigate directly to document in the web server images
+    #sys_web.Navigate( "/images/lansatools/DIY-Workshops-Schedule.pdf" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#ToolHire.Click)
+    
+    * Navigate directly to document in the web server images
+    #sys_web.Navigate( "/images/lansatools/Tool-Hire.pdf" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#FindAStore.click)
+    
+    * Navigate to find a store web page
+    #GotoStoreLocator.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#MyAccount.Click)
+    
+    * Navigate to your account information
+    #GotoMyAccount.execute
+    
+    Endroutine
+    
+    Evtroutine Handling(#ProductInformation.Click)
+    
+    * by default go to Power Tools sub category of Products
+    #Products.execute( '3' )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Guide.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "http://docs.lansa.com" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#FaceBook.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "https://www.facebook.com/lansasoftware" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Twitter.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "http://twitter.com/lansa" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#GooglePlus.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "https://plus.google.com/+LANSASoftware" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#LinkedIn.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "http://www.linkedin.com/company/lansa" New )
+    
+    Endroutine
+    
+    Evtroutine Handling(#YoutTUbe.Click)
+    
+    * Navigate to designated URL
+    #sys_web.Navigate( "http://www.youtube.com/user/lansachannel" New )
+    
+    Endroutine
+    
+    
+    End_Com

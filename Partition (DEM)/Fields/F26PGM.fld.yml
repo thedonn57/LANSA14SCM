@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F26PGM
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "systen program"
+      Label:              "F26PGM"
+      Heading1:           "system"
+      Heading2:           "pgm"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "systen program"
+      Label:              "F26PGM"
+      Heading1:           "system"
+      Heading2:           "pgm"
+      Heading3:           " "

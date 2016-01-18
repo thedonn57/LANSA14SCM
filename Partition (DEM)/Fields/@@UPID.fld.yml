@@ -1,0 +1,29 @@
+﻿Field:
+  Name:               @@UPID
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       Yes
+  Alias Name:         UPDATE_IDENT
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Field update / access identifier"
+      Label:              "Update id ....."
+      Heading1:           "  Update/"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Identifiant d´accès / de mise à jour"
+      Label:              "Ident. m. à j."
+      Heading1:           "Ident."
+      Heading2:           "m à j"
+      Heading3:           " "

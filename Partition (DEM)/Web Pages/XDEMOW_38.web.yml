@@ -1,0 +1,70 @@
+﻿Web Page:
+  Name:               xDemoWebGoogleFonts
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Google Fonts"
+
+  - FRA:
+      Description:        "Google Fonts"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1) Style(#Style1) Theme(#xDemoTheme)
+    
+    Define_Com Class(#PRIM_VS.Style) Name(#Style1) Fontsize(14)
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#List) Parent(#TableLayout1) Row(#Row1)
+    
+    Define_Com Class(#PRIM_LIST) Name(#List) Displayposition(1) Height(800) Left(0) Parent(#COM_OWNER) Tabposition(1) Top(0) Width(1200) Columnlines(False) Rowlines(False) Rowheight(50) Columnheaderheight(30)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOALPH1) Displayposition(1) Parent(#List) Source(#xDemoAlpha128) Columncaption('Google Font Name') Columnwidth(259) Columncaptiontype(Caption)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnXDEMOAL_11) Displayposition(2) Parent(#List) Source(#xDemoAlpha256) Columncaptiontype(Caption) Columncaption('Sample') Columnunits(Proportion) Style(#Style1)
+    
+    Define_Com Class(#prim_acol<#Prim_vs.Style>) Name(#Styles)
+    
+    Evtroutine Handling(#Com_owner.CreateInstance)
+    
+    #xDemoAlpha256 := "Grumpy wizards make toxic brew for the evil Queen and Jack."
+    
+    #Com_owner.AddEntry( "Ubuntu" )
+    #Com_owner.AddEntry( "Lato" )
+    #Com_owner.AddEntry( "Raleway" )
+    #Com_owner.AddEntry( "Montserrat" )
+    #Com_owner.AddEntry( "Lobster" )
+    #Com_owner.AddEntry( "Play" )
+    #Com_owner.AddEntry( "Roboto" )
+    
+    Endroutine
+    
+    Mthroutine Name(AddEntry)
+    Define_Map For(*Input) Class(#prim_alph) Name(#FaceName)
+    
+    * Create the style instance for the list item
+    #Styles.Insert( (*New #prim_vs.Style) )
+    #Styles.Last.FaceName := #FaceName
+    
+    #xDemoAlpha128 := #FaceName
+    
+    Add_Entry To_List(#List)
+    
+    #List.CurrentItem.Style <= #Styles.Last
+    
+    Endroutine
+    
+    End_Com
+
+  Styles:
+  - http://fonts.googleapis.com/css?family=Ubuntu
+  - http://fonts.googleapis.com/css?family=Lato
+  - http://fonts.googleapis.com/css?family=Raleway
+  - http://fonts.googleapis.com/css?family=Montserrat
+  - http://fonts.googleapis.com/css?family=Lobster
+  - http://fonts.googleapis.com/css?family=Play
+  - http://fonts.googleapis.com/css?family=Roboto

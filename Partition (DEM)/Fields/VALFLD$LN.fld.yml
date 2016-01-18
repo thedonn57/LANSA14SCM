@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               VALFLD$LN
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Length of field to be validated"
+      Label:              "Field Length"
+      Heading1:           "Length of field"
+      Heading2:           "to be"
+      Heading3:           "Validated"
+
+  - FRA:
+      Description:        "Longueur zone à valider"
+      Label:              "Longueur zone"
+      Heading1:           "Longueur zone"
+      Heading2:           "à valider"
+      Heading3:           " "

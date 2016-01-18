@@ -1,0 +1,134 @@
+﻿Reusable Part:
+  Name:               XSStoreMap
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Store Location Map"
+
+  - FRA:
+      Description:        "Store Location Map"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Height(490) Width(500) Layoutmanager(#AttachLayout1) Displayposition(1) Tabposition(1) Left(0) Top(0)
+    
+    * Reference to Application level object for global information like Shopping Cart Items
+    Define_Com Class(#XSSession) Name(#MySession) Scope(*Application)
+    
+    Define_Com Class(#prim_web.Geolocation) Name(#Geolocation)
+    
+    Define_Com Class(#PRIM_ATLM) Name(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem1) Attachment(Center) Manage(#GoogleMap) Parent(#AttachLayout1)
+    Define_Com Class(#PRIM_ATLI) Name(#AttachItem3) Attachment(Top) Manage(#Information) Parent(#AttachLayout1)
+    
+    Define_Com Class(#PRIM_LABL) Name(#Information) Caption('Use the store locator above to find out your nearest store’s opening hours.') Displayposition(1) Ellipses(Word) Height(25) Left(0) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(0) Verticalalignment(Center) Width(500) Style(#XSTheme01<Text10AlmostBlack>)
+    
+    Define_Com Class(#XSGoogleMap) Name(#GoogleMap) Tabstop(False) Parent(#COM_OWNER) Displayposition(2) Tabposition(1) Height(465) Width(500) Top(25) Left(0)
+    
+    Define_Com Class(#prim_alph) Name(#url)
+    
+    Evtroutine Handling(#GoogleMap.Initialize)
+    
+    * Replace latitude and longitude values with details for required location
+    * To get the coordinates of a place you find on the map with your browser:
+    
+    * 1. Open Google Maps.
+    * 2. Right-click the place or area on the map.
+    * 3. Select What's here?
+    * 4. Under the search box, an info card with coordinates will appear.
+    
+    #GoogleMap.zoom := 2
+    #Geolocation.Refresh
+    
+    #GoogleMap.AddMarker( -33.838434 151.209965 "122 Arthur Street North Sydney, NSW, 2060, Australia" )
+    #GoogleMap.AddMarker( 43.687215 -79.601531 "2700 Matheson Blvd East, Mississauga, ON, L4W 4V9, Canada" )
+    #GoogleMap.AddMarker( 48.830308 2.265576 "13, rue Camille Desmoulins, 92441, ISSY-LES-MOULINEAUX, Cedex, France" )
+    #GoogleMap.AddMarker( 35.693206 139.745166 "2-3-10, Kudanminami, Chiyoda-ku, Tokyo, 102-0074, Japan" )
+    #GoogleMap.AddMarker( 1.303095 103.834338 "391B Orchard Road, #23-01 Ngee Ann City Tower B, 238874, Singapore" )
+    #GoogleMap.AddMarker( 52.298633 4.952724 "Paasheuvelweg 15, 1105 BE Amsterdam, Netherlands" )
+    #GoogleMap.AddMarker( 51.753453 -0.333610 "26-30 Upper Marlborough Road, St. Albans, Hertfordshire, AL1 3UU, United Kingdom" )
+    #GoogleMap.AddMarker( 41.831176 -88.032878 "2001 Butterfield Road, Downers Grove, IL, 60515, USA; and more" )
+    
+    Endroutine
+    
+    Evtroutine Handling(#Geolocation.Refreshed)
+    
+    #GoogleMap.longitude := #Geolocation.Longitude
+    #GoogleMap.latitude := #Geolocation.Latitude
+    
+    Endroutine
+    
+    Evtroutine Handling(#MySession.CountryUpdated)
+    
+    #GoogleMap.zoom := 14
+    
+    Case (#MySession.pCountry)
+    
+    When (= '')
+    
+    * Show global Map centred on USA
+    #GoogleMap.zoom := 2
+    #GoogleMap.Latitude := 41.831176
+    #GoogleMap.longitude := -88.032878
+    
+    When (= 'Australia')
+    
+    * centre map on Australia
+    #GoogleMap.latitude := -33.838434
+    #GoogleMap.longitude := 151.209965
+    
+    When (= 'Canada')
+    
+    * centre map on Canada
+    #GoogleMap.latitude := 43.687215
+    #GoogleMap.Longitude := -79.601531
+    
+    When (= 'France')
+    
+    * centre map on France
+    #GoogleMap.Latitude := 48.830308
+    #GoogleMap.Longitude := 2.265576
+    
+    When (= 'Japan')
+    
+    * centre map on Japan
+    #GoogleMap.Latitude := 35.693206
+    #GoogleMap.Longitude := 139.745166
+    
+    When (= 'Singapore')
+    
+    * centre map on Singapore
+    #GoogleMap.Latitude := 1.303095
+    #GoogleMap.Longitude := 103.834338
+    
+    When (= 'Netherlands')
+    
+    * centre map on Netherlands
+    #GoogleMap.Latitude := 52.298633
+    #GoogleMap.Longitude := 4.952724
+    
+    When (= 'United Kingdom')
+    
+    * centre map on UK
+    #GoogleMap.Latitude := 51.753453
+    #GoogleMap.Longitude := -0.333610
+    
+    Otherwise
+    
+    * centre map on USA
+    #GoogleMap.Latitude := 41.831176
+    #GoogleMap.Longitude := -88.032878
+    
+    Endcase
+    
+    Endroutine
+    
+    End_Com
+    
+    

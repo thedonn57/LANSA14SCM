@@ -1,0 +1,116 @@
+﻿Reusable Part:
+  Name:               xDemoWebEmployeeDetails
+  Enabled For RDMLX:  Yes
+  Target Platform:    Browser
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Details"
+
+  - FRA:
+      Description:        "Employee Details"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_PANL) Displayposition(1) Height(601) Left(0) Tabposition(1) Top(0) Width(505) Layoutmanager(#TableLayout)
+    
+    * Simple Employee detailer
+    * Show the image and recorded details for the supplied Employee number
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row) Displayposition(1) Parent(#TableLayout) Height(0.82)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column) Displayposition(1) Parent(#TableLayout)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column) Manage(#Delete) Parent(#TableLayout) Sizing(None) Alignment(TopRight) Flow(Left) Row(#Row) Margintop(4) Marginright(4)
+    
+    Define_Com Class(#PRIM_IMAG) Name(#Image) Displayposition(2) Left(2) Parent(#COM_OWNER) Tabposition(1) Tabstop(False) Top(2) Height(243) Width(501) Imagesizing(BestFit) Image(#xImageEmployee256)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem) Column(#Column) Flow(Down) Manage(#Image) Parent(#TableLayout) Row(#Row) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#EMPNO.Visual) Name(#EMPNO) Componentversion(1) Displayposition(3) Height(21) Parent(#COM_OWNER) Tabposition(2) Top(249) Usepicklist(False) Width(251) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_2) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#EMPNO) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#SURNAME.Visual) Name(#SURNAME) Displayposition(4) Parent(#COM_OWNER) Tabposition(3) Top(274) Left(2) Width(501) Readonly(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_3) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SURNAME) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#GIVENAME.Visual) Name(#GIVENAME) Displayposition(5) Parent(#COM_OWNER) Tabposition(4) Top(299) Left(2) Width(501) Readonly(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_4) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#GIVENAME) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#ADDRESS1.Visual) Name(#ADDRESS1) Componentversion(1) Displayposition(6) Height(21) Parent(#COM_OWNER) Tabposition(5) Top(324) Usepicklist(False) Width(501) Left(2) Readonly(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_5) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS1) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#ADDRESS2.Visual) Name(#ADDRESS2) Componentversion(1) Displayposition(7) Height(21) Parent(#COM_OWNER) Tabposition(6) Top(349) Usepicklist(False) Width(501) Left(2) Readonly(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_6) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS2) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#ADDRESS3.Visual) Name(#ADDRESS3) Componentversion(1) Displayposition(8) Height(21) Parent(#COM_OWNER) Tabposition(7) Top(374) Usepicklist(False) Width(501) Left(2) Readonly(True)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_7) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#ADDRESS3) Parent(#TableLayout) Row(#Row_2) Sizing(FitToWidth) Margintop(2) Marginbottom(2) Marginleft(2) Marginright(2)
+    Define_Com Class(#POSTCODE.Visual) Name(#POSTCODE) Componentversion(1) Displayposition(9) Height(21) Parent(#COM_OWNER) Tabposition(8) Top(399) Usepicklist(False) Width(266) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_8) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#POSTCODE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PHONEHME.Visual) Name(#PHONEHME) Componentversion(1) Displayposition(10) Height(21) Parent(#COM_OWNER) Tabposition(9) Top(424) Usepicklist(False) Width(394) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_9) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#PHONEHME) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PHONEBUS.Visual) Name(#PHONEBUS) Componentversion(1) Displayposition(11) Height(21) Parent(#COM_OWNER) Tabposition(10) Top(449) Usepicklist(False) Width(394) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_10) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#PHONEBUS) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#SECTION.Visual) Name(#SECTION) Displayposition(12) Parent(#COM_OWNER) Tabposition(11) Top(474) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_12) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SECTION) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#SALARY.Visual) Name(#SALARY) Componentversion(1) Displayposition(13) Height(21) Parent(#COM_OWNER) Tabposition(12) Top(499) Usepicklist(False) Width(255) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_13) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#SALARY) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#STARTDTE.Visual) Name(#STARTDTE) Displayposition(14) Parent(#COM_OWNER) Tabposition(13) Top(524) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_14) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#STARTDTE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#TERMDATE.Visual) Name(#TERMDATE) Displayposition(15) Parent(#COM_OWNER) Tabposition(14) Top(549) Marginleft(150) Caption('Term. Date (DDMMYY)') Labeltype(Caption) Readonly(True) Left(2)
+    Define_Com Class(#PRIM_IMAG) Name(#Delete) Displayposition(1) Left(485) Parent(#COM_OWNER) Tabposition(15) Tabstop(False) Top(4) Image(#xImageDelete16) Height(16) Width(16)
+    
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem_15) Alignment(TopLeft) Column(#Column) Flow(Down) Manage(#TERMDATE) Parent(#TableLayout) Row(#Row_2) Sizing(None) Margintop(2) Marginbottom(2) Marginleft(2)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row_2) Displayposition(2) Parent(#TableLayout) Height(1.18)
+    
+    * Show the employee details for teh supplied employee ID
+    Mthroutine Name(ShowEmployee)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    * Get the employee details
+    #Com_owner.GetEmployeeDetails( #EmployeeNumber )
+    #Com_owner.GetEmployeeImage( #EmployeeNumber )
+    
+    Endroutine
+    
+    Mthroutine Name(GetEmployeeDetails) Access(*private)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    Def_List Name(#Employee) Fields(#EMPNO #SURNAME #GIVENAME #ADDRESS1 #ADDRESS2 #ADDRESS3 #POSTCODE #PHONEHME #PHONEBUS #Deptment #SECTION #SALARY #STARTDTE #TERMDATE #Empthm) Type(*working) Entrys(999)
+    
+    * Define and execute the GetEmployee service
+    Define_Com Class(#xDemoDataServices.GetEmployee) Name(#GetEmployee)
+    
+    #GetEmployee.ExecuteAsync( #EmployeeNumber #Employee )
+    
+    * Update the UI when complete
+    Evtroutine Handling(#GetEmployee.Completed)
+    
+    Get_Entry Number(1) From_List(#Employee)
+    
+    Endroutine
+    
+    Endroutine
+    
+    Mthroutine Name(GetEmployeeImage) Access(*private)
+    Define_Map For(*Input) Class(#Empno) Name(#EmployeeNumber)
+    
+    * Define and execute the GetEmployeeImage service
+    Define_Com Class(#xDemoDataServices.GetEmployeeImage) Name(#GetEmployeeImage)
+    
+    #GetEmployeeImage.ExecuteAsync( #EmployeeNumber #Empimg )
+    
+    * When complete
+    Evtroutine Handling(#GetEmployeeImage.Completed)
+    
+    * Convert the EMPIMG blob to a Bitmap instance and show in the image control
+    #Image.image <= #sys_appln.CreateBitmap( #Empimg )
+    
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#Delete.Click)
+    
+    #Image.Image <= *Null
+    #Empimg := *null
+    
+    Endroutine
+    
+    End_Com

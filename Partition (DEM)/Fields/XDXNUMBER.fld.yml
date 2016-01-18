@@ -1,0 +1,41 @@
+﻿Field:
+  Name:               XDXNumber
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          J
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Number"
+      Label:              "Number"
+      Heading1:           "Number"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Number"
+      Label:              "Number"
+      Heading1:           "Number"
+      Heading2:           " "
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Height(21) Usepicklist(False) Width(261)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVSE) Name(#SpinEdit) Height(20) Usepicklist(False) Width(261)
+    
+    End_Com
+    End_Com

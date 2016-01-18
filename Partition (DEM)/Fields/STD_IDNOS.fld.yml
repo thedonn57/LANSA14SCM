@@ -1,0 +1,50 @@
+﻿Field:
+  Name:               STD_IDNOS
+  Type:               Packed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard Identifying Number (short)"
+      Label:              "Identifying No."
+      Heading1:           "Identifying"
+      Heading2:           "Number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Numéro Identifiant Standard (court)"
+      Label:              "Identifiant"
+      Heading1:           "Numéro"
+      Heading2:           "Identifiant"
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+      
+      
+        This field may contain an amount. An amount can have any numeric     .
+        value: positive, negative or zero.
+      
+      
+        Validation Rules :  None
+      
+        Maximum Length   :  9 numerics, 2 of which are decimals.
+      
+      
+      
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+      $$NOAUTO

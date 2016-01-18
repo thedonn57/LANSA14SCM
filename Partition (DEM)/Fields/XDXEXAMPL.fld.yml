@@ -1,0 +1,37 @@
+﻿Field:
+  Name:               XDXExample
+  Type:               Alphanumeric
+  Length:             256
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Example Identifier"
+      Label:              "Example Identif"
+      Heading1:           "Example"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Example Identifier"
+      Label:              "Example Identif"
+      Heading1:           "Example"
+      Heading2:           "Identifier"
+      Heading3:           " "
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(19) Usepicklist(False) Width(247)
+    
+    End_Com
+    
+    End_Com

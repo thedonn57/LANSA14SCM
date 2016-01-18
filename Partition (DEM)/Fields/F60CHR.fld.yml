@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F60CHR
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Character set/code page"
+      Label:              "F60CHR"
+      Heading1:           "F60CHR"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Character set/code page"
+      Label:              "F60CHR"
+      Heading1:           "F60CHR"
+      Heading2:           " "
+      Heading3:           " "

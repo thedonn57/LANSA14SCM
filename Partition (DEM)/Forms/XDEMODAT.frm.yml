@@ -1,0 +1,72 @@
+﻿Form:
+  Name:               xDemoDateHandling
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                30
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Common Date Handling Routines"
+
+  - FRA:
+      Description:        "Common Date Handling Routines"
+
+  Source: |
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Common Date Handling Routines') Clientheight(270) Clientwidth(670) Height(309) Left(137) Top(210) Width(686) Theme(#xDemoTheme)
+    
+    * Example "utilities" object containing commonly used routines
+    Define_Com Class(#xDemoUtilities) Name(#Utilities)
+    
+    Define_Com Class(#xDemoDate.Visual) Name(#StartofMonth) Caption('Find Start Of Month') Displayposition(1) Height(25) Labeltype(Caption) Left(8) Parent(#COM_OWNER) Tabposition(1) Top(8)
+    Define_Com Class(#PRIM_LABL) Name(#lEndofMonth) Displayposition(2) Ellipses(Word) Height(25) Left(312) Parent(#COM_OWNER) Tabposition(2) Tabstop(False) Top(40) Verticalalignment(Center) Width(353) Caption('Select a date')
+    
+    Define_Com Class(#xDemoDate.Visual) Name(#EndOfMonth) Caption('Find End Of Month') Displayposition(3) Height(25) Labeltype(Caption) Left(8) Parent(#COM_OWNER) Tabposition(3) Top(40)
+    Define_Com Class(#PRIM_LABL) Name(#lStartOfMonth) Displayposition(4) Ellipses(Word) Height(25) Left(312) Parent(#COM_OWNER) Tabposition(4) Tabstop(False) Top(8) Verticalalignment(Center) Width(353) Caption('Select a date')
+    
+    Define_Com Class(#xDemoDate.Visual) Name(#AdjustByMonths) Caption('Adjust Date By Months') Displayposition(5) Height(25) Labeltype(Caption) Left(8) Parent(#COM_OWNER) Tabposition(5) Top(72)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#Months) Caption('+/- Months') Displayposition(7) Height(25) Labeltype(Caption) Left(312) Marginleft(80) Parent(#COM_OWNER) Tabposition(7) Top(72) Width(129)
+    Define_Com Class(#PRIM_LABL) Name(#lAdjustByMonths) Displayposition(6) Ellipses(Word) Height(25) Left(448) Parent(#COM_OWNER) Tabposition(6) Tabstop(False) Top(72) Verticalalignment(Center) Width(217)
+    
+    Define_Com Class(#xDemoDate.Visual) Name(#AdjustByYears) Caption('Adjust Date By Years') Displayposition(8) Height(25) Labeltype(Caption) Left(8) Parent(#COM_OWNER) Tabposition(8) Top(104)
+    Define_Com Class(#xDemoNumber.SpinEdit) Name(#Years) Caption('+/- Years') Displayposition(9) Height(25) Labeltype(Caption) Left(312) Marginleft(80) Parent(#COM_OWNER) Tabposition(9) Top(104) Width(129)
+    Define_Com Class(#PRIM_LABL) Name(#lAdjustByYears) Displayposition(10) Ellipses(Word) Height(25) Left(448) Parent(#COM_OWNER) Tabposition(10) Tabstop(False) Top(104) Verticalalignment(Center) Width(217)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    * Default to the current datetime
+    #StartofMonth #EndOfMonth #AdjustByMonths #AdjustByYears := #StartofMonth.Now
+    
+    Endroutine
+    
+    Evtroutine Handling(#StartofMonth.Changed)
+    
+    * Get the start of the month for the month entered and format
+    #lStartOfMonth := #Utilities.StartofMonth( #StartofMonth ).AsDisplayString( ML_DDbMMMMMMMMMbCCYY )
+    
+    Endroutine
+    
+    Evtroutine Handling(#EndOfMonth.Changed)
+    
+    * Get the end of the month for the month entered and format
+    #lEndofMonth := #Utilities.EndofMonth( #EndofMonth ).AsDisplayString( ML_DDbMMMMMMMMMbCCYY )
+    
+    Endroutine
+    
+    Evtroutine Handling(#AdjustByMonths.Changed #Months.Changed)
+    
+    * Increment the date by the months entered and format
+    #lAdjustByMonths := #Utilities.AdjustDateByMonths( #AdjustByMonths #Months ).AsDisplayString( ML_DDbMMMMMMMMMbCCYY )
+    
+    Endroutine
+    
+    Evtroutine Handling(#AdjustByYears.Changed #Years.Changed)
+    
+    * Increment the date by the years entered and format
+    #lAdjustByYears := #Utilities.AdjustDateByYears( #AdjustByYears #Years ).AsDisplayString( ML_DDbMMMMMMMMMbCCYY )
+    
+    Endroutine
+    
+    End_Com

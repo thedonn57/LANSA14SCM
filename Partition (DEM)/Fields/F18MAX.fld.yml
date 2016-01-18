@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               F18MAX
+  Type:               Packed
+  Length:             7
+  Decimals:           0
+  Default Value:      "*ZERO"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "MAX. RECORDS EXPECTED"
+      Label:              "F18MAX"
+      Heading1:           "MAX"
+      Heading2:           "RECORDS"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "?"
+      Label:              "?"
+      Heading1:           "?"
+      Heading2:           "?"
+      Heading3:           " "

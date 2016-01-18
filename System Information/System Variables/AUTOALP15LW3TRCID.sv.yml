@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*AUTOALP15LW3TRCID"
+  Description:        "Next event logging trace identifier"
+  Derivation:         Dynamic
+  Data Type:          Alpha
+  Length:             15
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSNUM

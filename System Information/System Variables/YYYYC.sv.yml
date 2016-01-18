@@ -1,0 +1,9 @@
+﻿System Variable:
+  Name:               "*YYYYC"
+  Description:        "Character Year in format YYYY"
+  Derivation:         Static
+  Data Type:          Alpha
+  Length:             4
+  Decimals:           0
+  Program Type:       3GL Program
+  Program Name:       M@SYSVAR

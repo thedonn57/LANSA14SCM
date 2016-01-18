@@ -1,0 +1,53 @@
+﻿Field:
+  Name:               DAY
+  Type:               Signed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*DAY"
+  Edit Mask:          3
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Current day (numeric)"
+      Label:              "Day ..........."
+      Heading1:           "Day"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Jour en cours, numérique"
+      Label:              "Jour  . . . . ."
+      Heading1:           "Jour"
+      Heading2:           " "
+      Heading3:           " "
+
+  Repository Help:
+  - ENG: |
+      $$USER
+      
+            This field represents the employee number assigned to the
+            employee by this company. Each and every employee must have
+            an employee number. On any screen where you are asked to
+            specify an employee number you can press the prompt key on
+            employee number to cause a pop-up window to be displayed.
+            You can then search by employee name and select the required
+            employee number.
+      
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+            Cette zone contient le numéro assigné à un employé par
+            l'entreprise. Tout employé DOIT avoir un numéro d'employé.
+            Sur chaque écran où un numéro d'employé est demandé, vous
+            pouvez utiliser la touche d'invite de saisie sur le numéro
+            d'employé pour afficher une fenêtre. Vous pourrez alors
+            effectuer une recherche à partir du nom de l'employé et
+            choisir l'employé dans la liste pré-sélectionnée.
+      

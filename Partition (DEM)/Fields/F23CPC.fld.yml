@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               F23CPC
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Compiled PC Level"
+      Label:              "F23CPC"
+      Heading1:           "Compiled"
+      Heading2:           "PC Level"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Compiled PC Level"
+      Label:              "F23CPC"
+      Heading1:           "Compiled"
+      Heading2:           "PC Level"
+      Heading3:           " "

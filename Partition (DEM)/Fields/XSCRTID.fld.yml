@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               XSCartID
+  Type:               Alphanumeric
+  Length:             10
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Shopping Cart ID"
+      Label:              "Shopping Cart I"
+      Heading1:           "Shopping"
+      Heading2:           "Cart"
+      Heading3:           "ID"
+
+  - FRA:
+      Description:        "Shopping Cart ID"
+      Label:              "Shopping Cart I"
+      Heading1:           "Shopping"
+      Heading2:           "Cart"
+      Heading3:           "ID"

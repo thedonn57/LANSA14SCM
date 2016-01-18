@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               IO$MSGTXT
+  Type:               Alphanumeric
+  Length:             80
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Message text"
+      Label:              "Message Text"
+      Heading1:           "Message Text"
+      Heading2:           " "
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Texte de message I/O pour OS/2"
+      Label:              "Texte msg I/O"
+      Heading1:           "Texte"
+      Heading2:           "Message"
+      Heading3:           "OS/2"

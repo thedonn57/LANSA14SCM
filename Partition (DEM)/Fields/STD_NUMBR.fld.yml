@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               STD_NUMBR
+  Type:               Alphanumeric
+  Length:             1
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       Yes
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Standard number"
+      Label:              "Standard number"
+      Heading1:           "Standard"
+      Heading2:           "number"
+      Heading3:           " "
+
+  - FRA:
+      Description:        "Nombre standard"
+      Label:              "Nombre standard"
+      Heading1:           "Nombre"
+      Heading2:           "standard"
+      Heading3:           " "
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_NUMBR
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    End_Com
