@@ -31,3 +31,44 @@
 
   - FRA:
       Description:        "Customer Master"
+
+  Real Fields:
+  - CUSTID:
+      Type:               Char
+      Length:             25
+      Decimals:           0
+
+  - CUSTNAME:
+      Type:               Char
+      Length:             50
+      Decimals:           0
+
+  - CUSTADR1:
+      Type:               Char
+      Length:             50
+      Decimals:           0
+
+  - CUSTADR2:
+      Type:               Char
+      Length:             50
+      Decimals:           0
+
+  - CUSTCITY:
+      Type:               Char
+      Length:             40
+      Decimals:           0
+
+  - CUSTSTATE:
+      Type:               Char
+      Length:             3
+      Decimals:           0
+
+  - CUSTPOST:
+      Type:               Char
+      Length:             15
+      Decimals:           0
+
+  - CUSTCNTRY:
+      Type:               Char
+      Length:             10
+      Decimals:           0

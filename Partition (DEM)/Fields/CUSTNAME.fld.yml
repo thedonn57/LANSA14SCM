@@ -1,6 +1,6 @@
 ﻿Field:
   Name:               CustomerName
-  Type:               Char
+  Type:               NChar
   Length:             50
   Decimals:           0
   Default Value:      "*NULL"
@@ -20,3 +20,13 @@
       Description:        "Name"
       Label:              "Name"
       Heading1:           "Name"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(76) Marginleft(300) Width(3472)
+    
+    End_Com
+    
+    End_Com
