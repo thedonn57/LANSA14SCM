@@ -1,0 +1,24 @@
+﻿Field:
+  Name:               CustomerPostalCode
+  Type:               Char
+  Length:             15
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Postal Code"
+      Label:              "Postal Code"
+      Heading1:           "Postal"
+      Heading2:           "Code"
+
+  - FRA:
+      Description:        "Postal Code"
+      Label:              "Postal Code"
+      Heading1:           "Postal"
+      Heading2:           "Code"

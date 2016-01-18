@@ -1,0 +1,22 @@
+﻿Field:
+  Name:               CustomerCountry
+  Type:               Char
+  Length:             10
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Country"
+      Label:              "Country"
+      Heading1:           "Country"
+
+  - FRA:
+      Description:        "Country"
+      Label:              "Country"
+      Heading1:           "Country"

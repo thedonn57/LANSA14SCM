@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               CustomerAddress2
+  Type:               Char
+  Length:             50
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Address Line 2"
+      Label:              "Address Line 2"
+      Heading1:           "Address"
+      Heading2:           "Line"
+      Heading3:           "2"
+
+  - FRA:
+      Description:        "Address Line 2"
+      Label:              "Address Line 2"
+      Heading1:           "Address"
+      Heading2:           "Line"
+      Heading3:           "2"

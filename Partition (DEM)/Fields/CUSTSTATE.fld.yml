@@ -1,0 +1,22 @@
+﻿Field:
+  Name:               CustomerState
+  Type:               Char
+  Length:             3
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "State"
+      Label:              "State"
+      Heading1:           "State"
+
+  - FRA:
+      Description:        "State"
+      Label:              "State"
+      Heading1:           "State"
