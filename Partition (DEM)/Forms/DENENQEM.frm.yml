@@ -1,0 +1,43 @@
+﻿Form:
+  Name:               DENEnqEmpHols
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                40
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Holidays by HolidayCode"
+
+  - FRA:
+      Description:        "Holidays by HolidayCode"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_FORM
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(729) Clientheight(301) Componentversion(2) Left(710) Top(217)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Displayposition(1) Left(360) Parent(#COM_OWNER) Tabposition(1) Top(8) Caption('Fetch')
+    Define_Com Class(#PRIM_LTVW) Name(#ListView1) Columnbuttonheight(22) Componentversion(2) Displayposition(2) Fullrowselect(True) Keyboardpositioning(SortColumn) Left(8) Parent(#COM_OWNER) Showsortarrow(True) Tabposition(2) Top(72) Height(201) Width(649)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL1) Displayposition(1) Parent(#ListView1) Source(#DENEMPLOY) Width(18)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL2) Displayposition(2) Parent(#ListView1) Source(#DENSURN_1) Width(30)
+    Define_Com Class(#PRIM_LVCL) Name(#LVCL3) Displayposition(3) Parent(#ListView1) Source(#DENHOLDUR) Width(49)
+    Define_Com Class(#DENHOLCOD.Visual) Name(#DENHOLCOD) Displayposition(3) Left(34) Parent(#COM_OWNER) Tabposition(3) Top(14)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Set Com(#com_owner) Caption(*component_desc)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Button1.Click)
+    Clr_List Named(#ListView1)
+    Select Fields(*ALL) From_File(DENEmpHolByCode) With_Key(#DENHolCode)
+    Add_Entry To_List(#ListView1)
+    Endselect
+    Endroutine
+    End_Com

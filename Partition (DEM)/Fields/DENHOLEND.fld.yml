@@ -1,0 +1,36 @@
+﻿Field:
+  Name:               DENHolEndDate
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*NULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Holiday End Date"
+      Label:              "Holiday Ends"
+      Heading1:           "Holiday Ends"
+
+  - FRA:
+      Description:        "Holiday End Date"
+      Label:              "Holiday End Dat"
+      Heading1:           "Holiday"
+      Heading2:           "End"
+      Heading3:           "Date"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDateTime) Defaultvisual(True) Componentversion(1) Height(21) Width(229) Showtime(False)
+    
+    End_Com
+    
+    End_Com

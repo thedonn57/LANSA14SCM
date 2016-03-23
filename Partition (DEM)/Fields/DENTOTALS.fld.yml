@@ -1,0 +1,35 @@
+﻿Field:
+  Name:               DENTotalSalaryPJF
+  Type:               Packed
+  Length:             11
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Total Salary"
+      Label:              "Total Salary"
+      Heading1:           "Total Salary"
+
+  - FRA:
+      Description:        "Total Salary"
+      Label:              "Total Salary"
+      Heading1:           "Total"
+      Heading2:           "Salary"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(352)
+    
+    End_Com
+    
+    End_Com

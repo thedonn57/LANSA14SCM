@@ -1,0 +1,49 @@
+﻿Field:
+  Name:               DENSalary
+  Type:               Packed
+  Length:             11
+  Decimals:           2
+  Default Value:      "*ZERO"
+  Edit Mask:          2
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Monthly Salary"
+      Label:              "Salary"
+      Heading1:           "Salary"
+
+  - FRA:
+      Description:        "Salary"
+      Label:              "Salary"
+      Heading1:           "Salary"
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Salary must be greater than 0"
+      Condition:          "#DENSalary *GT 0"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0011
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Usepicklist(False) Componentversion(1) Height(21) Width(245)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVSE) Name(#VisualSpinEdit) Usepicklist(False) Componentversion(1) Height(21) Width(253) Defaultvisual(True)
+    
+    End_Com
+    End_Com

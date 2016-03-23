@@ -1,0 +1,18 @@
+﻿Field:
+  Name:               CONO
+  Type:               Signed
+  Length:             3
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "CONO"
+      Label:              "CONO"
+      Heading1:           "CONO"

@@ -1,0 +1,124 @@
+﻿Form:
+  Name:               DENHolidayMaint
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                40
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Holiday Maintenance"
+
+  - FRA:
+      Description:        "Holiday Maintenance"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Caption('Holiday') Height(427) Left(743) Top(331) Visualstyle(#VS_NORM) Width(518) Clientwidth(502) Clientheight(388)
+    
+    *
+    *  Holiday
+    *
+    *  DENEMPHOLI - Maintenance form
+    *
+    *  Template - VL_BASEMNT  Version 2.
+    *     Set to top 0
+    *
+    *
+    *  Key Fields
+    *
+    Define_Com Class(#DENEMPLOY.VISUAL) Name(#DENEMPLOY) Left(8) Parent(#COM_OWNER) Top(30) Displayposition(1) Tabposition(1) Width(185)
+    Define_Com Class(#DENHOLCOD.VISUAL) Name(#DENHOLCOD) Left(8) Parent(#COM_OWNER) Top(88) Displayposition(2) Tabposition(2)
+    *
+    *
+    *     Set left margin to 8
+    *     Set field top to 80
+    *     Set field top to 80
+    *
+    Define_Com Class(#DENHOLSTA.VISUAL) Name(#DENHOLSTA) Left(8) Parent(#COM_OWNER) Tabposition(3) Top(110) Displayposition(3)
+    Define_Com Class(#DENHOLEND.VISUAL) Name(#DENHOLEND) Left(8) Parent(#COM_OWNER) Tabposition(4) Top(140) Displayposition(4) Width(249)
+    Define_Com Class(#DENHOLCOM.VISUAL) Name(#DENHOLCOM) Left(8) Parent(#COM_OWNER) Tabposition(5) Top(200) Displayposition(5)
+    Define_Com Class(#DENHOLDUR.VISUAL) Name(#DENHOLDUR) Left(8) Parent(#COM_OWNER) Tabposition(6) Top(168) Displayposition(6) Width(449)
+    Define_Com Class(#DENSURN_1.VISUAL) Name(#DENSURN_1) Left(8) Parent(#COM_OWNER) Tabposition(7) Top(56) Displayposition(7) Height(21) Usepicklist(False) Width(353)
+    *
+    *     Buttons
+    *
+    *     Set button top to 360
+    Define_Com Class(#PRIM_PHBN) Name(#FETCH) Caption('&Fetch') Displayposition(8) Left(8) Parent(#COM_OWNER) Tabposition(8) Top(320)
+    Define_Com Class(#PRIM_PHBN) Name(#INSERT) Caption('&Insert') Displayposition(9) Left(108) Parent(#COM_OWNER) Tabposition(9) Top(320)
+    Define_Com Class(#PRIM_PHBN) Name(#UPDATE) Caption('&Update') Displayposition(10) Left(208) Parent(#COM_OWNER) Tabposition(10) Top(320)
+    Define_Com Class(#PRIM_PHBN) Name(#DELETE) Caption('&Delete') Displayposition(11) Left(308) Parent(#COM_OWNER) Tabposition(11) Top(320)
+    Define_Com Class(#PRIM_STBR) Name(#STBR_1) Height(25) Messageposition(1) Parent(#COM_OWNER) Top(363) Displayposition(12) Left(0) Tabposition(12) Width(502)
+    *
+    *      RDML Definitions
+    *
+    Define Field(#MESSAGE) Type(*CHAR) Length(132)
+    Group_By Name(#ALLFLDS) Fields(#DENEMPLOY #DENHOLCOD #DENHOLSTA #DENHOLEND #DENHOLCOM #DENHOLDUR #DENSURN_1)
+    *
+    *      Event Routines
+    *
+    *     Fetch
+    Evtroutine Handling(#FETCH.CLICK)
+    Fetch Fields(#ALLFLDS) From_File(DENEMPHOLI) With_Key(#DENEMPLOY #DENHOLCOD)
+    If_Status Is(*NORECORD)
+    Message Msgtxt('Holiday not found')
+    Execute Subroutine(INITFLDS)
+    Else
+    If_Status Is(*ERROR)
+    Message Msgtxt('Error retrieving Holiday')
+    Endif
+    Endif
+    Endroutine
+    *
+    *     Insert
+    Evtroutine Handling(#INSERT.CLICK)
+    Insert Fields(#ALLFLDS) To_File(DENEMPHOLI) Val_Error(*NEXT)
+    If_Status Is(*OKAY)
+    Message Msgtxt('Holiday inserted successfully')
+    Execute Subroutine(INITFLDS)
+    Else
+    If_Status Is(*ERROR)
+    Message Msgtxt('Error inserting Holiday')
+    Endif
+    Endif
+    Endroutine
+    *
+    *     Update
+    Evtroutine Handling(#UPDATE.CLICK)
+    Update Fields(#ALLFLDS) In_File(DENEMPHOLI) With_Key(#DENEMPLOY #DENHOLCOD) Val_Error(*NEXT)
+    If_Status Is(*OKAY)
+    Message Msgtxt('Holiday updated successfully')
+    Execute Subroutine(INITFLDS)
+    Else
+    If_Status Is(*NORECORD)
+    Message Msgtxt('Holiday not found')
+    Else
+    If_Status Is(*ERROR)
+    Message Msgtxt('Error updating Holiday')
+    Endif
+    Endif
+    Endif
+    Endroutine
+    *
+    *     Delete
+    Evtroutine Handling(#DELETE.CLICK)
+    Delete From_File(DENEMPHOLI) With_Key(#DENEMPLOY #DENHOLCOD) Val_Error(*NEXT)
+    If_Status Is(*OKAY)
+    Message Msgtxt('Holiday deleted successfully')
+    Execute Subroutine(INITFLDS)
+    Else
+    If_Status Is(*NORECORD)
+    Message Msgtxt('Holiday not found')
+    Else
+    If_Status Is(*ERROR)
+    Message Msgtxt('Error deleting Holiday')
+    Endif
+    Endif
+    Endif
+    Endroutine
+    *
+    Subroutine Name(INITFLDS)
+    Change Field(#ALLFLDS) To(*NULL)
+    Endroutine
+    *
+    End_Com

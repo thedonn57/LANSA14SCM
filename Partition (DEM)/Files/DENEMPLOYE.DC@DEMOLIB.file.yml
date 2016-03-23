@@ -1,0 +1,191 @@
+﻿File:
+  Name:                           DENEmployees
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             DENEMPLOYE
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Table"
+
+  - FRA:
+      Description:        "Employee Table"
+
+  Real Fields:
+  - DENEMPLOY:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - DENDEPTCO:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - DENSURNAM:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - DENGIVENN:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - DENSALARY:
+      Type:               Packed
+      Length:             11
+      Decimals:           2
+
+  - DENSTARTD:
+      Type:               Date Time
+      Length:             26
+      Decimals:           0
+
+  - DENEMPL_1:
+      Type:               String
+      Length:             512
+      Decimals:           0
+
+  Primary Keys:
+  - DENEMPLOY
+
+  Virtual Fields:
+  - DENTAXAMO:
+      Type:               Packed
+      Length:             6
+      Decimals:           2
+      Virtual Field Type: Calculation
+      Derive On Input:    Yes
+      Operations:
+      - Factor 1:           DENSALARY
+        Operator:           Divide
+        Factor 2:           +100
+        Result:             "*WORKFLD"
+      - Factor 1:           "*WORKFLD"
+        Operator:           Multiply
+        Factor 2:           +25
+        Result:             DENTAXAMO
+
+  - DENFFULLE:
+      Type:               Alphanumeric
+      Length:             9
+      Decimals:           0
+      Virtual Field Type: Concatenation
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Fields:
+      - DENDEPTCO
+      - DENEMPLOY
+
+  - DENEMPL_2:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field DENEMPL_2
+        #DENEmployYears := #DENStartDate.Date.Now.Difference( #DENStartDate ) / 365
+
+  - DENNOTELE:
+      Type:               Packed
+      Length:             5
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field DENNOTELE
+        #DENNoteLength := #DENEmployNotes.curchars
+
+  Logical Views:
+  - DENEmpByDeptView:
+      Identifier:         DENEMPBYDE
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      DENEMPBYDE
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Employees by Department"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - DENDEPTCO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - DENDEPTCO:
+    - Lookup Check:
+        Description:        "Dept must exist in Departments"
+        File:               DENDEPARTM
+        Keys:
+        - DENDEPTCO
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Department must exist in Department File"
+
+  - DENSALARY:
+    - Range Check:
+        Description:        "Amount must be less than 10000"
+        Ranges:
+        - From:               +.01
+          To:                 +10000
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Amount must be less than 10000"
+
+  Access Routes:
+  - DENTODEPT:
+      Description:        DENDEPARTM
+      File:               DENDEPARTM
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Dummy
+      Keep Last:          10
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DENDEPTCO
+
+      PJFs:
+      - DENDEPT_1:
+          PJF Type:           Lookup
+          Source Field:       DENDEPTDE

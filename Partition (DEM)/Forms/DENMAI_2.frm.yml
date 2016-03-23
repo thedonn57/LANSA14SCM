@@ -1,0 +1,51 @@
+﻿Form:
+  Name:               DENMaintEmployVirtuals
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                40
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Real and Virtual Fields in Employee File"
+
+  - FRA:
+      Description:        "Real and Virtual Fields in Employee File"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_FORM
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(908) Clientheight(301) Componentversion(2) Left(512) Top(245)
+    
+    
+    Define_Com Class(#DENDEPTCO.Visual) Name(#DENDEPTCO) Displayposition(1) Left(38) Parent(#COM_OWNER) Tabposition(1) Top(30)
+    Define_Com Class(#DENSURNAM.Visual) Name(#DENSURNAM) Displayposition(2) Left(38) Parent(#COM_OWNER) Tabposition(2) Top(52) Width(339)
+    Define_Com Class(#DENGIVENN.Visual) Name(#DENGIVENN) Displayposition(3) Left(38) Parent(#COM_OWNER) Tabposition(3) Top(74)
+    Define_Com Class(#DENSALARY.Visual) Name(#DENSALARY) Displayposition(4) Left(38) Parent(#COM_OWNER) Tabposition(4) Top(96)
+    Define_Com Class(#DENSTARTD.Visual) Name(#DENSTARTD) Displayposition(5) Left(38) Parent(#COM_OWNER) Tabposition(5) Top(118) Width(227)
+    Define_Com Class(#DENEMPL_1.Visual) Name(#DENEMPL_1) Displayposition(6) Left(38) Parent(#COM_OWNER) Tabposition(6) Top(140) Height(85)
+    Define_Com Class(#DENTAXAMO.Visual) Name(#DENTAXAMO) Displayposition(7) Left(600) Parent(#COM_OWNER) Tabposition(7) Top(48)
+    Define_Com Class(#DENFFULLE.Visual) Name(#DENFFULLE) Componentversion(1) Displayposition(8) Height(21) Left(600) Parent(#COM_OWNER) Tabposition(8) Top(70) Usepicklist(False) Width(309)
+    Define_Com Class(#DENEMPL_2.Visual) Name(#DENEMPL_2) Componentversion(1) Displayposition(9) Height(21) Left(600) Parent(#COM_OWNER) Tabposition(9) Top(92) Usepicklist(False) Width(209)
+    Define_Com Class(#DENNOTELE.Visual) Name(#DENNOTELE) Displayposition(10) Left(600) Parent(#COM_OWNER) Tabposition(10) Top(114)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Caption('Fetch') Displayposition(11) Left(64) Parent(#COM_OWNER) Tabposition(11) Top(256)
+    Define_Com Class(#DENEMPLOY.Visual) Name(#DENEMPLOY) Displayposition(12) Left(40) Parent(#COM_OWNER) Tabposition(12) Top(8)
+    Define_Com Class(#DENDEPT_1.Visual) Name(#DENDEPT_1) Componentversion(1) Displayposition(13) Height(21) Left(600) Parent(#COM_OWNER) Tabposition(13) Top(24) Usepicklist(False) Width(289)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Set Com(#com_owner) Caption(*component_desc)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Button1.Click)
+    
+    Fetch Fields(*all) From_File(DENEmployees) With_Key(#DENEmployNumber)
+    
+    Endroutine
+    End_Com

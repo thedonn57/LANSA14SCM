@@ -1,0 +1,34 @@
+﻿Field:
+  Name:               DENHolDuration
+  Type:               Alphanumeric
+  Length:             40
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Holiday Duration"
+      Label:              "Holiday Duratio"
+      Heading1:           "Holiday"
+      Heading2:           "Duration"
+
+  - FRA:
+      Description:        "Holiday Duration"
+      Label:              "Holiday Duratio"
+      Heading1:           "Holiday"
+      Heading2:           "Duration"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(752)
+    
+    End_Com
+    
+    End_Com

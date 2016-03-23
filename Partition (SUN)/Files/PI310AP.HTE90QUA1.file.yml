@@ -1,0 +1,2255 @@
+﻿File:
+  Name:                           PI310AP
+  File Type:                      IBM i Other File
+  Library:                        HTE90QUA1
+  Record Format Name:             PI310AF
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         No
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000     2000      3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "PI310AP"
+
+  Real Fields:
+  - PICONO001:
+      Type:               Signed
+      Length:             3
+      Decimals:           0
+
+  - PIPONO:
+      Type:               Alphanumeric
+      Length:             6
+      Decimals:           0
+
+  - PICHGN:
+      Type:               Packed
+      Length:             5
+      Decimals:           0
+
+  - PIPOSC:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PIPOVN:
+      Type:               Packed
+      Length:             7
+      Decimals:           0
+
+  - PIPODC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIPODY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIPODM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPODD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPOCC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIPOCY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIPOCM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPOCD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPOTP:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PIBUYR:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - PICONF:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+
+  - PIDBDC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIDBDY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIDBDM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIDBDD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PISVIA:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - PIPFOB:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  - PIFRT:
+      Type:               Alphanumeric
+      Length:             15
+      Decimals:           0
+
+  - PICNTN:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - PITAXP:
+      Type:               Packed
+      Length:             5
+      Decimals:           2
+
+  - PIPTDP:
+      Type:               Packed
+      Length:             5
+      Decimals:           2
+
+  - PIPTDD:
+      Type:               Packed
+      Length:             3
+      Decimals:           0
+
+  - PIPTND:
+      Type:               Packed
+      Length:             3
+      Decimals:           0
+
+  - PIPVPN:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PICCPY:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PISTML:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PISTLC:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - PICTMA:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PIDPCT:
+      Type:               Packed
+      Length:             5
+      Decimals:           2
+
+  - PIFAMT:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - PIAAMT:
+      Type:               Packed
+      Length:             9
+      Decimals:           2
+
+  - PIMPO:
+      Type:               Alphanumeric
+      Length:             1
+      Decimals:           0
+
+  - PIUSID:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - PIPTC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIPDTY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIPDTM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPDTD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIPTM:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PICUPC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PICUPY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PICUPM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PICUPD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIRUPC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIRUPY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIRUPM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIRUPD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIRUPU:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - PICUPU:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - PIINDC:
+      Type:               Packed
+      Length:             1
+      Decimals:           0
+
+  - PIINDY:
+      Type:               Packed
+      Length:             4
+      Decimals:           0
+
+  - PIINDM:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIINDD:
+      Type:               Packed
+      Length:             2
+      Decimals:           0
+
+  - PIINDU:
+      Type:               Alphanumeric
+      Length:             10
+      Decimals:           0
+
+  - PIADTX:
+      Type:               Packed
+      Length:             5
+      Decimals:           2
+
+  - PIBTDL:
+      Type:               Alphanumeric
+      Length:             2
+      Decimals:           0
+
+  - PIRPCT:
+      Type:               Signed
+      Length:             5
+      Decimals:           2
+
+  - PITXP2:
+      Type:               Signed
+      Length:             5
+      Decimals:           2
+
+  Virtual Fields:
+  - PIPODATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field VIPODATE
+        
+        If Cond(#pipodm <> 0)
+        #pipodate := ((#pipody * 10000) + (#pipodm * 100) + #pipodd).asdate( CCYYMMDD )
+        Else
+        #pipodate := *SQLNULL
+        Endif
+
+  - PIDLVDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field pidlvdate
+        If Cond(#pidbdm <> 0)
+        #pidlvdate := ((#pidbdy * 10000) + (#pidbdm * 100) + #pidbdd).asdate( CCYYMMDD )
+        Else
+        #pidlvdate := *SQLNULL
+        Endif
+
+  - PICHGDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field PICHGDATE
+        If Cond(#pipocm <> 0)
+        #pichgdate := ((#pipocy * 10000) + (#pipocm * 100) + #pipocd).asdate( CCYYMMDD )
+        Else
+        #pichgdate := *SQLNULL
+        Endif
+
+  - PIPSTDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field PIPSTDATE
+        If Cond(#pipdtm <> 0)
+        #pipstdate := ((#pipdty * 10000) + (#pipdtm * 100) + #pipdtd).asdate( CCYYMMDD )
+        Else
+        #pipstdate := *SQLNULL
+        Endif
+        
+
+  - PIRCVDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field PIRCVDATE
+        If Cond(#pirupm <> 0)
+        #pircvdate := ((#pirupy * 10000) + (#pirupm * 100) + #pirupd).asdate( CCYYMMDD )
+        Else
+        #pircvdate := *SQLNULL
+        Endif
+        
+
+  - PIINVDATE:
+      Type:               Date
+      Length:             10
+      Decimals:           0
+      Virtual Field Type: Code Fragment
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Input Fragment: |
+        * RDML Code Fragment to derive value for field PIINVDATE
+        If Cond(#piindm <> 0)
+        #piinvdate := ((#piindy * 10000) + (#piindm * 100) + #piindd).asdate( CCYYMMDD )
+        Else
+        #piinvdate := *SQLNULL
+        Endif
+
+  - PIACPH:
+      Type:               Alphanumeric
+      Length:             12
+      Decimals:           0
+      Virtual Field Type: Concatenation
+      Derive On Input:    Yes
+      Derive On Output:   No
+      Fields:
+      - PIPHAC
+      - PIPHNO
+
+  - PI310POSC:
+      Type:               Alphanumeric
+      Length:             25
+      Decimals:           0
+      Virtual Field Type: Undefined
+
+  - PI310VNM:
+      Type:               Alphanumeric
+      Length:             30
+      Decimals:           0
+      Virtual Field Type: Undefined
+
+  Logical Views:
+  - PI310AL1:
+      Identifier:         PI310AL1
+      Unique Key:         Yes
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Purchase Orders by Co. No., P.O. No."
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL2:
+      Identifier:         PI310AL2
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Purch Orders by Co. No., P.O. No.; Statu"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL3:
+      Identifier:         PI310AL3
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Outstanding P.O. by Co.#/Vnd#/P.O.#; Sta"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPOVN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL4:
+      Identifier:         PI310AL4
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Outstanding orders by co#, ven#, po#-des"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPOVN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL5:
+      Identifier:         PI310AL5
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Outstanding orders by CO#, PO#, Status <"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL6:
+      Identifier:         PI310AL6
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Completed orders by CO#, PO#-descend, st"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL8:
+      Identifier:         PI310AL8
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Reserved/Manual P.O. by Co. No., P.O. No"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310AL9:
+      Identifier:         PI310AL9
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Outstanding POs by Co#,Delv dt,PO#; Stat"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIDBDY:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIDBDM:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIDBDD:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALA:
+      Identifier:         PI310ALA
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Purchase Orders by Co#, Vnd#, PO dt, PO#"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPOVN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODY:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODM:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODD:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALB:
+      Identifier:         PI310ALB
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Purchase Orders by Contract Number withi"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PICNTN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALC:
+      Identifier:         PI310ALC
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "POs by co#,vendor#"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPOVN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+  - PI310ALD:
+      Identifier:         PI310ALD
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "P.O. by co. no. and p.o. no. (descending"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALE:
+      Identifier:         PI310ALE
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "POs by co#,buyer id"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIBUYR:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALF:
+      Identifier:         PI310ALF
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PI310ALF"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODY:
+          Key Order:          Descending
+          Numeric Ordering:   Signed
+
+      - PIPODM:
+          Key Order:          Descending
+          Numeric Ordering:   Signed
+
+      - PIPODD:
+          Key Order:          Descending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALG:
+      Identifier:         PI310ALG
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Open po's with status 1 or 3 thru 7"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALH:
+      Identifier:         PI310ALH
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Open po's with status 1 or 3 thru 7"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODC:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODY:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODM:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPODD:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+  - PI310ALI:
+      Identifier:         PI310ALI
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "POs in descending order by PO number"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALR:
+      Identifier:         PI310ALR
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "PI310ALR"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALT:
+      Identifier:         PI310ALT
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "POs by contract number in descending PO"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PICNTN:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  - PI310ALV:
+      Identifier:         PI310ALV
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      PI310AF
+      Dynamic Select:     No
+      Parameters:         " "
+
+      Multilingual Details:
+      - ENG:
+          Description:        "POs by vendor in descending PO order"
+
+      Fields:
+      - PICONO001
+      - PIPONO
+      - PICHGN
+      - PIPOSC
+      - PIPOVN
+      - PIPODC
+      - PIPODY
+      - PIPODM
+      - PIPODD
+      - PIPOCC
+      - PIPOCY
+      - PIPOCM
+      - PIPOCD
+      - PIPOTP
+      - PIBUYR
+      - PICONF
+      - PIDBDC
+      - PIDBDY
+      - PIDBDM
+      - PIDBDD
+      - PISVIA
+      - PIPFOB
+      - PIFRT
+      - PICNTN
+      - PITAXP
+      - PIPTDP
+      - PIPTDD
+      - PIPTND
+      - PIPVPN
+      - PICCPY
+      - PISTML
+      - PISTLC
+      - PICTMA
+      - PIDPCT
+      - PIFAMT
+      - PIAAMT
+      - PIMPO
+      - PIUSID
+      - PIPTC
+      - PIPDTY
+      - PIPDTM
+      - PIPDTD
+      - PIPTM
+      - PICUPC
+      - PICUPY
+      - PICUPM
+      - PICUPD
+      - PIRUPC
+      - PIRUPY
+      - PIRUPM
+      - PIRUPD
+      - PIRUPU
+      - PICUPU
+      - PIINDC
+      - PIINDY
+      - PIINDM
+      - PIINDD
+      - PIINDU
+      - PIADTX
+      - PIBTDL
+      - PIRPCT
+      - PITXP2
+
+      Keys:
+      - PICONO001:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPOVN:
+          Key Order:          Ascending
+          Numeric Ordering:   Signed
+
+      - PIPONO:
+          Key Order:          Descending
+          Numeric Ordering:   Unsigned
+
+  Access Routes:
+  - PI200AP:
+      Description:        Vendor
+      File:               PI200AL1
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    1
+      Default Action:     Ignore
+      Keep Last:          0
+      Derivation:         Before Virtual Fields
+
+      Keys:
+      - PICONO001
+      - PIPOVN
+
+      PJFs:
+      - PIVNM:
+          PJF Type:           Lookup
+          Source Field:       PIVNM
+      - PIVCN:
+          PJF Type:           Lookup
+          Source Field:       PIVCN
+      - PIPHAC:
+          PJF Type:           Lookup
+          Source Field:       PIPHAC
+      - PIPHNO:
+          PJF Type:           Lookup
+          Source Field:       PIPHNO

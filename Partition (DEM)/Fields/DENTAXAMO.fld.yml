@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               DENTaxAmount
+  Type:               Packed
+  Length:             6
+  Decimals:           2
+  Default Value:      "*ZEROS"
+  Edit Mask:          A
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Income Tax to Deduct"
+      Label:              "Income Tax to D"
+      Heading1:           "Income"
+      Heading2:           "Tax"
+      Heading3:           "to"
+
+  - FRA:
+      Description:        "Income Tax to Deduct"
+      Label:              "Income Tax to D"
+      Heading1:           "Income"
+      Heading2:           "Tax"
+      Heading3:           "to"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(280)
+    
+    End_Com
+    
+    End_Com

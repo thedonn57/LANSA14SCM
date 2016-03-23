@@ -1,0 +1,173 @@
+﻿Web Page:
+  Name:               A058
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                110
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Off Line File Maintenance"
+
+  - FRA:
+      Description:        "Off Line File Maintenance"
+
+  Source: |
+    Begin_Com Role(*EXTENDS #PRIM_WEB) Layoutmanager(#TableLayout1)
+    
+    * ---------------------------------------------
+    * Local Storage Example
+    * ---------------------------------------------
+    
+    * ---------------------------------------------
+    * Local Storage Limits
+    * ---------------------------------------------
+    * Chrome 5.2 MB
+    * Firefox 5.2 MB
+    * IE 99MB
+    * Edge 4.9 MB
+    
+    * ---------------------------------------------
+    * Storage System Testers
+    * ---------------------------------------------
+    * https://arty.name/localstorage.html
+    * http://demo.agektmr.com/storage/
+    
+    * ---------------------------------------------
+    * To allow observation of local storage in Chrome
+    * This appears to be done by default in chrome anyway (?)
+    * ---------------------------------------------
+    * Turn on "Enable Developer Tools experiments" flag in about:flags page.
+    * Restart Chrome and open DevTools.
+    * Select "Experiments" in the Settings and check the box next to "FileSystem inspection".
+    * Reopen DevTools.
+    
+    
+    Define_Com Class(#PRIM_TBLO) Name(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column1) Displayposition(1) Parent(#TableLayout1) Width(2)
+    Define_Com Class(#PRIM_TBLO.Column) Name(#Column2) Displayposition(2) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row1) Displayposition(1) Parent(#TableLayout1)
+    Define_Com Class(#PRIM_TBLO.Row) Name(#Row2) Displayposition(2) Parent(#TableLayout1) Height(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem1) Column(#Column1) Manage(#DataList) Parent(#TableLayout1) Row(#Row1) Margintop(20) Marginbottom(20) Marginleft(20) Marginright(20) Columnspan(2)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem2) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#WSKILCODE) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(20) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem3) Alignment(TopLeft) Column(#Column1) Flow(Down) Manage(#WSKILDESC) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(20) Marginleft(20)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem4) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#btn_update) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(20) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem5) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#btn_delete) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(10) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem6) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#btn_RefreshFromServer) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(30) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem7) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#btn_add) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(10) Marginleft(10)
+    Define_Com Class(#PRIM_TBLO.Item) Name(#LayoutItem8) Alignment(TopLeft) Column(#Column2) Flow(Down) Manage(#btn_PostToServer) Parent(#TableLayout1) Row(#Row2) Sizing(None) Margintop(10) Marginleft(10)
+    
+    Define_Com Class(#PRIM_LIST) Name(#DataList) Displayposition(1) Height(227) Left(20) Parent(#COM_OWNER) Tabposition(1) Top(20) Width(1160)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSKILCODE1) Displayposition(1) Parent(#DataList) Source(#SKILCODE) Columnwidth(312)
+    Define_Com Class(#PRIM_LIST.String) Name(#ColumnSKILDESC1) Displayposition(2) Parent(#DataList) Source(#SKILDESC) Columnunits(Proportion)
+    Define_Com Class(#SKILCODE.Visual) Name(#WSKILCODE) Componentversion(1) Displayposition(2) Height(28) Parent(#COM_OWNER) Tabposition(2) Top(287) Usepicklist(False) Width(469) Left(20) Marginleft(300)
+    Define_Com Class(#SKILDESC.Visual) Name(#WSKILDESC) Displayposition(3) Parent(#COM_OWNER) Tabposition(3) Top(335) Left(20) Height(42) Marginleft(300) Width(605)
+    Define_Com Class(#PRIM_PHBN) Name(#btn_update) Caption('Update') Displayposition(4) Left(810) Parent(#COM_OWNER) Tabposition(4) Top(287)
+    Define_Com Class(#PRIM_PHBN) Name(#btn_delete) Caption('Delete') Displayposition(5) Left(810) Parent(#COM_OWNER) Tabposition(5) Top(322)
+    Define_Com Class(#PRIM_PHBN) Name(#btn_RefreshFromServer) Caption('Refresh from Server') Displayposition(7) Left(810) Parent(#COM_OWNER) Tabposition(6) Top(412) Width(143)
+    Define_Com Class(#PRIM_PHBN) Name(#btn_add) Caption('Add') Displayposition(6) Left(810) Parent(#COM_OWNER) Tabposition(7) Top(357)
+    Define_Com Class(#PRIM_PHBN) Name(#btn_PostToServer) Caption('Update Server') Displayposition(8) Left(810) Parent(#COM_OWNER) Tabposition(8) Top(447) Width(143)
+    
+    Evtroutine Handling(#Com_owner.Initialize)
+    
+    For Each(#StorageItem) In(#sys_web.LocalStorage) /* on startup, build list from local storage values */
+    
+    * Setup List Fields
+    #SKILCODE := #StorageItem.Name
+    #SKILDESC := #StorageItem.Value
+    * Add to List
+    Add_Entry To_List(#DataList)
+    
+    Endfor
+    
+    Endroutine
+    
+    Evtroutine Handling(#btn_update.Click)
+    /* this routine handles the update of a single skill code */
+    /* Update the local viewable list and sycnh the local databsae */
+    Selectlist Named(#DataList)
+    If ('#Wskilcode = #Skildesc')
+    #SKILDESC := #WSKILDESC /* perpare field for list update */
+    Upd_Entry In_List(#DataList) /* update list entry */
+    If (#sys_web.LocalStorage<#WSKILCODE> *IsNot *null) /* test for local storage entry */
+    #sys_web.LocalStorage<#WSKILCODE> := #WSKILDESC /* update local storage entry */
+    Else
+    #sys_web.localStorage.Add( #WSKILCODE #WSKILDESC ) /* add local storage entry */
+    Endif
+    Leave
+    Endif
+    Endselect
+    Endroutine
+    
+    Evtroutine Handling(#btn_delete.Click)
+    /* this routine handles the deletion of a single skill code */
+    /* Update the local viewable list and sycnh the local databsae */
+    Selectlist Named(#DataList)
+    If ('#Wskilcode = #Skildesc')
+    Dlt_Entry From_List(#DataList) /* remove list entry */
+    #sys_web.localStorage.Remove( #WSKILCODE ) /* delete from local storage */
+    Leave
+    Endif
+    Endselect
+    
+    * if not entry was found they hit delete and then never repositioned
+    * delete first entry (I was too lazy to click in list)
+    * Selectlist Named(#DataList)
+    * #WSKILCODE := #skilcode
+    * #WSKILDESC := #skildesc
+    * Dlt_Entry From_List(#DataList) /* remove list entry */
+    * #sys_web.localStorage.Remove( #WSKILCODE ) /* delete from local storage */
+    * Leave
+    * Endselect
+    
+    Endroutine
+    
+    Evtroutine Handling(#btn_add.Click)
+    /* this routine handles the addition of a single skill code */
+    /* Update the local viewable list and sycnh the local databsae */
+    #SKILCODE := #WSKILCODE
+    #SKILDESC := #WSKILDESC
+    Add_Entry To_List(#DataList) /* add to list */
+    #sys_web.localStorage.Add( #WSKILCODE #WSKILDESC ) /* add to local storage */
+    Endroutine
+    
+    Evtroutine Handling(#btn_RefreshFromServer.Click)
+    
+    /* call mthroutine to fetch all skills from server */
+    #com_self.Get_AllSkills
+    
+    Endroutine
+    
+    Mthroutine Name(Get_AllSkills)
+    
+    Define_Com Class(#A058S.FindAll) Name(#Fetch_All_Skills)
+    
+    /* call server in asynchronous mode */
+    #Fetch_All_Skills.ExecuteAsync Skltablist(#DataList)
+    
+    Evtroutine Handling(#Fetch_All_Skills.Completed)
+    #sys_web.LocalStorage.Clear /* clear all local storage */
+    Selectlist Named(#DataList)
+    #sys_web.localStorage.Add( #SKILCODE #SKILDESC ) /* copy to viewable list from local storage */
+    Endselect
+    Endroutine
+    
+    Evtroutine Handling(#Fetch_All_Skills.Failed)
+    #sys_web.Alert Caption('The attempt to fetch records from the server failed. Try again later.')
+    Endroutine
+    
+    Endroutine
+    
+    Evtroutine Handling(#btn_PostToServer.Click)
+    /* to be implemented */
+    /* don't want to mess up the demo database at this point */
+    /* this is part of a two phase commit, meaning the concept of localstorage does not actually solve any problem other than running offline if needed. When connected you still need to decide which bits need to be updated and in what conditions. */
+    Endroutine
+    
+    Evtroutine Handling(#DataList.ItemGotSelection)
+    #WSKILCODE := #skilcode
+    #WSKILDESC := #skildesc
+    Endroutine
+    
+    End_Com

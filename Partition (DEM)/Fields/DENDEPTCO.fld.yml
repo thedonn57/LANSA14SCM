@@ -1,0 +1,74 @@
+﻿Field:
+  Name:               DENDeptCode
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    SDEPTAB
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Code"
+      Label:              "Department....."
+      Heading1:           "  Dept"
+      Heading2:           "  Code"
+
+  - FRA:
+      Description:        "Code du département"
+      Label:              "Département . ."
+      Heading1:           "Dépt"
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Department cannot be blank"
+      Condition:          "#DENDeptCo *ne *blanks"
+      When Inserting:     Always
+      When Updating:      When Used
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0004
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Componentversion(1) Defaultvisual(True) Height(21) Usepicklist(False) Width(225)
+    
+    End_Com
+    
+    Begin_Com Role(*Dynamic_Picklist #xDemoFieldVisDepartmentPickList) Name(#DynamicPicklist) Nomatchaction(Blanks)
+    
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#DropDown) Appearance(DropDownList) Height(19) Componentversion(1) Width(251)
+    
+    End_Com
+    End_Com
+
+  Repository Help:
+  - ENG: |
+      $$USER
+          This is the department code. It is 4 characters long and is
+          alphanumeric. Generally, if you are asked to specify a department
+          code and do not know what it is, you can use the prompt key on
+          the department code. A full list of all the departments will
+          then be displayed to you in a pop-up window and the one required
+          can be chosen from the list.
+      $$NOAUTO
+
+  - FRA: |
+      $$USER
+        $$HI=% $$UL={ $$RI=@ $$BL=~ $$N1=} $$N2=\
+          Il s'agit du code du département. Il comporte de 1 à 4 caractères
+          alphanumériques. En général, lorsqu'on vous demande le code d'un
+          département et que vous ne le connaissez pas, utilisez la touche
+          d'invite sur cette zone. Une liste de tous les départements
+          sera affichée dans une fenêtre et le département pourra être
+          choisi dans cette liste.

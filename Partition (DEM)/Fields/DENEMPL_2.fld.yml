@@ -1,0 +1,27 @@
+﻿Field:
+  Name:               DENEmployYears
+  Type:               Packed
+  Length:             2
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Years with Company"
+      Label:              "Years with Comp"
+      Heading1:           "Years"
+      Heading2:           "with"
+      Heading3:           "Company"
+
+  - FRA:
+      Description:        "Years with Company"
+      Label:              "Years with Comp"
+      Heading1:           "Years"
+      Heading2:           "with"
+      Heading3:           "Company"

@@ -1,0 +1,26 @@
+﻿Field:
+  Name:               DENFFullEmployNumber
+  Type:               Alphanumeric
+  Length:             9
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Full Employee Number"
+      Label:              "Full Employee N"
+      Heading1:           "Full"
+      Heading2:           "Employee"
+      Heading3:           "Number"
+
+  - FRA:
+      Description:        "Full Employee Number"
+      Label:              "Full Employee N"
+      Heading1:           "Full"
+      Heading2:           "Employee"
+      Heading3:           "Number"

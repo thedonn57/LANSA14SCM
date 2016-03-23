@@ -1,0 +1,116 @@
+﻿File:
+  Name:                           DENDepartments
+  File Type:                      LANSA File
+  Library:                        DC@DEMOLIB
+  Record Format Name:             DENDEPARTM
+  Module Library:                 Same Library As File
+  File Uses SQL on IBM i:         No
+  Enabled For RDMLX:              Yes
+  Enabled For Long Names:         Yes
+  Share Data Path:                No
+  Secure From File Overrides:     Yes
+  Strip Debug On Compile:         Yes
+  Suppress IOM0034 Message:       No
+  Ignore Decimal Data Error:      No
+  Create I/O Module:              Yes
+  Create Batch Control:           No
+  IBM i High Speed Table:         No
+  Auto RRN Generation:            Yes
+  Create RRNO Column:             Yes
+  Auto RRNO Is Fixed:             Yes
+  Convert Special Characters:     No
+  Enable Commitment Control:      No
+  Auto Commit:                    No
+  Parameters:                     SIZE( 10000 2000 3) LVLCHK(*YES)
+  Read-only Access:               No
+  Enable Database Triggers:       No
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Departments Table"
+
+  - FRA:
+      Description:        "Departments Table"
+
+  Real Fields:
+  - DENDEPTCO:
+      Type:               Alphanumeric
+      Length:             3
+      Decimals:           0
+
+  - DENDEPTDE:
+      Type:               Alphanumeric
+      Length:             20
+      Decimals:           0
+
+  Primary Keys:
+  - DENDEPTCO
+
+  Virtual Fields:
+
+  Logical Views:
+  - DENDeptByDesc:
+      Identifier:         DENDEPTBYD
+      Unique Key:         No
+      Access Path:        Immediate
+      Record Format:      DENDEPTBYD
+      Dynamic Select:     No
+      Parameters:         LVLCHK(*YES)
+
+      Multilingual Details:
+      - ENG:
+          Description:        "Departments by Description"
+
+      - FRA:
+          Description:        "<New Logical>"
+
+      Keys:
+      - DENDEPTDE:
+          Key Order:          Ascending
+          Numeric Ordering:   Unsigned
+
+  File Level Validation Rules:
+  - DENDEPTCO:
+    - Range Check:
+        Description:        "Dept must be A to ZZZ"
+        Ranges:
+        - From:               "'A'"
+          To:                 "'ZZZ'"
+        When Inserting:     Always
+        When Updating:      When Used
+        When Deleting:      Never
+        Positive Action:    Next
+        Negative Action:    Error
+        Message Text:       "Dept must be in range A to ZZZ"
+    - Lookup Check:
+        Description:        "Cannot Delete Employee"
+        File:               DENEMPBYDE
+        Keys:
+        - DENDEPTCO
+        When Inserting:     Never
+        When Updating:      Never
+        When Deleting:      Always
+        Positive Action:    Error
+        Negative Action:    Next
+        Message Text:       "Cannot delete if used in Employee file"
+
+  Access Routes:
+  - DENTOEMP:
+      Description:        To Employee File
+      File:               DENEMPBYDE
+      Library:            "*FIRST"
+      Association Type:   Derive
+      Association Rule:   Derive
+      Documentation Only: No
+      Maximum Records:    9999
+      Default Action:     Dummy
+      Keep Last:          0
+      Derivation:         After Virtual Fields
+
+      Keys:
+      - DENDEPTCO
+
+      PJFs:
+      - DENTOTALS:
+          PJF Type:           Total
+          Source Field:       DENSALARY

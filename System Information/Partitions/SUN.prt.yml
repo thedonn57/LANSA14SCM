@@ -1,0 +1,467 @@
+﻿Partition:
+  Name:                             SUN
+  Description:                      SunGard
+  Unique Prefix:                    S
+  Security Officer:                 PCXUSER
+  Default File Library:             SUNDTALIB
+  Include in Library List:          No
+  Module Library:                   SUNPGMLIB
+  Create Relative Record Number:    No
+  Apply SAA/CUA Standards:          Yes
+  Enable Documentor:                No
+  User Access Enforced:             No
+  Check Before Propagating:         No
+  Ignore Propagated Deletes:        No
+  Force *ENDWHERESQL:               No
+
+  RDMLX Settings:
+    Enable For Full RDMLX:          Yes
+    Create Field As RDMLX:          Yes
+    Create File As RDMLX:           Yes
+    Create Component As Full RDMLX: Yes
+    Create Function As Full RDMLX:  Yes
+    Enable Short Char:              Disable
+
+  Available Field Types:
+  - Alphanumeric:
+      Enabled:            Yes
+      Length:             10
+      Decimals:           0
+      Default Value:      "*BLANKS"
+
+      Input Attributes:
+      - FE
+
+  - Packed:
+      Enabled:            Yes
+      Length:             15
+      Decimals:           0
+      Default Value:      "*ZEROS"
+      Edit Code:          J
+
+      Input Attributes:
+      - FE
+      - RB
+
+  - Signed:
+      Enabled:            Yes
+      Length:             15
+      Decimals:           0
+      Default Value:      "*ZEROS"
+      Edit Code:          J
+
+      Input Attributes:
+      - FE
+      - RB
+
+  - Char:
+      Enabled:            Yes
+      Length:             10
+      Decimals:           0
+      Default Value:      "*NULL"
+
+      Input Attributes:
+      - FE
+
+  - NChar:
+      Enabled:            Yes
+      Length:             10
+      Decimals:           0
+      Default Value:      "*NULL"
+
+      Input Attributes:
+      - FE
+      - LC
+
+  - Date Time:
+      Enabled:            Yes
+      Length:             26
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+      - ISO
+      - SUTC
+
+  - String:
+      Enabled:            Yes
+      Length:             512
+      Decimals:           0
+      Default Value:      "*NULL"
+
+      Input Attributes:
+      - FE
+
+  - NVarChar:
+      Enabled:            Yes
+      Length:             512
+      Decimals:           0
+      Default Value:      "*NULL"
+
+      Input Attributes:
+      - FE
+      - LC
+
+  - Binary:
+      Enabled:            Yes
+      Length:             256
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+
+  - VarBinary:
+      Enabled:            Yes
+      Length:             256
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+
+  - Date:
+      Enabled:            Yes
+      Length:             10
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+      - ISO
+
+  - Time:
+      Enabled:            Yes
+      Length:             8
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+      - ISO
+
+  - Integer:
+      Enabled:            Yes
+      Length:             4
+      Decimals:           0
+      Default Value:      "*NULL"
+      Edit Code:          J
+
+      Input Attributes:
+      - FE
+      - RB
+
+  - Float:
+      Enabled:            Yes
+      Length:             8
+      Decimals:           0
+      Default Value:      "*NULL"
+
+      Input Attributes:
+      - FE
+      - RB
+
+  - CLOB:
+      Enabled:            Yes
+      Length:             0
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+      - LC
+
+  - BLOB:
+      Enabled:            Yes
+      Length:             0
+      Decimals:           0
+      Default Value:      "*SQLNULL"
+
+      Input Attributes:
+      - ASQN
+      - FE
+      - LC
+
+  - Boolean:
+      Enabled:            Yes
+      Length:             1
+      Decimals:           0
+      Default Value:      "*NULL"
+
+  Universal Interface Options:
+    Process Menu Style:             Cursor
+    Uppercase Process Title:        No
+    Uppercase Function Title:       No
+    Display Process Date And Time:  No
+    Display Function Date And Time: No
+    Display Panel ID:               No
+    Function Key Line 1:            23
+    Function Key Line 2:            24
+    Message Line Number:            22
+
+  Supported Database Products:
+  - SQLANYWHERE:
+      Enabled:            Yes
+
+  - MSSQLS:
+      Enabled:            Yes
+
+  - ODBCORACLE:
+      Enabled:            Yes
+
+  - DB2ISERIES:
+      Enabled:            Yes
+
+  - MYSQL:
+      Enabled:            Yes
+
+  Language Settings:
+  - ENG:
+      Description:                 English
+      Partition Description:       SunGard
+      Default Language:            Yes
+      Development Language:        Yes
+      DBCS Support Required:       No
+      RLTB Support Required:       No
+      Locale Uppercasing Required: No
+      IGC Conversion Required:     No
+
+      Menu Options:
+        Process Menu Prompt Line:    "Enter number of function required or place cursor on same line :"
+        Help Option On Menus:        Display HELP Text
+        Return Prefix On Menus:      Return to
+        Exit Option On Menus:        Exit from Application
+
+      Function Keys:
+      - Cancel:
+          Caption:            Cancel
+          Key:                12
+
+      - Enter:
+          Caption:            OK
+          Key:                RA
+
+      - Help:
+          Caption:            Help
+          Key:                01
+
+      - Prompt:
+          Caption:            Prompt
+          Key:                04
+
+      - Refresh:
+          Caption:            Refresh
+          Key:                05
+
+      - Messages:
+          Caption:            Msgs
+          Key:                14
+
+      - Backward:
+          Caption:            Bkwd
+          Key:                07
+
+      - Command:
+          Caption:            Command
+          Key:                09
+
+      - Keys:
+          Caption:            Keys
+          Key:                13
+
+      - Exit:
+          Caption:            Exit
+          Key:                03
+
+      - Exit Level:
+          Caption:            Exit
+          Key:                03
+
+      - Home:
+          Caption:            Home
+          Key:                HM
+
+      - Forward:
+          Caption:            Forward
+          Key:                08
+
+      - Contents:
+          Caption:            Contents
+          Key:                23
+
+      - Extended Help:
+          Caption:            ExtHelp
+          Key:                02
+
+      - Help Index:
+          Caption:            Index
+          Key:                11
+
+      - Help Keys:
+          Caption:            Keys Help
+          Key:                09
+
+      - Left:
+          Caption:            Left
+          Key:                19
+
+      - Retrieve:
+          Caption:            Retrieve
+          Key:                09
+
+      - Right:
+          Caption:            Right
+          Key:                20
+
+      - Switch Backward:
+          Caption:            SwitchBkwd
+          Key:                18
+
+      - Switch Forward:
+          Caption:            SwitchFwd
+          Key:                06
+
+      - Actions:
+          Caption:            Actions
+          Key:                10
+
+      - Create:
+          Caption:            Create
+          Key:                06
+
+      - Change:
+          Caption:            Change
+          Key:                21
+
+      - Delete:
+          Caption:            Delete
+          Key:                22
+
+  Frameworks:
+  - COMMON:
+      Identifier 1:       6518
+      Identifier 2:       100
+      System Framework:   Yes
+      Description:        Common
+
+  - CONTROLS:
+      Identifier 1:       10240
+      Identifier 2:       10
+      System Framework:   Yes
+      Description:        Control Components
+
+  - INTERNAL SYSTEM:
+      Identifier 1:       10240
+      Identifier 2:       20
+      System Framework:   Yes
+      Description:        Internal System Components
+
+  - IMPORT COLLECTION:
+      Identifier 1:       10240
+      Identifier 2:       110
+      System Framework:   Yes
+      Description:        Import Collection
+
+  Groups:
+  - ACTIVEX CONTROLS:
+      Identifier 1:       1021
+      Identifier 2:       1600
+      System Group:       Yes
+      Description:        ActiveX Controls
+
+  - BARS:
+      Identifier 1:       10240
+      Identifier 2:       100
+      System Group:       Yes
+      Description:        Progress, Status and Tool Bars
+
+  - BASIC CONTROLS:
+      Identifier 1:       10240
+      Identifier 2:       200
+      System Group:       Yes
+      Description:        Basic Controls
+
+  - BOXES:
+      Identifier 1:       10240
+      Identifier 2:       300
+      System Group:       Yes
+      Description:        Check, Edit and Group Boxes
+
+  - BUTTONS:
+      Identifier 1:       10240
+      Identifier 2:       400
+      System Group:       Yes
+      Description:        Push, Radio and Spin Buttons
+
+  - COLLECTIONS:
+      Identifier 1:       6518
+      Identifier 2:       1600
+      System Group:       Yes
+      Description:        Collections
+
+  - COM AUTOMATION:
+      Identifier 1:       1021
+      Identifier 2:       1700
+      System Group:       Yes
+      Description:        COM Automation components
+
+  - CURRENCY & AMOUNTS:
+      Identifier 1:       10240
+      Identifier 2:       500
+      System Group:       Yes
+      Description:        Currency Formatting and Monetary Values
+
+  - DATES & TIMES:
+      Identifier 1:       10240
+      Identifier 2:       600
+      System Group:       Yes
+      Description:        Dates, Date Formatting, and Timestamping
+
+  - DEVICES:
+      Identifier 1:       10240
+      Identifier 2:       900
+      System Group:       Yes
+      Description:        Device Components
+
+  - LIBRARIES:
+      Identifier 1:       6518
+      Identifier 2:       1800
+      System Group:       Yes
+      Description:        Libraries
+
+  - LISTS & GRIDS:
+      Identifier 1:       10240
+      Identifier 2:       700
+      System Group:       Yes
+      Description:        List and Grid Components
+
+  - MENUS:
+      Identifier 1:       10240
+      Identifier 2:       800
+      System Group:       Yes
+      Description:        Menu and Menu Item Components
+
+  - PICTURES & SOUND:
+      Identifier 1:       10240
+      Identifier 2:       1000
+      System Group:       Yes
+      Description:        Picture, Image, Graph, Video and Sound
+
+  - REFLECTIONS:
+      Identifier 1:       6518
+      Identifier 2:       1700
+      System Group:       Yes
+      Description:        Reflections
+
+  - SECURITY & AUTHORITY:
+      Identifier 1:       10240
+      Identifier 2:       1100
+      System Group:       Yes
+      Description:        System Security & Authority

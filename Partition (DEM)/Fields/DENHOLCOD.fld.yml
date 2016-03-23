@@ -1,0 +1,43 @@
+﻿Field:
+  Name:               DENHolCode
+  Type:               Alphanumeric
+  Length:             3
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Holiday Code"
+      Label:              "Holiday Code"
+      Heading1:           "Holiday"
+      Heading2:           "Code"
+
+  - FRA:
+      Description:        "Holiday Code"
+      Label:              "Holiday Code"
+      Heading1:           "Holiday"
+      Heading2:           "Code"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Usepicklist(False) Componentversion(1) Height(21) Width(223)
+    
+    End_Com
+    
+    Begin_Com Role(*picklist) Name(#Picklist) Nomatchaction(Blanks)
+    
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_1) Value('ANL') Parent(#Picklist) Default(True) Caption('Annual Leave')
+    Define_Com Class(#PRIM_PKIT) Name(#PKIT_2) Value('OWN') Caption('Leave Without Pay') Parent(#Picklist)
+    
+    End_Com
+    Begin_Com Role(*Visual #PRIM_EVPL) Name(#VisualPicklist) Appearance(DropDownList) Height(19) Componentversion(1) Width(251) Defaultvisual(True)
+    
+    End_Com
+    End_Com

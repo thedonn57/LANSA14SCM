@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               DENDeptDescription
+  Type:               Alphanumeric
+  Length:             20
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Keyboard Shift:     SbcsAndDbcs
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - LC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Department Description"
+      Label:              "Description...."
+      Heading1:           "Department"
+      Heading2:           "Description"
+
+  - FRA:
+      Description:        "Département"
+      Label:              "Description . ."
+      Heading1:           "Description"
+      Heading2:           "Département"
+
+  Validation Rules:
+  - Simple Logic Check:
+      Description:        "Description cannot be blank"
+      Condition:          "#DENDeptDe *ne *blanks"
+      When Inserting:     Always
+      When Updating:      Always
+      When Deleting:      Never
+      Positive Action:    Next
+      Negative Action:    Error
+      Message File:       DC@M01
+      Message Number:     DEM0003

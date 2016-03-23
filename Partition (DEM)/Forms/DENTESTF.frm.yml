@@ -1,0 +1,39 @@
+﻿Form:
+  Name:               DENTestFields
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                40
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Test Fields"
+
+  - FRA:
+      Description:        "Test Fields"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_FORM
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(441) Clientheight(301) Componentversion(2) Left(531) Top(277)
+    Define_Com Class(#DENDEPTCO.Visual) Name(#DENDEPTCO) Displayposition(1) Left(17) Parent(#COM_OWNER) Tabposition(1) Top(17)
+    Define_Com Class(#DENDEPTDE.Visual) Name(#DENDEPTDE) Componentversion(1) Displayposition(2) Height(21) Left(16) Parent(#COM_OWNER) Tabposition(2) Top(39) Usepicklist(False) Width(289)
+    Define_Com Class(#DENEMPL_1.Visual) Name(#DENEMPL_1) Displayposition(3) Height(60) Left(16) Parent(#COM_OWNER) Tabposition(3) Top(64) Width(369)
+    Define_Com Class(#DENEMPLOY.Visual) Name(#DENEMPLOY) Displayposition(4) Left(16) Parent(#COM_OWNER) Tabposition(4) Top(152) Width(201)
+    Define_Com Class(#DENGIVENN.Visual) Name(#DENGIVENN) Displayposition(5) Left(16) Parent(#COM_OWNER) Tabposition(5) Top(176) Width(329)
+    Define_Com Class(#DENSALARY.Visual) Name(#DENSALARY) Displayposition(6) Left(16) Parent(#COM_OWNER) Tabposition(6) Top(128) Width(233)
+    Define_Com Class(#DENSTARTD.Visual) Name(#DENSTARTD) Displayposition(7) Left(16) Parent(#COM_OWNER) Tabposition(7) Top(200) Width(288)
+    Define_Com Class(#DENSURNAM.Visual) Name(#DENSURNAM) Componentversion(1) Displayposition(8) Height(21) Left(16) Parent(#COM_OWNER) Tabposition(8) Top(224) Usepicklist(False) Width(329)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Set Com(#com_owner) Caption(*component_desc)
+    
+    Endroutine
+    
+    End_Com

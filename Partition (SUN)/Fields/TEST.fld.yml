@@ -1,0 +1,18 @@
+﻿Field:
+  Name:               test
+  Type:               Alphanumeric
+  Length:             8
+  Decimals:           0
+  Default Value:      "*YYYYMMDDC"
+  Reference Field:    YYYYMMDDC
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "test"
+      Label:              "test"
+      Heading1:           "test"

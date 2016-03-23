@@ -1,0 +1,22 @@
+﻿Field:
+  Name:               DENSurnamePJF
+  Type:               Alphanumeric
+  Length:             25
+  Decimals:           0
+  Default Value:      "*BLANKS"
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Surname"
+      Label:              "Surname"
+      Heading1:           "Surname"
+
+  - FRA:
+      Description:        "Surname"
+      Label:              "Surname"
+      Heading1:           "Surname"

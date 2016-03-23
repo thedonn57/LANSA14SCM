@@ -1,0 +1,35 @@
+﻿Field:
+  Name:               DENEmployNumber
+  Type:               Alphanumeric
+  Length:             2
+  Decimals:           0
+  Default Value:      "*AUTOALP02DENNUM"
+  Enabled For RDMLX:  No
+  System Field:       No
+  Prompt Process:     "*DIRECT"
+  Prompt Function:    SPSLMST
+
+  Input Attributes:
+  - FE
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Employee Number"
+      Label:              "Employee no...."
+      Heading1:           "  Employee"
+      Heading2:           "  Number"
+
+  - FRA:
+      Description:        "Numéro d´employé"
+      Label:              "No employé  . ."
+      Heading1:           "Salarié"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Width(251)
+    
+    End_Com
+    
+    End_Com

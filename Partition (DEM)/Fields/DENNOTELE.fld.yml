@@ -1,0 +1,38 @@
+﻿Field:
+  Name:               DENNoteLength
+  Type:               Packed
+  Length:             5
+  Decimals:           0
+  Default Value:      "*ZEROS"
+  Edit Mask:          2
+  Enabled For RDMLX:  No
+  System Field:       No
+
+  Input Attributes:
+  - FE
+  - RB
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Length of Notes as Characers"
+      Label:              "Length of Notes"
+      Heading1:           "Length"
+      Heading2:           "of"
+      Heading3:           "Notes"
+
+  - FRA:
+      Description:        "Length of Notes as Characers"
+      Label:              "Length of Notes"
+      Heading1:           "Length"
+      Heading2:           "of"
+      Heading3:           "Notes"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVEF) Name(#VisualEdit) Defaultvisual(True) Usepicklist(False) Componentversion(1) Height(21) Marginleft(183) Width(287)
+    
+    End_Com
+    
+    End_Com

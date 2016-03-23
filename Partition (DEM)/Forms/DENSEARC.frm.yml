@@ -1,0 +1,38 @@
+﻿Form:
+  Name:               DENSearchDeptByDesc
+  Enabled For RDMLX:  Yes
+
+  Framework:
+    Id1:                10240
+    Id2:                40
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Search by Department Description"
+
+  - FRA:
+      Description:        "Search by Department Description"
+
+  Source: |
+    * **************************************************
+    *
+    *  COMPONENT:  STD_FORM
+    *
+    * **************************************************
+    Function Options(*DIRECT)
+    Begin_Com Role(*EXTENDS #PRIM_FORM) Clientwidth(379) Clientheight(205) Componentversion(2) Left(634) Top(280)
+    Define_Com Class(#DENDEPTCO.Visual) Name(#DENDEPTCO) Displayposition(1) Left(16) Parent(#COM_OWNER) Tabposition(1) Top(30) Width(193)
+    Define_Com Class(#DENDEPTDE.Visual) Name(#DENDEPTDE) Componentversion(1) Displayposition(2) Height(21) Left(16) Parent(#COM_OWNER) Tabposition(2) Top(64) Usepicklist(False) Width(297)
+    Define_Com Class(#PRIM_PHBN) Name(#Button1) Displayposition(3) Left(24) Parent(#COM_OWNER) Tabposition(3) Top(136) Caption('Find Department Code') Width(161)
+    Define_Com Class(#DENTOTALS.Visual) Name(#DENTOTALS) Displayposition(4) Left(20) Parent(#COM_OWNER) Tabposition(4) Top(96) Width(245) Readonly(True)
+    
+    Evtroutine Handling(#com_owner.CreateInstance)
+    
+    Set Com(#com_owner) Caption(*component_desc)
+    
+    Endroutine
+    
+    Evtroutine Handling(#Button1.Click)
+    Fetch Fields(*ALL) From_File(DENDEPTBYD) With_Key(#DENDeptDescription)
+    Endroutine
+    End_Com

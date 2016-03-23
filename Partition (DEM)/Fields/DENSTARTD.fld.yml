@@ -1,0 +1,40 @@
+﻿Field:
+  Name:               DENStartDate
+  Type:               Date Time
+  Length:             26
+  Decimals:           0
+  Default Value:      "*SQLNULL"
+  Enabled For RDMLX:  Yes
+  System Field:       No
+
+  Input Attributes:
+  - ASQN
+  - FE
+  - ISO
+  - SUTC
+
+  Multilingual Details:
+  - ENG:
+      Description:        "Start Date"
+      Label:              "Start Date"
+      Heading1:           "Start"
+      Heading2:           "Date"
+
+  - FRA:
+      Description:        "Start Date"
+      Label:              "Start Date"
+      Heading1:           "Start"
+      Heading2:           "Date"
+
+  Source: |
+    *
+    Begin_Com Role(*EXTENDS #PRIM_OBJT)
+    
+    Begin_Com Role(*Visual #PRIM_EVDT) Name(#VisualDateTime) Defaultvisual(True) Componentversion(1) Height(21) Width(552) Showtime(False)
+    
+    End_Com
+    
+    Begin_Com Role(*Visual #PRIM_EVMC) Name(#VisualCalendar) Height(158) Marginleft(183) Usepicklist(False) Width(366)
+    
+    End_Com
+    End_Com
